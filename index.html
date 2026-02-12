@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>English Stations – Diver ESO</title>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Fredoka:wght@600&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #1A1A1A, #6C63FF);
+            font-family: 'Poppins', sans-serif;
+            color: white;
+            text-align: center;
+        }
+
+        h1 {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 42px;
+            margin-top: 40px;
+            color: #FF4F8B;
+            text-shadow: 0 0 10px #FF4F8B;
+        }
+
+        .subtitle {
+            font-size: 20px;
+            margin-bottom: 30px;
+            color: #FFE066;
+        }
+
+        .start-btn {
+            background: #FF4F8B;
+            color: white;
+            padding: 18px 40px;
+            font-size: 26px;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            margin-bottom: 40px;
+            box-shadow: 0 0 12px #FF4F8B;
+            transition: 0.2s;
+        }
+
+        .start-btn:hover {
+            background: #00D1FF;
+            box-shadow: 0 0 15px #00D1FF;
+        }
+
+        .stations-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 25px;
+            padding: 20px;
+        }
+
+        .station-card {
+            background: rgba(255, 255, 255, 0.1);
+            width: 260px;
+            padding: 20px;
+            border-radius: 16px;
+            backdrop-filter: blur(6px);
+            box-shadow: 0 0 12px rgba(0,0,0,0.4);
+            transition: 0.25s;
+            cursor: pointer;
+        }
+
+        .station-card:hover {
+            transform: scale(1.05);
+            background: rgba(255, 255, 255, 0.18);
+        }
+
+        .station-title {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 22px;
+            color: #FFE066;
+            margin-bottom: 10px;
+        }
+
+        .station-desc {
+            font-size: 16px;
+            color: #E0E0E0;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>English Stations</h1>
+    <p class="subtitle">Diver · ESO · Canarias</p>
+
+    <button class="start-btn" onclick="scrollToStations()">START</button>
+
+    <div id="stations" class="stations-container">
+
+        <div class="station-card">
+            <div class="station-title">Present & Continuous</div>
+            <div class="station-desc">Adverbios · frases · retos</div>
+        </div>
+
+        <div class="station-card">
+            <div class="station-title">To Be · There is/are</div>
+            <div class="station-desc">Presente y pasado · preguntas</div>
+        </div>
+
+        <div class="station-card">
+            <div class="station-title">Question Words</div>
+            <div class="station-desc">Who · What · Where · When · Why</div>
+        </div>
+
+        <div class="station-card">
+            <div class="station-title">Vocabulario</div>
+            <div class="station-desc">Colores · comida · lugares · profesiones</div>
+        </div>
+
+        <div class="station-card">
+            <div class="station-title">Música</div>
+            <div class="station-desc">Adivina · ritmo · vocabulario</div>
+        </div>
+
+        <div class="station-card">
+            <div class="station-title">Riddles</div>
+            <div class="station-desc">Adivinanzas · pistas · retos</div>
+        </div>
+
+        <div class="station-card">
+            <div class="station-title">Points Shop</div>
+            <div class="station-desc">Canjea tus puntos por premios</div>
+        </div>
+
+    </div>
+
+    <script>
+        function scrollToStations() {
+            document.getElementById("stations").scrollIntoView({ behavior: "smooth" });
+        }
+    </script>
+
+</body>
+</html>
