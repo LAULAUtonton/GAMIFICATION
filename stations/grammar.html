@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grammar Station</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Fredoka:wght@600&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #1A1A1A, #6C63FF);
+            font-family: 'Poppins', sans-serif;
+            color: white;
+            text-align: center;
+        }
+
+        h1, h2 {
+            font-family: 'Fredoka', sans-serif;
+            text-shadow: 0 0 10px #FF4F8B;
+        }
+
+        h1 {
+            font-size: 40px;
+            margin-top: 30px;
+            color: #FF4F8B;
+        }
+
+        h2 {
+            font-size: 32px;
+            color: #FFE066;
+        }
+
+        .menu-btn {
+            background: #FF4F8B;
+            color: white;
+            padding: 18px 40px;
+            font-size: 24px;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            margin: 15px;
+            box-shadow: 0 0 12px #FF4F8B;
+            transition: 0.2s;
+        }
+
+        .menu-btn:hover {
+            background: #00D1FF;
+            box-shadow: 0 0 15px #00D1FF;
+        }
+
+        .screen {
+            display: none;
+            padding: 20px;
+        }
+
+        .back-btn {
+            background: #FFE066;
+            color: #1A1A1A;
+            padding: 12px 30px;
+            border-radius: 12px;
+            font-size: 20px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        .back-btn:hover {
+            background: #FF4F8B;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- MAIN MENU -->
+    <div id="main-screen" class="screen" style="display:block;">
+        <h1>Grammar Station</h1>
+        <h2>Choose your mini‑game</h2>
+
+        <button class="menu-btn" onclick="openScreen('tobe')">Verb To Be</button>
+        <button class="menu-btn" onclick="openScreen('present')">Present Simple</button>
+        <button class="menu-btn" onclick="openScreen('articles')">Articles</button>
+        <button class="menu-btn" onclick="openScreen('plurals')">Plurals</button>
+        <button class="menu-btn" onclick="openScreen('prepositions')">Prepositions</button>
+    </div>
+
+    <!-- MINI-GAME 1: VERB TO BE -->
+    <div id="tobe" class="screen">
+        <h2>Verb To Be</h2>
+        <p>Mini‑game coming soon...</p>
+        <button class="back-btn" onclick="goBack()">Back</button>
+    </div>
+
+    <!-- MINI-GAME 2: PRESENT SIMPLE -->
+    <div id="present" class="screen">
+        <h2>Present Simple</h2>
+        <p>Mini‑game coming soon...</p>
+        <button class="back-btn" onclick="goBack()">Back</button>
+    </div>
+
+    <!-- MINI-GAME 3: ARTICLES -->
+    <div id="articles" class="screen">
+        <h2>Articles (a / an / the)</h2>
+        <p>Mini‑game coming soon...</p>
+        <button class="back-btn" onclick="goBack()">Back</button>
+    </div>
+
+    <!-- MINI-GAME 4: PLURALS -->
+    <div id="plurals" class="screen">
+        <h2>Plurals</h2>
+        <p>Mini‑game coming soon...</p>
+        <button class="back-btn" onclick="goBack()">Back</button>
+    </div>
+
+    <!-- MINI-GAME 5: PREPOSITIONS -->
+    <div id="prepositions" class="screen">
+        <h2>Prepositions</h2>
+        <p>Mini‑game coming soon...</p>
+        <button class="back-btn" onclick="goBack()">Back</button>
+    </div>
+
+<script>
+function openScreen(id) {
+    document.querySelectorAll(".screen").forEach(s => s.style.display = "none");
+    document.getElementById(id).style.display = "block";
+}
+
+function goBack() {
+    document.querySelectorAll(".screen").forEach(s => s.style.display = "none");
+    document.getElementById("main-screen").style.display = "block";
+}
+</script>
+
+</body>
+</html>
