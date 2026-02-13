@@ -1,223 +1,174 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Grammar Station</title>
+<meta charset="UTF-8">
+<title>Grammar Station</title>
 
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Fredoka:wght@600&display=swap" rel="stylesheet">
+<style>
 
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            background: linear-gradient(135deg, #1A1A1A, #4F46E5);
-            font-family: 'Poppins', sans-serif;
-            color: white;
-            text-align: center;
-        }
+/* DARK METAL GRAY BACKGROUND + WHITE TEXT */
+body {
+    background: linear-gradient(135deg, #2b2b2b, #1f1f1f, #2a2a2a);
+    color: white;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
 
-        h1, h2 {
-            font-family: 'Fredoka', sans-serif;
-        }
+/* UNIVERSAL ACTIVITY COLORS */
+.ordering-theme {
+    background: #00B0FF20;
+    border-left: 6px solid #00B0FF;
+}
 
-        h1 {
-            margin-top: 30px;
-            font-size: 40px;
-            color: #FF4F8B;
-            text-shadow: 0 0 10px #FF4F8B;
-        }
+.matching-theme {
+    background: #AB47BC20;
+    border-left: 6px solid #AB47BC;
+}
 
-        .menu-btn {
-            background: #FF4F8B;
-            color: white;
-            padding: 14px 30px;
-            border: none;
-            border-radius: 12px;
-            cursor: pointer;
-            margin: 10px;
-            font-size: 18px;
-            box-shadow: 0 0 10px #FF4F8B;
-        }
+.trivia-theme {
+    background: #4CAF5020;
+    border-left: 6px solid #4CAF50;
+}
 
-        .menu-btn:hover {
-            background: #00D1FF;
-            box-shadow: 0 0 12px #00D1FF;
-        }
+.fill-theme {
+    background: #EF535020;
+    border-left: 6px solid #EF5350;
+}
 
-        .section {
-            display: none;
-            max-width: 800px;
-            margin: 20px auto;
-            background: rgba(255,255,255,0.08);
-            padding: 20px;
-            border-radius: 16px;
-            text-align: left;
-        }
+.builder-theme {
+    background: #FDD83520;
+    border-left: 6px solid #FDD835;
+}
 
-        .quiz-option {
-            background: #00D1FF;
-            padding: 10px;
-            border-radius: 10px;
-            margin: 6px 0;
-            cursor: pointer;
-        }
+.listen-theme {
+    background: #FFA72620;
+    border-left: 6px solid #FFA726;
+}
 
-        .quiz-option:hover {
-            background: #FF4F8B;
-        }
+.read-theme {
+    background: #5C6BC020;
+    border-left: 6px solid #5C6BC0;
+}
 
-        .back-btn {
-            background: #FFE066;
-            color: #1A1A1A;
-            padding: 10px 20px;
-            border-radius: 10px;
-            border: none;
-            cursor: pointer;
-            margin: 5px;
-        }
+.speak-theme {
+    background: #26C6DA20;
+    border-left: 6px solid #26C6DA;
+}
 
-        .back-btn:hover {
-            background: #FF4F8B;
-            color: white;
-        }
-    </style>
+/* FIXED BOTTOM BAR — PURPLE */
+.fixed-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: #6A1B9A;
+    padding: 12px;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    z-index: 9999;
+    border-top: 2px solid #4A0072;
+    backdrop-filter: blur(6px);
+}
+
+/* YELLOW BUTTONS */
+.bar-btn {
+    background: #FFEB3B;
+    color: #1A1A1A;
+    padding: 10px 20px;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.bar-btn:hover {
+    background: #FBC02D;
+    color: black;
+}
+
+/* GENERAL LAYOUT */
+.screen {
+    display: none;
+    padding: 30px;
+    margin-bottom: 100px;
+    border-radius: 12px;
+    color: white;
+}
+
+#main {
+    padding: 30px;
+    margin-bottom: 100px;
+    color: white;
+}
+
+button {
+    padding: 12px 20px;
+    margin: 10px;
+    border-radius: 10px;
+    border: none;
+    background: #4FC3F7;
+    cursor: pointer;
+    font-size: 18px;
+    color: black;
+}
+
+button:hover {
+    background: #0288D1;
+    color: white;
+}
+
+</style>
 </head>
 
 <body>
 
+<!-- FIXED BOTTOM BAR -->
+<div class="fixed-bar">
+    <button class="bar-btn" onclick="goBack()">Back</button>
+    <button class="bar-btn" onclick="location.href='../index.html'">Main Menu</button>
+    <button class="bar-btn" onclick="alert('Paused')">Pause</button>
+</div>
+
+<!-- MAIN MENU -->
+<div id="main">
     <h1>Grammar Station</h1>
+    <button onclick="openScreen('grammar1')">Grammar Activity 1</button>
+    <button onclick="openScreen('grammar2')">Grammar Activity 2</button>
+    <button onclick="openScreen('grammar3')">Grammar Activity 3</button>
+</div>
 
-    <h2>Select a topic</h2>
+<!-- GRAMMAR 1 -->
+<div id="grammar1" class="screen fill-theme">
+    <h2>Grammar Activity 1</h2>
+    <p>Complete the sentences with the correct verb form.</p>
+</div>
 
-    <div>
-        <button class="menu-btn" onclick="openSection('psimple')">Present Simple</button>
-        <button class="menu-btn" onclick="openSection('pcontinuous')">Present Continuous</button>
-        <button class="menu-btn" onclick="openSection('pronouns')">Pronouns</button>
-        <button class="menu-btn" onclick="openSection('tobe')">Verb To Be</button>
-        <button class="menu-btn" onclick="openSection('thereis')">There is / There are</button>
-        <button class="menu-btn" onclick="openSection('therewas')">There was / There were</button>
-    </div>
+<!-- GRAMMAR 2 -->
+<div id="grammar2" class="screen ordering-theme">
+    <h2>Grammar Activity 2</h2>
+    <p>Put the words in the correct grammatical order.</p>
+</div>
 
-    <!-- PRESENT SIMPLE -->
-    <div id="psimple" class="section">
-        <h2>Present Simple</h2>
-        <p>We use it for routines, facts and habits.</p>
-        <p><strong>Example:</strong> She plays tennis every weekend.</p>
-
-        <h3>Quick Quiz</h3>
-        <div class="quiz-option" onclick="check(this, true)">He usually gets up at 7.</div>
-        <div class="quiz-option" onclick="check(this, false)">He usually get up at 7.</div>
-
-        <div style="margin-top:20px; text-align:center;">
-            <button class="back-btn" onclick="closeSections()">Back</button>
-            <button class="back-btn" onclick="location.href='../index.html'">Main Menu</button>
-            <button class="back-btn" onclick="alert('Paused')">Pause</button>
-        </div>
-    </div>
-
-    <!-- PRESENT CONTINUOUS -->
-    <div id="pcontinuous" class="section">
-        <h2>Present Continuous</h2>
-        <p>We use it for actions happening now.</p>
-        <p><strong>Example:</strong> They are watching a movie.</p>
-
-        <h3>Quick Quiz</h3>
-        <div class="quiz-option" onclick="check(this, false)">She is play football.</div>
-        <div class="quiz-option" onclick="check(this, true)">She is playing football.</div>
-
-        <div style="margin-top:20px; text-align:center;">
-            <button class="back-btn" onclick="closeSections()">Back</button>
-            <button class="back-btn" onclick="location.href='../index.html'">Main Menu</button>
-            <button class="back-btn" onclick="alert('Paused')">Pause</button>
-        </div>
-    </div>
-
-    <!-- PRONOUNS -->
-    <div id="pronouns" class="section">
-        <h2>Pronouns</h2>
-        <p>Subject: I, you, he, she, it, we, they</p>
-        <p>Object: me, you, him, her, it, us, them</p>
-
-        <h3>Quick Quiz</h3>
-        <div class="quiz-option" onclick="check(this, true)">I saw her yesterday.</div>
-        <div class="quiz-option" onclick="check(this, false)">I saw she yesterday.</div>
-
-        <div style="margin-top:20px; text-align:center;">
-            <button class="back-btn" onclick="closeSections()">Back</button>
-            <button class="back-btn" onclick="location.href='../index.html'">Main Menu</button>
-            <button class="back-btn" onclick="alert('Paused')">Pause</button>
-        </div>
-    </div>
-
-    <!-- VERB TO BE -->
-    <div id="tobe" class="section">
-        <h2>Verb To Be</h2>
-        <p>am / is / are</p>
-        <p><strong>Example:</strong> They are happy.</p>
-
-        <h3>Quick Quiz</h3>
-        <div class="quiz-option" onclick="check(this, true)">She is a teacher.</div>
-        <div class="quiz-option" onclick="check(this, false)">She are a teacher.</div>
-
-        <div style="margin-top:20px; text-align:center;">
-            <button class="back-btn" onclick="closeSections()">Back</button>
-            <button class="back-btn" onclick="location.href='../index.html'">Main Menu</button>
-            <button class="back-btn" onclick="alert('Paused')">Pause</button>
-        </div>
-    </div>
-
-    <!-- THERE IS / THERE ARE -->
-    <div id="thereis" class="section">
-        <h2>There is / There are</h2>
-        <p>Use “there is” for singular, “there are” for plural.</p>
-
-        <h3>Quick Quiz</h3>
-        <div class="quiz-option" onclick="check(this, true)">There is a cat on the table.</div>
-        <div class="quiz-option" onclick="check(this, false)">There are a cat on the table.</div>
-
-        <div style="margin-top:20px; text-align:center;">
-            <button class="back-btn" onclick="closeSections()">Back</button>
-            <button class="back-btn" onclick="location.href='../index.html'">Main Menu</button>
-            <button class="back-btn" onclick="alert('Paused')">Pause</button>
-        </div>
-    </div>
-
-    <!-- THERE WAS / THERE WERE -->
-    <div id="therewas" class="section">
-        <h2>There was / There were</h2>
-        <p>Past form of “there is / there are”.</p>
-
-        <h3>Quick Quiz</h3>
-        <div class="quiz-option" onclick="check(this, false)">There were a big storm yesterday.</div>
-        <div class="quiz-option" onclick="check(this, true)">There was a big storm yesterday.</div>
-
-        <div style="margin-top:20px; text-align:center;">
-            <button class="back-btn" onclick="closeSections()">Back</button>
-            <button class="back-btn" onclick="location.href='../index.html'">Main Menu</button>
-            <button class="back-btn" onclick="alert('Paused')">Pause</button>
-        </div>
-    </div>
+<!-- GRAMMAR 3 -->
+<div id="grammar3" class="screen trivia-theme">
+    <h2>Grammar Activity 3</h2>
+    <p>Choose the correct grammar option.</p>
+</div>
 
 <script>
-function openSection(id) {
-    closeSections();
-    document.getElementById(id).style.display = "block";
+
+function openScreen(id) {
+    document.querySelectorAll('.screen, #main').forEach(s => s.style.display = 'none');
+    document.getElementById(id).style.display = 'block';
 }
 
-function closeSections() {
-    document.querySelectorAll(".section").forEach(s => s.style.display = "none");
+function goBack() {
+    document.querySelectorAll('.screen').forEach(s => s.style.display = 'none');
+    document.getElementById('main').style.display = 'block';
 }
 
-function check(element, correct) {
-    if (correct) {
-        element.style.background = "#4CAF50";
-        element.textContent = "Correct!";
-    } else {
-        element.style.background = "#E53935";
-        element.textContent = "Try again";
-    }
-}
 </script>
 
 </body>
