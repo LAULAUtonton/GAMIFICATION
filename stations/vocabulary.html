@@ -1,588 +1,174 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vocabulary Station</title>
+<meta charset="UTF-8">
+<title>Vocabulary Station</title>
 
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Fredoka:wght@600&display=swap" rel="stylesheet">
+<style>
 
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            background: linear-gradient(135deg, #1A1A1A, #6C63FF);
-            font-family: 'Poppins', sans-serif;
-            color: white;
-            text-align: center;
-        }
+/* DARK METAL GRAY BACKGROUND + WHITE TEXT */
+body {
+    background: linear-gradient(135deg, #2b2b2b, #1f1f1f, #2a2a2a);
+    color: white;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
 
-        h1, h2 {
-            font-family: 'Fredoka', sans-serif;
-            text-shadow: 0 0 10px #FF4F8B;
-        }
+/* UNIVERSAL ACTIVITY COLORS */
+.ordering-theme {
+    background: #00B0FF20;
+    border-left: 6px solid #00B0FF;
+}
 
-        h1 {
-            font-size: 40px;
-            margin-top: 30px;
-            color: #FF4F8B;
-        }
+.matching-theme {
+    background: #AB47BC20;
+    border-left: 6px solid #AB47BC;
+}
 
-        h2 {
-            font-size: 32px;
-            color: #FFE066;
-        }
+.trivia-theme {
+    background: #4CAF5020;
+    border-left: 6px solid #4CAF50;
+}
 
-        .menu-btn {
-            background: #FF4F8B;
-            color: white;
-            padding: 18px 40px;
-            font-size: 24px;
-            border: none;
-            border-radius: 12px;
-            cursor: pointer;
-            margin: 15px;
-            box-shadow: 0 0 12px #FF4F8B;
-            transition: 0.2s;
-        }
+.fill-theme {
+    background: #EF535020;
+    border-left: 6px solid #EF5350;
+}
 
-        .menu-btn:hover {
-            background: #00D1FF;
-            box-shadow: 0 0 15px #00D1FF;
-        }
+.builder-theme {
+    background: #FDD83520;
+    border-left: 6px solid #FDD835;
+}
 
-        .screen {
-            display: none;
-            padding: 20px;
-        }
+.listen-theme {
+    background: #FFA72620;
+    border-left: 6px solid #FFA726;
+}
 
-        .back-btn {
-            background: #FFE066;
-            color: #1A1A1A;
-            padding: 12px 30px;
-            border-radius: 12px;
-            font-size: 20px;
-            cursor: pointer;
-            margin-top: 20px;
-        }
+.read-theme {
+    background: #5C6BC020;
+    border-left: 6px solid #5C6BC0;
+}
 
-        .back-btn:hover {
-            background: #FF4F8B;
-            color: white;
-        }
+.speak-theme {
+    background: #26C6DA20;
+    border-left: 6px solid #26C6DA;
+}
 
-        /* MINI-GAME 1: COLOURS */
-        .colour-card {
-            background: rgba(255, 255, 255, 0.1);
-            width: 200px;
-            padding: 20px;
-            margin: 15px auto;
-            border-radius: 14px;
-            backdrop-filter: blur(6px);
-            box-shadow: 0 0 12px rgba(0,0,0,0.4);
-            cursor: pointer;
-            transition: 0.2s;
-        }
+/* FIXED BOTTOM BAR — PURPLE */
+.fixed-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: #6A1B9A;
+    padding: 12px;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    z-index: 9999;
+    border-top: 2px solid #4A0072;
+    backdrop-filter: blur(6px);
+}
 
-        .colour-card:hover {
-            background: #00D1FF;
-            box-shadow: 0 0 12px #00D1FF;
-        }
+/* YELLOW BUTTONS */
+.bar-btn {
+    background: #FFEB3B;
+    color: #1A1A1A;
+    padding: 10px 20px;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+}
 
-        .correct {
-            background: #4CAF50 !important;
-            box-shadow: 0 0 12px #4CAF50;
-        }
+.bar-btn:hover {
+    background: #FBC02D;
+    color: black;
+}
 
-        /* FOOD GAME */
-        .container {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            flex-wrap: wrap;
-            margin-top: 20px;
-        }
+/* GENERAL LAYOUT */
+.screen {
+    display: none;
+    padding: 30px;
+    margin-bottom: 100px;
+    border-radius: 12px;
+    color: white;
+}
 
-        .food-word, .food-box {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 15px;
-            width: 160px;
-            border-radius: 14px;
-            backdrop-filter: blur(6px);
-            box-shadow: 0 0 12px rgba(0,0,0,0.4);
-            cursor: grab;
-            transition: 0.2s;
-            text-align: center;
-        }
+#main {
+    padding: 30px;
+    margin-bottom: 100px;
+    color: white;
+}
 
-        .food-word:hover {
-            background: #00D1FF;
-            box-shadow: 0 0 12px #00D1FF;
-        }
+button {
+    padding: 12px 20px;
+    margin: 10px;
+    border-radius: 10px;
+    border: none;
+    background: #4FC3F7;
+    cursor: pointer;
+    font-size: 18px;
+    color: black;
+}
 
-        .food-box {
-            height: 60px;
-            border: 2px dashed #FFE066;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
+button:hover {
+    background: #0288D1;
+    color: white;
+}
 
-        .food-correct {
-            background: #4CAF50 !important;
-            border-color: #4CAF50 !important;
-            box-shadow: 0 0 12px #4CAF50;
-        }
-
-        .food-incorrect {
-            background: #E53935 !important;
-            border-color: #E53935 !important;
-            box-shadow: 0 0 12px #E53935;
-        }
-
-        /* PLACES GAME */
-        .quiz-option {
-            background: #FF4F8B;
-            padding: 12px 20px;
-            margin: 10px auto;
-            width: 260px;
-            border-radius: 12px;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-
-        .quiz-option:hover {
-            background: #00D1FF;
-        }
-
-        /* JOBS MEMORY GAME */
-        .memory-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 120px);
-            gap: 15px;
-            justify-content: center;
-            margin-top: 20px;
-        }
-
-        .memory-card {
-            background: rgba(255,255,255,0.1);
-            height: 120px;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 28px;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-
-        .memory-card.flipped {
-            background: #00D1FF;
-            font-size: 22px;
-        }
-
-        /* FEELINGS MATCHING */
-        .feel-word, .feel-box {
-            background: rgba(255,255,255,0.1);
-            padding: 15px;
-            width: 160px;
-            border-radius: 14px;
-            text-align: center;
-            cursor: grab;
-        }
-
-        .feel-box {
-            border: 2px dashed #FFE066;
-            height: 60px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .feel-correct {
-            background: #4CAF50 !important;
-            border-color: #4CAF50 !important;
-        }
-
-        .feel-incorrect {
-            background: #E53935 !important;
-            border-color: #E53935 !important;
-        }
-    </style>
+</style>
 </head>
 
 <body>
 
-    <!-- MAIN MENU -->
-    <div id="main-screen" class="screen" style="display:block;">
-        <h1>Vocabulary Station</h1>
-        <h2>Choose your mini‑game</h2>
+<!-- FIXED BOTTOM BAR -->
+<div class="fixed-bar">
+    <button class="bar-btn" onclick="goBack()">Back</button>
+    <button class="bar-btn" onclick="location.href='../index.html'">Main Menu</button>
+    <button class="bar-btn" onclick="alert('Paused')">Pause</button>
+</div>
 
-        <button class="menu-btn" onclick="openScreen('colours')">Colours</button>
-        <button class="menu-btn" onclick="openScreen('food')">Food</button>
-        <button class="menu-btn" onclick="openScreen('places')">Places</button>
-        <button class="menu-btn" onclick="openScreen('jobs')">Jobs</button>
-        <button class="menu-btn" onclick="openScreen('feelings')">Feelings</button>
-    </div>
+<!-- MAIN MENU -->
+<div id="main">
+    <h1>Vocabulary Station</h1>
+    <button onclick="openScreen('matching')">Matching</button>
+    <button onclick="openScreen('ordering')">Ordering</button>
+    <button onclick="openScreen('fill')">Fill in the Blanks</button>
+</div>
 
-    <!-- MINI-GAME 1: COLOURS -->
-    <div id="colours" class="screen">
-        <h2>Colours Game</h2>
-        <p>Tap the colour cards to practise.</p>
+<!-- MATCHING -->
+<div id="matching" class="screen matching-theme">
+    <h2>Matching Activity</h2>
+    <p>Match the words with their definitions.</p>
+</div>
 
-        <div id="colour-activity"></div>
+<!-- ORDERING -->
+<div id="ordering" class="screen ordering-theme">
+    <h2>Ordering Activity</h2>
+    <p>Put the words in the correct order.</p>
+</div>
 
-        <button class="back-btn" onclick="goBack()">Back</button>
-    </div>
-
-    <!-- MINI-GAME 2: FOOD -->
-    <div id="food" class="screen">
-        <h2>Food Game</h2>
-        <p>Drag the word to the correct food emoji.</p>
-
-        <div class="container" id="food-words"></div>
-        <div class="container" id="food-boxes"></div>
-
-        <button class="back-btn" onclick="goBack()">Back</button>
-    </div>
-
-    <!-- MINI-GAME 3: PLACES -->
-    <div id="places" class="screen">
-        <h2>Places Game</h2>
-        <p>Choose the correct place.</p>
-
-        <div id="places-quiz"></div>
-
-        <button class="back-btn" onclick="goBack()">Back</button>
-    </div>
-
-    <!-- MINI-GAME 4: JOBS -->
-    <div id="jobs" class="screen">
-        <h2>Jobs Memory Game</h2>
-
-        <div class="memory-grid" id="jobs-grid"></div>
-
-        <button class="back-btn" onclick="goBack()">Back</button>
-    </div>
-
-    <!-- MINI-GAME 5: FEELINGS -->
-    <div id="feelings" class="screen">
-        <h2>Feelings Game</h2>
-        <p>Match the feeling word with the emoji.</p>
-
-        <div class="container" id="feel-words"></div>
-        <div class="container" id="feel-boxes"></div>
-
-        <button class="back-btn" onclick="goBack()">Back</button>
-    </div>
+<!-- FILL IN THE BLANKS -->
+<div id="fill" class="screen fill-theme">
+    <h2>Fill in the Blanks</h2>
+    <p>Complete the sentences with the correct words.</p>
+</div>
 
 <script>
 
 function openScreen(id) {
-    document.querySelectorAll(".screen").forEach(s => s.style.display = "none");
-    document.getElementById(id).style.display = "block";
-
-    if (id === "colours") loadColours();
-    if (id === "food") loadFoodGame();
-    if (id === "places") loadPlacesQuiz();
-    if (id === "jobs") loadJobsMemory();
-    if (id === "feelings") loadFeelingsGame();
+    document.querySelectorAll('.screen, #main').forEach(s => s.style.display = 'none');
+    document.getElementById(id).style.display = 'block';
 }
 
 function goBack() {
-    document.querySelectorAll(".screen").forEach(s => s.style.display = "none");
-    document.getElementById("main-screen").style.display = "block";
+    document.querySelectorAll('.screen').forEach(s => s.style.display = 'none');
+    document.getElementById('main').style.display = 'block';
 }
 
-/* MINI-GAME 1: COLOURS */
-const colours = [
-    { word: "red", emoji: "🔴" },
-    { word: "blue", emoji: "🔵" },
-    { word: "yellow", emoji: "🟡" },
-    { word: "green", emoji: "🟢" },
-    { word: "purple", emoji: "🟣" }
-];
-
-function loadColours() {
-    const container = document.getElementById("colour-activity");
-    container.innerHTML = "";
-
-    colours.forEach(c => {
-        const card = document.createElement("div");
-        card.className = "colour-card";
-        card.innerHTML = `${c.emoji}<br>${c.word}`;
-        card.onclick = () => {
-            card.classList.add("correct");
-            setTimeout(() => card.classList.remove("correct"), 600);
-        };
-        container.appendChild(card);
-    });
-}
-
-/* MINI-GAME 2: FOOD */
-const foodList = [
-    { word: "apple", emoji: "🍎" },
-    { word: "banana", emoji: "🍌" },
-    { word: "sandwich", emoji: "🥪" },
-    { word: "pizza", emoji: "🍕" },
-    { word: "burger", emoji: "🍔" },
-    { word: "salad", emoji: "🥗" },
-    { word: "pasta", emoji: "🍝" },
-    { word: "chicken", emoji: "🍗" },
-    { word: "rice", emoji: "🍚" },
-    { word: "soup", emoji: "🍲" },
-    { word: "fries", emoji: "🍟" },
-    { word: "milk", emoji: "🥛" },
-    { word: "orange juice", emoji: "🧃" },
-    { word: "chocolate", emoji: "🍫" },
-    { word: "ice cream", emoji: "🍨" }
-];
-
-function loadFoodGame() {
-    const wordsContainer = document.getElementById("food-words");
-    const boxesContainer = document.getElementById("food-boxes");
-
-    wordsContainer.innerHTML = "";
-    boxesContainer.innerHTML = "";
-
-    const shuffled = [...foodList].sort(() => Math.random() - 0.5);
-
-    shuffled.forEach(item => {
-        const word = document.createElement("div");
-        word.className = "food-word";
-        word.textContent = item.word;
-        word.draggable = true;
-
-        word.addEventListener("dragstart", e => {
-            e.dataTransfer.setData("text", item.word);
-        });
-
-        wordsContainer.appendChild(word);
-    });
-
-    foodList.forEach(item => {
-        const box = document.createElement("div");
-        box.className = "food-box";
-        box.dataset.word = item.word;
-        box.textContent = item.emoji;
-
-        box.addEventListener("dragover", e => e.preventDefault());
-
-        box.addEventListener("drop", e => {
-            const draggedWord = e.dataTransfer.getData("text");
-
-            if (draggedWord === box.dataset.word) {
-                box.classList.add("food-correct");
-                box.textContent = "✔️ " + item.word;
-
-                const wordElement = [...document.querySelectorAll(".food-word")]
-                    .find(w => w.textContent === draggedWord);
-                if (wordElement) wordElement.style.display = "none";
-
-            } else {
-                box.classList.add("food-incorrect");
-                setTimeout(() => box.classList.remove("food-incorrect"), 800);
-            }
-        });
-
-        boxesContainer.appendChild(box);
-    });
-}
-
-/* MINI-GAME 3: PLACES */
-const placesList = [
-    { q: "Where do you buy bread?", a: "bakery" },
-    { q: "Where do you borrow books?", a: "library" },
-    { q: "Where do you watch movies?", a: "cinema" },
-    { q: "Where do you swim?", a: "swimming pool" },
-    { q: "Where do you see animals?", a: "zoo" },
-    { q: "Where do you take a plane?", a: "airport" },
-    { q: "Where do you buy food?", a: "supermarket" },
-    { q: "Where do you eat?", a: "restaurant" },
-    { q: "Where do you study?", a: "school" },
-    { q: "Where do you see art?", a: "museum" },
-    { q: "Where do you wait for the bus?", a: "bus station" },
-    { q: "Where do you drink coffee?", a: "café" },
-    { q: "Where do you play football?", a: "stadium" },
-    { q: "Where do you get medicine?", a: "pharmacy" },
-    { q: "Where do you walk in nature?", a: "park" }
-];
-
-function loadPlacesQuiz() {
-    const container = document.getElementById("places-quiz");
-    container.innerHTML = "";
-
-    const item = placesList[Math.floor(Math.random() * placesList.length)];
-
-    const options = [item.a];
-    while (options.length < 4) {
-        const random = placesList[Math.floor(Math.random() * placesList.length)].a;
-        if (!options.includes(random)) options.push(random);
-    }
-
-    options.sort(() => Math.random() - 0.5);
-
-    const question = document.createElement("h3");
-    question.textContent = item.q;
-    container.appendChild(question);
-
-    options.forEach(opt => {
-        const btn = document.createElement("div");
-        btn.className = "quiz-option";
-        btn.textContent = opt;
-
-        btn.onclick = () => {
-            if (opt === item.a) {
-                btn.style.background = "#4CAF50";
-                setTimeout(loadPlacesQuiz, 800);
-            } else {
-                btn.style.background = "#E53935";
-                setTimeout(() => btn.style.background = "#FF4F8B", 600);
-            }
-        };
-
-        container.appendChild(btn);
-    });
-}
-
-/* MINI-GAME 4: JOBS MEMORY (8 pairs) */
-const jobsList = [
-    { word: "teacher", emoji: "👩‍🏫" },
-    { word: "doctor", emoji: "👨‍⚕️" },
-    { word: "nurse", emoji: "👩‍⚕️" },
-    { word: "police officer", emoji: "👮‍♂️" },
-    { word: "firefighter", emoji: "👨‍🚒" },
-    { word: "chef", emoji: "👨‍🍳" },
-    { word: "artist", emoji: "🎨" },
-    { word: "musician", emoji: "🎵" }
-];
-
-function loadJobsMemory() {
-    const grid = document.getElementById("jobs-grid");
-    grid.innerHTML = "";
-
-    const cards = [];
-
-    jobsList.forEach(item => {
-        cards.push({ type: "word", value: item.word });
-        cards.push({ type: "emoji", value: item.emoji, match: item.word });
-    });
-
-    cards.sort(() => Math.random() - 0.5);
-
-    let flipped = [];
-    let lock = false;
-
-    cards.forEach(card => {
-        const div = document.createElement("div");
-        div.className = "memory-card";
-        div.textContent = "?";
-
-        div.onclick = () => {
-            if (lock || div.classList.contains("flipped")) return;
-
-            div.classList.add("flipped");
-            div.textContent = card.value;
-
-            flipped.push({ div, card });
-
-            if (flipped.length === 2) {
-                lock = true;
-
-                const [c1, c2] = flipped;
-
-                const match =
-                    (c1.card.type === "word" && c2.card.match === c1.card.value) ||
-                    (c2.card.type === "word" && c1.card.match === c2.card.value);
-
-                if (match) {
-                    flipped = [];
-                    lock = false;
-                } else {
-                    setTimeout(() => {
-                        c1.div.classList.remove("flipped");
-                        c2.div.classList.remove("flipped");
-                        c1.div.textContent = "?";
-                        c2.div.textContent = "?";
-                        flipped = [];
-                        lock = false;
-                    }, 800);
-                }
-            }
-        };
-
-        grid.appendChild(div);
-    });
-}
-/* MINI-GAME 5: FEELINGS */
-const feelingsList = [
-    { word: "happy", emoji: "😊" },
-    { word: "sad", emoji: "😢" },
-    { word: "angry", emoji: "😡" },
-    { word: "tired", emoji: "😴" },
-    { word: "excited", emoji: "🤩" },
-    { word: "bored", emoji: "😐" },
-    { word: "scared", emoji: "😱" },
-    { word: "nervous", emoji: "😬" },
-    { word: "calm", emoji: "😌" },
-    { word: "surprised", emoji: "😮" },
-    { word: "proud", emoji: "😎" },
-    { word: "confused", emoji: "😕" },
-    { word: "hungry", emoji: "🤤" },
-    { word: "thirsty", emoji: "🥤" },
-    { word: "relaxed", emoji: "🧘" }
-];
-
-function loadFeelingsGame() {
-    const wordsContainer = document.getElementById("feel-words");
-    const boxesContainer = document.getElementById("feel-boxes");
-
-    wordsContainer.innerHTML = "";
-    boxesContainer.innerHTML = "";
-
-    const shuffledWords = [...feelingsList].sort(() => Math.random() - 0.5);
-
-    shuffledWords.forEach(item => {
-        const word = document.createElement("div");
-        word.className = "feel-word";
-        word.textContent = item.word;
-        word.draggable = true;
-
-        word.addEventListener("dragstart", e => {
-            e.dataTransfer.setData("text", item.word);
-        });
-
-        wordsContainer.appendChild(word);
-    });
-
-    feelingsList.forEach(item => {
-        const box = document.createElement("div");
-        box.className = "feel-box";
-        box.dataset.word = item.word;
-        box.textContent = item.emoji;
-
-        box.addEventListener("dragover", e => e.preventDefault());
-
-        box.addEventListener("drop", e => {
-            const draggedWord = e.dataTransfer.getData("text");
-
-            if (draggedWord === box.dataset.word) {
-                box.classList.add("feel-correct");
-                box.textContent = "✔️ " + item.word;
-
-                const wordElement = [...document.querySelectorAll(".feel-word")]
-                    .find(w => w.textContent === draggedWord);
-                if (wordElement) wordElement.style.display = "none";
-
-            } else {
-                box.classList.add("feel-incorrect");
-                setTimeout(() => box.classList.remove("feel-incorrect"), 800);
-            }
-        });
-
-        boxesContainer.appendChild(box);
-    });
-}
 </script>
 
 </body>
