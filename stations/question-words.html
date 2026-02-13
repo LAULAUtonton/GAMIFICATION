@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Question Words – Activity</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Fredoka:wght@600&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #1A1A1A, #6C63FF);
+            font-family: 'Poppins', sans-serif;
+            color: white;
+            text-align: center;
+        }
+
+        h1 {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 36px;
+            margin-top: 30px;
+            color: #FF4F8B;
+            text-shadow: 0 0 10px #FF4F8B;
+        }
+
+        .question-box {
+            background: rgba(255, 255, 255, 0.1);
+            width: 80%;
+            margin: 20px auto;
+            padding: 20px;
+            border-radius: 16px;
+            backdrop-filter: blur(6px);
+            box-shadow: 0 0 12px rgba(0,0,0,0.4);
+        }
+
+        .question {
+            font-size: 22px;
+            margin-bottom: 15px;
+        }
+
+        .option {
+            background: #FF4F8B;
+            padding: 12px 20px;
+            margin: 10px;
+            border-radius: 12px;
+            display: inline-block;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .option:hover {
+            background: #00D1FF;
+            box-shadow: 0 0 10px #00D1FF;
+        }
+
+        .correct {
+            background: #4CAF50 !important;
+            box-shadow: 0 0 12px #4CAF50;
+        }
+
+        .incorrect {
+            background: #E53935 !important;
+            box-shadow: 0 0 12px #E53935;
+        }
+
+        #next-btn {
+            display: none;
+            margin-top: 20px;
+            background: #FFE066;
+            color: #1A1A1A;
+            padding: 14px 30px;
+            border-radius: 12px;
+            font-size: 20px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        #next-btn:hover {
+            background: #FF4F8B;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Question Words</h1>
+
+    <div id="activity"></div>
+
+    <button id="next-btn" onclick="nextQuestion()">Next</button>
+
+    <script>
+        const questions = [
+            {
+                q: "______ is your favourite colour?",
+                options: ["What", "Where", "Why"],
+                answer: "What"
+            },
+            {
+                q: "______ do you live?",
+                options: ["Where", "Who", "When"],
+                answer: "Where"
+            },
+            {
+                q: "______ is your birthday?",
+                options: ["When", "Why", "How"],
+                answer: "When"
+            },
+            {
+                q: "______ are you sad today?",
+                options: ["Why", "What", "Who"],
+                answer: "Why"
+            },
+            {
+                q: "______ is that boy? He looks familiar.",
+                options: ["Who", "Where", "What"],
+                answer: "Who"
+            },
+            {
+                q: "______ old are you?",
+                options: ["How", "What", "Why"],
+                answer: "How"
+            }
+        ];
+
+        let current = 0;
+
+        function loadQuestion() {
+            const q = questions[current];
+            document.getElementById("activity").innerHTML = `
+                <div class="question-box">
+                    <div class="question">${q.q}</div>
+                    ${q.options.map(opt => `<div class="option" onclick="checkAnswer(this, '${q.answer}')">${opt}</div>`).join("")}
+                </div>
+            `;
+        }
+
+        function checkAnswer(element, correct) {
+            const options = document.querySelectorAll(".option");
+            options.forEach(opt => opt.style.pointerEvents = "none");
+
+            if (element.textContent === correct) {
+                element.classList.add("correct");
+            } else {
+                element.classList.add("incorrect");
+            }
+
+            document.getElementById("next-btn").style.display = "inline-block";
+        }
+
+        function nextQuestion() {
+            current++;
+            if (current < questions.length) {
+                loadQuestion();
+                document.getElementById("next-btn").style.display = "none";
+            } else {
+                document.getElementById("activity").innerHTML = `
+                    <h2>Great job!</h2>
+                    <p>You finished the activity.</p>
+                `;
+                document.getElementById("next-btn").style.display = "none";
+            }
+        }
+
+        loadQuestion();
+    </script>
+
+</body>
+</html>
