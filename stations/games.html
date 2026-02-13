@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Games Station</title>
+<title>Vocabulary Station</title>
 
 <style>
 
@@ -146,7 +146,7 @@ button:hover { background: #0288D1; color: white; }
 </div>
 
 <div id="tip-box">
-    <strong>Tip:</strong> <span id="tip-text">Select a game to begin!</span>
+    <strong>Tip:</strong> <span id="tip-text">Choose an activity to begin!</span>
 </div>
 
 <!-- ========================= -->
@@ -162,28 +162,28 @@ button:hover { background: #0288D1; color: white; }
 
 <!-- MAIN MENU -->
 <div id="main">
-    <h1>Games Station</h1>
-    <button onclick="openScreen('wordsearch')">Word Search</button>
-    <button onclick="openScreen('trivia')">Trivia</button>
-    <button onclick="openScreen('builder')">Sentence Builder</button>
+    <h1>Vocabulary Station</h1>
+    <button onclick="openScreen('matching')">Matching</button>
+    <button onclick="openScreen('ordering')">Ordering</button>
+    <button onclick="openScreen('fill')">Fill in the Blanks</button>
 </div>
 
-<!-- WORD SEARCH -->
-<div id="wordsearch" class="screen ordering-theme">
-    <h2>Word Search</h2>
-    <p>Find the hidden words!</p>
+<!-- MATCHING -->
+<div id="matching" class="screen matching-theme">
+    <h2>Matching Activity</h2>
+    <p>Match the words with their definitions.</p>
 </div>
 
-<!-- TRIVIA -->
-<div id="trivia" class="screen trivia-theme">
-    <h2>Trivia Game</h2>
-    <p>Choose the correct answer.</p>
+<!-- ORDERING -->
+<div id="ordering" class="screen ordering-theme">
+    <h2>Ordering Activity</h2>
+    <p>Put the words in the correct order.</p>
 </div>
 
-<!-- SENTENCE BUILDER -->
-<div id="builder" class="screen builder-theme">
-    <h2>Sentence Builder</h2>
-    <p>Build the correct sentence.</p>
+<!-- FILL IN THE BLANKS -->
+<div id="fill" class="screen fill-theme">
+    <h2>Fill in the Blanks</h2>
+    <p>Complete the sentences with the correct words.</p>
 </div>
 
 <script>
@@ -203,7 +203,7 @@ function goBack() {
     document.getElementById('main').style.display = 'block';
 
     stopTimer();
-    setTip("Select a game to begin!");
+    setTip("Choose an activity to begin!");
     setProgress(0);
 }
 
