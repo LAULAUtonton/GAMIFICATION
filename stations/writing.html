@@ -1,305 +1,188 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Writing Station</title>
+<meta charset="UTF-8">
+<title>Writing Station</title>
 
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Fredoka:wght@600&display=swap" rel="stylesheet">
+<style>
 
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            background: linear-gradient(135deg, #1A1A1A, #FF4F8B);
-            font-family: 'Poppins', sans-serif;
-            color: white;
-            text-align: center;
-        }
+/* DARK METAL GRAY BACKGROUND + WHITE TEXT */
+body {
+    background: linear-gradient(135deg, #2b2b2b, #1f1f1f, #2a2a2a);
+    color: white;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
 
-        h1, h2 {
-            font-family: 'Fredoka', sans-serif;
-            text-shadow: 0 0 10px #FFB3D1;
-        }
+/* UNIVERSAL ACTIVITY COLORS */
+.ordering-theme {
+    background: #00B0FF20;
+    border-left: 6px solid #00B0FF;
+}
 
-        h1 {
-            font-size: 40px;
-            margin-top: 30px;
-            color: #FFB3D1;
-        }
+.matching-theme {
+    background: #AB47BC20;
+    border-left: 6px solid #AB47BC;
+}
 
-        h2 {
-            font-size: 32px;
-            color: #FFE066;
-        }
+.trivia-theme {
+    background: #4CAF5020;
+    border-left: 6px solid #4CAF50;
+}
 
-        .screen {
-            display: none;
-            padding: 20px;
-        }
+.fill-theme {
+    background: #EF535020;
+    border-left: 6px solid #EF5350;
+}
 
-        .menu-btn {
-            background: #FF4F8B;
-            color: white;
-            padding: 18px 40px;
-            font-size: 24px;
-            border: none;
-            border-radius: 12px;
-            cursor: pointer;
-            margin: 15px;
-            box-shadow: 0 0 12px #FF4F8B;
-            transition: 0.2s;
-        }
+.builder-theme {
+    background: #FDD83520;
+    border-left: 6px solid #FDD835;
+}
 
-        .menu-btn:hover {
-            background: #00D1FF;
-            box-shadow: 0 0 15px #00D1FF;
-        }
+.listen-theme {
+    background: #FFA72620;
+    border-left: 6px solid #FFA726;
+}
 
-        .back-btn {
-            background: #FFE066;
-            color: #1A1A1A;
-            padding: 12px 30px;
-            border-radius: 12px;
-            font-size: 20px;
-            cursor: pointer;
-            margin-top: 20px;
-            border: none;
-        }
+.read-theme {
+    background: #5C6BC020;
+    border-left: 6px solid #5C6BC0;
+}
 
-        .back-btn:hover {
-            background: #FF4F8B;
-            color: white;
-        }
+.speak-theme {
+    background: #26C6DA20;
+    border-left: 6px solid #26C6DA;
+}
 
-        .exercise-box {
-            max-width: 750px;
-            margin: 0 auto;
-            background: rgba(255,255,255,0.08);
-            padding: 20px;
-            border-radius: 16px;
-            text-align: left;
-        }
+/* FIXED BOTTOM BAR — PURPLE */
+.fixed-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: #6A1B9A;
+    padding: 12px;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    z-index: 9999;
+    border-top: 2px solid #4A0072;
+    backdrop-filter: blur(6px);
+}
 
-        .gap-select {
-            padding: 6px;
-            border-radius: 6px;
-            margin: 0 4px;
-        }
+/* YELLOW BUTTONS */
+.bar-btn {
+    background: #FFEB3B;
+    color: #1A1A1A;
+    padding: 10px 20px;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+}
 
-        .transform-input {
-            width: 100%;
-            padding: 10px;
-            border-radius: 10px;
-            border: none;
-            margin-top: 10px;
-        }
+.bar-btn:hover {
+    background: #FBC02D;
+    color: black;
+}
 
-        .check-btn {
-            background: #00D1FF;
-            color: white;
-            padding: 10px 20px;
-            border-radius: 10px;
-            border: none;
-            cursor: pointer;
-            margin-top: 10px;
-        }
+/* GENERAL LAYOUT */
+.screen {
+    display: none;
+    padding: 30px;
+    margin-bottom: 100px;
+    border-radius: 12px;
+    color: white;
+}
 
-        .check-btn:hover {
-            background: #4CAF50;
-        }
+#main {
+    padding: 30px;
+    margin-bottom: 100px;
+    color: white;
+}
 
-        .feedback {
-            margin-top: 10px;
-            font-weight: 600;
-        }
+button {
+    padding: 12px 20px;
+    margin: 10px;
+    border-radius: 10px;
+    border: none;
+    background: #4FC3F7;
+    cursor: pointer;
+    font-size: 18px;
+    color: black;
+}
 
-        .prompt-img {
-            width: 100%;
-            max-width: 500px;
-            border-radius: 12px;
-            margin-top: 10px;
-        }
+button:hover {
+    background: #0288D1;
+    color: white;
+}
 
-        textarea {
-            width: 100%;
-            height: 140px;
-            border-radius: 12px;
-            padding: 10px;
-            margin-top: 10px;
-            border: none;
-        }
-    </style>
+textarea {
+    width: 100%;
+    height: 200px;
+    border-radius: 10px;
+    padding: 15px;
+    font-size: 16px;
+    border: none;
+    outline: none;
+    margin-top: 10px;
+}
+
+</style>
 </head>
+
 <body>
 
-    <!-- MAIN MENU -->
-    <div id="main-screen" class="screen" style="display:block;">
-        <h1>Writing Station</h1>
-        <h2>Choose your activity</h2>
+<!-- FIXED BOTTOM BAR -->
+<div class="fixed-bar">
+    <button class="bar-btn" onclick="goBack()">Back</button>
+    <button class="bar-btn" onclick="location.href='../index.html'">Main Menu</button>
+    <button class="bar-btn" onclick="alert('Paused')">Pause</button>
+</div>
 
-        <button class="menu-btn" onclick="openScreen('fill')">Fill in the blanks</button>
-        <button class="menu-btn" onclick="openScreen('transform')">Sentence transformation</button>
-        <button class="menu-btn" onclick="openScreen('prompt')">Picture description</button>
-    </div>
+<!-- MAIN MENU -->
+<div id="main">
+    <h1>Writing Station</h1>
+    <button onclick="openScreen('write1')">Writing Task 1</button>
+    <button onclick="openScreen('write2')">Writing Task 2</button>
+    <button onclick="openScreen('write3')">Writing Task 3</button>
+</div>
 
-    <!-- FILL IN THE BLANKS -->
-    <div id="fill" class="screen">
-        <h2>Fill in the blanks</h2>
-        <div id="fill-box" class="exercise-box"></div>
-        <button class="back-btn" onclick="goBack()">Back</button>
-    </div>
+<!-- WRITING 1 -->
+<div id="write1" class="screen builder-theme">
+    <h2>Writing Task 1</h2>
+    <p>Write a short paragraph about your daily routine.</p>
+    <textarea placeholder="Start writing here..."></textarea>
+</div>
 
-    <!-- SENTENCE TRANSFORMATION -->
-    <div id="transform" class="screen">
-        <h2>Sentence Transformation</h2>
-        <div id="transform-box" class="exercise-box"></div>
-        <button class="back-btn" onclick="goBack()">Back</button>
-    </div>
+<!-- WRITING 2 -->
+<div id="write2" class="screen builder-theme">
+    <h2>Writing Task 2</h2>
+    <p>Describe your favorite place in the world.</p>
+    <textarea placeholder="Start writing here..."></textarea>
+</div>
 
-    <!-- PICTURE DESCRIPTION -->
-    <div id="prompt" class="screen">
-        <h2>Picture Description</h2>
-        <div class="exercise-box">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/Busy_street_in_London.jpg/640px-Busy_street_in_London.jpg" class="prompt-img">
-            <p><strong>Write 5–8 sentences describing the picture.</strong></p>
-            <textarea id="prompt-text"></textarea>
-            <button class="check-btn" onclick="checkPrompt()">Check</button>
-            <div id="prompt-feedback" class="feedback"></div>
-        </div>
-        <button class="back-btn" onclick="goBack()">Back</button>
-    </div>
+<!-- WRITING 3 -->
+<div id="write3" class="screen builder-theme">
+    <h2>Writing Task 3</h2>
+    <p>Write a short story using the following words: adventure, mystery, forest.</p>
+    <textarea placeholder="Start writing here..."></textarea>
+</div>
 
 <script>
-function openScreen(id) {
-    document.querySelectorAll(".screen").forEach(s => s.style.display = "none");
-    document.getElementById(id).style.display = "block";
 
-    if (id === "fill") loadFill();
-    if (id === "transform") loadTransform();
+function openScreen(id) {
+    document.querySelectorAll('.screen, #main').forEach(s => s.style.display = 'none');
+    document.getElementById(id).style.display = 'block';
 }
 
 function goBack() {
-    document.querySelectorAll(".screen").forEach(s => s.style.display = "none");
-    document.getElementById("main-screen").style.display = "block";
+    document.querySelectorAll('.screen').forEach(s => s.style.display = 'none');
+    document.getElementById('main').style.display = 'block';
 }
 
-/* -------------------------
-   FILL IN THE BLANKS
--------------------------- */
-
-const fillData = [
-    {
-        text: "Every morning, I ____ (go / goes / going) to school by bus. I usually ____ (listen / listens / listening) to music on the way.",
-        answers: ["go", "listen"]
-    },
-    {
-        text: "Last weekend, we ____ (visit / visited / visiting) a museum. We ____ (have / had / having) a great time.",
-        answers: ["visited", "had"]
-    },
-    {
-        text: "If it ____ (rain / rains / raining) tomorrow, we ____ (will stay / stay / stayed) at home.",
-        answers: ["rains", "will stay"]
-    }
-];
-
-function loadFill() {
-    const box = document.getElementById("fill-box");
-    box.innerHTML = "";
-
-    const item = fillData[Math.floor(Math.random() * fillData.length)];
-
-    let index = 0;
-    let html = item.text.replace(/\((.*?)\)/g, function(match, options) {
-        const opts = options.split(" / ");
-        const select = `<select class="gap-select" id="gap${index}">
-            ${opts.map(o => `<option value="${o}">${o}</option>`).join("")}
-        </select>`;
-        index++;
-        return select;
-    });
-
-    box.innerHTML = html + `<br><button class="check-btn" onclick="checkFill(${JSON.stringify(item.answers)})">Check</button><div id="fill-feedback" class="feedback"></div>`;
-}
-
-function checkFill(correct) {
-    let ok = true;
-    correct.forEach((ans, i) => {
-        const val = document.getElementById("gap" + i).value;
-        if (val !== ans) ok = false;
-    });
-
-    const fb = document.getElementById("fill-feedback");
-    fb.textContent = ok ? "Perfect!" : "Some answers are incorrect.";
-    fb.style.color = ok ? "#4CAF50" : "#E53935";
-}
-
-/* -------------------------
-   SENTENCE TRANSFORMATION
--------------------------- */
-
-const transformData = [
-    {
-        original: "She plays tennis every weekend.",
-        instruction: "Rewrite in the negative form.",
-        answer: "She doesn't play tennis every weekend."
-    },
-    {
-        original: "They are watching a movie.",
-        instruction: "Rewrite in the past simple.",
-        answer: "They watched a movie."
-    },
-    {
-        original: "I will visit my grandparents tomorrow.",
-        instruction: "Rewrite using 'going to'.",
-        answer: "I am going to visit my grandparents tomorrow."
-    }
-];
-
-function loadTransform() {
-    const box = document.getElementById("transform-box");
-    box.innerHTML = "";
-
-    const item = transformData[Math.floor(Math.random() * transformData.length)];
-
-    box.innerHTML = `
-        <p><strong>Original sentence:</strong> ${item.original}</p>
-        <p><strong>Instruction:</strong> ${item.instruction}</p>
-        <input id="transform-input" class="transform-input" placeholder="Write your answer here">
-        <button class="check-btn" onclick='checkTransform(${JSON.stringify(item.answer)})'>Check</button>
-        <div id="transform-feedback" class="feedback"></div>
-    `;
-}
-
-function checkTransform(correct) {
-    const user = document.getElementById("transform-input").value.trim();
-    const fb = document.getElementById("transform-feedback");
-
-    if (user.toLowerCase() === correct.toLowerCase()) {
-        fb.textContent = "Excellent!";
-        fb.style.color = "#4CAF50";
-    } else {
-        fb.textContent = "Not correct. Correct answer: " + correct;
-        fb.style.color = "#E53935";
-    }
-}
-
-/* -------------------------
-   PICTURE DESCRIPTION
--------------------------- */
-
-function checkPrompt() {
-    const text = document.getElementById("prompt-text").value.trim();
-    const fb = document.getElementById("prompt-feedback");
-
-    if (text.length < 40) {
-        fb.textContent = "Try to write a bit more.";
-        fb.style.color = "#E53935";
-    } else {
-        fb.textContent = "Great job! Your description is long enough.";
-        fb.style.color = "#4CAF50";
-    }
-}
 </script>
 
 </body>
