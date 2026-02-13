@@ -64,11 +64,82 @@
             font-size: 20px;
             cursor: pointer;
             margin-top: 20px;
+            border: none;
         }
 
         .back-btn:hover {
             background: #FF4F8B;
             color: white;
+        }
+
+        .quiz-option {
+            background: #FF4F8B;
+            padding: 12px 20px;
+            margin: 10px auto;
+            width: 260px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: 0.2s;
+            box-shadow: 0 0 10px #FF4F8B;
+        }
+
+        .quiz-option:hover {
+            background: #00D1FF;
+        }
+
+        .drag-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .drag-word, .drop-slot {
+            background: rgba(255,255,255,0.1);
+            padding: 12px 18px;
+            border-radius: 10px;
+            cursor: grab;
+            min-width: 80px;
+        }
+
+        .drop-slot {
+            border: 2px dashed #FFE066;
+            min-height: 40px;
+            cursor: pointer;
+        }
+
+        .drag-word.correct {
+            background: #4CAF50 !important;
+        }
+
+        .drag-word.incorrect {
+            background: #E53935 !important;
+        }
+
+        .memory-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 120px);
+            gap: 15px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .memory-card {
+            background: rgba(255,255,255,0.1);
+            height: 100px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .memory-card.flipped {
+            background: #00D1FF;
+            color: #1A1A1A;
         }
     </style>
 </head>
@@ -90,35 +161,55 @@
     <!-- MINI-GAME 1: VERB TO BE -->
     <div id="tobe" class="screen">
         <h2>Verb To Be</h2>
-        <p>Mini‑game coming soon...</p>
+        <p>Choose the correct form.</p>
+
+        <div id="tobe-question" style="font-size:26px; margin:20px 0;"></div>
+        <div id="tobe-options"></div>
+
         <button class="back-btn" onclick="goBack()">Back</button>
     </div>
 
     <!-- MINI-GAME 2: PRESENT SIMPLE -->
     <div id="present" class="screen">
         <h2>Present Simple</h2>
-        <p>Mini‑game coming soon...</p>
+        <p>Drag the words to make a correct sentence.</p>
+
+        <div id="present-sentence" style="font-size:24px; margin:15px 0;"></div>
+        <div class="drag-container" id="present-slots"></div>
+        <div class="drag-container" id="present-words"></div>
+
         <button class="back-btn" onclick="goBack()">Back</button>
     </div>
 
     <!-- MINI-GAME 3: ARTICLES -->
     <div id="articles" class="screen">
         <h2>Articles (a / an / the)</h2>
-        <p>Mini‑game coming soon...</p>
+        <p>Choose the correct article.</p>
+
+        <div id="articles-question" style="font-size:26px; margin:20px 0;"></div>
+        <div id="articles-options"></div>
+
         <button class="back-btn" onclick="goBack()">Back</button>
     </div>
 
     <!-- MINI-GAME 4: PLURALS -->
     <div id="plurals" class="screen">
-        <h2>Plurals</h2>
-        <p>Mini‑game coming soon...</p>
+        <h2>Plurals Memory Game</h2>
+        <p>Match the singular with the plural.</p>
+
+        <div class="memory-grid" id="plurals-grid"></div>
+
         <button class="back-btn" onclick="goBack()">Back</button>
     </div>
 
     <!-- MINI-GAME 5: PREPOSITIONS -->
     <div id="prepositions" class="screen">
         <h2>Prepositions</h2>
-        <p>Mini‑game coming soon...</p>
+        <p>Choose the correct preposition.</p>
+
+        <div id="prep-question" style="font-size:26px; margin:20px 0;"></div>
+        <div id="prep-options"></div>
+
         <button class="back-btn" onclick="goBack()">Back</button>
     </div>
 
@@ -126,11 +217,297 @@
 function openScreen(id) {
     document.querySelectorAll(".screen").forEach(s => s.style.display = "none");
     document.getElementById(id).style.display = "block";
+
+    if (id === "tobe") loadToBeGame();
+    if (id === "present") loadPresentGame();
+    if (id === "articles") loadArticlesGame();
+    if (id === "plurals") loadPluralsGame();
+    if (id === "prepositions") loadPrepositionsGame();
 }
 
 function goBack() {
     document.querySelectorAll(".screen").forEach(s => s.style.display = "none");
     document.getElementById("main-screen").style.display = "block";
+}
+
+/* MINI-GAME 1: VERB TO BE */
+const toBeQuestions = [
+    { sentence: "I ___ happy.", answer: "am" },
+    { sentence: "She ___ a teacher.", answer: "is" },
+    { sentence: "They ___ friends.", answer: "are" },
+    { sentence: "You ___ very kind.", answer: "are" },
+    { sentence: "He ___ my brother.", answer: "is" },
+    { sentence: "We ___ at school.", answer: "are" },
+    { sentence: "It ___ a cat.", answer: "is" },
+    { sentence: "I ___ from Spain.", answer: "am" }
+];
+
+function loadToBeGame() {
+    const qBox = document.getElementById("tobe-question");
+    const optBox = document.getElementById("tobe-options");
+
+    optBox.innerHTML = "";
+
+    const item = toBeQuestions[Math.floor(Math.random() * toBeQuestions.length)];
+    qBox.textContent = item.sentence;
+
+    const options = ["am", "is", "are"].sort(() => Math.random() - 0.5);
+
+    options.forEach(opt => {
+        const btn = document.createElement("button");
+        btn.textContent = opt;
+        btn.style.margin = "10px";
+        btn.style.padding = "12px 25px";
+        btn.style.fontSize = "20px";
+        btn.style.borderRadius = "10px";
+        btn.style.border = "none";
+        btn.style.cursor = "pointer";
+        btn.style.background = "#FF4F8B";
+        btn.style.color = "white";
+        btn.style.boxShadow = "0 0 10px #FF4F8B";
+
+        btn.onclick = () => {
+            if (opt === item.answer) {
+                btn.style.background = "#4CAF50";
+                setTimeout(loadToBeGame, 700);
+            } else {
+                btn.style.background = "#E53935";
+                setTimeout(() => btn.style.background = "#FF4F8B", 600);
+            }
+        };
+
+        optBox.appendChild(btn);
+    });
+}
+
+/* MINI-GAME 2: PRESENT SIMPLE (Drag & Drop) */
+const presentSentences = [
+    { full: "She plays football.", words: ["She", "plays", "football."] },
+    { full: "They like pizza.", words: ["They", "like", "pizza."] },
+    { full: "He reads books.", words: ["He", "reads", "books."] },
+    { full: "We watch TV.", words: ["We", "watch", "TV."] },
+    { full: "I love music.", words: ["I", "love", "music."] }
+];
+
+function loadPresentGame() {
+    const sentenceBox = document.getElementById("present-sentence");
+    const slotsBox = document.getElementById("present-slots");
+    const wordsBox = document.getElementById("present-words");
+
+    slotsBox.innerHTML = "";
+    wordsBox.innerHTML = "";
+    sentenceBox.textContent = "Order the words:";
+
+    const item = presentSentences[Math.floor(Math.random() * presentSentences.length)];
+    const words = [...item.words];
+    const shuffled = [...words].sort(() => Math.random() - 0.5);
+
+    words.forEach((_, i) => {
+        const slot = document.createElement("div");
+        slot.className = "drop-slot";
+        slot.dataset.index = i;
+        slotsBox.appendChild(slot);
+    });
+
+    shuffled.forEach(word => {
+        const w = document.createElement("div");
+        w.className = "drag-word";
+        w.textContent = word;
+        w.draggable = true;
+
+        w.addEventListener("dragstart", e => {
+            e.dataTransfer.setData("text", word);
+        });
+
+        wordsBox.appendChild(w);
+    });
+
+    document.querySelectorAll(".drop-slot").forEach(slot => {
+        slot.addEventListener("dragover", e => e.preventDefault());
+        slot.addEventListener("drop", e => {
+            const draggedWord = e.dataTransfer.getData("text");
+            if (!draggedWord) return;
+
+            if (slot.textContent.trim() !== "") return;
+
+            slot.textContent = draggedWord;
+
+            const wordElement = [...document.querySelectorAll(".drag-word")]
+                .find(w => w.textContent === draggedWord && !w.classList.contains("used"));
+            if (wordElement) {
+                wordElement.classList.add("used");
+                wordElement.style.opacity = "0.3";
+            }
+
+            const current = [...slotsBox.children].map(s => s.textContent.trim());
+            if (!current.includes("")) {
+                const built = current.join(" ");
+                if (built === item.full) {
+                    sentenceBox.textContent = "✅ " + item.full;
+                    setTimeout(loadPresentGame, 1000);
+                } else {
+                    sentenceBox.textContent = "❌ Try again!";
+                    setTimeout(() => loadPresentGame(), 1000);
+                }
+            }
+        });
+    });
+}
+
+/* MINI-GAME 3: ARTICLES */
+const articlesQuestions = [
+    { sentence: "___ apple", answer: "an" },
+    { sentence: "___ dog", answer: "a" },
+    { sentence: "___ elephant", answer: "an" },
+    { sentence: "___ book on the table", answer: "the" },
+    { sentence: "___ orange", answer: "an" },
+    { sentence: "___ cat", answer: "a" },
+    { sentence: "___ sun", answer: "the" }
+];
+
+function loadArticlesGame() {
+    const qBox = document.getElementById("articles-question");
+    const optBox = document.getElementById("articles-options");
+
+    optBox.innerHTML = "";
+
+    const item = articlesQuestions[Math.floor(Math.random() * articlesQuestions.length)];
+    qBox.textContent = item.sentence;
+
+    const options = ["a", "an", "the"].sort(() => Math.random() - 0.5);
+
+    options.forEach(opt => {
+        const btn = document.createElement("div");
+        btn.className = "quiz-option";
+        btn.textContent = opt;
+
+        btn.onclick = () => {
+            if (opt === item.answer) {
+                btn.style.background = "#4CAF50";
+                setTimeout(loadArticlesGame, 700);
+            } else {
+                btn.style.background = "#E53935";
+                setTimeout(() => btn.style.background = "#FF4F8B", 600);
+            }
+        };
+
+        optBox.appendChild(btn);
+    });
+}
+
+/* MINI-GAME 4: PLURALS MEMORY */
+const pluralsPairs = [
+    { singular: "child", plural: "children" },
+    { singular: "mouse", plural: "mice" },
+    { singular: "man", plural: "men" },
+    { singular: "woman", plural: "women" },
+    { singular: "tooth", plural: "teeth" },
+    { singular: "foot", plural: "feet" }
+];
+
+function loadPluralsGame() {
+    const grid = document.getElementById("plurals-grid");
+    grid.innerHTML = "";
+
+    const cards = [];
+
+    pluralsPairs.forEach(p => {
+        cards.push({ type: "singular", value: p.singular, match: p.plural });
+        cards.push({ type: "plural", value: p.plural, match: p.singular });
+    });
+
+    cards.sort(() => Math.random() - 0.5);
+
+    let flipped = [];
+    let lock = false;
+
+    cards.forEach(card => {
+        const div = document.createElement("div");
+        div.className = "memory-card";
+        div.textContent = "?";
+
+        div.onclick = () => {
+            if (lock || div.classList.contains("flipped")) return;
+
+            div.classList.add("flipped");
+            div.textContent = card.value;
+
+            flipped.push({ div, card });
+
+            if (flipped.length === 2) {
+                lock = true;
+
+                const [c1, c2] = flipped;
+
+                const match =
+                    (c1.card.type === "singular" && c2.card.match === c1.card.value) ||
+                    (c2.card.type === "singular" && c1.card.match === c2.card.value);
+
+                if (match) {
+                    flipped = [];
+                    lock = false;
+                } else {
+                    setTimeout(() => {
+                        c1.div.classList.remove("flipped");
+                        c2.div.classList.remove("flipped");
+                        c1.div.textContent = "?";
+                        c2.div.textContent = "?";
+                        flipped = [];
+                        lock = false;
+                    }, 800);
+                }
+            }
+        };
+
+        grid.appendChild(div);
+    });
+}
+
+/* MINI-GAME 5: PREPOSITIONS */
+const prepositionsQuestions = [
+    { sentence: "The cat is ___ the table.", answer: "under" },
+    { sentence: "The ball is ___ the box.", answer: "in" },
+    { sentence: "The dog is ___ the sofa.", answer: "on" },
+    { sentence: "The boy is ___ the door.", answer: "in front of" },
+    { sentence: "The girl is ___ the tree.", answer: "behind" },
+    { sentence: "The car is ___ the house.", answer: "next to" }
+];
+
+function loadPrepositionsGame() {
+    const qBox = document.getElementById("prep-question");
+    const optBox = document.getElementById("prep-options");
+
+    optBox.innerHTML = "";
+
+    const item = prepositionsQuestions[Math.floor(Math.random() * prepositionsQuestions.length)];
+    qBox.textContent = item.sentence;
+
+    const allOptions = ["in", "on", "under", "next to", "in front of", "behind"];
+    const options = [...allOptions].sort(() => Math.random() - 0.5).slice(0, 4);
+
+    if (!options.includes(item.answer)) {
+        options[0] = item.answer;
+    }
+
+    options.sort(() => Math.random() - 0.5);
+
+    options.forEach(opt => {
+        const btn = document.createElement("div");
+        btn.className = "quiz-option";
+        btn.textContent = opt;
+
+        btn.onclick = () => {
+            if (opt === item.answer) {
+                btn.style.background = "#4CAF50";
+                setTimeout(loadPrepositionsGame, 700);
+            } else {
+                btn.style.background = "#E53935";
+                setTimeout(() => btn.style.background = "#FF4F8B", 600);
+            }
+        };
+
+        optBox.appendChild(btn);
+    });
 }
 </script>
 
