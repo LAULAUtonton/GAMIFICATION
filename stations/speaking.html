@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Speaking Station</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Fredoka:wght@600&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #1A1A1A, #00D1FF);
+            font-family: 'Poppins', sans-serif;
+            color: white;
+            text-align: center;
+        }
+
+        h1, h2 {
+            font-family: 'Fredoka', sans-serif;
+            text-shadow: 0 0 10px #00D1FF;
+        }
+
+        h1 {
+            font-size: 40px;
+            margin-top: 30px;
+            color: #00D1FF;
+        }
+
+        h2 {
+            font-size: 32px;
+            color: #FFE066;
+        }
+
+        .screen {
+            display: none;
+            padding: 20px;
+        }
+
+        .menu-btn {
+            background: #00D1FF;
+            color: white;
+            padding: 18px 40px;
+            font-size: 24px;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            margin: 15px;
+            box-shadow: 0 0 12px #00D1FF;
+            transition: 0.2s;
+        }
+
+        .menu-btn:hover {
+            background: #FF4F8B;
+            box-shadow: 0 0 15px #FF4F8B;
+        }
+
+        .back-btn {
+            background: #FFE066;
+            color: #1A1A1A;
+            padding: 12px 30px;
+            border-radius: 12px;
+            font-size: 20px;
+            cursor: pointer;
+            margin-top: 20px;
+            border: none;
+        }
+
+        .back-btn:hover {
+            background: #FF4F8B;
+            color: white;
+        }
+
+        .exercise-box {
+            max-width: 750px;
+            margin: 0 auto;
+            background: rgba(255,255,255,0.08);
+            padding: 20px;
+            border-radius: 16px;
+            text-align: left;
+        }
+
+        .speak-btn {
+            background: #4CAF50;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 10px;
+            border: none;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .speak-btn:hover {
+            background: #00AEEF;
+        }
+
+        .prompt {
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+
+        .role-box {
+            background: rgba(255,255,255,0.05);
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- MAIN MENU -->
+    <div id="main-screen" class="screen" style="display:block;">
+        <h1>Speaking Station</h1>
+        <h2>Choose your activity</h2>
+
+        <button class="menu-btn" onclick="openScreen('repeat')">Repeat after me</button>
+        <button class="menu-btn" onclick="openScreen('questions')">Quick Questions</button>
+        <button class="menu-btn" onclick="openScreen('roleplay')">Role‑play</button>
+    </div>
+
+    <!-- REPEAT AFTER ME -->
+    <div id="repeat" class="screen">
+        <h2>Repeat after me</h2>
+        <div class="exercise-box">
+            <p id="repeat-text" class="prompt"></p>
+            <button class="speak-btn" onclick="playRepeat()">🔊 Listen</button>
+            <button class="speak-btn" onclick="nextRepeat()">Next sentence</button>
+        </div>
+        <button class="back-btn" onclick="goBack()">Back</button>
+    </div>
+
+    <!-- QUICK QUESTIONS -->
+    <div id="questions" class="screen">
+        <h2>Quick Questions</h2>
+        <div class="exercise-box">
+            <p id="question-text" class="prompt"></p>
+            <button class="speak-btn" onclick="playQuestion()">🔊 Listen</button>
