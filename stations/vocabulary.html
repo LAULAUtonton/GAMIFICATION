@@ -276,247 +276,314 @@
         <button class="back-btn" onclick="goBack()">Back</button>
     </div>
 
-    <script>
-        function openScreen(id) {
-            document.querySelectorAll(".screen").forEach(s => s.style.display = "none");
-            document.getElementById(id).style.display = "block";
+<script>
 
-            if (id === "colours") loadColours();
-            if (id === "food") loadFoodGame();
-            if (id === "places") loadPlacesQuiz();
-            if (id === "jobs") loadJobsMemory();
-            if (id === "feelings") loadFeelingsGame();
-        }
+function openScreen(id) {
+    document.querySelectorAll(".screen").forEach(s => s.style.display = "none");
+    document.getElementById(id).style.display = "block";
 
-        function goBack() {
-            document.querySelectorAll(".screen").forEach(s => s.style.display = "none");
-            document.getElementById("main-screen").style.display = "block";
-        }
+    if (id === "colours") loadColours();
+    if (id === "food") loadFoodGame();
+    if (id === "places") loadPlacesQuiz();
+    if (id === "jobs") loadJobsMemory();
+    if (id === "feelings") loadFeelingsGame();
+}
 
-        /* MINI-GAME 1: COLOURS */
-        const colours = [
-            { word: "red", emoji: "🔴" },
-            { word: "blue", emoji: "🔵" },
-            { word: "yellow", emoji: "🟡" },
-            { word: "green", emoji: "🟢" },
-            { word: "purple", emoji: "🟣" }
-        ];
+function goBack() {
+    document.querySelectorAll(".screen").forEach(s => s.style.display = "none");
+    document.getElementById("main-screen").style.display = "block";
+}
 
-        function loadColours() {
-            const container = document.getElementById("colour-activity");
-            container.innerHTML = "";
+/* MINI-GAME 1: COLOURS */
+const colours = [
+    { word: "red", emoji: "🔴" },
+    { word: "blue", emoji: "🔵" },
+    { word: "yellow", emoji: "🟡" },
+    { word: "green", emoji: "🟢" },
+    { word: "purple", emoji: "🟣" }
+];
 
-            colours.forEach(c => {
-                const card = document.createElement("div");
-                card.className = "colour-card";
-                card.innerHTML = `${c.emoji}<br>${c.word}`;
-                card.onclick = () => {
-                    card.classList.add("correct");
-                    setTimeout(() => card.classList.remove("correct"), 600);
-                };
-                container.appendChild(card);
-            });
-        }
+function loadColours() {
+    const container = document.getElementById("colour-activity");
+    container.innerHTML = "";
 
-        /* MINI-GAME 2: FOOD */
-        const foodList = [
-            { word: "apple", emoji: "🍎" },
-            { word: "banana", emoji: "🍌" },
-            { word: "sandwich", emoji: "🥪" },
-            { word: "pizza", emoji: "🍕" },
-            { word: "burger", emoji: "🍔" },
-            { word: "salad", emoji: "🥗" },
-            { word: "pasta", emoji: "🍝" },
-            { word: "chicken", emoji: "🍗" },
-            { word: "rice", emoji: "🍚" },
-            { word: "soup", emoji: "🍲" },
-            { word: "fries", emoji: "🍟" },
-            { word: "milk", emoji: "🥛" },
-            { word: "orange juice", emoji: "🧃" },
-            { word: "chocolate", emoji: "🍫" },
-            { word: "ice cream", emoji: "🍨" }
-        ];
+    colours.forEach(c => {
+        const card = document.createElement("div");
+        card.className = "colour-card";
+        card.innerHTML = `${c.emoji}<br>${c.word}`;
+        card.onclick = () => {
+            card.classList.add("correct");
+            setTimeout(() => card.classList.remove("correct"), 600);
+        };
+        container.appendChild(card);
+    });
+}
 
-        function loadFoodGame() {
-            const wordsContainer = document.getElementById("food-words");
-            const boxesContainer = document.getElementById("food-boxes");
+/* MINI-GAME 2: FOOD */
+const foodList = [
+    { word: "apple", emoji: "🍎" },
+    { word: "banana", emoji: "🍌" },
+    { word: "sandwich", emoji: "🥪" },
+    { word: "pizza", emoji: "🍕" },
+    { word: "burger", emoji: "🍔" },
+    { word: "salad", emoji: "🥗" },
+    { word: "pasta", emoji: "🍝" },
+    { word: "chicken", emoji: "🍗" },
+    { word: "rice", emoji: "🍚" },
+    { word: "soup", emoji: "🍲" },
+    { word: "fries", emoji: "🍟" },
+    { word: "milk", emoji: "🥛" },
+    { word: "orange juice", emoji: "🧃" },
+    { word: "chocolate", emoji: "🍫" },
+    { word: "ice cream", emoji: "🍨" }
+];
 
-            wordsContainer.innerHTML = "";
-            boxesContainer.innerHTML = "";
+function loadFoodGame() {
+    const wordsContainer = document.getElementById("food-words");
+    const boxesContainer = document.getElementById("food-boxes");
 
-            const shuffled = [...foodList].sort(() => Math.random() - 0.5);
+    wordsContainer.innerHTML = "";
+    boxesContainer.innerHTML = "";
 
-            shuffled.forEach(item => {
-                const word = document.createElement("div");
-                word.className = "food-word";
-                word.textContent = item.word;
-                word.draggable = true;
+    const shuffled = [...foodList].sort(() => Math.random() - 0.5);
 
-                word.addEventListener("dragstart", e => {
-                    e.dataTransfer.setData("text", item.word);
-                });
+    shuffled.forEach(item => {
+        const word = document.createElement("div");
+        word.className = "food-word";
+        word.textContent = item.word;
+        word.draggable = true;
 
-                wordsContainer.appendChild(word);
-            });
+        word.addEventListener("dragstart", e => {
+            e.dataTransfer.setData("text", item.word);
+        });
 
-            foodList.forEach(item => {
-                const box = document.createElement("div");
-                box.className = "food-box";
-                box.dataset.word = item.word;
-                box.textContent = item.emoji;
+        wordsContainer.appendChild(word);
+    });
 
-                box.addEventListener("dragover", e => e.preventDefault());
+    foodList.forEach(item => {
+        const box = document.createElement("div");
+        box.className = "food-box";
+        box.dataset.word = item.word;
+        box.textContent = item.emoji;
 
-                box.addEventListener("drop", e => {
-                    const draggedWord = e.dataTransfer.getData("text");
+        box.addEventListener("dragover", e => e.preventDefault());
 
-                    if (draggedWord === box.dataset.word) {
-                        box.classList.add("food-correct");
-                        box.textContent = "✔️ " + item.word;
+        box.addEventListener("drop", e => {
+            const draggedWord = e.dataTransfer.getData("text");
 
-                        const wordElement = [...document.querySelectorAll(".food-word")]
-                            .find(w => w.textContent === draggedWord);
-                        if (wordElement) wordElement.style.display = "none";
+            if (draggedWord === box.dataset.word) {
+                box.classList.add("food-correct");
+                box.textContent = "✔️ " + item.word;
 
-                    } else {
-                        box.classList.add("food-incorrect");
-                        setTimeout(() => box.classList.remove("food-incorrect"), 800);
-                    }
-                });
+                const wordElement = [...document.querySelectorAll(".food-word")]
+                    .find(w => w.textContent === draggedWord);
+                if (wordElement) wordElement.style.display = "none";
 
-                boxesContainer.appendChild(box);
-            });
-        }
-
-        /* MINI-GAME 3: PLACES */
-        const placesList = [
-            { q: "Where do you buy bread?", a: "bakery" },
-            { q: "Where do you borrow books?", a: "library" },
-            { q: "Where do you watch movies?", a: "cinema" },
-            { q: "Where do you swim?", a: "swimming pool" },
-            { q: "Where do you see animals?", a: "zoo" },
-            { q: "Where do you take a plane?", a: "airport" },
-            { q: "Where do you buy food?", a: "supermarket" },
-            { q: "Where do you eat?", a: "restaurant" },
-            { q: "Where do you study?", a: "school" },
-            { q: "Where do you see art?", a: "museum" },
-            { q: "Where do you wait for the bus?", a: "bus station" },
-            { q: "Where do you drink coffee?", a: "café" },
-            { q: "Where do you play football?", a: "stadium" },
-            { q: "Where do you get medicine?", a: "pharmacy" },
-            { q: "Where do you walk in nature?", a: "park" }
-        ];
-
-        function loadPlacesQuiz() {
-            const container = document.getElementById("places-quiz");
-            container.innerHTML = "";
-
-            const item = placesList[Math.floor(Math.random() * placesList.length)];
-
-            const options = [item.a];
-            while (options.length < 4) {
-                const random = placesList[Math.floor(Math.random() * placesList.length)].a;
-                if (!options.includes(random)) options.push(random);
+            } else {
+                box.classList.add("food-incorrect");
+                setTimeout(() => box.classList.remove("food-incorrect"), 800);
             }
+        });
 
-            options.sort(() => Math.random() - 0.5);
+        boxesContainer.appendChild(box);
+    });
+}
 
-            const question = document.createElement("h3");
-            question.textContent = item.q;
-            container.appendChild(question);
+/* MINI-GAME 3: PLACES */
+const placesList = [
+    { q: "Where do you buy bread?", a: "bakery" },
+    { q: "Where do you borrow books?", a: "library" },
+    { q: "Where do you watch movies?", a: "cinema" },
+    { q: "Where do you swim?", a: "swimming pool" },
+    { q: "Where do you see animals?", a: "zoo" },
+    { q: "Where do you take a plane?", a: "airport" },
+    { q: "Where do you buy food?", a: "supermarket" },
+    { q: "Where do you eat?", a: "restaurant" },
+    { q: "Where do you study?", a: "school" },
+    { q: "Where do you see art?", a: "museum" },
+    { q: "Where do you wait for the bus?", a: "bus station" },
+    { q: "Where do you drink coffee?", a: "café" },
+    { q: "Where do you play football?", a: "stadium" },
+    { q: "Where do you get medicine?", a: "pharmacy" },
+    { q: "Where do you walk in nature?", a: "park" }
+];
 
-            options.forEach(opt => {
-                const btn = document.createElement("div");
-                btn.className = "quiz-option";
-                btn.textContent = opt;
+function loadPlacesQuiz() {
+    const container = document.getElementById("places-quiz");
+    container.innerHTML = "";
 
-                btn.onclick = () => {
-                    if (opt === item.a) {
-                        btn.style.background = "#4CAF50";
-                        setTimeout(loadPlacesQuiz, 800);
-                    } else {
-                        btn.style.background = "#E53935";
-                        setTimeout(() => btn.style.background = "#FF4F8B", 600);
-                    }
-                };
+    const item = placesList[Math.floor(Math.random() * placesList.length)];
 
-                container.appendChild(btn);
-            });
-        }
+    const options = [item.a];
+    while (options.length < 4) {
+        const random = placesList[Math.floor(Math.random() * placesList.length)].a;
+        if (!options.includes(random)) options.push(random);
+    }
 
-        /* MINI-GAME 4: JOBS MEMORY */
-        const jobsList = [
-            { word: "teacher", emoji: "👩‍🏫" },
-            { word: "doctor", emoji: "👨‍⚕️" },
-            { word: "nurse", emoji: "👩‍⚕️" },
-            { word: "police officer", emoji: "👮‍♂️" },
-            { word: "firefighter", emoji: "👨‍🚒" },
-            { word: "chef", emoji: "👨‍🍳" },
-            { word: "artist", emoji: "🎨" },
-            { word: "musician", emoji: "🎵" }
-        ];
+    options.sort(() => Math.random() - 0.5);
 
-        function loadJobsMemory() {
-            const grid = document.getElementById("jobs-grid");
-            grid.innerHTML = "";
+    const question = document.createElement("h3");
+    question.textContent = item.q;
+    container.appendChild(question);
 
-            const cards = [];
+    options.forEach(opt => {
+        const btn = document.createElement("div");
+        btn.className = "quiz-option";
+        btn.textContent = opt;
 
-            jobsList.forEach(item => {
-                cards.push({ type: "word", value: item.word });
-                cards.push({ type: "emoji", value: item.emoji, match: item.word });
-            });
+        btn.onclick = () => {
+            if (opt === item.a) {
+                btn.style.background = "#4CAF50";
+                setTimeout(loadPlacesQuiz, 800);
+            } else {
+                btn.style.background = "#E53935";
+                setTimeout(() => btn.style.background = "#FF4F8B", 600);
+            }
+        };
 
-            cards.sort(() => Math.random() - 0.5);
+        container.appendChild(btn);
+    });
+}
 
-            let flipped = [];
-            let lock = false;
+/* MINI-GAME 4: JOBS MEMORY (8 pairs) */
+const jobsList = [
+    { word: "teacher", emoji: "👩‍🏫" },
+    { word: "doctor", emoji: "👨‍⚕️" },
+    { word: "nurse", emoji: "👩‍⚕️" },
+    { word: "police officer", emoji: "👮‍♂️" },
+    { word: "firefighter", emoji: "👨‍🚒" },
+    { word: "chef", emoji: "👨‍🍳" },
+    { word: "artist", emoji: "🎨" },
+    { word: "musician", emoji: "🎵" }
+];
 
-            cards.forEach(card => {
-                const div = document.createElement("div");
-                div.className = "memory-card";
-                div.textContent = "?";
+function loadJobsMemory() {
+    const grid = document.getElementById("jobs-grid");
+    grid.innerHTML = "";
 
-                div.onclick = () => {
-                    if (lock || div.classList.contains("flipped")) return;
+    const cards = [];
 
-                    div.classList.add("flipped");
-                    div.textContent = card.value;
+    jobsList.forEach(item => {
+        cards.push({ type: "word", value: item.word });
+        cards.push({ type: "emoji", value: item.emoji, match: item.word });
+    });
 
-                    flipped.push({ div, card });
+    cards.sort(() => Math.random() - 0.5);
 
-                    if (flipped.length === 2) {
-                        lock = true;
+    let flipped = [];
+    let lock = false;
 
-                        const [c1, c2] = flipped;
+    cards.forEach(card => {
+        const div = document.createElement("div");
+        div.className = "memory-card";
+        div.textContent = "?";
 
-                        const match =
-                            (c1.card.type === "word" && c2.card.match === c1.card.value) ||
-                            (c2.card.type === "word" && c1.card.match === c2.card.value);
+        div.onclick = () => {
+            if (lock || div.classList.contains("flipped")) return;
 
-                        if (match) {
-                            flipped = [];
-                            lock = false;
-                        } else {
-                            setTimeout(() => {
-                                c1.div.classList.remove("flipped");
-                                c2.div.classList.remove("flipped");
-                                c1.div.textContent = "?";
-                                c2.div.textContent = "?";
-                                flipped = [];
-                                lock = false;
-                            }, 800);
-                        }
-                    }
-                };
+            div.classList.add("flipped");
+            div.textContent = card.value;
 
-                grid.appendChild(div);
-            });
-        }
+            flipped.push({ div, card });
 
-        /* MINI-GAME 5: FEELINGS */
-        const feelingsList = [
-            { word: "happy", emoji: "😊" },
-            { word: "sad", emoji: "😢" },
-            { word: "angry", emoji: "😡" },
-            { word: "
+            if (flipped.length === 2) {
+                lock = true;
+
+                const [c1, c2] = flipped;
+
+                const match =
+                    (c1.card.type === "word" && c2.card.match === c1.card.value) ||
+                    (c2.card.type === "word" && c1.card.match === c2.card.value);
+
+                if (match) {
+                    flipped = [];
+                    lock = false;
+                } else {
+                    setTimeout(() => {
+                        c1.div.classList.remove("flipped");
+                        c2.div.classList.remove("flipped");
+                        c1.div.textContent = "?";
+                        c2.div.textContent = "?";
+                        flipped = [];
+                        lock = false;
+                    }, 800);
+                }
+            }
+        };
+
+        grid.appendChild(div);
+    });
+}
+/* MINI-GAME 5: FEELINGS */
+const feelingsList = [
+    { word: "happy", emoji: "😊" },
+    { word: "sad", emoji: "😢" },
+    { word: "angry", emoji: "😡" },
+    { word: "tired", emoji: "😴" },
+    { word: "excited", emoji: "🤩" },
+    { word: "bored", emoji: "😐" },
+    { word: "scared", emoji: "😱" },
+    { word: "nervous", emoji: "😬" },
+    { word: "calm", emoji: "😌" },
+    { word: "surprised", emoji: "😮" },
+    { word: "proud", emoji: "😎" },
+    { word: "confused", emoji: "😕" },
+    { word: "hungry", emoji: "🤤" },
+    { word: "thirsty", emoji: "🥤" },
+    { word: "relaxed", emoji: "🧘" }
+];
+
+function loadFeelingsGame() {
+    const wordsContainer = document.getElementById("feel-words");
+    const boxesContainer = document.getElementById("feel-boxes");
+
+    wordsContainer.innerHTML = "";
+    boxesContainer.innerHTML = "";
+
+    const shuffledWords = [...feelingsList].sort(() => Math.random() - 0.5);
+
+    shuffledWords.forEach(item => {
+        const word = document.createElement("div");
+        word.className = "feel-word";
+        word.textContent = item.word;
+        word.draggable = true;
+
+        word.addEventListener("dragstart", e => {
+            e.dataTransfer.setData("text", item.word);
+        });
+
+        wordsContainer.appendChild(word);
+    });
+
+    feelingsList.forEach(item => {
+        const box = document.createElement("div");
+        box.className = "feel-box";
+        box.dataset.word = item.word;
+        box.textContent = item.emoji;
+
+        box.addEventListener("dragover", e => e.preventDefault());
+
+        box.addEventListener("drop", e => {
+            const draggedWord = e.dataTransfer.getData("text");
+
+            if (draggedWord === box.dataset.word) {
+                box.classList.add("feel-correct");
+                box.textContent = "✔️ " + item.word;
+
+                const wordElement = [...document.querySelectorAll(".feel-word")]
+                    .find(w => w.textContent === draggedWord);
+                if (wordElement) wordElement.style.display = "none";
+
+            } else {
+                box.classList.add("feel-incorrect");
+                setTimeout(() => box.classList.remove("feel-incorrect"), 800);
+            }
+        });
+
+        boxesContainer.appendChild(box);
+    });
+}
+</script>
+
+</body>
+</html>
