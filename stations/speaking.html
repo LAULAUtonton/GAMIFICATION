@@ -1,139 +1,175 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Speaking Station</title>
+<meta charset="UTF-8">
+<title>Speaking Station</title>
 
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Fredoka:wght@600&display=swap" rel="stylesheet">
+<style>
 
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            background: linear-gradient(135deg, #1A1A1A, #00D1FF);
-            font-family: 'Poppins', sans-serif;
-            color: white;
-            text-align: center;
-        }
+/* DARK METAL GRAY BACKGROUND + WHITE TEXT */
+body {
+    background: linear-gradient(135deg, #2b2b2b, #1f1f1f, #2a2a2a);
+    color: white;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
 
-        h1, h2 {
-            font-family: 'Fredoka', sans-serif;
-            text-shadow: 0 0 10px #00D1FF;
-        }
+/* UNIVERSAL ACTIVITY COLORS */
+.ordering-theme {
+    background: #00B0FF20;
+    border-left: 6px solid #00B0FF;
+}
 
-        h1 {
-            font-size: 40px;
-            margin-top: 30px;
-            color: #00D1FF;
-        }
+.matching-theme {
+    background: #AB47BC20;
+    border-left: 6px solid #AB47BC;
+}
 
-        h2 {
-            font-size: 32px;
-            color: #FFE066;
-        }
+.trivia-theme {
+    background: #4CAF5020;
+    border-left: 6px solid #4CAF50;
+}
 
-        .screen {
-            display: none;
-            padding: 20px;
-        }
+.fill-theme {
+    background: #EF535020;
+    border-left: 6px solid #EF5350;
+}
 
-        .menu-btn {
-            background: #00D1FF;
-            color: white;
-            padding: 18px 40px;
-            font-size: 24px;
-            border: none;
-            border-radius: 12px;
-            cursor: pointer;
-            margin: 15px;
-            box-shadow: 0 0 12px #00D1FF;
-            transition: 0.2s;
-        }
+.builder-theme {
+    background: #FDD83520;
+    border-left: 6px solid #FDD835;
+}
 
-        .menu-btn:hover {
-            background: #FF4F8B;
-            box-shadow: 0 0 15px #FF4F8B;
-        }
+.listen-theme {
+    background: #FFA72620;
+    border-left: 6px solid #FFA726;
+}
 
-        .back-btn {
-            background: #FFE066;
-            color: #1A1A1A;
-            padding: 12px 30px;
-            border-radius: 12px;
-            font-size: 20px;
-            cursor: pointer;
-            margin-top: 20px;
-            border: none;
-        }
+.read-theme {
+    background: #5C6BC020;
+    border-left: 6px solid #5C6BC0;
+}
 
-        .back-btn:hover {
-            background: #FF4F8B;
-            color: white;
-        }
+.speak-theme {
+    background: #26C6DA20;
+    border-left: 6px solid #26C6DA;
+}
 
-        .exercise-box {
-            max-width: 750px;
-            margin: 0 auto;
-            background: rgba(255,255,255,0.08);
-            padding: 20px;
-            border-radius: 16px;
-            text-align: left;
-        }
+/* FIXED BOTTOM BAR — PURPLE */
+.fixed-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: #6A1B9A;
+    padding: 12px;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    z-index: 9999;
+    border-top: 2px solid #4A0072;
+    backdrop-filter: blur(6px);
+}
 
-        .speak-btn {
-            background: #4CAF50;
-            color: white;
-            padding: 12px 20px;
-            border-radius: 10px;
-            border: none;
-            cursor: pointer;
-            margin-top: 10px;
-        }
+/* YELLOW BUTTONS */
+.bar-btn {
+    background: #FFEB3B;
+    color: #1A1A1A;
+    padding: 10px 20px;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+}
 
-        .speak-btn:hover {
-            background: #00AEEF;
-        }
+.bar-btn:hover {
+    background: #FBC02D;
+    color: black;
+}
 
-        .prompt {
-            font-size: 20px;
-            margin-bottom: 10px;
-        }
+/* GENERAL LAYOUT */
+.screen {
+    display: none;
+    padding: 30px;
+    margin-bottom: 100px;
+    border-radius: 12px;
+    color: white;
+}
 
-        .role-box {
-            background: rgba(255,255,255,0.05);
-            padding: 15px;
-            border-radius: 12px;
-            margin-bottom: 15px;
-        }
-    </style>
+#main {
+    padding: 30px;
+    margin-bottom: 100px;
+    color: white;
+}
+
+button {
+    padding: 12px 20px;
+    margin: 10px;
+    border-radius: 10px;
+    border: none;
+    background: #4FC3F7;
+    cursor: pointer;
+    font-size: 18px;
+    color: black;
+}
+
+button:hover {
+    background: #0288D1;
+    color: white;
+}
+
+</style>
 </head>
+
 <body>
 
-    <!-- MAIN MENU -->
-    <div id="main-screen" class="screen" style="display:block;">
-        <h1>Speaking Station</h1>
-        <h2>Choose your activity</h2>
+<!-- FIXED BOTTOM BAR -->
+<div class="fixed-bar">
+    <button class="bar-btn" onclick="goBack()">Back</button>
+    <button class="bar-btn" onclick="location.href='../index.html'">Main Menu</button>
+    <button class="bar-btn" onclick="alert('Paused')">Pause</button>
+</div>
 
-        <button class="menu-btn" onclick="openScreen('repeat')">Repeat after me</button>
-        <button class="menu-btn" onclick="openScreen('questions')">Quick Questions</button>
-        <button class="menu-btn" onclick="openScreen('roleplay')">Role‑play</button>
-    </div>
+<!-- MAIN MENU -->
+<div id="main">
+    <h1>Speaking Station</h1>
+    <button onclick="openScreen('speak1')">Speaking Task 1</button>
+    <button onclick="openScreen('speak2')">Speaking Task 2</button>
+    <button onclick="openScreen('speak3')">Speaking Task 3</button>
+</div>
 
-    <!-- REPEAT AFTER ME -->
-    <div id="repeat" class="screen">
-        <h2>Repeat after me</h2>
-        <div class="exercise-box">
-            <p id="repeat-text" class="prompt"></p>
-            <button class="speak-btn" onclick="playRepeat()">🔊 Listen</button>
-            <button class="speak-btn" onclick="nextRepeat()">Next sentence</button>
-        </div>
-        <button class="back-btn" onclick="goBack()">Back</button>
-    </div>
+<!-- SPEAKING 1 -->
+<div id="speak1" class="screen speak-theme">
+    <h2>Speaking Task 1</h2>
+    <p>Describe the picture or situation aloud.</p>
+</div>
 
-    <!-- QUICK QUESTIONS -->
-    <div id="questions" class="screen">
-        <h2>Quick Questions</h2>
-        <div class="exercise-box">
-            <p id="question-text" class="prompt"></p>
-            <button class="speak-btn" onclick="playQuestion()">🔊 Listen</button>
+<!-- SPEAKING 2 -->
+<div id="speak2" class="screen speak-theme">
+    <h2>Speaking Task 2</h2>
+    <p>Answer the following questions using full sentences.</p>
+</div>
+
+<!-- SPEAKING 3 -->
+<div id="speak3" class="screen speak-theme">
+    <h2>Speaking Task 3</h2>
+    <p>Talk for one minute about the given topic.</p>
+</div>
+
+<script>
+
+function openScreen(id) {
+    document.querySelectorAll('.screen, #main').forEach(s => s.style.display = 'none');
+    document.getElementById(id).style.display = 'block';
+}
+
+function goBack() {
+    document.querySelectorAll('.screen').forEach(s => s.style.display = 'none');
+    document.getElementById('main').style.display = 'block';
+}
+
+</script>
+
+</body>
+</html>
