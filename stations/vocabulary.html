@@ -98,6 +98,52 @@
             background: #E53935 !important;
             box-shadow: 0 0 12px #E53935;
         }
+
+        /* FOOD GAME */
+        .container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        .food-word, .food-box {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            width: 160px;
+            border-radius: 14px;
+            backdrop-filter: blur(6px);
+            box-shadow: 0 0 12px rgba(0,0,0,0.4);
+            cursor: grab;
+            transition: 0.2s;
+            text-align: center;
+        }
+
+        .food-word:hover {
+            background: #00D1FF;
+            box-shadow: 0 0 12px #00D1FF;
+        }
+
+        .food-box {
+            height: 60px;
+            border: 2px dashed #FFE066;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .food-correct {
+            background: #4CAF50 !important;
+            border-color: #4CAF50 !important;
+            box-shadow: 0 0 12px #4CAF50;
+        }
+
+        .food-incorrect {
+            background: #E53935 !important;
+            border-color: #E53935 !important;
+            box-shadow: 0 0 12px #E53935;
+        }
     </style>
 </head>
 
@@ -118,42 +164,50 @@
     <!-- MINI-GAME 1: COLOURS -->
     <div id="colours" class="screen">
         <h2>Colours Game</h2>
-        <p>Choose the correct colour name.</p>
+        <p>Tap the colour cards to practise.</p>
 
         <div id="colour-activity"></div>
 
         <button class="back-btn" onclick="goBack()">Back to Vocabulary Station</button>
     </div>
 
-    <!-- EMPTY SCREENS FOR THE OTHER MINI-GAMES -->
+    <!-- MINI-GAME 2: FOOD -->
     <div id="food" class="screen">
         <h2>Food Game</h2>
-        <p>Coming next...</p>
-        <button class="back-btn" onclick="goBack()">Back</button>
+        <p>Drag the word to the correct food emoji.</p>
+
+        <div class="container" id="food-words"></div>
+        <div class="container" id="food-boxes"></div>
+
+        <button class="back-btn" onclick="goBack()">Back to Vocabulary Station</button>
     </div>
 
+    <!-- EMPTY SCREENS FOR THE OTHER MINI-GAMES -->
     <div id="places" class="screen">
         <h2>Places Game</h2>
         <p>Coming next...</p>
-        <button class="back-btn" onclick="goBack()">Back</button>
+        <button class="back-btn" onclick="goBack()">Back to Vocabulary Station</button>
     </div>
 
     <div id="jobs" class="screen">
         <h2>Jobs Game</h2>
         <p>Coming next...</p>
-        <button class="back-btn" onclick="goBack()">Back</button>
+        <button class="back-btn" onclick="goBack()">Back to Vocabulary Station</button>
     </div>
 
     <div id="feelings" class="screen">
         <h2>Feelings Game</h2>
         <p>Coming next...</p>
-        <button class="back-btn" onclick="goBack()">Back</button>
+        <button class="back-btn" onclick="goBack()">Back to Vocabulary Station</button>
     </div>
 
     <script>
         function openScreen(id) {
             document.querySelectorAll(".screen").forEach(s => s.style.display = "none");
             document.getElementById(id).style.display = "block";
+
+            if (id === "colours") loadColours();
+            if (id === "food") loadFoodGame();
         }
 
         function goBack() {
@@ -180,13 +234,81 @@
                 card.innerHTML = `${c.emoji}<br>${c.word}`;
                 card.onclick = () => {
                     card.classList.add("correct");
-                    setTimeout(loadColours, 800);
+                    setTimeout(() => card.classList.remove("correct"), 600);
                 };
                 container.appendChild(card);
             });
         }
 
-        loadColours();
+        /* MINI-GAME 2: FOOD (Drag & Drop) */
+        const foodList = [
+            { word: "apple",        emoji: "🍎" },
+            { word: "banana",       emoji: "🍌" },
+            { word: "sandwich",     emoji: "🥪" },
+            { word: "pizza",        emoji: "🍕" },
+            { word: "burger",       emoji: "🍔" },
+            { word: "salad",        emoji: "🥗" },
+            { word: "pasta",        emoji: "🍝" },
+            { word: "chicken",      emoji: "🍗" },
+            { word: "rice",         emoji: "🍚" },
+            { word: "soup",         emoji: "🍲" },
+            { word: "fries",        emoji: "🍟" },
+            { word: "milk",         emoji: "🥛" },
+            { word: "orange juice", emoji: "🧃" },
+            { word: "chocolate",    emoji: "🍫" },
+            { word: "ice cream",    emoji: "🍨" }
+        ];
+
+        function loadFoodGame() {
+            const wordsContainer = document.getElementById("food-words");
+            const boxesContainer = document.getElementById("food-boxes");
+
+            wordsContainer.innerHTML = "";
+            boxesContainer.innerHTML = "";
+
+            const shuffled = [...foodList].sort(() => Math.random() - 0.5);
+
+            shuffled.forEach(item => {
+                const word = document.createElement("div");
+                word.className = "food-word";
+                word.textContent = item.word;
+                word.draggable = true;
+
+                word.addEventListener("dragstart", e => {
+                    e.dataTransfer.setData("text", item.word);
+                });
+
+                wordsContainer.appendChild(word);
+            });
+
+            foodList.forEach(item => {
+                const box = document.createElement("div");
+                box.className = "food-box";
+                box.dataset.word = item.word;
+                box.textContent = item.emoji;
+
+                box.addEventListener("dragover", e => e.preventDefault());
+
+                box.addEventListener("drop", e => {
+                    const draggedWord = e.dataTransfer.getData("text");
+
+                    if (draggedWord === box.dataset.word) {
+                        box.classList.add("food-correct");
+                        box.textContent = "✔️ " + item.word;
+
+                        const wordElement = [...document.querySelectorAll(".food-word")]
+                            .find(w => w.textContent === draggedWord);
+                        if (wordElement) wordElement.style.display = "none";
+
+                    } else {
+                        box.classList.add("food-incorrect");
+                        setTimeout(() => box.classList.remove("food-incorrect"), 800);
+                    }
+                });
+
+                boxesContainer.appendChild(box);
+            });
+        }
     </script>
 
 </body>
