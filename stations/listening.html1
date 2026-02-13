@@ -1,330 +1,174 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Listening Station</title>
+<meta charset="UTF-8">
+<title>Listening Station</title>
 
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Fredoka:wght@600&display=swap" rel="stylesheet">
+<style>
 
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            background: linear-gradient(135deg, #1A1A1A, #00AEEF);
-            font-family: 'Poppins', sans-serif;
-            color: white;
-            text-align: center;
-        }
+/* DARK METAL GRAY BACKGROUND + WHITE TEXT */
+body {
+    background: linear-gradient(135deg, #2b2b2b, #1f1f1f, #2a2a2a);
+    color: white;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
 
-        h1, h2 {
-            font-family: 'Fredoka', sans-serif;
-            text-shadow: 0 0 10px #00D1FF;
-        }
+/* UNIVERSAL ACTIVITY COLORS */
+.ordering-theme {
+    background: #00B0FF20;
+    border-left: 6px solid #00B0FF;
+}
 
-        h1 {
-            font-size: 40px;
-            margin-top: 30px;
-            color: #00D1FF;
-        }
+.matching-theme {
+    background: #AB47BC20;
+    border-left: 6px solid #AB47BC;
+}
 
-        h2 {
-            font-size: 32px;
-            color: #FFE066;
-        }
+.trivia-theme {
+    background: #4CAF5020;
+    border-left: 6px solid #4CAF50;
+}
 
-        .menu-btn {
-            background: #00D1FF;
-            color: white;
-            padding: 18px 40px;
-            font-size: 24px;
-            border: none;
-            border-radius: 12px;
-            cursor: pointer;
-            margin: 15px;
-            box-shadow: 0 0 12px #00D1FF;
-            transition: 0.2s;
-        }
+.fill-theme {
+    background: #EF535020;
+    border-left: 6px solid #EF5350;
+}
 
-        .menu-btn:hover {
-            background: #FF4F8B;
-            box-shadow: 0 0 15px #FF4F8B;
-        }
+.builder-theme {
+    background: #FDD83520;
+    border-left: 6px solid #FDD835;
+}
 
-        .screen {
-            display: none;
-            padding: 20px;
-        }
+.listen-theme {
+    background: #FFA72620;
+    border-left: 6px solid #FFA726;
+}
 
-        .back-btn {
-            background: #FFE066;
-            color: #1A1A1A;
-            padding: 12px 30px;
-            border-radius: 12px;
-            font-size: 20px;
-            cursor: pointer;
-            margin-top: 20px;
-            border: none;
-        }
+.read-theme {
+    background: #5C6BC020;
+    border-left: 6px solid #5C6BC0;
+}
 
-        .back-btn:hover {
-            background: #FF4F8B;
-            color: white;
-        }
+.speak-theme {
+    background: #26C6DA20;
+    border-left: 6px solid #26C6DA;
+}
 
-        .option {
-            background: #00D1FF;
-            padding: 15px;
-            margin: 10px auto;
-            width: 260px;
-            border-radius: 12px;
-            cursor: pointer;
-            transition: 0.2s;
-            box-shadow: 0 0 10px #00D1FF;
-        }
+/* FIXED BOTTOM BAR — PURPLE */
+.fixed-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: #6A1B9A;
+    padding: 12px;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    z-index: 9999;
+    border-top: 2px solid #4A0072;
+    backdrop-filter: blur(6px);
+}
 
-        .option:hover {
-            background: #FF4F8B;
-        }
+/* YELLOW BUTTONS */
+.bar-btn {
+    background: #FFEB3B;
+    color: #1A1A1A;
+    padding: 10px 20px;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+}
 
-        .drag-container {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 15px;
-            margin-top: 20px;
-        }
+.bar-btn:hover {
+    background: #FBC02D;
+    color: black;
+}
 
-        .drag-item, .drop-slot {
-            background: rgba(255,255,255,0.1);
-            padding: 12px 18px;
-            border-radius: 10px;
-            cursor: grab;
-            min-width: 120px;
-        }
+/* GENERAL LAYOUT */
+.screen {
+    display: none;
+    padding: 30px;
+    margin-bottom: 100px;
+    border-radius: 12px;
+    color: white;
+}
 
-        .drop-slot {
-            border: 2px dashed #FFE066;
-            min-height: 40px;
-            cursor: pointer;
-        }
-    </style>
+#main {
+    padding: 30px;
+    margin-bottom: 100px;
+    color: white;
+}
+
+button {
+    padding: 12px 20px;
+    margin: 10px;
+    border-radius: 10px;
+    border: none;
+    background: #4FC3F7;
+    cursor: pointer;
+    font-size: 18px;
+    color: black;
+}
+
+button:hover {
+    background: #0288D1;
+    color: white;
+}
+
+</style>
 </head>
 
 <body>
 
-    <!-- MAIN MENU -->
-    <div id="main-screen" class="screen" style="display:block;">
-        <h1>Listening Station</h1>
-        <h2>Choose your mini‑game</h2>
+<!-- FIXED BOTTOM BAR -->
+<div class="fixed-bar">
+    <button class="bar-btn" onclick="goBack()">Back</button>
+    <button class="bar-btn" onclick="location.href='../index.html'">Main Menu</button>
+    <button class="bar-btn" onclick="alert('Paused')">Pause</button>
+</div>
 
-        <button class="menu-btn" onclick="openScreen('listen1')">Choose the correct response</button>
-        <button class="menu-btn" onclick="openScreen('listen4')">Order the conversation</button>
-    </div>
+<!-- MAIN MENU -->
+<div id="main">
+    <h1>Listening Station</h1>
+    <button onclick="openScreen('listen1')">Listening Activity 1</button>
+    <button onclick="openScreen('listen2')">Listening Activity 2</button>
+    <button onclick="openScreen('listen3')">Listening Activity 3</button>
+</div>
 
-    <!-- MINI-GAME 1 -->
-    <div id="listen1" class="screen">
-        <h2>Choose the correct response</h2>
+<!-- LISTENING 1 -->
+<div id="listen1" class="screen listen-theme">
+    <h2>Listening Activity 1</h2>
+    <p>Listen and answer the questions.</p>
+</div>
 
-        <button onclick="playDialog1()" class="menu-btn">🔊 Play Audio</button>
+<!-- LISTENING 2 -->
+<div id="listen2" class="screen listen-theme">
+    <h2>Listening Activity 2</h2>
+    <p>Listen and complete the sentences.</p>
+</div>
 
-        <div id="listen1-options"></div>
-
-        <button class="back-btn" onclick="goBack()">Back</button>
-    </div>
-
-    <!-- MINI-GAME 4 -->
-    <div id="listen4" class="screen">
-        <h2>Order the conversation</h2>
-
-        <button onclick="playConversation()" class="menu-btn">🔊 Play Conversation</button>
-
-        <p>Drag the sentences into the correct order:</p>
-
-        <div class="drag-container" id="listen4-slots"></div>
-        <div class="drag-container" id="listen4-words"></div>
-
-        <button class="back-btn" onclick="goBack()">Back</button>
-    </div>
+<!-- LISTENING 3 -->
+<div id="listen3" class="screen listen-theme">
+    <h2>Listening Activity 3</h2>
+    <p>Listen and choose the correct option.</p>
+</div>
 
 <script>
-function openScreen(id) {
-    document.querySelectorAll(".screen").forEach(s => s.style.display = "none");
-    document.getElementById(id).style.display = "block";
 
-    if (id === "listen1") loadListen1();
-    if (id === "listen4") loadListen4();
+function openScreen(id) {
+    document.querySelectorAll('.screen, #main').forEach(s => s.style.display = 'none');
+    document.getElementById(id).style.display = 'block';
 }
 
 function goBack() {
-    document.querySelectorAll(".screen").forEach(s => s.style.display = "none");
-    document.getElementById("main-screen").style.display = "block";
+    document.querySelectorAll('.screen').forEach(s => s.style.display = 'none');
+    document.getElementById('main').style.display = 'block';
 }
 
-/* -------------------------
-   MINI-GAME 1: CHOOSE RESPONSE
--------------------------- */
-
-const listen1Data = [
-    {
-        audio: "audio/dialog1.mp3",
-        tts: "Hi! How are you?",
-        options: ["I'm fine, thanks!", "I'm ten years old.", "I like pizza."],
-        answer: "I'm fine, thanks!"
-    },
-    {
-        audio: "audio/dialog2.mp3",
-        tts: "What's your name?",
-        options: ["My name is Anna.", "I live in Spain.", "I have a dog."],
-        answer: "My name is Anna."
-    },
-    {
-        audio: "audio/dialog3.mp3",
-        tts: "Where are you from?",
-        options: ["I'm from Spain.", "I'm eight.", "I like football."],
-        answer: "I'm from Spain."
-    }
-];
-
-function playDialog1() {
-    const item = currentListen1;
-    const audio = new Audio(item.audio);
-
-    audio.onerror = () => {
-        const msg = new SpeechSynthesisUtterance(item.tts);
-        speechSynthesis.speak(msg);
-    };
-
-    audio.play();
-}
-
-let currentListen1 = null;
-
-function loadListen1() {
-    const container = document.getElementById("listen1-options");
-    container.innerHTML = "";
-
-    currentListen1 = listen1Data[Math.floor(Math.random() * listen1Data.length)];
-
-    const shuffled = [...currentListen1.options].sort(() => Math.random() - 0.5);
-
-    shuffled.forEach(opt => {
-        const div = document.createElement("div");
-        div.className = "option";
-        div.textContent = opt;
-
-        div.onclick = () => {
-            if (opt === currentListen1.answer) {
-                div.style.background = "#4CAF50";
-                setTimeout(loadListen1, 800);
-            } else {
-                div.style.background = "#E53935";
-                setTimeout(() => div.style.background = "#00D1FF", 600);
-            }
-        };
-
-        container.appendChild(div);
-    });
-}
-
-/* -------------------------
-   MINI-GAME 4: ORDER CONVERSATION
--------------------------- */
-
-const conversations = [
-    {
-        audio: "audio/convo1.mp3",
-        tts: [
-            "Hello!",
-            "Hi! What's your name?",
-            "I'm Anna."
-        ]
-    },
-    {
-        audio: "audio/convo2.mp3",
-        tts: [
-            "Good morning!",
-            "Good morning! How are you?",
-            "I'm great, thank you!"
-        ]
-    }
-];
-
-let currentConvo = null;
-
-function playConversation() {
-    const audio = new Audio(currentConvo.audio);
-
-    audio.onerror = () => {
-        currentConvo.tts.forEach(line => {
-            const msg = new SpeechSynthesisUtterance(line);
-            speechSynthesis.speak(msg);
-        });
-    };
-
-    audio.play();
-}
-
-function loadListen4() {
-    const slots = document.getElementById("listen4-slots");
-    const words = document.getElementById("listen4-words");
-
-    slots.innerHTML = "";
-    words.innerHTML = "";
-
-    currentConvo = conversations[Math.floor(Math.random() * conversations.length)];
-
-    const shuffled = [...currentConvo.tts].sort(() => Math.random() - 0.5);
-
-    currentConvo.tts.forEach((_, i) => {
-        const slot = document.createElement("div");
-        slot.className = "drop-slot";
-        slot.dataset.index = i;
-        slots.appendChild(slot);
-    });
-
-    shuffled.forEach(line => {
-        const div = document.createElement("div");
-        div.className = "drag-item";
-        div.textContent = line;
-        div.draggable = true;
-
-        div.addEventListener("dragstart", e => {
-            e.dataTransfer.setData("text", line);
-        });
-
-        words.appendChild(div);
-    });
-
-    document.querySelectorAll(".drop-slot").forEach(slot => {
-        slot.addEventListener("dragover", e => e.preventDefault());
-        slot.addEventListener("drop", e => {
-            const text = e.dataTransfer.getData("text");
-            if (!text || slot.textContent.trim() !== "") return;
-
-            slot.textContent = text;
-
-            const used = [...document.querySelectorAll(".drag-item")]
-                .find(d => d.textContent === text && !d.classList.contains("used"));
-
-            if (used) {
-                used.classList.add("used");
-                used.style.opacity = "0.3";
-            }
-
-            const current = [...slots.children].map(s => s.textContent.trim());
-            if (!current.includes("")) {
-                if (JSON.stringify(current) === JSON.stringify(currentConvo.tts)) {
-                    slots.style.border = "3px solid #4CAF50";
-                    setTimeout(loadListen4, 1200);
-                } else {
-                    slots.style.border = "3px solid #E53935";
-                    setTimeout(loadListen4, 1200);
-                }
-            }
-        });
-    });
-}
 </script>
 
 </body>
