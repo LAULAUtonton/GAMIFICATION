@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Games Station</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Fredoka:wght@600&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: radial-gradient(circle at top, #00AEEF, #1A1A1A);
+            font-family: 'Poppins', sans-serif;
+            color: white;
+            text-align: center;
+        }
+
+        h1, h2 {
+            font-family: 'Fredoka', sans-serif;
+            text-shadow: 0 0 10px #00D1FF;
+        }
+
+        h1 {
+            font-size: 40px;
+            margin-top: 30px;
+            color: #00D1FF;
+        }
+
+        h2 {
+            font-size: 32px;
+            color: #FFE066;
+        }
+
+        .screen {
+            display: none;
+            padding: 20px;
+        }
+
+        .menu-btn {
+            background: #00D1FF;
+            color: white;
+            padding: 18px 40px;
+            font-size: 24px;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            margin: 15px;
+            box-shadow: 0 0 12px #00D1FF;
+            transition: 0.2s;
+        }
+
+        .menu-btn:hover {
+            background: #FF4F8B;
+            box-shadow: 0 0 15px #FF4F8B;
+        }
+
+        .back-btn {
+            background: #FFE066;
+            color: #1A1A1A;
+            padding: 12px 30px;
+            border-radius: 12px;
+            font-size: 20px;
+            cursor: pointer;
+            margin-top: 20px;
+            border: none;
+        }
+
+        .back-btn:hover {
+            background: #FF4F8B;
+            color: white;
+        }
+
+        /* WORD SEARCH */
+        .ws-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 20px;
+        }
+
+        .ws-grid {
+            display: grid;
+            grid-template-columns: repeat(10, 28px);
+            gap: 4px;
+            background: rgba(0,0,0,0.3);
+            padding: 12px;
+            border-radius: 10px;
+        }
+
+        .ws-cell {
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255,255,255,0.08);
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        .ws-words {
+            max-width: 220px;
+            text-align: left;
+        }
+
+        .ws-word {
+            background: rgba(255,255,255,0.08);
+            padding: 6px 10px;
+            margin: 4px 0;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 15px;
+        }
+
+        .ws-word.found {
+            background: #4CAF50;
+            text-decoration: line-through;
+        }
+
+        /* TRIVIA */
+        .trivia-box {
+            max-width: 700px;
+            margin: 0 auto;
+            background: rgba(255,255,255,0.05);
+            padding: 20px;
+            border-radius: 16px;
+            text-align: left;
+        }
+
+        .trivia-question {
+            font-size: 18px;
+            margin-bottom: 15px;
+        }
+
+        .trivia-option {
+            background: #00AEEF;
+            padding: 10px 14px;
+            margin: 6px 0;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .trivia-option:hover {
+            background: #FF4F8B;
+        }
+
+        .trivia-feedback {
+            margin-top: 10px;
+            font-weight: 600;
+        }
+
+        /* SENTENCE BUILDER */
+        .sb-container {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: left;
+        }
+
+        .sb-target {
+            min-height: 60px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 10px;
+            padding: 10px;
+            margin-bottom: 15px;
+        }
+
+        .sb-word-bank {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .sb-word {
+            background: #00AEEF;
+            padding: 6px 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 15px;
+        }
+
+        .sb-word.used {
+            opacity: 0.3;
+            cursor: default;
+        }
+
+        .sb-btn {
+            background: #FFE066;
+            color: #1A1A1A;
+            border: none;
+            border-radius: 8px;
+            padding: 8px 16px;
+            margin-right: 10px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .sb-btn:hover {
+            background: #FF4F8B;
+            color: white;
+        }
+
+        .sb-instruction {
+            margin-bottom: 8px;
+            font-size: 15px;
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- MAIN MENU -->
+    <div id="main-screen" class="screen" style="display:block;">
+        <h1>Games Station</h1>
+        <h2>Choose your game</h2>
+
+        <button class="menu-btn" onclick="openScreen('wordsearch')">Word Search</button>
+        <button class="menu-btn" onclick="openScreen('trivia')">Trivia Quiz</button>
+        <button class="menu-btn" onclick="openScreen('sentence')">Sentence Builder</button>
+    </div>
+
+    <!-- WORD SEARCH -->
+    <div id="wordsearch" class="screen">
+        <h2>Word Search</h2>
+        <p>Click each word when you find it in the grid.</p>
+        <div class="ws-container">
+            <div class="ws-grid" id="ws-grid"></div>
+            <div class="ws-words">
+                <h3>Words</h3>
+                <div id="ws-words-list"></div>
+            </div>
+        </div>
+        <button class="back-btn" onclick="goBack()">Back</button>
+    </div>
+
+    <!-- TRIVIA QUIZ -->
+    <div id="trivia" class="screen">
+        <h2>Trivia Quiz</h2>
+        <div class="trivia-box">
+            <div id="trivia-question" class="trivia-question"></div>
+            <div id="trivia-options"></div>
+            <div id="trivia-feedback" class="trivia-feedback"></div>
+            <button class="sb-btn" onclick="nextTrivia()">Next question</button>
+        </div>
+        <button class="back-btn" onclick="goBack()">Back</button>
+    </div>
+
+    <!-- SENTENCE BUILDER -->
+    <div id="sentence" class="screen">
+        <h2>Sentence Builder</h2>
+        <div class="sb-container">
+            <p class="sb-instruction">Click the words in the correct order to build a sentence.</p>
+            <p><strong>Hint:</strong> <span id="sb-hint"></span></p>
+            <div id="sb-target" class="sb-target"></div>
+            <div id="sb-word-bank" class="sb-word-bank"></div>
+            <button class="sb-btn" onclick="checkSentence()">Check</button>
+            <button class="sb-btn" onclick="nextSentence()">New sentence</button>
+            <div id="sb-feedback" class="trivia-feedback"></div>
+        </div>
+        <button class="back-btn" onclick="goBack()">Back</button>
+    </div>
+
+<script>
+function openScreen(id) {
+    document.querySelectorAll(".screen").forEach(s => s.style.display = "none");
+    document.getElementById(id).style.display = "block";
+
+    if (id === "wordsearch") initWordSearch();
+    if (id === "trivia") initTrivia();
+    if (id === "sentence") initSentenceBuilder();
+}
+
+function goBack() {
+    document.querySelectorAll(".screen").forEach(s => s.style.display = "none");
+    document.getElementById("main-screen").style.display = "block";
+}
+
+/* -------------------------
+   WORD SEARCH
+   (grid fija + lista de palabras clicables)
+-------------------------- */
+
+const wsWords = [
+    "travel", "holiday", "breakfast", "teacher", "computer",
+    "environment", "homework", "weekend", "internet", "friend"
+];
+
+// Grid simple (10x10) – letras de relleno + algunas palabras escondidas visualmente
+const wsGridRows = [
+    "T R A V E L X Q P N",
+    "B R E A K F A S T O",
+    "C O M P U T E R L I",
+    "H O M E W O R K A N",
+    "E N V I R O N M E N",
+    "F R I E N D Z D A Y",
+    "I N T E R N E T S C",
+    "W E E K E N D H O L",
+    "T E A C H E R B O O",
+    "S C H O O L J G M P"
+];
+
+function initWordSearch() {
+    const grid = document.getElementById("ws-grid");
+    const list = document.getElementById("ws-words-list");
+    grid.innerHTML = "";
+    list.innerHTML = "";
+
+    wsGridRows.forEach(row => {
+        row.split(" ").forEach(letter => {
+            const cell = document.createElement("div");
+            cell.className = "ws-cell";
+            cell.textContent = letter;
+            grid.appendChild(cell);
+        });
+    });
+
+    wsWords.forEach(word => {
+        const div = document.createElement("div");
+        div.className = "ws-word";
+        div.textContent = word;
+        div.onclick = () => {
+            div.classList.toggle("found");
+        };
+        list.appendChild(div);
+    });
+}
+
+/* -------------------------
+   TRIVIA QUIZ
+-------------------------- */
+
+const triviaData = [
+    {
+        q: "Which sentence is correct?",
+        options: [
+            "She usually is going to school by bus.",
+            "She usually goes to school by bus.",
+            "She is usually go to school by bus."
+        ],
+        answer: "She usually goes to school by bus."
+    },
+    {
+        q: "What is the past simple of 'go'?",
+        options: ["goed", "went", "gone"],
+        answer: "went"
+    },
+    {
+        q: "Which word is a synonym of 'angry'?",
+        options: ["upset", "tired", "hungry"],
+        answer: "upset"
+    },
+    {
+        q: "Choose the correct question:",
+        options: [
+            "Where you did go yesterday?",
+            "Where did you go yesterday?",
+            "Where went you yesterday?"
+        ],
+        answer: "Where did you go yesterday?"
+    },
+    {
+        q: "Which sentence expresses a future plan?",
+        options: [
+            "I am going to visit London next year.",
+            "I visit London every year.",
+            "I visited London last year."
+        ],
+        answer: "I am going to visit London next year."
+    },
+    {
+        q: "Which word is related to the environment?",
+        options: ["pollution", "breakfast", "homework"],
+        answer: "pollution"
+    },
+    {
+        q: "Choose the correct comparative form:",
+        options: [
+            "more easy",
+            "easier",
+            "easyer"
+        ],
+        answer: "easier"
+    },
+    {
+        q: "Which sentence is an opinion?",
+        options: [
+            "The film starts at 8 p.m.",
+            "The film is too long and boring.",
+            "The film won three awards."
+        ],
+        answer: "The film is too long and boring."
+    }
+];
+
+let triviaIndex = 0;
+
+function initTrivia() {
+    triviaIndex = Math.floor(Math.random() * triviaData.length);
+    loadTriviaQuestion();
+}
+
+function loadTriviaQuestion() {
+    const item = triviaData[triviaIndex];
+    const qDiv = document.getElementById("trivia-question");
+    const optDiv = document.getElementById("trivia-options");
+    const fb = document.getElementById("trivia-feedback");
+
+    qDiv.textContent = item.q;
+    optDiv.innerHTML = "";
+    fb.textContent = "";
+
+    const shuffled = [...item.options].sort(() => Math.random() - 0.5);
+
+    shuffled.forEach(opt => {
+        const div = document.createElement("div");
+        div.className = "trivia-option";
+        div.textContent = opt;
+        div.onclick = () => {
+            if (opt === item.answer) {
+                fb.textContent = "Correct!";
+                fb.style.color = "#4CAF50";
+            } else {
+                fb.textContent = "Not quite. The correct answer is: " + item.answer;
+                fb.style.color = "#E53935";
+            }
+        };
+        optDiv.appendChild(div);
+    });
+}
+
+function nextTrivia() {
+    triviaIndex = (triviaIndex + 1) % triviaData.length;
+    loadTriviaQuestion();
+}
+
+/* -------------------------
+   SENTENCE BUILDER
+-------------------------- */
+
+const sentenceData = [
+    {
+        sentence: "I usually do my homework after dinner.",
+        hint: "Daily routine"
+    },
+    {
+        sentence: "We are going to travel to Italy next summer.",
+        hint: "Future plan"
+    },
+    {
+        sentence: "She has never been to a concert before.",
+        hint: "Present perfect"
+    },
+    {
+        sentence: "If it rains tomorrow, we will stay at home.",
+        hint: "First conditional"
+    },
+    {
+        sentence: "My best friend is the funniest person I know.",
+        hint: "Description"
+    },
+    {
+        sentence: "I think social media is useful but also dangerous.",
+        hint: "Opinion about technology"
+    },
+    {
+        sentence: "They were watching a movie when the lights went out.",
+        hint: "Past continuous + past simple"
+    },
+    {
+        sentence: "We should recycle more to protect the environment.",
+        hint: "Environment / advice"
+    }
+];
+
+let currentSentence = null;
+let currentWords = [];
+let chosenWords = [];
+
+function initSentenceBuilder() {
+    nextSentence();
+}
+
+function nextSentence() {
+    const item = sentenceData[Math.floor(Math.random() * sentenceData.length)];
+    currentSentence = item.sentence;
+    const hint = document.getElementById("sb-hint");
+    const target = document.getElementById("sb-target");
+    const bank = document.getElementById("sb-word-bank");
+    const fb = document.getElementById("sb-feedback");
+
+    hint.textContent = item.hint;
+    target.textContent = "";
+    fb.textContent = "";
+
+    currentWords = item.sentence.replace(/[.?!]/g, "").split(" ");
+    const shuffled = [...currentWords].sort(() => Math.random() - 0.5);
+    chosenWords = [];
+
+    bank.innerHTML = "";
+    shuffled.forEach(word => {
+        const span = document.createElement("span");
+        span.className = "sb-word";
+        span.textContent = word;
+        span.onclick = () => {
+            if (span.classList.contains("used")) return;
+            chosenWords.push(word);
+            span.classList.add("used");
+            updateTarget();
+        };
+        bank.appendChild(span);
+    });
+}
+
+function updateTarget() {
+    const target = document.getElementById("sb-target");
+    target.textContent = chosenWords.join(" ");
+}
+
+function checkSentence() {
+    const fb = document.getElementById("sb-feedback");
+    const built = chosenWords.join(" ") + (/[.?!]$/.test(currentSentence) ? currentSentence.slice(-1) : ".");
+    const cleanOriginal = currentSentence.trim();
+
+    if (built.trim() === cleanOriginal) {
+        fb.textContent = "Perfect sentence!";
+        fb.style.color = "#4CAF50";
+    } else {
+        fb.textContent = "Not correct yet. Try again or click 'New sentence'.";
+        fb.style.color = "#E53935";
+    }
+}
+</script>
+
+</body>
+</html>
