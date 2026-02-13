@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reading Station</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Fredoka:wght@600&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #1A1A1A, #4CAF50);
+            font-family: 'Poppins', sans-serif;
+            color: white;
+            text-align: center;
+        }
+
+        h1, h2 {
+            font-family: 'Fredoka', sans-serif;
+            text-shadow: 0 0 10px #A5D6A7;
+        }
+
+        h1 {
+            font-size: 40px;
+            margin-top: 30px;
+            color: #A5D6A7;
+        }
+
+        h2 {
+            font-size: 32px;
+            color: #FFE066;
+        }
+
+        .screen {
+            display: none;
+            padding: 20px;
+        }
+
+        .menu-btn {
+            background: #4CAF50;
+            color: white;
+            padding: 18px 40px;
+            font-size: 24px;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            margin: 15px;
+            box-shadow: 0 0 12px #4CAF50;
+            transition: 0.2s;
+        }
+
+        .menu-btn:hover {
+            background: #00D1FF;
+            box-shadow: 0 0 15px #00D1FF;
+        }
+
+        .back-btn {
+            background: #FFE066;
+            color: #1A1A1A;
+            padding: 12px 30px;
+            border-radius: 12px;
+            font-size: 20px;
+            cursor: pointer;
+            margin-top: 20px;
+            border: none;
+        }
+
+        .back-btn:hover {
+            background: #FF4F8B;
+            color: white;
+        }
+
+        .reading-box {
+            max-width: 700px;
+            margin: 0 auto;
+            background: rgba(255,255,255,0.05);
+            padding: 20px;
+            border-radius: 16px;
+            text-align: left;
+            line-height: 1.6;
+        }
+
+        .question-box {
+            max-width: 700px;
+            margin: 20px auto 0;
+            text-align: left;
+        }
+
+        .option {
+            background: #4CAF50;
+            padding: 12px 16px;
+            margin: 8px 0;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: 0.2s;
+            box-shadow: 0 0 8px #4CAF50;
+        }
+
+        .option:hover {
+            background: #00D1FF;
+        }
+
+        .tf-item {
+            background: rgba(255,255,255,0.05);
+            padding: 12px 16px;
+            margin: 10px 0;
+            border-radius: 10px;
+            text-align: left;
+        }
+
+        .tf-buttons {
+            margin-top: 8px;
+        }
+
+        .tf-btn {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 6px 14px;
+            margin-right: 8px;
+            cursor: pointer;
+        }
+
+        .tf-btn:hover {
+            background: #00D1FF;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- MAIN MENU -->
+    <div id="main-screen" class="screen" style="display:block;">
+        <h1>Reading Station</h1>
+        <h2>Choose your mini‑game</h2>
+
+        <button class="menu-btn" onclick="openScreen('read1')">Reading Quiz</button>
+        <button class="menu-btn" onclick="openScreen('read2')">True or False</button>
+    </div>
+
+    <!-- MINI-GAME 1: READING QUIZ -->
+    <div id="read1" class="screen">
+        <h2>Reading Quiz</h2>
+        <div id="read1-text" class="reading-box"></div>
+        <div id="read1-questions" class="question-box"></div>
+        <button class="back-btn" onclick="goBack()">Back</button>
+    </div>
+
+    <!-- MINI-GAME 2: TRUE / FALSE -->
+    <div id="read2" class="screen">
+        <h2>True or False</h2>
+        <div id="read2-text" class="reading-box"></div>
+        <div id="read2-statements" class="question-box"></div>
+        <button class="back-btn" onclick="goBack()">Back</button>
+    </div>
+
+<script>
+function openScreen(id) {
+    document.querySelectorAll(".screen").forEach(s => s.style.display = "none");
+    document.getElementById(id).style.display = "block";
+
+    if (id === "read1") loadReadingQuiz();
+    if (id === "read2") loadTrueFalse();
+}
+
+function goBack() {
+    document.querySelectorAll(".screen").forEach(s => s.style.display = "none");
+    document.getElementById("main-screen").style.display = "block";
+}
+
+/* -------------------------
+   MINI-GAME 1: READING QUIZ
+-------------------------- */
+
+const readingQuizData = [
+    {
+        text: `
+Anna lives in a small town near the mountains. She is ten years old and she goes to primary school. 
+Every morning, she walks to school with her best friend, Tom. They like talking about their favourite games and cartoons. 
+After school, Anna does her homework and then she plays with her dog, Max, in the garden.
+        `,
+        questions: [
+            {
+                q: "How old is Anna?",
+                options: ["Eight", "Ten", "Twelve"],
+                answer: "Ten"
+            },
+            {
+                q: "Who does Anna walk to school with?",
+                options: ["Her brother", "Her teacher", "Her friend Tom"],
+                answer: "Her friend Tom"
+            },
+            {
+                q: "What is the name of Anna's dog?",
+                options: ["Max", "Sam", "Rocky"],
+                answer: "Max"
+            }
+        ]
+    },
+    {
+        text: `
+Ben loves Saturdays. He doesn’t go to school, so he can spend time with his family. 
+In the morning, he plays football in the park with his cousins. 
+At lunchtime, they eat pizza together. In the afternoon, Ben and his dad ride their bikes near the river. 
+In the evening, the whole family watches a movie in the living room.
+        `,
+        questions: [
+            {
+                q: "When does Ben play football?",
+                options: ["On Saturdays", "On Mondays", "On Fridays"],
+                answer: "On Saturdays"
+            },
+            {
+                q: "What do they eat at lunchtime?",
+                options: ["Sandwiches", "Pizza", "Pasta"],
+                answer: "Pizza"
+            },
+            {
+                q: "What does Ben do with his dad in the afternoon?",
+                options: ["They watch TV", "They ride their bikes", "They go shopping"],
+                answer: "They ride their bikes"
+            }
+        ]
+    }
+];
+
+function loadReadingQuiz() {
+    const containerText = document.getElementById("read1-text");
+    const containerQ = document.getElementById("read1-questions");
+    containerQ.innerHTML = "";
+
+    const item = readingQuizData[Math.floor(Math.random() * readingQuizData.length)];
+    containerText.textContent = item.text.trim();
+
+    item.questions.forEach((qObj, index) => {
+        const qDiv = document.createElement("div");
+        qDiv.style.marginBottom = "15px";
+
+        const qTitle = document.createElement("p");
+        qTitle.innerHTML = `<strong>Q${index + 1}.</strong> ${qObj.q}`;
+        qDiv.appendChild(qTitle);
+
+        const shuffled = [...qObj.options].sort(() => Math.random() - 0.5);
+
+        shuffled.forEach(opt => {
+            const optDiv = document.createElement("div");
+            optDiv.className = "option";
+            optDiv.textContent = opt;
+
+            optDiv.onclick = () => {
+                if (opt === qObj.answer) {
+                    optDiv.style.background = "#4CAF50";
+                } else {
+                    optDiv.style.background = "#E53935";
+                }
+                setTimeout(loadReadingQuiz, 1200);
+            };
+
+            qDiv.appendChild(optDiv);
+        });
+
+        containerQ.appendChild(qDiv);
+    });
+}
+
+/* -------------------------
+   MINI-GAME 2: TRUE / FALSE
+-------------------------- */
+
+const trueFalseData = [
+    {
+        text: `
+Tom has a big family. He has two sisters and one brother. 
+Every Sunday, they visit their grandparents who live in a village. 
+Tom loves going there because he can play in the garden and help his grandpa feed the chickens. 
+In the evening, the family eats dinner together and tells funny stories.
+        `,
+        statements: [
+            { s: "Tom has three sisters.", answer: false },
+            { s: "Tom's grandparents live in a village.", answer: true },
+            { s: "Tom helps his grandpa feed the chickens.", answer: true },
+            { s: "They visit their grandparents every Saturday.", answer: false }
+        ]
+    },
+    {
+        text: `
+Lucy is in the school choir. She loves singing with her friends. 
+They practise every Wednesday after school in the music room. 
+Next month, they are going to sing in a big concert for the parents. 
+Lucy is a little nervous, but she is also very excited.
+        `,
+        statements: [
+            { s: "Lucy is in the school choir.", answer: true },
+            { s: "They practise every Monday after school.", answer: false },
+            { s: "They will sing in a concert for the parents.", answer: true },
+            { s: "Lucy is only nervous and not excited.", answer: false }
+        ]
+    }
+];
+
+function loadTrueFalse() {
+    const containerText = document.getElementById("read2-text");
+    const containerS = document.getElementById("read2-statements");
+    containerS.innerHTML = "";
+
+    const item = trueFalseData[Math.floor(Math.random() * trueFalseData.length)];
+    containerText.textContent = item.text.trim();
+
+    item.statements.forEach(st => {
+        const box = document.createElement("div");
+        box.className = "tf-item";
+
+        const p = document.createElement("p");
+        p.textContent = st.s;
+        box.appendChild(p);
+
+        const btns = document.createElement("div");
+        btns.className = "tf-buttons";
+
+        const btnT = document.createElement("button");
+        btnT.className = "tf-btn";
+        btnT.textContent = "True";
+
+        const btnF = document.createElement("button");
+        btnF.className = "tf-btn";
+        btnF.textContent = "False";
+
+        btnT.onclick = () => {
+            if (st.answer === true) {
+                box.style.border = "2px solid #4CAF50";
+            } else {
+                box.style.border = "2px solid #E53935";
+            }
+            setTimeout(loadTrueFalse, 1200);
+        };
+
+        btnF.onclick = () => {
+            if (st.answer === false) {
+                box.style.border = "2px solid #4CAF50";
+            } else {
+                box.style.border = "2px solid #E53935";
+            }
+            setTimeout(loadTrueFalse, 1200);
+        };
+
+        btns.appendChild(btnT);
+        btns.appendChild(btnF);
+        box.appendChild(btns);
+
+        containerS.appendChild(box);
+    });
+}
+</script>
+
+</body>
+</html>
