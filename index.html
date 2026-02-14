@@ -9,33 +9,38 @@
 
 <style>
 
-/* ======================
-   COLOR SYSTEM
-====================== */
+/* =========================
+   COLOR MIX SYSTEM
+========================= */
 :root{
-  --purple-dark:#2d1460;
-  --purple-mid:#4b2e83;
+  --pink-top:#ff9aa9;
+  --pink-mid:#ff7eb3;
+  --purple-deep:#3c1c6b;
   --purple-soft:#6d5acb;
-  --glass:rgba(255,255,255,.15);
-  --border:rgba(255,255,255,.4);
-  --highlight:#fff3c4;
+  --glass:rgba(255,255,255,.18);
+  --border:rgba(255,255,255,.45);
+  --gold:#fff3c4;
 }
 
-/* ======================
+/* =========================
    BASE
-====================== */
+========================= */
 html,body{
   margin:0;
   padding:0;
   font-family:'Inter', sans-serif;
-  background:linear-gradient(to bottom,var(--purple-dark),var(--purple-mid),var(--purple-soft));
+  background:linear-gradient(to bottom,
+    var(--pink-top) 0%,
+    var(--pink-mid) 30%,
+    var(--purple-deep) 75%,
+    var(--purple-soft) 100%);
   color:white;
   overflow-x:hidden;
 }
 
-/* ======================
+/* =========================
    TOP BAR
-====================== */
+========================= */
 .top-bar{
   position:fixed;
   top:0;
@@ -44,15 +49,15 @@ html,body{
   justify-content:space-between;
   align-items:center;
   padding:15px 30px;
-  box-sizing:border-box;
   background:rgba(0,0,0,.25);
   backdrop-filter:blur(6px);
-  font-size:14px;
   z-index:50;
+  font-size:14px;
 }
 
 .clock{
   font-weight:600;
+  letter-spacing:1px;
 }
 
 .music-btn{
@@ -71,9 +76,9 @@ html,body{
   fill:none;
 }
 
-/* ======================
+/* =========================
    HEADER
-====================== */
+========================= */
 .header{
   text-align:center;
   padding:120px 20px 30px 20px;
@@ -81,16 +86,19 @@ html,body{
 
 .main-title{
   font-family:'Cinzel', serif;
-  font-size:clamp(38px,6vw,60px);
-  letter-spacing:5px;
+  font-size:clamp(40px,6vw,62px);
+  letter-spacing:6px;
   margin:0;
-  text-shadow:0 0 25px rgba(255,255,255,.8);
+  text-shadow:
+    0 0 20px rgba(255,255,255,.8),
+    0 0 40px rgba(255,255,255,.4);
 }
 
 .subtitle{
   font-size:clamp(16px,2vw,20px);
-  margin-top:12px;
-  opacity:.9;
+  margin-top:14px;
+  opacity:.95;
+  font-weight:500;
 }
 
 .welcome{
@@ -99,31 +107,31 @@ html,body{
   opacity:.95;
 }
 
-/* ======================
-   MENU LAYOUT
-====================== */
+/* =========================
+   MENU
+========================= */
 .menu{
   max-width:1000px;
-  margin:20px auto 160px auto;
+  margin:30px auto 160px auto;
   padding:0 25px;
   display:flex;
   flex-direction:column;
-  gap:45px;
+  gap:50px;
 }
 
 .row{
   display:flex;
   justify-content:center;
-  gap:30px;
+  gap:28px;
   flex-wrap:wrap;
 }
 
-/* ======================
+/* =========================
    STATION BUTTONS
-====================== */
+========================= */
 .station{
-  width:180px;
-  height:125px;
+  width:185px;
+  height:130px;
   background:var(--glass);
   backdrop-filter:blur(10px);
   border-radius:16px;
@@ -133,7 +141,6 @@ html,body{
   flex-direction:column;
   align-items:center;
   justify-content:center;
-  gap:10px;
 
   text-decoration:none;
   color:white;
@@ -143,83 +150,64 @@ html,body{
   transition:.3s ease;
 }
 
-.station svg{
-  width:30px;
-  height:30px;
-  stroke:white;
-  stroke-width:1.6;
-  fill:none;
-  filter:drop-shadow(0 4px 10px rgba(255,255,255,.4));
-}
-
 .station:hover{
   transform:translateY(-6px);
-  background:rgba(255,255,255,.25);
+  background:rgba(255,255,255,.28);
 }
 
-/* ======================
-   CHALLENGE BUTTON
-====================== */
+/* =========================
+   CHALLENGE (GOLD)
+========================= */
 .challenge-wrapper{
   display:flex;
   justify-content:center;
 }
 
 .challenge-btn{
-  width:240px;
-  height:130px;
-  background:linear-gradient(135deg,#ffffff,#fff3c4);
-  color:#2d1460;
+  width:250px;
+  height:140px;
+  background:linear-gradient(135deg,#ffffff,var(--gold));
+  color:var(--purple-deep);
   border-radius:18px;
   border:2px solid white;
 
   display:flex;
-  flex-direction:column;
   align-items:center;
   justify-content:center;
-  gap:10px;
 
   font-weight:700;
-  font-size:16px;
+  font-size:17px;
   text-decoration:none;
 
   box-shadow:
     0 0 25px rgba(255,243,196,.8),
-    0 8px 25px rgba(0,0,0,.25);
+    0 10px 30px rgba(0,0,0,.25);
 
   transition:.35s ease;
-}
-
-.challenge-btn svg{
-  width:32px;
-  height:32px;
-  stroke:#2d1460;
-  stroke-width:1.8;
-  fill:none;
 }
 
 .challenge-btn:hover{
   transform:translateY(-8px) scale(1.05);
 }
 
-/* ======================
+/* =========================
    GAMES BUTTON
-====================== */
+========================= */
 .games-wrapper{
   display:flex;
   justify-content:center;
 }
 
 .games{
-  width:250px;
+  width:240px;
   height:135px;
-  border:2px solid var(--highlight);
+  border:2px solid var(--gold);
   box-shadow:0 0 20px rgba(255,243,196,.6);
 }
 
-/* ======================
+/* =========================
    LOGIN MODAL
-====================== */
+========================= */
 #entryModal{
   position:fixed;
   inset:0;
@@ -261,14 +249,14 @@ html,body{
   border-radius:10px;
   border:none;
   background:white;
-  color:var(--purple-dark);
+  color:var(--purple-deep);
   font-weight:600;
   cursor:pointer;
 }
 
-/* ======================
+/* =========================
    RESPONSIVE
-====================== */
+========================= */
 @media(max-width:700px){
   .station{
     width:150px;
@@ -281,7 +269,7 @@ html,body{
     flex-direction:column;
     align-items:center;
   }
-  .station, .challenge-btn, .games{
+  .station,.challenge-btn,.games{
     width:100%;
     max-width:320px;
   }
@@ -292,7 +280,6 @@ html,body{
 
 <body>
 
-<!-- TOP BAR -->
 <div class="top-bar">
   <div class="clock" id="clock"></div>
   <div class="music-btn" onclick="toggleMusic()">
@@ -305,7 +292,6 @@ html,body{
   </div>
 </div>
 
-<!-- LOGIN MODAL -->
 <div id="entryModal">
   <div class="modal-box">
     <h2>Enter THE PIT</h2>
@@ -314,14 +300,12 @@ html,body{
   </div>
 </div>
 
-<!-- HEADER -->
 <div class="header">
   <h1 class="main-title">THE PIT</h1>
   <div class="subtitle">Your Journey to English</div>
   <div class="welcome" id="welcomeMessage"></div>
 </div>
 
-<!-- MENU -->
 <div class="menu">
 
   <div class="row">
@@ -356,7 +340,6 @@ html,body{
 
 <script>
 
-/* CLOCK */
 function updateClock(){
   const now=new Date();
   document.getElementById("clock").innerText=
@@ -365,7 +348,6 @@ function updateClock(){
 setInterval(updateClock,1000);
 updateClock();
 
-/* LOGIN */
 function enterSite(){
   const name=document.getElementById("studentName").value.trim();
   if(name===""){
@@ -385,7 +367,6 @@ window.onload=function(){
   }
 }
 
-/* MUSIC */
 let musicOn=false;
 function toggleMusic(){
   const audio=document.getElementById("bgMusic");
