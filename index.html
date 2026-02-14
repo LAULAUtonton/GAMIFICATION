@@ -13,10 +13,10 @@
    COLOR MIX SYSTEM
 ========================= */
 :root{
-  --pink-top:#ff9aa9;
-  --pink-mid:#ff7eb3;
-  --purple-deep:#3c1c6b;
-  --purple-soft:#6d5acb;
+  --pink:#ff9aa9;
+  --pink2:#ff7eb3;
+  --purple:#3c1c6b;
+  --purple2:#6d5acb;
   --glass:rgba(255,255,255,.18);
   --border:rgba(255,255,255,.45);
   --gold:#fff3c4;
@@ -25,15 +25,13 @@
 /* =========================
    BASE
 ========================= */
+*{box-sizing:border-box}
+
 html,body{
   margin:0;
   padding:0;
-  font-family:'Inter', sans-serif;
-  background:linear-gradient(to bottom,
-    var(--pink-top) 0%,
-    var(--pink-mid) 30%,
-    var(--purple-deep) 75%,
-    var(--purple-soft) 100%);
+  font-family:'Inter',sans-serif;
+  background:linear-gradient(to bottom,var(--pink) 0%,var(--pink2) 35%,var(--purple) 75%,var(--purple2) 100%);
   color:white;
   overflow-x:hidden;
 }
@@ -48,29 +46,26 @@ html,body{
   display:flex;
   justify-content:space-between;
   align-items:center;
-  padding:15px 30px;
+  padding:14px 25px;
   background:rgba(0,0,0,.25);
   backdrop-filter:blur(6px);
   z-index:50;
   font-size:14px;
 }
 
-.clock{
-  font-weight:600;
-  letter-spacing:1px;
-}
+.clock{font-weight:600}
 
 .music-btn{
   cursor:pointer;
   display:flex;
   align-items:center;
-  gap:8px;
+  gap:6px;
   font-weight:600;
 }
 
 .music-btn svg{
-  width:22px;
-  height:22px;
+  width:20px;
+  height:20px;
   stroke:white;
   stroke-width:1.6;
   fill:none;
@@ -85,20 +80,17 @@ html,body{
 }
 
 .main-title{
-  font-family:'Cinzel', serif;
-  font-size:clamp(40px,6vw,62px);
+  font-family:'Cinzel',serif;
+  font-size:clamp(40px,6vw,64px);
   letter-spacing:6px;
   margin:0;
-  text-shadow:
-    0 0 20px rgba(255,255,255,.8),
-    0 0 40px rgba(255,255,255,.4);
+  text-shadow:0 0 25px rgba(255,255,255,.8);
 }
 
 .subtitle{
   font-size:clamp(16px,2vw,20px);
   margin-top:14px;
   opacity:.95;
-  font-weight:500;
 }
 
 .welcome{
@@ -122,62 +114,76 @@ html,body{
 .row{
   display:flex;
   justify-content:center;
-  gap:28px;
+  gap:30px;
   flex-wrap:wrap;
 }
 
 /* =========================
-   STATION BUTTONS
+   SPEECH BUBBLE BUTTONS
 ========================= */
-.station{
-  width:185px;
+.bubble{
+  position:relative;
+  width:190px;
   height:130px;
   background:var(--glass);
   backdrop-filter:blur(10px);
-  border-radius:16px;
-  border:1.5px solid var(--border);
+  border-radius:20px;
+  border:2px solid var(--border);
 
   display:flex;
-  flex-direction:column;
   align-items:center;
   justify-content:center;
+  text-align:center;
 
-  text-decoration:none;
-  color:white;
   font-weight:600;
   font-size:15px;
+  color:white;
+  text-decoration:none;
 
   transition:.3s ease;
 }
 
-.station:hover{
+/* Bubble tail */
+.bubble::after{
+  content:"";
+  position:absolute;
+  bottom:-12px;
+  left:30px;
+  width:20px;
+  height:20px;
+  background:var(--glass);
+  border-left:2px solid var(--border);
+  border-bottom:2px solid var(--border);
+  transform:rotate(45deg);
+}
+
+.bubble:hover{
   transform:translateY(-6px);
   background:rgba(255,255,255,.28);
 }
 
 /* =========================
-   CHALLENGE (GOLD)
+   CHALLENGE BUTTON
 ========================= */
 .challenge-wrapper{
   display:flex;
   justify-content:center;
 }
 
-.challenge-btn{
+.challenge{
   width:250px;
   height:140px;
   background:linear-gradient(135deg,#ffffff,var(--gold));
-  color:var(--purple-deep);
-  border-radius:18px;
+  color:var(--purple);
+  border-radius:22px;
   border:2px solid white;
+  font-weight:700;
+  font-size:17px;
+  text-decoration:none;
 
   display:flex;
   align-items:center;
   justify-content:center;
-
-  font-weight:700;
-  font-size:17px;
-  text-decoration:none;
 
   box-shadow:
     0 0 25px rgba(255,243,196,.8),
@@ -186,7 +192,7 @@ html,body{
   transition:.35s ease;
 }
 
-.challenge-btn:hover{
+.challenge:hover{
   transform:translateY(-8px) scale(1.05);
 }
 
@@ -222,7 +228,7 @@ html,body{
   background:rgba(255,255,255,.15);
   backdrop-filter:blur(10px);
   padding:35px;
-  border-radius:18px;
+  border-radius:20px;
   width:90%;
   max-width:340px;
   text-align:center;
@@ -230,7 +236,7 @@ html,body{
 }
 
 .modal-box h2{
-  font-family:'Cinzel', serif;
+  font-family:'Cinzel',serif;
   margin-bottom:20px;
 }
 
@@ -238,7 +244,7 @@ html,body{
   width:100%;
   padding:12px;
   margin-bottom:15px;
-  border-radius:10px;
+  border-radius:12px;
   border:none;
   font-size:15px;
 }
@@ -246,10 +252,10 @@ html,body{
 .modal-box button{
   width:100%;
   padding:12px;
-  border-radius:10px;
+  border-radius:12px;
   border:none;
   background:white;
-  color:var(--purple-deep);
+  color:var(--purple);
   font-weight:600;
   cursor:pointer;
 }
@@ -258,18 +264,12 @@ html,body{
    RESPONSIVE
 ========================= */
 @media(max-width:700px){
-  .station{
-    width:150px;
-    height:110px;
-  }
+  .bubble{width:160px;height:115px}
 }
 
 @media(max-width:480px){
-  .row{
-    flex-direction:column;
-    align-items:center;
-  }
-  .station,.challenge-btn,.games{
+  .row{flex-direction:column;align-items:center}
+  .bubble,.challenge,.games{
     width:100%;
     max-width:320px;
   }
@@ -309,25 +309,25 @@ html,body{
 <div class="menu">
 
   <div class="row">
-    <a class="station" href="stations/vocabulary.html">Vocabulary</a>
-    <a class="station" href="stations/listening.html">Listening</a>
-    <a class="station" href="stations/reading.html">Reading</a>
+    <a class="bubble" href="stations/vocabulary.html">Vocabulary</a>
+    <a class="bubble" href="stations/listening.html">Listening</a>
+    <a class="bubble" href="stations/reading.html">Reading</a>
   </div>
 
   <div class="row">
-    <a class="station" href="stations/writing.html">Writing</a>
-    <a class="station" href="stations/speaking.html">Speaking</a>
-    <a class="station" href="stations/grammar.html">Grammar</a>
+    <a class="bubble" href="stations/writing.html">Writing</a>
+    <a class="bubble" href="stations/speaking.html">Speaking</a>
+    <a class="bubble" href="stations/grammar.html">Grammar</a>
   </div>
 
   <div class="challenge-wrapper">
-    <a class="challenge-btn" href="stations/challenge.html">
+    <a class="challenge" href="stations/challenge.html">
       ⭐ Level Up Challenge
     </a>
   </div>
 
   <div class="games-wrapper">
-    <a class="station games" href="stations/games.html">
+    <a class="bubble games" href="stations/games.html">
       🎮 Games Station
     </a>
   </div>
@@ -350,10 +350,7 @@ updateClock();
 
 function enterSite(){
   const name=document.getElementById("studentName").value.trim();
-  if(name===""){
-    alert("Please enter your name.");
-    return;
-  }
+  if(name===""){alert("Please enter your name.");return;}
   sessionStorage.setItem("studentName",name);
   document.getElementById("entryModal").style.display="none";
   document.getElementById("welcomeMessage").innerText="Welcome, "+name+"!";
@@ -370,8 +367,8 @@ window.onload=function(){
 let musicOn=false;
 function toggleMusic(){
   const audio=document.getElementById("bgMusic");
-  if(!musicOn){ audio.play(); musicOn=true; }
-  else{ audio.pause(); musicOn=false; }
+  if(!musicOn){audio.play();musicOn=true;}
+  else{audio.pause();musicOn=false;}
 }
 
 </script>
