@@ -1,370 +1,790 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>THE PIT — Your Journey to English</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1" />
+<title>English Learning Stations — Manga Fantasy (Badges)</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Inter:wght@500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;800&family=Orbitron:wght@600&display=swap" rel="stylesheet">
 
 <style>
-
-/* =========================
-   COLOR SYSTEM
-========================= */
 :root{
-  --pink:#ff9aa9;
-  --pink2:#ff7eb3;
-  --purple:#3c1c6b;
-  --purple2:#6d5acb;
-  --white:#ffffff;
-  --gold:#fff3c4;
+  --sky1:#4a66ff;
+  --sky2:#8b5cf6;
+  --sky3:#ff77c6;
+  --sky4:#ffe7a3;
+
+  --glowPink: rgba(255, 119, 198, .20);
+  --glowTeal: rgba(45, 212, 191, .16);
+  --glowGold: rgba(255, 231, 163, .18);
+
+  --mBack:#5d73ff;
+  --mMid:#6f8cff;
+  --mFront:#90a6ff;
+
+  --valley1:#6ee7d7;
+  --valley2:#a7f3d0;
+  --valley3:#d1fae5;
+
+  --inkLine: rgba(20, 24, 60, .52);
+
+  --panel: rgba(255,255,255,.22);
+  --panel2: rgba(255,255,255,.12);
+  --stroke: rgba(255,255,255,.30);
+  --ink: #0f172a;
 }
 
-/* =========================
-   BASE
-========================= */
-*{box-sizing:border-box}
-
-html,body{
+html,body{height:100%}
+body{
   margin:0;
-  padding:0;
-  font-family:'Inter',sans-serif;
-  background:linear-gradient(to bottom,
-    var(--pink) 0%,
-    var(--pink2) 35%,
-    var(--purple) 75%,
-    var(--purple2) 100%);
-  color:white;
-  overflow-x:hidden;
+  overflow:hidden;
+  font-family: Nunito, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  color: rgba(255,255,255,.96);
+  background: linear-gradient(180deg, var(--sky1), var(--sky2) 45%, var(--sky3) 75%, var(--sky4));
 }
 
-/* =========================
-   TOP BAR
-========================= */
-.top-bar{
-  position:fixed;
-  top:0;
-  width:100%;
-  display:flex;
-  justify-content:space-between;
-  padding:14px 25px;
-  background:rgba(0,0,0,.25);
-  backdrop-filter:blur(6px);
-  z-index:50;
-  font-size:14px;
+.scene{position:relative; height:100%; width:100%}
+
+/* SKY */
+.sky{
+  position:absolute; inset:0; z-index:0;
+  background:
+    radial-gradient(900px 520px at 15% 18%, var(--glowTeal), transparent 62%),
+    radial-gradient(900px 520px at 80% 20%, var(--glowPink), transparent 62%),
+    radial-gradient(900px 700px at 55% 80%, var(--glowGold), transparent 65%),
+    linear-gradient(180deg, var(--sky1), var(--sky2) 45%, var(--sky3) 75%, var(--sky4));
+}
+.sky::before{
+  content:"";
+  position:absolute; inset:-10%;
+  background:
+    radial-gradient(850px 210px at 25% 18%, rgba(45,212,191,.18), transparent 72%),
+    radial-gradient(850px 210px at 65% 22%, rgba(139,92,246,.20), transparent 72%),
+    radial-gradient(980px 260px at 55% 34%, rgba(255,231,163,.16), transparent 74%);
+  filter: blur(12px);
+  opacity:.85;
+  animation: aurora 10s ease-in-out infinite alternate;
+}
+@keyframes aurora{
+  from{ transform: translateX(-10px) translateY(0px) }
+  to{ transform: translateX(10px) translateY(10px) }
 }
 
-.music-btn{
-  cursor:pointer;
-  display:flex;
-  align-items:center;
-  gap:6px;
+.stars{
+  position:absolute; inset:0; z-index:1; pointer-events:none;
+  background-image:
+    radial-gradient(1.6px 1.6px at 12% 16%, rgba(255,255,255,.95), transparent 60%),
+    radial-gradient(1.2px 1.2px at 22% 42%, rgba(255,255,255,.80), transparent 60%),
+    radial-gradient(1.4px 1.4px at 35% 22%, rgba(255,255,255,.86), transparent 60%),
+    radial-gradient(1.2px 1.2px at 52% 14%, rgba(255,255,255,.78), transparent 60%),
+    radial-gradient(1.5px 1.5px at 68% 24%, rgba(255,255,255,.90), transparent 60%),
+    radial-gradient(1.1px 1.1px at 86% 18%, rgba(255,255,255,.76), transparent 60%);
+  opacity:.32;
+  filter: drop-shadow(0 0 8px rgba(255,255,255,.18));
 }
 
-.music-btn svg{
-  width:20px;
-  height:20px;
-  stroke:white;
-  stroke-width:2;
-  fill:none;
+.halftone{
+  position:absolute; inset:0; z-index:2; pointer-events:none;
+  background: radial-gradient(circle at 1px 1px, rgba(255,255,255,.10) 1px, transparent 1.4px);
+  background-size: 14px 14px;
+  opacity:.18;
+  mask: linear-gradient(180deg, rgba(0,0,0,.75), rgba(0,0,0,.35) 45%, transparent 80%);
 }
 
-/* =========================
-   HEADER
-========================= */
-.header{
+/* MOUNTAINS */
+.mountains{
+  position:absolute; left:-8%; width:116%;
+  bottom:0; pointer-events:none;
+  filter: drop-shadow(0 3px 0 var(--inkLine)) drop-shadow(0 0 0 var(--inkLine));
+}
+.mBack{ z-index:3; bottom:26%; height:50%; opacity:.60; }
+.mMid { z-index:4; bottom:12%; height:62%; opacity:.74; }
+.mFront{ z-index:5; bottom:-4%; height:70%; opacity:.86; }
+
+.mBack{
+  background:
+    radial-gradient(900px 420px at 30% 70%, rgba(255,255,255,.16), transparent 62%),
+    linear-gradient(180deg, rgba(255,255,255,.22), rgba(255,255,255,.05)),
+    linear-gradient(180deg, var(--mBack), rgba(93,115,255,.65));
+  clip-path: polygon(
+    0% 82%, 7% 64%, 14% 78%, 22% 56%, 30% 74%, 39% 52%,
+    48% 76%, 58% 54%, 66% 74%, 74% 58%, 84% 76%, 94% 62%, 100% 72%,
+    100% 100%, 0% 100%
+  );
+}
+.mMid{
+  background:
+    radial-gradient(900px 520px at 70% 45%, rgba(139,92,246,.18), transparent 62%),
+    radial-gradient(700px 420px at 25% 35%, rgba(45,212,191,.16), transparent 62%),
+    linear-gradient(180deg, rgba(255,255,255,.24), rgba(255,255,255,.06)),
+    linear-gradient(180deg, var(--mMid), rgba(111,140,255,.72));
+  clip-path: polygon(
+    0% 88%, 9% 60%, 18% 86%, 28% 54%, 38% 82%, 50% 46%,
+    60% 80%, 71% 56%, 82% 86%, 92% 60%, 100% 78%,
+    100% 100%, 0% 100%
+  );
+}
+.mFront{
+  background:
+    radial-gradient(900px 520px at 30% 22%, rgba(255,119,198,.14), transparent 60%),
+    radial-gradient(800px 520px at 70% 30%, rgba(255,231,163,.14), transparent 62%),
+    linear-gradient(180deg, rgba(255,255,255,.28), rgba(255,255,255,.08)),
+    linear-gradient(180deg, var(--mFront), rgba(144,166,255,.78));
+  clip-path: polygon(
+    0% 94%, 8% 60%, 16% 92%, 26% 54%, 36% 88%, 48% 46%,
+    60% 86%, 72% 56%, 82% 90%, 92% 62%, 100% 84%,
+    100% 100%, 0% 100%
+  );
+  box-shadow: 0 -30px 110px rgba(0,0,0,.10) inset;
+}
+
+/* VALLEY */
+.valley{
+  position:absolute;
+  left:-10%; width:120%;
+  bottom:-6%;
+  height:44%;
+  z-index:6;
+  pointer-events:none;
+
+  background:
+    radial-gradient(700px 300px at 30% 40%, rgba(255,255,255,.18), transparent 60%),
+    radial-gradient(700px 300px at 70% 50%, rgba(255,255,255,.16), transparent 60%),
+    linear-gradient(180deg, rgba(255,255,255,.14), rgba(255,255,255,.04)),
+    linear-gradient(180deg, var(--valley1), var(--valley2) 55%, var(--valley3));
+  clip-path: polygon(
+    0% 52%, 10% 62%, 22% 55%, 34% 68%, 46% 58%, 58% 72%,
+    70% 60%, 82% 74%, 92% 66%, 100% 76%, 100% 100%, 0% 100%
+  );
+  filter: drop-shadow(0 3px 0 var(--inkLine)) drop-shadow(0 0 0 var(--inkLine));
+  opacity:.92;
+}
+
+/* MIST */
+.fog{ position:absolute; inset:0; z-index:7; pointer-events:none; }
+.fog::before,.fog::after{
+  content:"";
+  position:absolute; left:-20%; width:140%; height:30%;
+  background:
+    radial-gradient(650px 200px at 30% 55%, rgba(255,255,255,.18), transparent 70%),
+    radial-gradient(750px 240px at 70% 45%, rgba(255,255,255,.14), transparent 72%);
+  filter: blur(10px);
+  opacity:.62;
+  animation: fogMove 18s ease-in-out infinite alternate;
+}
+.fog::before{ top:46%; }
+.fog::after{ top:58%; opacity:.40; animation-duration: 24s; }
+@keyframes fogMove{ from{ transform:translateX(-12px) } to{ transform:translateX(12px) } }
+
+/* SPARKLES */
+.sparkles{ position:absolute; inset:0; z-index:8; pointer-events:none; }
+.sparkles::before{
+  content:"";
+  position:absolute; inset:-10%;
+  background:
+    radial-gradient(4px 4px at 18% 36%, rgba(255,231,163,.55), transparent 62%),
+    radial-gradient(3px 3px at 42% 28%, rgba(45,212,191,.45), transparent 62%),
+    radial-gradient(4px 4px at 68% 34%, rgba(139,92,246,.55), transparent 62%),
+    radial-gradient(3px 3px at 82% 46%, rgba(255,119,198,.45), transparent 62%);
+  opacity:.80;
+  animation: sparkleFloat 10s ease-in-out infinite alternate;
+}
+@keyframes sparkleFloat{ from{ transform:translateY(0px) } to{ transform:translateY(10px) } }
+
+/* TITLE */
+.topbar{
+  position:absolute; top:0; left:0; width:100%;
+  z-index:20;
+  display:flex; justify-content:center;
+  padding: 14px 16px 8px;
+}
+.titleWrap{
   text-align:center;
-  padding:120px 20px 30px 20px;
+  padding: 12px 18px;
+  border-radius: 18px;
+  background: linear-gradient(180deg, var(--panel), var(--panel2));
+  border: 1px solid var(--stroke);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 16px 55px rgba(0,0,0,.20);
 }
-
-.main-title{
-  font-family:'Cinzel',serif;
-  font-size:clamp(42px,6vw,68px);
-  letter-spacing:6px;
+h1{
   margin:0;
-  text-shadow:0 0 30px rgba(255,255,255,.8);
+  font-size: clamp(26px, 3.6vw, 44px);
+  font-weight:800;
+  letter-spacing:.4px;
+}
+h1 .accent{ color:#fff3b0; text-shadow: 0 0 18px rgba(255,231,163,.45); }
+.sub{ margin:6px 0 0; font-size:14px; opacity:.95; }
+
+/* MAP */
+.map{
+  position:absolute;
+  inset: 92px 0 72px 0;
+  z-index:30;
 }
 
-.subtitle{
-  font-size:clamp(16px,2vw,20px);
-  margin-top:12px;
+/* PATH */
+.pathLayer{
+  position:absolute; inset:0;
+  pointer-events:none;
+  z-index:29;
+  opacity:.85;
+  filter: drop-shadow(0 10px 18px rgba(0,0,0,.12));
+}
+.pathLayer svg{ width:100%; height:100%; }
+.pathGlow{
+  stroke: rgba(255,231,163,.52);
+  stroke-width: 2.8;
+}
+.pathLine{
+  stroke: rgba(255,255,255,.62);
+  stroke-width: 1.2;
+  stroke-dasharray: 2 8;
 }
 
-/* =========================
-   MENU
-========================= */
-.menu{
-  max-width:1000px;
-  margin:30px auto 160px auto;
-  padding:0 25px;
+/* STATION WRAPPER */
+.icon-wrapper{
+  position:absolute;
   display:flex;
   flex-direction:column;
-  gap:55px;
-}
-
-.row{
-  display:flex;
-  justify-content:center;
-  gap:35px;
-  flex-wrap:wrap;
-}
-
-/* =========================
-   HARD MANGA BUBBLE BUTTON
-========================= */
-.bubble{
-  position:relative;
-  width:200px;
-  height:135px;
-  background:var(--white);
-  color:var(--purple);
-  border-radius:26px;
-  border:4px solid var(--purple);
-
-  display:flex;
   align-items:center;
-  justify-content:center;
-  text-align:center;
+  gap:8px;
 
-  font-weight:700;
-  font-size:16px;
-  text-decoration:none;
-
-  box-shadow:
-    0 12px 0 var(--purple),
-    0 18px 30px rgba(0,0,0,.35);
-
-  transition:.25s ease;
+  cursor:pointer;
+  user-select:none;
+  z-index:32;
+  transform: translateZ(0);
 }
 
-/* Sharp tail */
-.bubble::after{
+/* Keep a consistent hover/selection “ring” even for PNG badges */
+.icon-wrapper::after{
   content:"";
   position:absolute;
-  bottom:-22px;
-  left:50px;
-  width:28px;
-  height:28px;
-  background:var(--white);
-  border-left:4px solid var(--purple);
-  border-bottom:4px solid var(--purple);
-  transform:rotate(45deg);
+  inset:-10px;
+  border-radius: 26px;
+  border: 2px solid rgba(255,255,255,.18);
+  opacity:0;
+  transform: scale(.98);
+  transition: opacity .18s ease, transform .18s ease;
+  pointer-events:none;
+}
+.icon-wrapper:hover::after{ opacity:1; transform: scale(1); }
+
+.icon-wrapper.selected::after{
+  opacity:1;
+  border-color: rgba(255,231,163,.40);
+  box-shadow: 0 0 0 6px rgba(255,255,255,.08), 0 0 38px rgba(255,231,163,.22);
 }
 
-.bubble:hover{
-  transform:translateY(-6px);
-  box-shadow:
-    0 18px 0 var(--purple),
-    0 24px 35px rgba(0,0,0,.45);
+/* LOCKED state */
+.icon-wrapper.locked{
+  pointer-events:none;
+  opacity:.55;
+  filter: saturate(.85);
 }
 
-/* =========================
-   CHALLENGE
-========================= */
-.challenge-wrapper{
-  display:flex;
-  justify-content:center;
-}
-
-.challenge{
-  width:260px;
-  height:145px;
-  background:linear-gradient(135deg,#ffffff,var(--gold));
-  color:var(--purple);
-  border-radius:30px;
-  border:4px solid var(--purple);
+/* ICON “CARD” (used for SVG station only) */
+.icon-card{
+  width:74px;
+  height:74px;
+  border-radius:22px;
 
   display:flex;
   align-items:center;
   justify-content:center;
 
-  font-weight:800;
-  font-size:18px;
-  text-decoration:none;
-
+  background: linear-gradient(180deg, rgba(255,255,255,.22), rgba(255,255,255,.12));
+  border: 2px solid rgba(255,255,255,.28);
   box-shadow:
-    0 12px 0 var(--purple),
-    0 20px 35px rgba(0,0,0,.35);
+    0 18px 42px rgba(0,0,0,.18),
+    0 0 0 6px rgba(255,255,255,.06);
+  backdrop-filter: blur(10px);
 
-  transition:.3s ease;
+  position:relative;
+  overflow:hidden;
+  transition: transform .16s ease, filter .16s ease, box-shadow .16s ease;
+}
+.icon-card::before{
+  content:"";
+  position:absolute;
+  inset:-35%;
+  background: radial-gradient(circle at 28% 26%, rgba(255,255,255,.45), transparent 58%);
+  transform: translateX(-40%);
+  transition: transform .35s ease;
+  opacity:.70;
+}
+.icon-wrapper:hover .icon-card{
+  transform: translateY(-2px) scale(1.04);
+  filter: brightness(1.05);
+}
+.icon-wrapper:hover .icon-card::before{ transform: translateX(12%); }
+
+.label{
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-weight: 900;
+  font-size: 14px;
+  letter-spacing: .2px;
+
+  background: rgba(255,255,255,.18);
+  border: 1px solid rgba(255,255,255,.24);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 10px 28px rgba(0,0,0,.14);
+
+  color: rgba(255,255,255,.98);
+  text-shadow: 0 8px 18px rgba(0,0,0,.18);
 }
 
-.challenge:hover{
-  transform:translateY(-8px) scale(1.04);
+/* PNG BADGES */
+.icon-wrapper.has-art .icon-card{
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  backdrop-filter: none;
+  width: 150px;   /* badge is wider than tall */
+  height: 120px;
+  border-radius: 26px;
+}
+.badge-img{
+  width: 150px;
+  height: 120px;
+  object-fit: contain;
+  display:block;
+  filter: drop-shadow(0 18px 38px rgba(0,0,0,.18));
+  transition: transform .16s ease, filter .16s ease;
+}
+.icon-wrapper:hover .badge-img{
+  transform: translateY(-2px) scale(1.02);
+  filter: drop-shadow(0 20px 44px rgba(0,0,0,.20));
+}
+/* badges already include text => hide extra label */
+.icon-wrapper.has-art .label{ display:none; }
+
+/* A simple SVG icon style (only for Grammar placeholder) */
+.icon-svg{
+  width:46px;
+  height:46px;
+  fill: rgba(255,255,255,.92);
+  stroke: rgba(20,24,60,.42);
+  stroke-width: .9;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  filter: drop-shadow(0 7px 14px rgba(0,0,0,.16));
 }
 
-/* =========================
-   GAMES BUTTON
-========================= */
-.games-wrapper{
+/* POSITIONS (desktop) — tuned for wider badges */
+#icon-games    { left: 8%;  top: 12%; }  /* Challenge */
+#icon-vocab    { left: 54%; top: 10%; }
+#icon-listen   { left: 76%; top: 26%; }
+#icon-reading  { left: 10%; top: 44%; }
+#icon-writing  { left: 40%; top: 54%; }
+#icon-speaking { left: 66%; top: 58%; }
+#icon-grammar  { left: 22%; top: 70%; }  /* Grammar (no badge image provided) */
+
+/* SPIRIT */
+.spirit{
+  position:absolute;
+  z-index:31;
+  width:28px;
+  height:28px;
+  border-radius: 14px;
+  pointer-events:none;
+
+  background:
+    radial-gradient(circle at 40% 35%, rgba(255,255,255,.95), rgba(255,255,255,.30) 55%, transparent 70%),
+    linear-gradient(180deg, rgba(255,231,163,.95), rgba(255,119,198,.70));
+  border: 2px solid rgba(255,255,255,.34);
+  box-shadow: 0 12px 30px rgba(0,0,0,.18), 0 0 26px rgba(139,92,246,.22);
+
+  transform: translate(-50%, -50%);
+  transition: left .55s cubic-bezier(.2,.9,.2,1), top .55s cubic-bezier(.2,.9,.2,1);
+}
+.spirit::after{
+  content:"";
+  position:absolute;
+  left:-14px; top:9px;
+  width:14px; height:14px;
+  background: radial-gradient(circle, rgba(255,231,163,.48), transparent 70%);
+  opacity:.75;
+  animation: trail 1s ease-in-out infinite alternate;
+}
+@keyframes trail{
+  from{ transform: translateX(0); opacity:.45 }
+  to{ transform: translateX(-4px); opacity:.78 }
+}
+
+/* FIXED BAR */
+.fixed-bar{
+  position:fixed;
+  bottom:0; left:0;
+  width:100%;
+  padding: 12px 14px;
   display:flex;
   justify-content:center;
+  gap: 14px;
+  z-index:40;
+
+  background: linear-gradient(180deg, rgba(255,255,255,.22), rgba(255,255,255,.12));
+  border-top: 1px solid rgba(255,255,255,.22);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 -18px 55px rgba(0,0,0,.16);
+}
+.bar-btn{
+  color: rgba(255,255,255,.98);
+  padding: 10px 18px;
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,.28);
+  cursor:pointer;
+  font-size:16px;
+  font-weight:900;
+  background: rgba(255,255,255,.12);
+  transition: transform .15s ease, filter .15s ease;
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+.bar-btn:hover{ transform: translateY(-1px); filter: brightness(1.05); }
+.music-mini{
+  height:22px;
+  width:auto;
+  display:block;
+  filter: drop-shadow(0 10px 18px rgba(0,0,0,.14));
 }
 
-.games{
-  width:240px;
-  height:140px;
-}
-
-/* =========================
-   LOGIN MODAL
-========================= */
-#entryModal{
+/* ACCESS MODAL */
+#accessModal{
   position:fixed;
   inset:0;
-  background:rgba(0,0,0,.65);
+  background: rgba(0,0,0,0.55);
   display:flex;
   justify-content:center;
   align-items:center;
   z-index:100;
 }
-
 .modal-box{
-  background:white;
-  padding:35px;
-  border-radius:24px;
-  border:4px solid var(--purple);
+  width: 360px;
+  max-width: calc(100vw - 36px);
+  padding: 26px;
+  border-radius: 20px;
   text-align:center;
-  width:90%;
-  max-width:360px;
-  color:var(--purple);
+
+  background: linear-gradient(180deg, rgba(255,255,255,.26), rgba(255,255,255,.14));
+  border: 1px solid rgba(255,255,255,.30);
+  box-shadow: 0 20px 70px rgba(0,0,0,.24), 0 0 0 6px rgba(255,255,255,.08);
+  backdrop-filter: blur(14px);
+  position:relative;
+  overflow:hidden;
 }
+.modal-box:before{
+  content:"";
+  position:absolute; inset:-2px;
+  background: conic-gradient(from 180deg,
+    rgba(255,119,198,.28),
+    rgba(139,92,246,.30),
+    rgba(45,212,191,.20),
+    rgba(255,231,163,.20),
+    rgba(255,119,198,.28)
+  );
+  filter: blur(22px);
+  opacity:.28;
+  z-index:0;
+}
+.modal-box > *{ position:relative; z-index:1; }
 
 .modal-box h2{
-  font-family:'Cinzel',serif;
-  margin-bottom:20px;
+  margin:0 0 8px;
+  font-family: Orbitron, Nunito, Arial, sans-serif;
+  letter-spacing:.6px;
+  color: rgba(255,255,255,.98);
 }
+.modal-box p{ margin:0 0 14px; font-size:13px; opacity:.95; }
 
 .modal-box input{
-  width:100%;
-  padding:12px;
-  margin-bottom:15px;
-  border-radius:14px;
-  border:3px solid var(--purple);
-  font-size:15px;
+  width: 92%;
+  padding: 12px 12px;
+  margin: 8px 0;
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,.26);
+  outline:none;
+  color: rgba(255,255,255,.98);
+  background: rgba(0,0,0,.12);
 }
+.modal-box input::placeholder{ color: rgba(255,255,255,.74); }
 
 .modal-box button{
-  width:100%;
-  padding:12px;
-  border-radius:14px;
-  border:none;
-  background:var(--purple);
-  color:white;
-  font-weight:700;
+  margin-top: 10px;
+  width: 92%;
+  padding: 12px 14px;
+  border-radius: 16px;
+  border: 0;
   cursor:pointer;
-}
+  font-weight: 900;
+  letter-spacing:.3px;
+  color: var(--ink);
 
-/* =========================
-   RESPONSIVE
-========================= */
-@media(max-width:700px){
-  .bubble{width:170px;height:120px}
+  background: linear-gradient(90deg, rgba(255,231,163,.96), rgba(45,212,191,.82));
+  box-shadow: 0 14px 40px rgba(0,0,0,.20);
+  transition: transform .15s ease, filter .15s ease;
 }
+.modal-box button:hover{ transform: translateY(-1px); filter: brightness(1.03); }
 
-@media(max-width:480px){
-  .row{flex-direction:column;align-items:center}
-  .bubble,.challenge,.games{
-    width:100%;
-    max-width:340px;
-  }
+/* MOBILE — stack better so badges don't collide */
+@media (max-width: 820px){
+  .map{ inset: 92px 0 84px 0; }
+
+  .icon-wrapper.has-art .icon-card{ width: 138px; height: 110px; }
+  .badge-img{ width: 138px; height: 110px; }
+
+  #icon-games    { left: 6%;  top: 10%; }
+  #icon-vocab    { left: 52%; top: 10%; }
+  #icon-listen   { left: 52%; top: 28%; }
+  #icon-reading  { left: 6%;  top: 42%; }
+  #icon-writing  { left: 46%; top: 52%; }
+  #icon-speaking { left: 52%; top: 68%; }
+  #icon-grammar  { left: 6%;  top: 68%; }
 }
-
 </style>
 </head>
 
 <body>
+<div class="scene">
+  <div class="sky"></div>
+  <div class="stars"></div>
+  <div class="halftone"></div>
 
-<div class="top-bar">
-  <div id="clock"></div>
-  <div class="music-btn" onclick="toggleMusic()">
-    <svg viewBox="0 0 24 24">
-      <path d="M9 18V5l12-2v13"/>
-      <circle cx="6" cy="18" r="3"/>
-      <circle cx="18" cy="16" r="3"/>
-    </svg>
-    Music
+  <div class="mountains mBack"></div>
+  <div class="mountains mMid"></div>
+  <div class="mountains mFront"></div>
+  <div class="valley"></div>
+
+  <div class="fog"></div>
+  <div class="sparkles"></div>
+
+  <div class="topbar">
+    <div class="titleWrap">
+      <h1>English <span class="accent">Learning</span> Stations</h1>
+      <div class="sub">Manga fantasy map ✨ (click a badge)</div>
+    </div>
   </div>
+
+  <div class="map" id="map">
+    <!-- River of light -->
+    <div class="pathLayer" aria-hidden="true">
+      <svg viewBox="0 0 100 100" preserveAspectRatio="none">
+        <path class="pathGlow"
+          d="M 14 22
+             C 26 12, 42 12, 60 16
+             S 82 28, 82 34
+             S 66 44, 18 48
+             S 44 58, 72 62
+             S 30 72, 28 72"
+          fill="none"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+        <path class="pathLine"
+          d="M 14 22
+             C 26 12, 42 12, 60 16
+             S 82 28, 82 34
+             S 66 44, 18 48
+             S 44 58, 72 62
+             S 30 72, 28 72"
+          fill="none"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+      </svg>
+    </div>
+
+    <!-- Spirit -->
+    <div class="spirit" id="spirit" title="Spirit"></div>
+
+    <!-- BADGE STATIONS -->
+    <!-- Challenge (replaces Games icon) -->
+    <div class="icon-wrapper station-games locked has-art" id="icon-games" role="button" tabindex="0" data-station="Challenge">
+      <div class="icon-card" aria-hidden="true">
+        <img class="badge-img" src="Challenge.png" alt="Challenge">
+      </div>
+      <div class="label">Challenge</div>
+    </div>
+
+    <div class="icon-wrapper station-vocab locked has-art" id="icon-vocab" role="button" tabindex="0" data-station="Vocabulary Station">
+      <div class="icon-card" aria-hidden="true">
+        <img class="badge-img" src="vocabulary.png" alt="Vocabulary">
+      </div>
+      <div class="label">Vocabulary</div>
+    </div>
+
+    <div class="icon-wrapper station-listening locked has-art" id="icon-listen" role="button" tabindex="0" data-station="Listening Station">
+      <div class="icon-card" aria-hidden="true">
+        <img class="badge-img" src="listening.png" alt="Listening">
+      </div>
+      <div class="label">Listening</div>
+    </div>
+
+    <div class="icon-wrapper station-reading locked has-art" id="icon-reading" role="button" tabindex="0" data-station="Reading Station">
+      <div class="icon-card" aria-hidden="true">
+        <img class="badge-img" src="reading.png" alt="Reading">
+      </div>
+      <div class="label">Reading</div>
+    </div>
+
+    <!-- NOTE: your filename is "writing .png" (space before .png) => use %20 -->
+    <div class="icon-wrapper station-writing locked has-art" id="icon-writing" role="button" tabindex="0" data-station="Writing Station">
+      <div class="icon-card" aria-hidden="true">
+        <img class="badge-img" src="writing%20.png" alt="Writing">
+      </div>
+      <div class="label">Writing</div>
+    </div>
+
+    <div class="icon-wrapper station-speaking locked has-art" id="icon-speaking" role="button" tabindex="0" data-station="Speaking Station">
+      <div class="icon-card" aria-hidden="true">
+        <img class="badge-img" src="speak.png" alt="Speaking">
+      </div>
+      <div class="label">Speaking</div>
+    </div>
+
+    <!-- Grammar (no badge image provided) — keep as clean SVG -->
+    <div class="icon-wrapper station-grammar locked" id="icon-grammar" role="button" tabindex="0" data-station="Grammar Station">
+      <div class="icon-card" aria-hidden="true">
+        <svg class="icon-svg" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M9 3h3a2 2 0 0 1 2 2v1h1a2 2 0 0 1 2 2v2h-1a2 2 0 1 0 0 4h1v2a2 2 0 0 1-2 2h-3v-1a2 2 0 1 0-4 0v1H7a2 2 0 0 1-2-2v-3h1a2 2 0 1 0 0-4H5V8a2 2 0 0 1 2-2h2V5a2 2 0 0 1 2-2z"/>
+        </svg>
+      </div>
+      <div class="label">Grammar</div>
+    </div>
+  </div>
+
+  <!-- ACCESS MODAL -->
+  <div id="accessModal">
+    <div class="modal-box">
+      <h2>Access Gate</h2>
+      <p>Enter your name and class to continue.</p>
+      <input id="nameInput" type="text" placeholder="Your Name">
+      <input id="classInput" type="text" placeholder="Class / Group">
+      <button id="enterBtn" type="button">Continue</button>
+    </div>
+  </div>
+
+  <!-- BAR -->
+  <div class="fixed-bar">
+    <!-- NOTE: filename is "music on of.png" => use %20 -->
+    <button class="bar-btn" id="musicBtn" type="button">
+      <img class="music-mini" src="music%20on%20of.png" alt="Music">
+      <span id="musicText">Music: OFF</span>
+    </button>
+
+    <button class="bar-btn" id="helpBtn" type="button">Help</button>
+  </div>
+
+  <audio id="bgMusic" loop>
+    <source src="music.mp3" type="audio/mpeg">
+  </audio>
 </div>
-
-<div id="entryModal">
-  <div class="modal-box">
-    <h2>Enter THE PIT</h2>
-    <input type="text" id="studentName" placeholder="Your Name">
-    <button onclick="enterSite()">Enter</button>
-  </div>
-</div>
-
-<div class="header">
-  <h1 class="main-title">THE PIT</h1>
-  <div class="subtitle">Your Journey to English</div>
-</div>
-
-<div class="menu">
-
-  <div class="row">
-    <a class="bubble" href="stations/vocabulary.html">Vocabulary</a>
-    <a class="bubble" href="stations/listening.html">Listening</a>
-    <a class="bubble" href="stations/reading.html">Reading</a>
-  </div>
-
-  <div class="row">
-    <a class="bubble" href="stations/writing.html">Writing</a>
-    <a class="bubble" href="stations/speaking.html">Speaking</a>
-    <a class="bubble" href="stations/grammar.html">Grammar</a>
-  </div>
-
-  <div class="challenge-wrapper">
-    <a class="challenge" href="stations/challenge.html">
-      ⭐ Level Up Challenge
-    </a>
-  </div>
-
-  <div class="games-wrapper">
-    <a class="bubble games" href="stations/games.html">
-      🎮 Games Station
-    </a>
-  </div>
-
-</div>
-
-<audio id="bgMusic" loop>
-  <source src="stations/audio/music.mp3" type="audio/mpeg">
-</audio>
 
 <script>
+/* ===== DOM ===== */
+const mapEl = document.getElementById("map");
+const spirit = document.getElementById("spirit");
 
-function updateClock(){
-  const now=new Date();
-  document.getElementById("clock").innerText=
-    now.toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});
-}
-setInterval(updateClock,1000);
-updateClock();
+const accessModal = document.getElementById("accessModal");
+const nameInput = document.getElementById("nameInput");
+const classInput = document.getElementById("classInput");
+const enterBtn = document.getElementById("enterBtn");
 
-function enterSite(){
-  const name=document.getElementById("studentName").value.trim();
-  if(name===""){alert("Please enter your name.");return;}
-  sessionStorage.setItem("studentName",name);
-  document.getElementById("entryModal").style.display="none";
-}
+const musicBtn = document.getElementById("musicBtn");
+const musicText = document.getElementById("musicText");
+const helpBtn  = document.getElementById("helpBtn");
+const audio    = document.getElementById("bgMusic");
 
-window.onload=function(){
-  const saved=sessionStorage.getItem("studentName");
-  if(saved){
-    document.getElementById("entryModal").style.display="none";
+const stations = Array.from(document.querySelectorAll(".icon-wrapper"));
+
+/* ===== Access ===== */
+function unlockAccess(){
+  const name = nameInput.value.trim();
+  const group = classInput.value.trim();
+
+  if(!name || !group){
+    alert("Please enter your name and class.");
+    return;
   }
+
+  accessModal.style.display = "none";
+  stations.forEach(s => s.classList.remove("locked"));
+
+  // start on Vocabulary (best “entry” station)
+  const start = document.getElementById("icon-vocab");
+  setSelected(start);
+  moveSpiritTo(start);
+}
+enterBtn.addEventListener("click", unlockAccess);
+[nameInput, classInput].forEach(inp=>{
+  inp.addEventListener("keydown", (e)=>{ if(e.key === "Enter") unlockAccess(); });
+});
+
+/* ===== Music ===== */
+let musicOn = false;
+musicBtn.addEventListener("click", ()=>{
+  if(!musicOn){
+    audio.play().catch(()=>{});
+    musicText.textContent = "Music: ON";
+    musicOn = true;
+  }else{
+    audio.pause();
+    musicText.textContent = "Music: OFF";
+    musicOn = false;
+  }
+});
+
+/* ===== Help ===== */
+helpBtn.addEventListener("click", ()=>{
+  alert("Click a badge to open a station.\n(Replace the alert with your real navigation.)");
+});
+
+/* ===== Spirit movement ===== */
+function centerOf(el){
+  const r = el.getBoundingClientRect();
+  const m = mapEl.getBoundingClientRect();
+  return {
+    x: (r.left - m.left) + r.width/2,
+    y: (r.top - m.top) + r.height/2
+  };
+}
+function moveSpiritTo(stationEl){
+  const p = centerOf(stationEl);
+  spirit.style.left = p.x + "px";
+  spirit.style.top  = (p.y - 58) + "px"; // float above
+}
+function setSelected(el){
+  stations.forEach(s => s.classList.remove("selected"));
+  el.classList.add("selected");
 }
 
-let musicOn=false;
-function toggleMusic(){
-  const audio=document.getElementById("bgMusic");
-  if(!musicOn){audio.play();musicOn=true;}
-  else{audio.pause();musicOn=false;}
-}
+/* ===== Station clicks ===== */
+stations.forEach(st=>{
+  st.addEventListener("click", ()=>{
+    if(st.classList.contains("locked")) return;
 
+    setSelected(st);
+    moveSpiritTo(st);
+
+    const name = st.dataset.station || "Station";
+    alert("Open: " + name + " (replace with your real screen/link)");
+  });
+
+  st.addEventListener("keydown", (e)=>{
+    if(e.key === "Enter" || e.key === " "){
+      e.preventDefault();
+      st.click();
+    }
+  });
+});
+
+/* Keep spirit aligned */
+window.addEventListener("resize", ()=>{
+  const selected = document.querySelector(".icon-wrapper.selected");
+  if(selected) moveSpiritTo(selected);
+});
 </script>
-
 </body>
 </html>
