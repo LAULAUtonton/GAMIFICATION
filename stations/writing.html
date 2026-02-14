@@ -16,45 +16,14 @@ body {
 }
 
 /* UNIVERSAL ACTIVITY COLORS */
-.ordering-theme {
-    background: #00B0FF20;
-    border-left: 6px solid #00B0FF;
-}
-
-.matching-theme {
-    background: #AB47BC20;
-    border-left: 6px solid #AB47BC;
-}
-
-.trivia-theme {
-    background: #4CAF5020;
-    border-left: 6px solid #4CAF50;
-}
-
-.fill-theme {
-    background: #EF535020;
-    border-left: 6px solid #EF5350;
-}
-
-.builder-theme {
-    background: #FDD83520;
-    border-left: 6px solid #FDD835;
-}
-
-.listen-theme {
-    background: #FFA72620;
-    border-left: 6px solid #FFA726;
-}
-
-.read-theme {
-    background: #5C6BC020;
-    border-left: 6px solid #5C6BC0;
-}
-
-.speak-theme {
-    background: #26C6DA20;
-    border-left: 6px solid #26C6DA;
-}
+.ordering-theme { background: #00B0FF20; border-left: 6px solid #00B0FF; }
+.matching-theme { background: #AB47BC20; border-left: 6px solid #AB47BC; }
+.trivia-theme { background: #4CAF5020; border-left: 6px solid #4CAF50; }
+.fill-theme { background: #EF535020; border-left: 6px solid #EF5350; }
+.builder-theme { background: #FDD83520; border-left: 6px solid #FDD835; }
+.listen-theme { background: #FFA72620; border-left: 6px solid #FFA726; }
+.read-theme { background: #5C6BC020; border-left: 6px solid #5C6BC0; }
+.speak-theme { background: #26C6DA20; border-left: 6px solid #26C6DA; }
 
 /* FIXED BOTTOM BAR — PURPLE */
 .fixed-bar {
@@ -82,11 +51,7 @@ body {
     cursor: pointer;
     font-size: 16px;
 }
-
-.bar-btn:hover {
-    background: #FBC02D;
-    color: black;
-}
+.bar-btn:hover { background: #FBC02D; color: black; }
 
 /* GENERAL LAYOUT */
 .screen {
@@ -94,15 +59,11 @@ body {
     padding: 30px;
     margin-bottom: 100px;
     border-radius: 12px;
-    color: white;
 }
-
 #main {
     padding: 30px;
     margin-bottom: 100px;
-    color: white;
 }
-
 button {
     padding: 12px 20px;
     margin: 10px;
@@ -113,11 +74,7 @@ button {
     font-size: 18px;
     color: black;
 }
-
-button:hover {
-    background: #0288D1;
-    color: white;
-}
+button:hover { background: #0288D1; color: white; }
 
 textarea {
     width: 100%;
@@ -127,63 +84,4 @@ textarea {
     font-size: 16px;
     border: none;
     outline: none;
-    margin-top: 10px;
-}
-
-</style>
-</head>
-
-<body>
-
-<!-- FIXED BOTTOM BAR -->
-<div class="fixed-bar">
-    <button class="bar-btn" onclick="goBack()">Back</button>
-    <button class="bar-btn" onclick="location.href='../index.html'">Main Menu</button>
-    <button class="bar-btn" onclick="alert('Paused')">Pause</button>
-</div>
-
-<!-- MAIN MENU -->
-<div id="main">
-    <h1>Writing Station</h1>
-    <button onclick="openScreen('write1')">Writing Task 1</button>
-    <button onclick="openScreen('write2')">Writing Task 2</button>
-    <button onclick="openScreen('write3')">Writing Task 3</button>
-</div>
-
-<!-- WRITING 1 -->
-<div id="write1" class="screen builder-theme">
-    <h2>Writing Task 1</h2>
-    <p>Write a short paragraph about your daily routine.</p>
-    <textarea placeholder="Start writing here..."></textarea>
-</div>
-
-<!-- WRITING 2 -->
-<div id="write2" class="screen builder-theme">
-    <h2>Writing Task 2</h2>
-    <p>Describe your favorite place in the world.</p>
-    <textarea placeholder="Start writing here..."></textarea>
-</div>
-
-<!-- WRITING 3 -->
-<div id="write3" class="screen builder-theme">
-    <h2>Writing Task 3</h2>
-    <p>Write a short story using the following words: adventure, mystery, forest.</p>
-    <textarea placeholder="Start writing here..."></textarea>
-</div>
-
-<script>
-
-function openScreen(id) {
-    document.querySelectorAll('.screen, #main').forEach(s => s.style.display = 'none');
-    document.getElementById(id).style.display = 'block';
-}
-
-function goBack() {
-    document.querySelectorAll('.screen').forEach(s => s.style.display = 'none');
-    document.getElementById('main').style.display = 'block';
-}
-
-</script>
-
-</body>
-</html>
+    margin-top: 
