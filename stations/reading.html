@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Listening Station</title>
+<title>Reading Station</title>
 
 <style>
 
@@ -146,7 +146,7 @@ button:hover { background: #0288D1; color: white; }
 </div>
 
 <div id="tip-box">
-    <strong>Tip:</strong> <span id="tip-text">Choose a listening activity to begin!</span>
+    <strong>Tip:</strong> <span id="tip-text">Choose a reading activity to begin!</span>
 </div>
 
 <!-- ========================= -->
@@ -162,28 +162,28 @@ button:hover { background: #0288D1; color: white; }
 
 <!-- MAIN MENU -->
 <div id="main">
-    <h1>Listening Station</h1>
-    <button onclick="openScreen('listen1')">Listening Activity 1</button>
-    <button onclick="openScreen('listen2')">Listening Activity 2</button>
-    <button onclick="openScreen('listen3')">Listening Activity 3</button>
+    <h1>Reading Station</h1>
+    <button onclick="openScreen('text1')">Reading Text 1</button>
+    <button onclick="openScreen('text2')">Reading Text 2</button>
+    <button onclick="openScreen('text3')">Reading Text 3</button>
 </div>
 
-<!-- LISTENING 1 -->
-<div id="listen1" class="screen listen-theme">
-    <h2>Listening Activity 1</h2>
-    <p>Listen and answer the questions.</p>
+<!-- READING TEXT 1 -->
+<div id="text1" class="screen read-theme">
+    <h2>Reading Text 1</h2>
+    <p>Read the passage and answer the questions.</p>
 </div>
 
-<!-- LISTENING 2 -->
-<div id="listen2" class="screen listen-theme">
-    <h2>Listening Activity 2</h2>
-    <p>Listen and complete the sentences.</p>
+<!-- READING TEXT 2 -->
+<div id="text2" class="screen read-theme">
+    <h2>Reading Text 2</h2>
+    <p>Read the text and complete the tasks.</p>
 </div>
 
-<!-- LISTENING 3 -->
-<div id="listen3" class="screen listen-theme">
-    <h2>Listening Activity 3</h2>
-    <p>Listen and choose the correct option.</p>
+<!-- READING TEXT 3 -->
+<div id="text3" class="screen read-theme">
+    <h2>Reading Text 3</h2>
+    <p>Read the story and choose the correct answers.</p>
 </div>
 
 <script>
@@ -193,7 +193,7 @@ function openScreen(id) {
     document.querySelectorAll('.screen, #main').forEach(s => s.style.display = 'none');
     document.getElementById(id).style.display = 'block';
 
-    setTip("Listen carefully and complete the task!");
+    setTip("Read carefully and complete the activity!");
     startTimer();
     setProgress(20);
 }
@@ -203,7 +203,7 @@ function goBack() {
     document.getElementById('main').style.display = 'block';
 
     stopTimer();
-    setTip("Choose a listening activity to begin!");
+    setTip("Choose a reading activity to begin!");
     setProgress(0);
 }
 
