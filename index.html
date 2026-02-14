@@ -3,22 +3,23 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>The Path — Your Journey to English</title>
+<title>THE PIT — Your Journey to English</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&display=swap" rel="stylesheet">
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
 
 <style>
 
 /* ======================
-   PALETTE (UNCHANGED)
+   PALETTE
 ====================== */
 :root{
   --sky-top:#ff9aa9;
   --sky-mid:#ff7eb3;
   --sky-bottom:#ffc3a0;
-
-  --deep-purple:#4b2e83;
-  --soft-glow:#fff3c4;
+  --glass:rgba(255,255,255,.18);
+  --border:rgba(255,255,255,.4);
+  --highlight:#fff3c4;
 }
 
 /* ======================
@@ -27,67 +28,68 @@
 html,body{
   margin:0;
   padding:0;
-  font-family:'Cinzel', serif;
+  font-family:'Inter', sans-serif;
   background:linear-gradient(to bottom,var(--sky-top),var(--sky-mid),var(--sky-bottom));
   color:white;
   overflow-x:hidden;
 }
 
 /* ======================
-   TITLE
+   HEADER
 ====================== */
 .header{
   text-align:center;
-  padding:60px 20px 30px 20px;
+  padding:70px 20px 30px 20px;
 }
 
 .main-title{
-  font-size:clamp(28px,5vw,48px);
-  letter-spacing:3px;
+  font-family:'Cinzel', serif;
+  font-size:clamp(34px,6vw,56px);
+  letter-spacing:4px;
   margin:0;
   text-shadow:
-    0 0 12px rgba(255,255,255,.7),
-    0 0 30px rgba(255,255,255,.4);
+    0 0 14px rgba(255,255,255,.8),
+    0 0 35px rgba(255,255,255,.5);
 }
 
 .subtitle{
-  font-size:clamp(14px,2vw,18px);
-  margin-top:10px;
-  opacity:.9;
+  font-size:clamp(15px,2.2vw,20px);
+  margin-top:12px;
+  opacity:.95;
+  font-weight:500;
 }
 
 /* ======================
-   LAYOUT
+   MENU
 ====================== */
 .menu{
   max-width:1000px;
-  margin:20px auto 120px auto;
+  margin:20px auto 140px auto;
   padding:0 25px;
   display:flex;
   flex-direction:column;
-  gap:35px;
+  gap:40px;
 }
 
-/* ROWS */
 .row{
   display:flex;
   justify-content:center;
-  gap:25px;
+  gap:28px;
   flex-wrap:wrap;
 }
 
 /* ======================
-   BUTTONS
+   STATION BUTTON
 ====================== */
 .station{
-  width:190px;
-  height:135px;
+  width:185px;
+  height:130px;
 
-  background:rgba(255,255,255,.18);
+  background:var(--glass);
   backdrop-filter:blur(8px);
 
   border-radius:16px;
-  border:1.5px solid rgba(255,255,255,.4);
+  border:1.5px solid var(--border);
 
   display:flex;
   flex-direction:column;
@@ -97,17 +99,19 @@ html,body{
 
   text-decoration:none;
   color:white;
+  font-weight:600;
+  font-size:15px;
 
-  transition:.35s ease;
+  transition:.3s ease;
 }
 
 .station svg{
-  width:34px;
-  height:34px;
+  width:32px;
+  height:32px;
   stroke:white;
   stroke-width:1.6;
   fill:none;
-  filter:drop-shadow(0 4px 12px rgba(255,243,196,.7));
+  filter:drop-shadow(0 4px 10px rgba(255,243,196,.8));
 }
 
 .station:hover{
@@ -116,7 +120,7 @@ html,body{
 }
 
 /* ======================
-   GAMES SPECIAL
+   GAMES BUTTON
 ====================== */
 .games-wrapper{
   display:flex;
@@ -124,24 +128,76 @@ html,body{
 }
 
 .games{
-  width:260px;
-  height:145px;
+  width:250px;
+  height:140px;
+  border:2px solid var(--highlight);
+  box-shadow:0 0 20px rgba(255,243,196,.7);
+}
 
-  border:2px solid var(--soft-glow);
-  box-shadow:0 0 22px rgba(255,243,196,.7);
+/* ======================
+   MODAL (REQUIRED ENTRY)
+====================== */
+#entryModal{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.55);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  z-index:100;
+}
+
+.modal-box{
+  background:rgba(255,255,255,.15);
+  backdrop-filter:blur(10px);
+  padding:35px;
+  border-radius:18px;
+  width:90%;
+  max-width:340px;
+  text-align:center;
+  border:2px solid white;
+}
+
+.modal-box h2{
+  font-family:'Cinzel', serif;
+  margin-bottom:20px;
+}
+
+.modal-box input{
+  width:100%;
+  padding:12px;
+  margin-bottom:15px;
+  border-radius:10px;
+  border:none;
+  font-size:15px;
+}
+
+.modal-box button{
+  width:100%;
+  padding:12px;
+  border-radius:10px;
+  border:none;
+  background:white;
+  color:#ff7eb3;
+  font-weight:600;
+  cursor:pointer;
+}
+
+.modal-box button:hover{
+  background:#fff3c4;
 }
 
 /* ======================
    RESPONSIVE
 ====================== */
-@media(max-width:800px){
+@media(max-width:700px){
   .station{
-    width:160px;
+    width:150px;
     height:120px;
   }
 }
 
-@media(max-width:500px){
+@media(max-width:480px){
   .row{
     flex-direction:column;
     align-items:center;
@@ -162,14 +218,24 @@ html,body{
 
 <body>
 
+<!-- ENTRY MODAL -->
+<div id="entryModal">
+  <div class="modal-box">
+    <h2>Enter the Pit</h2>
+    <input type="text" id="studentName" placeholder="Your Name">
+    <button onclick="enterSite()">Enter</button>
+  </div>
+</div>
+
+<!-- HEADER -->
 <div class="header">
-  <h1 class="main-title">The Path</h1>
+  <h1 class="main-title">THE PIT</h1>
   <div class="subtitle">Your Journey to English</div>
 </div>
 
+<!-- MENU -->
 <div class="menu">
 
-  <!-- Row 1 -->
   <div class="row">
     <a class="station" href="stations/vocabulary.html">
       <svg viewBox="0 0 24 24">
@@ -195,7 +261,6 @@ html,body{
     </a>
   </div>
 
-  <!-- Row 2 -->
   <div class="row">
     <a class="station" href="stations/writing.html">
       <svg viewBox="0 0 24 24">
@@ -219,7 +284,6 @@ html,body{
     </a>
   </div>
 
-  <!-- Games -->
   <div class="games-wrapper">
     <a class="station games" href="stations/games.html">
       <svg viewBox="0 0 24 24">
@@ -230,6 +294,18 @@ html,body{
   </div>
 
 </div>
+
+<script>
+function enterSite(){
+  const name = document.getElementById("studentName").value.trim();
+  if(name === ""){
+    alert("Please enter your name to enter THE PIT.");
+    return;
+  }
+  sessionStorage.setItem("studentName", name);
+  document.getElementById("entryModal").style.display="none";
+}
+</script>
 
 </body>
 </html>
