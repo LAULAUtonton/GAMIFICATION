@@ -5,20 +5,19 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>THE PIT — Your Journey to English</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Inter:wght@500;600&display=swap" rel="stylesheet">
 
 <style>
 
 /* =========================
-   COLOR MIX SYSTEM
+   COLOR SYSTEM
 ========================= */
 :root{
   --pink:#ff9aa9;
   --pink2:#ff7eb3;
   --purple:#3c1c6b;
   --purple2:#6d5acb;
-  --glass:rgba(255,255,255,.18);
-  --border:rgba(255,255,255,.45);
+  --white:#ffffff;
   --gold:#fff3c4;
 }
 
@@ -31,7 +30,11 @@ html,body{
   margin:0;
   padding:0;
   font-family:'Inter',sans-serif;
-  background:linear-gradient(to bottom,var(--pink) 0%,var(--pink2) 35%,var(--purple) 75%,var(--purple2) 100%);
+  background:linear-gradient(to bottom,
+    var(--pink) 0%,
+    var(--pink2) 35%,
+    var(--purple) 75%,
+    var(--purple2) 100%);
   color:white;
   overflow-x:hidden;
 }
@@ -45,7 +48,6 @@ html,body{
   width:100%;
   display:flex;
   justify-content:space-between;
-  align-items:center;
   padding:14px 25px;
   background:rgba(0,0,0,.25);
   backdrop-filter:blur(6px);
@@ -53,21 +55,18 @@ html,body{
   font-size:14px;
 }
 
-.clock{font-weight:600}
-
 .music-btn{
   cursor:pointer;
   display:flex;
   align-items:center;
   gap:6px;
-  font-weight:600;
 }
 
 .music-btn svg{
   width:20px;
   height:20px;
   stroke:white;
-  stroke-width:1.6;
+  stroke-width:2;
   fill:none;
 }
 
@@ -81,22 +80,15 @@ html,body{
 
 .main-title{
   font-family:'Cinzel',serif;
-  font-size:clamp(40px,6vw,64px);
+  font-size:clamp(42px,6vw,68px);
   letter-spacing:6px;
   margin:0;
-  text-shadow:0 0 25px rgba(255,255,255,.8);
+  text-shadow:0 0 30px rgba(255,255,255,.8);
 }
 
 .subtitle{
   font-size:clamp(16px,2vw,20px);
-  margin-top:14px;
-  opacity:.95;
-}
-
-.welcome{
-  margin-top:18px;
-  font-size:15px;
-  opacity:.95;
+  margin-top:12px;
 }
 
 /* =========================
@@ -108,62 +100,67 @@ html,body{
   padding:0 25px;
   display:flex;
   flex-direction:column;
-  gap:50px;
+  gap:55px;
 }
 
 .row{
   display:flex;
   justify-content:center;
-  gap:30px;
+  gap:35px;
   flex-wrap:wrap;
 }
 
 /* =========================
-   SPEECH BUBBLE BUTTONS
+   HARD MANGA BUBBLE BUTTON
 ========================= */
 .bubble{
   position:relative;
-  width:190px;
-  height:130px;
-  background:var(--glass);
-  backdrop-filter:blur(10px);
-  border-radius:20px;
-  border:2px solid var(--border);
+  width:200px;
+  height:135px;
+  background:var(--white);
+  color:var(--purple);
+  border-radius:26px;
+  border:4px solid var(--purple);
 
   display:flex;
   align-items:center;
   justify-content:center;
   text-align:center;
 
-  font-weight:600;
-  font-size:15px;
-  color:white;
+  font-weight:700;
+  font-size:16px;
   text-decoration:none;
 
-  transition:.3s ease;
+  box-shadow:
+    0 12px 0 var(--purple),
+    0 18px 30px rgba(0,0,0,.35);
+
+  transition:.25s ease;
 }
 
-/* Bubble tail */
+/* Sharp tail */
 .bubble::after{
   content:"";
   position:absolute;
-  bottom:-12px;
-  left:30px;
-  width:20px;
-  height:20px;
-  background:var(--glass);
-  border-left:2px solid var(--border);
-  border-bottom:2px solid var(--border);
+  bottom:-22px;
+  left:50px;
+  width:28px;
+  height:28px;
+  background:var(--white);
+  border-left:4px solid var(--purple);
+  border-bottom:4px solid var(--purple);
   transform:rotate(45deg);
 }
 
 .bubble:hover{
   transform:translateY(-6px);
-  background:rgba(255,255,255,.28);
+  box-shadow:
+    0 18px 0 var(--purple),
+    0 24px 35px rgba(0,0,0,.45);
 }
 
 /* =========================
-   CHALLENGE BUTTON
+   CHALLENGE
 ========================= */
 .challenge-wrapper{
   display:flex;
@@ -171,29 +168,30 @@ html,body{
 }
 
 .challenge{
-  width:250px;
-  height:140px;
+  width:260px;
+  height:145px;
   background:linear-gradient(135deg,#ffffff,var(--gold));
   color:var(--purple);
-  border-radius:22px;
-  border:2px solid white;
-  font-weight:700;
-  font-size:17px;
-  text-decoration:none;
+  border-radius:30px;
+  border:4px solid var(--purple);
 
   display:flex;
   align-items:center;
   justify-content:center;
 
-  box-shadow:
-    0 0 25px rgba(255,243,196,.8),
-    0 10px 30px rgba(0,0,0,.25);
+  font-weight:800;
+  font-size:18px;
+  text-decoration:none;
 
-  transition:.35s ease;
+  box-shadow:
+    0 12px 0 var(--purple),
+    0 20px 35px rgba(0,0,0,.35);
+
+  transition:.3s ease;
 }
 
 .challenge:hover{
-  transform:translateY(-8px) scale(1.05);
+  transform:translateY(-8px) scale(1.04);
 }
 
 /* =========================
@@ -206,9 +204,7 @@ html,body{
 
 .games{
   width:240px;
-  height:135px;
-  border:2px solid var(--gold);
-  box-shadow:0 0 20px rgba(255,243,196,.6);
+  height:140px;
 }
 
 /* =========================
@@ -217,7 +213,7 @@ html,body{
 #entryModal{
   position:fixed;
   inset:0;
-  background:rgba(0,0,0,.6);
+  background:rgba(0,0,0,.65);
   display:flex;
   justify-content:center;
   align-items:center;
@@ -225,14 +221,14 @@ html,body{
 }
 
 .modal-box{
-  background:rgba(255,255,255,.15);
-  backdrop-filter:blur(10px);
+  background:white;
   padding:35px;
-  border-radius:20px;
-  width:90%;
-  max-width:340px;
+  border-radius:24px;
+  border:4px solid var(--purple);
   text-align:center;
-  border:2px solid white;
+  width:90%;
+  max-width:360px;
+  color:var(--purple);
 }
 
 .modal-box h2{
@@ -244,19 +240,19 @@ html,body{
   width:100%;
   padding:12px;
   margin-bottom:15px;
-  border-radius:12px;
-  border:none;
+  border-radius:14px;
+  border:3px solid var(--purple);
   font-size:15px;
 }
 
 .modal-box button{
   width:100%;
   padding:12px;
-  border-radius:12px;
+  border-radius:14px;
   border:none;
-  background:white;
-  color:var(--purple);
-  font-weight:600;
+  background:var(--purple);
+  color:white;
+  font-weight:700;
   cursor:pointer;
 }
 
@@ -264,14 +260,14 @@ html,body{
    RESPONSIVE
 ========================= */
 @media(max-width:700px){
-  .bubble{width:160px;height:115px}
+  .bubble{width:170px;height:120px}
 }
 
 @media(max-width:480px){
   .row{flex-direction:column;align-items:center}
   .bubble,.challenge,.games{
     width:100%;
-    max-width:320px;
+    max-width:340px;
   }
 }
 
@@ -281,7 +277,7 @@ html,body{
 <body>
 
 <div class="top-bar">
-  <div class="clock" id="clock"></div>
+  <div id="clock"></div>
   <div class="music-btn" onclick="toggleMusic()">
     <svg viewBox="0 0 24 24">
       <path d="M9 18V5l12-2v13"/>
@@ -303,7 +299,6 @@ html,body{
 <div class="header">
   <h1 class="main-title">THE PIT</h1>
   <div class="subtitle">Your Journey to English</div>
-  <div class="welcome" id="welcomeMessage"></div>
 </div>
 
 <div class="menu">
@@ -353,14 +348,12 @@ function enterSite(){
   if(name===""){alert("Please enter your name.");return;}
   sessionStorage.setItem("studentName",name);
   document.getElementById("entryModal").style.display="none";
-  document.getElementById("welcomeMessage").innerText="Welcome, "+name+"!";
 }
 
 window.onload=function(){
   const saved=sessionStorage.getItem("studentName");
   if(saved){
     document.getElementById("entryModal").style.display="none";
-    document.getElementById("welcomeMessage").innerText="Welcome back, "+saved+"!";
   }
 }
 
