@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>THE PIT — Your Journey to English</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Inter:wght@500;600&display=swap" rel="stylesheet">
@@ -10,8 +11,9 @@
 <style>
 
 /* =========================
-   COLOR SYSTEM
+   COLORS
 ========================= */
+
 :root{
   --pink:#ff9aa9;
   --pink2:#ff7eb3;
@@ -24,17 +26,26 @@
 /* =========================
    BASE
 ========================= */
-*{box-sizing:border-box}
+
+*{
+  box-sizing:border-box;
+}
 
 html,body{
+
   margin:0;
   padding:0;
+
   font-family:'Inter',sans-serif;
-  background:linear-gradient(to bottom,
-    var(--pink) 0%,
-    var(--pink2) 35%,
-    var(--purple) 75%,
-    var(--purple2) 100%);
+
+  background:
+  linear-gradient(
+  to bottom,
+  var(--pink) 0%,
+  var(--pink2) 35%,
+  var(--purple) 75%,
+  var(--purple2) 100%);
+
   color:white;
   overflow-x:hidden;
 }
@@ -42,226 +53,494 @@ html,body{
 /* =========================
    TOP BAR
 ========================= */
+
 .top-bar{
+
   position:fixed;
   top:0;
   width:100%;
+
   display:flex;
   justify-content:space-between;
-  padding:14px 25px;
+  align-items:center;
+
+  padding:10px 18px;
+
   background:rgba(0,0,0,.25);
   backdrop-filter:blur(6px);
+
   z-index:50;
-  font-size:14px;
+}
+
+/* buttons in top bar */
+
+.top-controls{
+
+  display:flex;
+  gap:12px;
+  align-items:center;
+}
+
+/* icon buttons */
+
+.icon-btn{
+
+  width:42px;
+  height:42px;
+
+  border-radius:12px;
+
+  background:white;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  border:3px solid var(--purple);
+
+  cursor:pointer;
+
+  transition:.2s;
+}
+
+.icon-btn:hover{
+
+  transform:translateY(-3px);
+}
+
+.icon-btn img{
+
+  width:26px;
+  height:26px;
+}
+
+/* timer */
+
+.timer{
+
+  font-weight:600;
+  font-size:15px;
 }
 
 /* =========================
    HEADER
 ========================= */
+
 .header{
+
   text-align:center;
-  padding:120px 20px 30px 20px;
+  padding-top:90px;
 }
 
-.main-title{
+.title{
+
   font-family:'Cinzel',serif;
-  font-size:clamp(42px,6vw,68px);
-  letter-spacing:6px;
+
+  font-size:clamp(36px,6vw,64px);
+
   margin:0;
-  text-shadow:0 0 30px rgba(255,255,255,.8);
+
+  letter-spacing:6px;
+
+  text-shadow:0 0 20px rgba(255,255,255,.7);
 }
 
 .subtitle{
-  font-size:clamp(16px,2vw,20px);
-  margin-top:12px;
+
+  margin-top:6px;
 }
 
 /* =========================
-   MENU
+   MENU GRID
 ========================= */
+
 .menu{
-  max-width:1000px;
-  margin:30px auto 160px auto;
-  padding:0 25px;
+
+  max-width:900px;
+
+  margin:30px auto 140px auto;
+
+  padding:0 20px;
+
   display:flex;
   flex-direction:column;
-  gap:55px;
+  gap:40px;
 }
 
 .row{
+
   display:flex;
   justify-content:center;
-  gap:35px;
+  gap:30px;
   flex-wrap:wrap;
 }
 
 /* =========================
-   MANGA BUBBLE BUTTON
+   BUBBLE BUTTON
 ========================= */
+
 .bubble{
+
   position:relative;
-  width:200px;
-  height:170px;
-  background:var(--white);
+
+  width:180px;
+  height:150px;
+
+  background:white;
   color:var(--purple);
-  border-radius:28px;
+
+  border-radius:26px;
+
   border:4px solid var(--purple);
 
   display:flex;
   flex-direction:column;
   align-items:center;
   justify-content:center;
-  gap:10px;
+
+  font-weight:700;
 
   text-decoration:none;
-  font-weight:700;
-  font-size:16px;
 
   box-shadow:
-    0 12px 0 var(--purple),
-    0 20px 35px rgba(0,0,0,.35);
+  0 10px 0 var(--purple),
+  0 18px 25px rgba(0,0,0,.3);
 
-  transition:.25s ease;
-}
-
-.bubble img{
-  width:55px;
-  height:55px;
-  object-fit:contain;
-}
-
-.bubble span{
-  margin-top:6px;
-}
-
-.bubble::after{
-  content:"";
-  position:absolute;
-  bottom:-22px;
-  left:50px;
-  width:28px;
-  height:28px;
-  background:var(--white);
-  border-left:4px solid var(--purple);
-  border-bottom:4px solid var(--purple);
-  transform:rotate(45deg);
+  transition:.2s;
 }
 
 .bubble:hover{
-  transform:translateY(-6px);
+
+  transform:translateY(-5px);
+}
+
+/* tail */
+
+.bubble::after{
+
+  content:"";
+
+  position:absolute;
+
+  bottom:-18px;
+  left:45px;
+
+  width:24px;
+  height:24px;
+
+  background:white;
+
+  border-left:4px solid var(--purple);
+  border-bottom:4px solid var(--purple);
+
+  transform:rotate(45deg);
+}
+
+/* icon */
+
+.bubble img{
+
+  width:60px;
+  height:60px;
+  object-fit:contain;
+}
+
+/* label */
+
+.label{
+
+  margin-top:8px;
 }
 
 /* =========================
-   CHALLENGE
+   CHALLENGE BUTTON
 ========================= */
-.challenge-wrapper{
-  display:flex;
-  justify-content:center;
-}
 
 .challenge{
-  width:260px;
-  height:180px;
+
   background:linear-gradient(135deg,#ffffff,var(--gold));
-  color:var(--purple);
-  border-radius:30px;
-  border:4px solid var(--purple);
+}
+
+/* =========================
+   LOGIN MODAL
+========================= */
+
+#loginModal{
+
+  position:fixed;
+  inset:0;
+
+  background:rgba(0,0,0,.6);
 
   display:flex;
-  flex-direction:column;
   align-items:center;
   justify-content:center;
-  gap:10px;
 
-  font-weight:800;
-  font-size:18px;
-  text-decoration:none;
-
-  box-shadow:
-    0 12px 0 var(--purple),
-    0 20px 35px rgba(0,0,0,.35);
-
-  transition:.3s ease;
+  z-index:100;
 }
 
-.challenge img{
-  width:65px;
-  height:65px;
+.modal{
+
+  background:white;
+
+  padding:30px;
+
+  border-radius:18px;
+
+  border:4px solid var(--purple);
+
+  color:var(--purple);
+
+  width:90%;
+  max-width:340px;
+
+  text-align:center;
 }
 
-.challenge:hover{
-  transform:translateY(-8px) scale(1.04);
+.modal input{
+
+  width:100%;
+
+  padding:12px;
+
+  margin-top:12px;
+
+  border-radius:10px;
+
+  border:2px solid var(--purple);
+}
+
+.modal button{
+
+  width:100%;
+
+  margin-top:12px;
+
+  padding:12px;
+
+  border:none;
+
+  border-radius:10px;
+
+  background:var(--purple);
+
+  color:white;
+
+  font-weight:700;
+
+  cursor:pointer;
 }
 
 /* =========================
    RESPONSIVE
 ========================= */
-@media(max-width:700px){
-  .bubble{width:170px;height:150px}
+
+@media(max-width:600px){
+
+  .bubble{
+
+    width:150px;
+    height:135px;
+  }
 }
 
-@media(max-width:480px){
-  .row{flex-direction:column;align-items:center}
-  .bubble,.challenge{
-    width:100%;
-    max-width:340px;
+@media(max-width:420px){
+
+  .row{
+
+    flex-direction:column;
+    align-items:center;
+  }
+
+  .bubble{
+
+    width:90%;
   }
 }
 
 </style>
 </head>
-
 <body>
 
-<div class="header">
-  <h1 class="main-title">THE PIT</h1>
-  <div class="subtitle">Your Journey to English</div>
+<!-- LOGIN MODAL -->
+
+<div id="loginModal">
+
+  <div class="modal">
+
+    <h2>Enter THE PIT</h2>
+
+    <input id="nameInput" placeholder="Your Name">
+
+    <button onclick="enter()">Start</button>
+
+  </div>
+
 </div>
+
+<!-- TOP BAR -->
+
+<div class="top-bar">
+
+  <div class="timer" id="timer">00:00</div>
+
+  <div class="top-controls">
+
+    <div class="icon-btn" onclick="toggleMusic()">
+      <img id="musicIcon" src="stations/music_off.png">
+    </div>
+
+    <div class="icon-btn" onclick="pauseTimer()">
+      ⏸
+    </div>
+
+    <div class="icon-btn" onclick="startTimer()">
+      ▶
+    </div>
+
+    <div class="icon-btn" onclick="showHelp()">
+      ?
+    </div>
+
+  </div>
+
+</div>
+
+<!-- HEADER -->
+
+<div class="header">
+
+  <h1 class="title">THE PIT</h1>
+
+  <div class="subtitle">Your Journey to English</div>
+
+</div>
+
+<!-- MENU -->
 
 <div class="menu">
 
   <div class="row">
-    <a class="bubble" href="stations/vocabulary.html">
-      <img src="assets/icons/vocab.png">
-      <span>Vocabulary</span>
-    </a>
 
     <a class="bubble" href="stations/listening.html">
-      <img src="assets/icons/listen.png">
-      <span>Listening</span>
-    </a>
-
-    <a class="bubble" href="stations/reading.html">
-      <img src="assets/icons/read.png">
-      <span>Reading</span>
-    </a>
-  </div>
-
-  <div class="row">
-    <a class="bubble" href="stations/writing.html">
-      <img src="assets/icons/write.png">
-      <span>Writing</span>
+      <img src="stations/listening.png">
+      <div class="label">Listening</div>
     </a>
 
     <a class="bubble" href="stations/speaking.html">
-      <img src="assets/icons/speak.png">
-      <span>Speaking</span>
+      <img src="stations/speaking.png">
+      <div class="label">Speaking</div>
     </a>
 
-    <a class="bubble" href="stations/grammar.html">
-      <img src="assets/icons/grammar.png">
-      <span>Grammar</span>
+    <a class="bubble" href="stations/reading.html">
+      <img src="stations/reading.png">
+      <div class="label">Reading</div>
     </a>
+
   </div>
 
-  <div class="challenge-wrapper">
-    <a class="challenge" href="stations/challenge.html">
-      <img src="assets/icons/challenge.png">
-      <span>Level Up Challenge</span>
+  <div class="row">
+
+    <a class="bubble" href="stations/writing.html">
+      <img src="stations/writing.png">
+      <div class="label">Writing</div>
     </a>
+
+    <a class="bubble" href="stations/games.html">
+      <img src="stations/games.png">
+      <div class="label">Games</div>
+    </a>
+
+    <a class="bubble challenge" href="stations/challenge.html">
+      <img src="stations/challenge.png">
+      <div class="label">Challenge</div>
+    </a>
+
   </div>
 
 </div>
+
+<!-- MUSIC -->
+
+<audio id="music" loop>
+  <source src="stations/music.mp3">
+</audio>
+
+<script>
+
+/* LOGIN */
+
+function enter(){
+
+  const name=nameInput.value.trim();
+
+  if(name==="") return;
+
+  sessionStorage.setItem("name",name);
+
+  loginModal.style.display="none";
+}
+
+if(sessionStorage.getItem("name")){
+
+  loginModal.style.display="none";
+}
+
+/* TIMER */
+
+let seconds=0;
+let interval=null;
+
+function updateTimer(){
+
+  seconds++;
+
+  const m=Math.floor(seconds/60).toString().padStart(2,'0');
+  const s=(seconds%60).toString().padStart(2,'0');
+
+  timer.textContent=m+":"+s;
+}
+
+function startTimer(){
+
+  if(!interval)
+  interval=setInterval(updateTimer,1000);
+}
+
+function pauseTimer(){
+
+  clearInterval(interval);
+  interval=null;
+}
+
+/* MUSIC */
+
+let musicOn=false;
+
+function toggleMusic(){
+
+  if(musicOn){
+
+    music.pause();
+    musicIcon.src="stations/music_off.png";
+  }
+  else{
+
+    music.play();
+    musicIcon.src="stations/music_on.png";
+  }
+
+  musicOn=!musicOn;
+}
+
+/* HELP */
+
+function showHelp(){
+
+  alert("Select a station to begin your journey.");
+}
+
+</script>
 
 </body>
 </html>
