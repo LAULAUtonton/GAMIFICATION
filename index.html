@@ -13,11 +13,9 @@
 /* ================= BASE ================= */
 
 html,body{
-
 margin:0;
 height:100vh;
 overflow:hidden;
-
 font-family:'Orbitron',sans-serif;
 
 background:
@@ -27,110 +25,89 @@ radial-gradient(circle at center,
 #3c1c6b 100%);
 
 color:white;
-
 }
 
 /* ================= LOGIN ================= */
 
 #login{
-
 position:fixed;
 inset:0;
-
 background:black;
-
 display:flex;
 align-items:center;
 justify-content:center;
-
 z-index:100;
-
 }
 
 .loginbox{
-
 background:#111;
-
-padding:30px;
-
+padding:40px;
 text-align:center;
-
 }
 
 .loginbox input{
-
-padding:14px;
-width:240px;
-font-size:18px;
-
+padding:16px;
+width:260px;
+font-size:20px;
 }
 
 .loginbox button{
-
-margin-top:12px;
-padding:14px;
+margin-top:14px;
+padding:16px;
 width:100%;
-
 background:#ff7eb3;
 color:black;
-
 border:none;
-
 font-weight:bold;
 cursor:pointer;
-
 }
 
 /* ================= TOP BAR ================= */
 
 .top{
-
 display:flex;
 justify-content:space-between;
 align-items:center;
-
-padding:10px 20px;
-
+padding:15px 25px;
 }
 
 /* INFO */
 
 .info{
-
 display:flex;
-gap:25px;
-font-size:20px;
-
+gap:30px;
+font-size:24px;
 }
 
-/* CONTROL BUTTONS PURE PNG */
+/* ================= CONTROL BUTTONS ================= */
 
 .controls{
-
 display:flex;
-gap:15px;
-
+gap:18px;
 }
+
+/* CONTROL ICON BUTTON */
 
 .ctrl{
 
-width:90px;
-height:90px;
-
-background-color:transparent;
+width:110px;
+height:110px;
 
 background-repeat:no-repeat;
 background-position:center;
-background-size:contain;
+background-size:95%;
 
 cursor:pointer;
 
-border:none;
-outline:none;
+transition:0.2s;
 
 }
 
-/* CONTROL IMAGES */
+.ctrl:hover{
+transform:scale(1.12);
+}
+
+/* CONTROL ICON FILES */
 
 .start{
 background-image:url("./stations/start_button.png");
@@ -138,6 +115,10 @@ background-image:url("./stations/start_button.png");
 
 .pause{
 background-image:url("./stations/pause_button.png");
+}
+
+.reset{
+background-image:url("./stations/reset.png");
 }
 
 .exit{
@@ -151,75 +132,59 @@ background-image:url("./stations/musicoff.png");
 /* ================= TITLE ================= */
 
 .title{
-
 text-align:center;
-font-size:56px;
-
+font-size:64px;
 }
 
 .subtitle{
-
 text-align:center;
 margin-bottom:10px;
-
 }
 
 /* ================= PROGRESS ================= */
 
 .bar{
-
 width:90%;
 margin:auto;
-height:18px;
-
+height:20px;
 background:rgba(255,255,255,0.2);
-
 }
 
 .fill{
-
 height:100%;
 width:0%;
-
 background:#fff3c4;
-
 }
 
 .percent{
-
 text-align:right;
 width:90%;
 margin:auto;
-
+font-size:20px;
 }
 
 /* ================= STATIONS ================= */
 
 .main{
-
-height:calc(100vh - 200px);
-
+height:calc(100vh - 240px);
 display:flex;
 flex-direction:column;
 justify-content:center;
-
 }
 
 .row{
-
 display:flex;
 justify-content:center;
-gap:30px;
-margin-bottom:20px;
-
+gap:50px;
+margin-bottom:30px;
 }
+
+/* STATION ICON BUTTON */
 
 .station{
 
-width:200px;
-height:180px;
-
-background-color:transparent;
+width:240px;
+height:220px;
 
 background-repeat:no-repeat;
 background-position:center;
@@ -227,82 +192,64 @@ background-size:contain;
 
 cursor:pointer;
 
+transition:0.25s;
+
+}
+
+.station:hover{
+transform:scale(1.15);
+}
+
+/* Challenge bigger */
+
+.challenge{
+width:280px;
+height:260px;
 }
 
 /* STATION IMAGES */
 
-.vocabulary{
-background-image:url("./stations/vocabulary.png");
-}
-
-.listening{
-background-image:url("./stations/listening.png");
-}
-
-.speaking{
-background-image:url("./stations/speaking.png");
-}
-
-.reading{
-background-image:url("./stations/reading.png");
-}
-
-.writing{
-background-image:url("./stations/writing.png");
-}
-
-.challenge{
-background-image:url("./stations/challenge.png");
-}
-
-.games{
-background-image:url("./stations/games.png");
-}
+.vocabulary{ background-image:url("./stations/vocabulary.png"); }
+.listening{ background-image:url("./stations/listening.png"); }
+.speaking{ background-image:url("./stations/speaking.png"); }
+.reading{ background-image:url("./stations/reading.png"); }
+.writing{ background-image:url("./stations/writing.png"); }
+.challenge{ background-image:url("./stations/challenge.png"); }
+.games{ background-image:url("./stations/games.png"); }
 
 /* ================= RESPONSIVE ================= */
 
-@media(max-width:800px){
+@media(max-width:900px){
 
 .station{
-
-width:130px;
-height:110px;
-
+width:160px;
+height:140px;
 }
 
 .ctrl{
-
-width:60px;
-height:60px;
-
+width:70px;
+height:70px;
 }
 
 .title{
-
-font-size:40px;
-
+font-size:42px;
 }
 
 }
 
 </style>
 </head>
+
 <body>
 
 <!-- LOGIN -->
 
 <div id="login">
-
 <div class="loginbox">
-
 <h2>ENTER THE PIT</h2>
-
 <input id="nameInput">
-
 <button onclick="enter()">START</button>
-
 </div>
-
 </div>
 
 <!-- TOP BAR -->
@@ -310,11 +257,8 @@ font-size:40px;
 <div class="top">
 
 <div class="info">
-
 <div id="timer">00:00</div>
-
 <div id="score">Score: 0</div>
-
 </div>
 
 <div class="controls">
@@ -322,6 +266,8 @@ font-size:40px;
 <div class="ctrl start" onclick="startTimer()"></div>
 
 <div class="ctrl pause" onclick="pauseTimer()"></div>
+
+<div class="ctrl reset" onclick="resetTimer()"></div>
 
 <div class="ctrl music" id="musicBtn" onclick="toggleMusic()"></div>
 
@@ -334,15 +280,12 @@ font-size:40px;
 <!-- TITLE -->
 
 <div class="title">THE PIT</div>
-
 <div class="subtitle">Your Journey to English</div>
 
 <!-- PROGRESS -->
 
 <div class="bar">
-
 <div class="fill" id="fill"></div>
-
 </div>
 
 <div class="percent" id="percent">0%</div>
@@ -354,13 +297,9 @@ font-size:40px;
 <div class="row">
 
 <a href="./stations/vocabulary.html" class="station vocabulary"></a>
-
 <a href="./stations/listening.html" class="station listening"></a>
-
 <a href="./stations/speaking.html" class="station speaking"></a>
-
 <a href="./stations/reading.html" class="station reading"></a>
-
 <a href="./stations/writing.html" class="station writing"></a>
 
 </div>
@@ -368,7 +307,6 @@ font-size:40px;
 <div class="row">
 
 <a href="./stations/challenge.html" class="station challenge"></a>
-
 <a href="./stations/games.html" class="station games"></a>
 
 </div>
@@ -385,9 +323,9 @@ font-size:40px;
 
 function enter(){
 
-const name=document.getElementById("nameInput").value.trim();
+const name=nameInput.value.trim();
 
-if(name===""){
+if(!name){
 alert("Enter your name");
 return;
 }
@@ -414,11 +352,7 @@ interval=setInterval(()=>{
 
 time++;
 
-let m=Math.floor(time/60).toString().padStart(2,"0");
-let s=(time%60).toString().padStart(2,"0");
-
-timer.innerText=m+":"+s;
-
+updateTimer();
 updateScore();
 updateProgress();
 
@@ -433,7 +367,26 @@ interval=null;
 
 }
 
-/* SCORE */
+function resetTimer(){
+
+pauseTimer();
+time=0;
+updateTimer();
+updateScore();
+updateProgress();
+
+}
+
+/* UPDATE FUNCTIONS */
+
+function updateTimer(){
+
+let m=Math.floor(time/60).toString().padStart(2,"0");
+let s=(time%60).toString().padStart(2,"0");
+
+timer.innerText=m+":"+s;
+
+}
 
 function updateScore(){
 
@@ -441,14 +394,11 @@ score.innerText="Score: "+Math.floor(time/2);
 
 }
 
-/* PROGRESS */
-
 function updateProgress(){
 
 let p=Math.min(time/300*100,100);
 
 fill.style.width=p+"%";
-
 percent.innerText=Math.floor(p)+"%";
 
 }
@@ -483,7 +433,6 @@ musicOn=!musicOn;
 function exitGame(){
 
 sessionStorage.removeItem("user");
-
 location.reload();
 
 }
