@@ -12,237 +12,309 @@
 
 /* ================= BACKGROUND ================= */
 
-:root{
-  --purple:#3c1c6b;
-  --pink:#ff7eb3;
-  --gold:#fff3c4;
-}
-
 html,body{
-  margin:0;
-  height:100vh;
-  overflow:hidden;
-  font-family:'Orbitron',sans-serif;
-  background:
-  radial-gradient(circle at center,#ff7eb3 0%,#3c1c6b 70%);
+
+margin:0;
+height:100vh;
+overflow:hidden;
+
+font-family:'Orbitron',sans-serif;
+
+background:
+radial-gradient(circle at center,
+#ff7eb3 0%,
+#6d5acb 40%,
+#3c1c6b 100%);
+
 }
 
-/* ================= FLICKER EFFECT ================= */
+/* ================= ANIMATIONS ================= */
 
-@keyframes flicker{
-  0%{opacity:1}
-  50%{opacity:.85}
-  100%{opacity:1}
+@keyframes pulse{
+
+0%{box-shadow:0 0 10px #ff7eb3;}
+50%{box-shadow:0 0 25px #ff7eb3;}
+100%{box-shadow:0 0 10px #ff7eb3;}
+
 }
 
-/* ================= TOP BAR ================= */
+@keyframes glowTitle{
 
-.top{
+0%{text-shadow:0 0 10px white;}
+50%{text-shadow:0 0 30px white;}
+100%{text-shadow:0 0 10px white;}
 
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-
-  padding:8px 15px;
-
-  background:rgba(0,0,0,.3);
-
-  box-shadow:0 0 20px #ff7eb3;
-
-  animation:flicker 2s infinite;
-}
-
-.timer{
-
-  color:white;
-  font-size:18px;
-}
-
-/* CONTROL BUTTONS */
-
-.controls{
-  display:flex;
-  gap:10px;
-}
-
-.ctrl{
-
-  width:60px;
-  height:60px;
-
-  background:white;
-
-  border-radius:12px;
-
-  border:4px solid var(--purple);
-
-  box-shadow:0 0 20px var(--pink);
-
-  display:flex;
-  align-items:center;
-  justify-content:center;
-
-  cursor:pointer;
-}
-
-.ctrl img{
-  width:42px;
-}
-
-/* ================= TITLE ================= */
-
-.title{
-  text-align:center;
-  color:white;
-  font-size:48px;
-  text-shadow:0 0 20px white;
-}
-
-.subtitle{
-  text-align:center;
-  color:white;
-  margin-bottom:10px;
-}
-
-/* ================= PROGRESS ================= */
-
-.progress-wrap{
-  width:90%;
-  margin:auto;
-}
-
-.bar{
-  height:18px;
-  background:white;
-  border-radius:10px;
-}
-
-.fill{
-  height:100%;
-  width:0%;
-  background:var(--gold);
-}
-
-.percent{
-  text-align:right;
-  color:white;
-}
-
-/* ================= GRID ================= */
-
-.main{
-  height:calc(100vh - 200px);
-
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-}
-
-.row{
-  display:flex;
-  justify-content:center;
-  gap:25px;
-  margin-bottom:20px;
-}
-
-.bubble{
-
-  width:160px;
-  height:140px;
-
-  background:white;
-
-  border-radius:25px;
-
-  border:5px solid var(--purple);
-
-  box-shadow:
-  0 0 25px var(--pink),
-  0 10px 20px rgba(0,0,0,.4);
-
-  display:flex;
-  align-items:center;
-  justify-content:center;
-
-  transition:.2s;
-}
-
-.bubble:hover{
-  transform:scale(1.1);
-}
-
-.bubble img{
-
-  width:90%;
-  height:90%;
-
-  object-fit:contain;
 }
 
 /* ================= LOGIN ================= */
 
 #login{
 
-  position:fixed;
-  inset:0;
+position:fixed;
+inset:0;
 
-  background:black;
+background:black;
 
-  display:flex;
-  align-items:center;
-  justify-content:center;
+display:flex;
+align-items:center;
+justify-content:center;
+
+z-index:10;
+
 }
 
 .loginbox{
 
-  background:white;
+background:white;
 
-  padding:30px;
+padding:30px;
 
-  border-radius:12px;
+border-radius:15px;
 
-  border:5px solid var(--purple);
+animation:pulse 2s infinite;
 
-  text-align:center;
 }
 
 .loginbox input{
 
-  padding:12px;
+padding:12px;
 
-  width:200px;
+font-size:16px;
 
-  font-size:16px;
+width:220px;
+
 }
 
 .loginbox button{
 
-  margin-top:12px;
+margin-top:12px;
 
-  padding:12px;
+padding:12px;
 
-  width:100%;
+width:100%;
 
-  background:var(--purple);
+background:#3c1c6b;
 
-  color:white;
+color:white;
 
-  font-weight:bold;
+border:none;
+
+font-weight:bold;
+
+cursor:pointer;
+
+}
+
+/* ================= TOP BAR ================= */
+
+.top{
+
+display:flex;
+justify-content:space-between;
+align-items:center;
+
+padding:10px;
+
+background:rgba(0,0,0,.3);
+
+color:white;
+
+}
+
+.timer{
+
+font-size:18px;
+
+}
+
+.controls{
+
+display:flex;
+gap:10px;
+
+}
+
+.ctrl{
+
+width:65px;
+height:65px;
+
+background:white;
+
+border-radius:15px;
+
+display:flex;
+align-items:center;
+justify-content:center;
+
+cursor:pointer;
+
+animation:pulse 2s infinite;
+
+}
+
+.ctrl img{
+
+width:42px;
+
+}
+
+/* ================= TITLE ================= */
+
+.title{
+
+text-align:center;
+
+font-size:52px;
+
+color:white;
+
+animation:glowTitle 3s infinite;
+
+}
+
+.subtitle{
+
+text-align:center;
+
+color:white;
+
+}
+
+/* ================= PROGRESS ================= */
+
+.bar{
+
+width:90%;
+
+margin:auto;
+
+height:20px;
+
+background:white;
+
+border-radius:10px;
+
+overflow:hidden;
+
+}
+
+.fill{
+
+height:100%;
+
+width:0%;
+
+background:linear-gradient(90deg,#fff3c4,#ff7eb3);
+
+transition:.5s;
+
+}
+
+.percent{
+
+color:white;
+
+text-align:right;
+
+width:90%;
+
+margin:auto;
+
+}
+
+/* ================= GRID ================= */
+
+.main{
+
+height:calc(100vh - 180px);
+
+display:flex;
+flex-direction:column;
+justify-content:center;
+
+}
+
+.row{
+
+display:flex;
+justify-content:center;
+
+gap:25px;
+
+margin-bottom:20px;
+
+}
+
+.bubble{
+
+width:170px;
+height:150px;
+
+background:white;
+
+border-radius:25px;
+
+display:flex;
+align-items:center;
+justify-content:center;
+
+cursor:pointer;
+
+transition:.3s;
+
+animation:pulse 2s infinite;
+
+}
+
+.bubble:hover{
+
+transform:scale(1.15);
+
+}
+
+/* ICON SIZE BIG */
+
+.bubble img{
+
+width:90%;
+height:90%;
+
+object-fit:contain;
+
+}
+
+/* SPECIAL EFFECTS */
+
+.challenge{
+
+animation:pulse 1s infinite;
+
+}
+
+.games{
+
+animation:pulse 3s infinite;
+
 }
 
 /* RESPONSIVE */
 
 @media(max-width:700px){
 
-  .bubble{
-    width:120px;
-    height:110px;
-  }
+.bubble{
 
-  .ctrl{
-    width:50px;
-    height:50px;
-  }
+width:130px;
+height:110px;
+
+}
+
+.ctrl{
+
+width:50px;
+height:50px;
+
+}
 
 }
 
@@ -258,7 +330,7 @@ html,body{
 
 <h2>ENTER THE PIT</h2>
 
-<input id="name">
+<input id="nameInput">
 
 <button onclick="enter()">START</button>
 
@@ -266,7 +338,7 @@ html,body{
 
 </div>
 
-<!-- TOP -->
+<!-- TOP BAR -->
 
 <div class="top">
 
@@ -275,19 +347,19 @@ html,body{
 <div class="controls">
 
 <div class="ctrl" onclick="startTimer()">
-<img src="stations/start_button.png">
+<img src="./stations/start_button.png">
 </div>
 
 <div class="ctrl" onclick="pauseTimer()">
-<img src="stations/pause_button.png">
+<img src="./stations/pause_button.png">
 </div>
 
 <div class="ctrl" onclick="toggleMusic()">
-<img id="musicIcon" src="stations/musicoff.png">
+<img id="musicIcon" src="./stations/musicoff.png">
 </div>
 
 <div class="ctrl" onclick="exitGame()">
-<img src="stations/exit_button.png">
+<img src="./stations/exit_button.png">
 </div>
 
 </div>
@@ -295,11 +367,10 @@ html,body{
 </div>
 
 <div class="title">THE PIT</div>
+
 <div class="subtitle">Your Journey to English</div>
 
 <!-- PROGRESS -->
-
-<div class="progress-wrap">
 
 <div class="bar">
 
@@ -309,44 +380,42 @@ html,body{
 
 <div class="percent" id="percent">0%</div>
 
-</div>
-
-<!-- MAIN -->
+<!-- GRID -->
 
 <div class="main">
 
 <div class="row">
 
-<a href="stations/vocabulary.html" class="bubble">
-<img src="stations/vocabulary.png">
+<a href="./stations/vocabulary.html" class="bubble">
+<img src="./stations/vocabulary.png">
 </a>
 
-<a href="stations/listening.html" class="bubble">
-<img src="stations/listening.png">
+<a href="./stations/listening.html" class="bubble">
+<img src="./stations/listening.png">
 </a>
 
-<a href="stations/speaking.html" class="bubble">
-<img src="stations/speaking.png">
+<a href="./stations/speaking.html" class="bubble">
+<img src="./stations/speaking.png">
 </a>
 
-<a href="stations/reading.html" class="bubble">
-<img src="stations/reading.png">
+<a href="./stations/reading.html" class="bubble">
+<img src="./stations/reading.png">
 </a>
 
-<a href="stations/writing.html" class="bubble">
-<img src="stations/writing.png">
+<a href="./stations/writing.html" class="bubble">
+<img src="./stations/writing.png">
 </a>
 
 </div>
 
 <div class="row">
 
-<a href="stations/challenge.html" class="bubble">
-<img src="stations/challenge.png">
+<a href="./stations/challenge.html" class="bubble challenge">
+<img src="./stations/challenge.png">
 </a>
 
-<a href="stations/games.html" class="bubble">
-<img src="stations/games.png">
+<a href="./stations/games.html" class="bubble games">
+<img src="./stations/games.png">
 </a>
 
 </div>
@@ -354,7 +423,7 @@ html,body{
 </div>
 
 <audio id="music" loop>
-<source src="stations/audio/music.mp3">
+<source src="./stations/audio/music.mp3">
 </audio>
 
 <script>
@@ -363,27 +432,33 @@ html,body{
 
 function enter(){
 
-if(name.value.trim()=="") return;
+const name=document.getElementById("nameInput").value.trim();
 
-sessionStorage.setItem("user",name.value);
+if(name===""){
+alert("Enter your name");
+return;
+}
 
-login.style.display="none";
+sessionStorage.setItem("user",name);
+
+document.getElementById("login").style.display="none";
 
 }
 
-if(sessionStorage.getItem("user"))
-login.style.display="none";
+if(sessionStorage.getItem("user")){
+
+document.getElementById("login").style.display="none";
+
+}
 
 /* TIMER */
 
 let time=0;
-let running=false;
+let interval=null;
 
 function startTimer(){
 
-if(running) return;
-
-running=true;
+if(interval) return;
 
 interval=setInterval(()=>{
 
@@ -397,6 +472,7 @@ timer.innerText=m+":"+s;
 let p=Math.min(time/300*100,100);
 
 fill.style.width=p+"%";
+
 percent.innerText=Math.floor(p)+"%";
 
 },1000);
@@ -405,9 +481,9 @@ percent.innerText=Math.floor(p)+"%";
 
 function pauseTimer(){
 
-running=false;
-
 clearInterval(interval);
+
+interval=null;
 
 }
 
@@ -417,17 +493,18 @@ let musicOn=false;
 
 function toggleMusic(){
 
+const music=document.getElementById("music");
+const icon=document.getElementById("musicIcon");
+
 if(musicOn){
 
 music.pause();
-
-musicIcon.src="stations/musicoff.png";
+icon.src="./stations/musicoff.png";
 
 }else{
 
 music.play();
-
-musicIcon.src="stations/musicon.png";
+icon.src="./stations/musicon.png";
 
 }
 
@@ -439,7 +516,7 @@ musicOn=!musicOn;
 
 function exitGame(){
 
-sessionStorage.clear();
+sessionStorage.removeItem("user");
 
 location.reload();
 
