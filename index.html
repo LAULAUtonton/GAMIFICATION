@@ -10,336 +10,238 @@
 
 <style>
 
-/* ================= BACKGROUND ================= */
+/* ================= BASE ================= */
 
 html,body{
-
 margin:0;
 height:100vh;
 overflow:hidden;
-
 font-family:'Orbitron',sans-serif;
-
 background:
 radial-gradient(circle at center,
 #ff7eb3 0%,
 #6d5acb 40%,
 #3c1c6b 100%);
-
 }
 
 /* ================= LOGIN ================= */
 
 #login{
-
 position:fixed;
 inset:0;
-
 background:black;
-
 display:flex;
 align-items:center;
 justify-content:center;
-
 z-index:100;
-
 }
 
 .loginbox{
-
 background:white;
-
 padding:30px;
-
-border-radius:15px;
-
+border-radius:12px;
 text-align:center;
-
-box-shadow:0 0 30px #ff7eb3;
-
 }
 
 .loginbox input{
-
 padding:14px;
-
 width:240px;
-
 font-size:18px;
-
 }
 
 .loginbox button{
-
-margin-top:14px;
-
+margin-top:12px;
 padding:14px;
-
 width:100%;
-
 background:#3c1c6b;
-
 color:white;
-
 border:none;
-
 font-weight:bold;
-
-font-size:16px;
-
 cursor:pointer;
-
 }
 
 /* ================= TOP BAR ================= */
 
 .top{
-
 display:flex;
 justify-content:space-between;
 align-items:center;
-
 padding:10px 20px;
-
-background:rgba(0,0,0,.35);
-
 color:white;
-
 }
 
 /* INFO */
 
 .info{
-
 display:flex;
 gap:20px;
-
 font-size:20px;
-
 }
 
-/* CONTROLS */
+/* CONTROL BUTTONS USING PURE PNG */
 
 .controls{
-
 display:flex;
-gap:12px;
-
+gap:14px;
 }
-
-/* EXTREME BUTTON */
 
 .ctrl{
 
-position:relative;
-
-width:75px;
-height:75px;
-
-border-radius:16px;
+width:90px;
+height:90px;
 
 cursor:pointer;
 
-overflow:hidden;
-
-box-shadow:0 0 20px #ff7eb3;
+background-size:100% 100%;
+background-position:center;
+background-repeat:no-repeat;
 
 transition:.2s;
 
 }
 
 .ctrl:hover{
-
 transform:scale(1.15);
-
 }
 
-/* EXTREME ICON FILL */
+/* CONTROL IMAGES */
 
-.ctrl img{
+.start{
+background-image:url("./stations/start_button.png");
+}
 
-position:absolute;
+.pause{
+background-image:url("./stations/pause_button.png");
+}
 
-width:100%;
-height:100%;
+.exit{
+background-image:url("./stations/exit_button.png");
+}
 
-object-fit:contain;
-
-top:0;
-left:0;
-
+.music{
+background-image:url("./stations/musicoff.png");
 }
 
 /* ================= TITLE ================= */
 
 .title{
-
 text-align:center;
-
 font-size:56px;
-
 color:white;
-
-text-shadow:0 0 30px white;
-
 }
 
 .subtitle{
-
 text-align:center;
-
 color:white;
-
 margin-bottom:10px;
-
 }
 
 /* ================= PROGRESS ================= */
 
 .bar{
-
 width:90%;
-
 margin:auto;
-
 height:22px;
-
 background:white;
-
 border-radius:12px;
-
 overflow:hidden;
-
 }
 
 .fill{
-
 height:100%;
-
 width:0%;
-
 background:linear-gradient(90deg,#fff3c4,#ff7eb3);
-
-transition:.3s;
-
 }
 
 .percent{
-
 color:white;
-
 text-align:right;
-
 width:90%;
-
 margin:auto;
-
 font-size:18px;
-
 }
 
-/* ================= GRID ================= */
+/* ================= STATION BUTTONS PURE PNG ================= */
 
 .main{
-
 height:calc(100vh - 210px);
-
 display:flex;
 flex-direction:column;
 justify-content:center;
-
 }
 
 .row{
-
 display:flex;
 justify-content:center;
-
-gap:25px;
-
+gap:30px;
 margin-bottom:20px;
-
 }
 
-/* EXTREME STATION BUTTON */
+.station{
 
-.bubble{
-
-position:relative;
-
-width:190px;
-height:170px;
-
-border-radius:22px;
+width:200px;
+height:180px;
 
 cursor:pointer;
 
-overflow:hidden;
-
-box-shadow:0 0 30px #ff7eb3;
+background-size:100% 100%;
+background-position:center;
+background-repeat:no-repeat;
 
 transition:.2s;
 
 }
 
-.bubble:hover{
-
-transform:scale(1.2);
-
+.station:hover{
+transform:scale(1.15);
 }
 
-/* EXTREME ICON FILL */
+/* station images */
 
-.bubble img{
-
-position:absolute;
-
-width:100%;
-height:100%;
-
-object-fit:contain;
-
-top:0;
-left:0;
-
+.vocabulary{
+background-image:url("./stations/vocabulary.png");
 }
 
-/* SPECIAL */
+.listening{
+background-image:url("./stations/listening.png");
+}
 
-.games{
+.speaking{
+background-image:url("./stations/speaking.png");
+}
 
-box-shadow:0 0 40px gold;
+.reading{
+background-image:url("./stations/reading.png");
+}
 
+.writing{
+background-image:url("./stations/writing.png");
 }
 
 .challenge{
+background-image:url("./stations/challenge.png");
+}
 
-box-shadow:0 0 40px #fff3c4;
-
+.games{
+background-image:url("./stations/games.png");
 }
 
 /* ================= RESPONSIVE ================= */
 
 @media(max-width:800px){
 
-.bubble{
-
+.station{
 width:140px;
 height:120px;
-
 }
 
 .ctrl{
-
 width:60px;
 height:60px;
-
 }
 
 .title{
-
 font-size:40px;
-
 }
 
 }
@@ -378,21 +280,13 @@ font-size:40px;
 
 <div class="controls">
 
-<div class="ctrl" onclick="startTimer()">
-<img src="./stations/start_button.png">
-</div>
+<div class="ctrl start" onclick="startTimer()"></div>
 
-<div class="ctrl" onclick="pauseTimer()">
-<img src="./stations/pause_button.png">
-</div>
+<div class="ctrl pause" onclick="pauseTimer()"></div>
 
-<div class="ctrl" onclick="toggleMusic()">
-<img id="musicIcon" src="./stations/musicoff.png">
-</div>
+<div class="ctrl music" id="musicBtn" onclick="toggleMusic()"></div>
 
-<div class="ctrl" onclick="exitGame()">
-<img src="./stations/exit_button.png">
-</div>
+<div class="ctrl exit" onclick="exitGame()"></div>
 
 </div>
 
@@ -414,49 +308,33 @@ font-size:40px;
 
 <div class="percent" id="percent">0%</div>
 
-<!-- GRID -->
+<!-- STATIONS -->
 
 <div class="main">
 
 <div class="row">
 
-<a href="./stations/vocabulary.html" class="bubble">
-<img src="./stations/vocabulary.png">
-</a>
+<a href="./stations/vocabulary.html" class="station vocabulary"></a>
 
-<a href="./stations/listening.html" class="bubble">
-<img src="./stations/listening.png">
-</a>
+<a href="./stations/listening.html" class="station listening"></a>
 
-<a href="./stations/speaking.html" class="bubble">
-<img src="./stations/speaking.png">
-</a>
+<a href="./stations/speaking.html" class="station speaking"></a>
 
-<a href="./stations/reading.html" class="bubble">
-<img src="./stations/reading.png">
-</a>
+<a href="./stations/reading.html" class="station reading"></a>
 
-<a href="./stations/writing.html" class="bubble">
-<img src="./stations/writing.png">
-</a>
+<a href="./stations/writing.html" class="station writing"></a>
 
 </div>
 
 <div class="row">
 
-<a href="./stations/challenge.html" class="bubble challenge">
-<img src="./stations/challenge.png">
-</a>
+<a href="./stations/challenge.html" class="station challenge"></a>
 
-<a href="./stations/games.html" class="bubble games">
-<img src="./stations/games.png">
-</a>
+<a href="./stations/games.html" class="station games"></a>
 
 </div>
 
 </div>
-
-<!-- AUDIO -->
 
 <audio id="music" loop>
 <source src="./stations/audio/music.mp3">
@@ -502,8 +380,8 @@ let s=(time%60).toString().padStart(2,"0");
 
 timer.innerText=m+":"+s;
 
-updateProgress();
 updateScore();
+updateProgress();
 
 },1000);
 
@@ -545,16 +423,17 @@ let musicOn=false;
 function toggleMusic(){
 
 const music=document.getElementById("music");
+const btn=document.getElementById("musicBtn");
 
 if(musicOn){
 
 music.pause();
-musicIcon.src="./stations/musicoff.png";
+btn.style.backgroundImage='url("./stations/musicoff.png")';
 
 }else{
 
 music.play();
-musicIcon.src="./stations/musicon.png";
+btn.style.backgroundImage='url("./stations/musicon.png")';
 
 }
 
@@ -576,3 +455,4 @@ location.reload();
 
 </body>
 </html>
+
