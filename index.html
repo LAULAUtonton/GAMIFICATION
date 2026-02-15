@@ -6,7 +6,7 @@
 
 <title>THE PIT — Your Journey to English</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Orbitron:wght@600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&display=swap" rel="stylesheet">
 
 <style>
 
@@ -15,51 +15,10 @@
 html,body{
 margin:0;
 height:100vh;
-overflow:hidden;
 font-family:'Orbitron',sans-serif;
-
-background:
-radial-gradient(circle at center,
-#ff7eb3 0%,
-#6d5acb 45%,
-#3c1c6b 100%);
-
+background:radial-gradient(circle,#ff7eb3 0%,#6d5acb 45%,#3c1c6b 100%);
 color:white;
-}
-
-/* ================= LOGIN ================= */
-
-#login{
-position:fixed;
-inset:0;
-background:black;
-display:flex;
-align-items:center;
-justify-content:center;
-z-index:100;
-}
-
-.loginbox{
-background:#111;
-padding:40px;
-text-align:center;
-}
-
-.loginbox input{
-padding:16px;
-width:260px;
-font-size:20px;
-}
-
-.loginbox button{
-margin-top:14px;
-padding:16px;
-width:100%;
-background:#ff7eb3;
-color:black;
-border:none;
-font-weight:bold;
-cursor:pointer;
+overflow:hidden;
 }
 
 /* ================= TOP BAR ================= */
@@ -68,34 +27,33 @@ cursor:pointer;
 display:flex;
 justify-content:space-between;
 align-items:center;
-padding:15px 25px;
+padding:15px 30px;
 }
-
-/* INFO */
 
 .info{
+font-size:24px;
 display:flex;
 gap:30px;
-font-size:24px;
 }
 
-/* ================= CONTROL BUTTONS ================= */
-
-.controls{
-display:flex;
-gap:18px;
-}
-
-/* CONTROL ICON BUTTON */
+/* ================= BUTTON CORE STYLE ================= */
 
 .ctrl{
 
-width:110px;
-height:110px;
+width:80px;
+height:80px;
 
-background-repeat:no-repeat;
-background-position:center;
-background-size:95%;
+background:white;
+
+border-radius:18px;
+
+box-shadow:
+0 8px 20px rgba(0,0,0,0.45),
+inset 0 0 6px rgba(0,0,0,0.15);
+
+display:flex;
+align-items:center;
+justify-content:center;
 
 cursor:pointer;
 
@@ -107,26 +65,23 @@ transition:0.2s;
 transform:scale(1.12);
 }
 
-/* CONTROL ICON FILES */
-
-.start{
-background-image:url("./stations/start_button.png");
+.ctrl:active{
+transform:scale(0.95);
 }
 
-.pause{
-background-image:url("./stations/pause_button.png");
+/* ICON INSIDE BUTTON */
+
+.ctrl img{
+width:48px;
+height:48px;
+pointer-events:none;
 }
 
-.reset{
-background-image:url("./stations/reset.png");
-}
+/* CONTROL GROUP */
 
-.exit{
-background-image:url("./stations/exit_button.png");
-}
-
-.music{
-background-image:url("./stations/musicoff.png");
+.controls{
+display:flex;
+gap:18px;
 }
 
 /* ================= TITLE ================= */
@@ -134,31 +89,29 @@ background-image:url("./stations/musicoff.png");
 .title{
 text-align:center;
 font-size:64px;
-}
-
-.subtitle{
-text-align:center;
-margin-bottom:10px;
+margin-top:5px;
 }
 
 /* ================= PROGRESS ================= */
 
 .bar{
-width:90%;
+width:80%;
 margin:auto;
 height:20px;
 background:rgba(255,255,255,0.2);
+border-radius:10px;
+overflow:hidden;
 }
 
 .fill{
 height:100%;
 width:0%;
-background:#fff3c4;
+background:white;
 }
 
 .percent{
 text-align:right;
-width:90%;
+width:80%;
 margin:auto;
 font-size:20px;
 }
@@ -166,29 +119,36 @@ font-size:20px;
 /* ================= STATIONS ================= */
 
 .main{
-height:calc(100vh - 240px);
 display:flex;
 flex-direction:column;
+align-items:center;
 justify-content:center;
+height:calc(100vh - 280px);
 }
 
 .row{
 display:flex;
-justify-content:center;
-gap:50px;
-margin-bottom:30px;
+gap:45px;
+margin-bottom:25px;
 }
 
-/* STATION ICON BUTTON */
+/* STATION BUTTON */
 
 .station{
 
-width:240px;
-height:220px;
+width:230px;
+height:230px;
 
-background-repeat:no-repeat;
-background-position:center;
-background-size:contain;
+background:white;
+
+border-radius:24px;
+
+box-shadow:
+0 12px 30px rgba(0,0,0,0.5);
+
+display:flex;
+align-items:center;
+justify-content:center;
 
 cursor:pointer;
 
@@ -200,22 +160,42 @@ transition:0.25s;
 transform:scale(1.15);
 }
 
-/* Challenge bigger */
+.station img{
+width:80%;
+height:80%;
+object-fit:contain;
+}
+
+/* CHALLENGE BIGGER */
 
 .challenge{
 width:280px;
-height:260px;
+height:280px;
 }
 
-/* STATION IMAGES */
+/* ================= BOTTOM CONTROLS ================= */
 
-.vocabulary{ background-image:url("./stations/vocabulary.png"); }
-.listening{ background-image:url("./stations/listening.png"); }
-.speaking{ background-image:url("./stations/speaking.png"); }
-.reading{ background-image:url("./stations/reading.png"); }
-.writing{ background-image:url("./stations/writing.png"); }
-.challenge{ background-image:url("./stations/challenge.png"); }
-.games{ background-image:url("./stations/games.png"); }
+.bottomControls{
+
+position:fixed;
+
+bottom:25px;
+left:50%;
+
+transform:translateX(-50%);
+
+display:flex;
+gap:25px;
+
+background:rgba(0,0,0,0.3);
+
+padding:15px 25px;
+
+border-radius:22px;
+
+box-shadow:0 10px 30px rgba(0,0,0,0.5);
+
+}
 
 /* ================= RESPONSIVE ================= */
 
@@ -223,12 +203,22 @@ height:260px;
 
 .station{
 width:160px;
-height:140px;
+height:160px;
+}
+
+.challenge{
+width:190px;
+height:190px;
 }
 
 .ctrl{
-width:70px;
-height:70px;
+width:60px;
+height:60px;
+}
+
+.ctrl img{
+width:36px;
+height:36px;
 }
 
 .title{
@@ -242,16 +232,6 @@ font-size:42px;
 
 <body>
 
-<!-- LOGIN -->
-
-<div id="login">
-<div class="loginbox">
-<h2>ENTER THE PIT</h2>
-<input id="nameInput">
-<button onclick="enter()">START</button>
-</div>
-</div>
-
 <!-- TOP BAR -->
 
 <div class="top">
@@ -263,15 +243,17 @@ font-size:42px;
 
 <div class="controls">
 
-<div class="ctrl start" onclick="startTimer()"></div>
+<div class="ctrl" onclick="startTimer()">
+<img src="./stations/start_button.png">
+</div>
 
-<div class="ctrl pause" onclick="pauseTimer()"></div>
+<div class="ctrl" onclick="pauseTimer()">
+<img src="./stations/pause_button.png">
+</div>
 
-<div class="ctrl reset" onclick="resetTimer()"></div>
-
-<div class="ctrl music" id="musicBtn" onclick="toggleMusic()"></div>
-
-<div class="ctrl exit" onclick="exitGame()"></div>
+<div class="ctrl" onclick="exitGame()">
+<img src="./stations/exit_button.png">
+</div>
 
 </div>
 
@@ -280,7 +262,6 @@ font-size:42px;
 <!-- TITLE -->
 
 <div class="title">THE PIT</div>
-<div class="subtitle">Your Journey to English</div>
 
 <!-- PROGRESS -->
 
@@ -296,65 +277,78 @@ font-size:42px;
 
 <div class="row">
 
-<a href="./stations/vocabulary.html" class="station vocabulary"></a>
-<a href="./stations/listening.html" class="station listening"></a>
-<a href="./stations/speaking.html" class="station speaking"></a>
-<a href="./stations/reading.html" class="station reading"></a>
-<a href="./stations/writing.html" class="station writing"></a>
+<a href="./stations/vocabulary.html" class="station">
+<img src="./stations/vocabulary.png">
+</a>
+
+<a href="./stations/listening.html" class="station">
+<img src="./stations/listening.png">
+</a>
+
+<a href="./stations/speaking.html" class="station">
+<img src="./stations/speaking.png">
+</a>
+
+<a href="./stations/reading.html" class="station">
+<img src="./stations/reading.png">
+</a>
+
+<a href="./stations/writing.html" class="station">
+<img src="./stations/writing.png">
+</a>
 
 </div>
 
 <div class="row">
 
-<a href="./stations/challenge.html" class="station challenge"></a>
-<a href="./stations/games.html" class="station games"></a>
+<a href="./stations/challenge.html" class="station challenge">
+<img src="./stations/challenge.png">
+</a>
+
+<a href="./stations/games.html" class="station">
+<img src="./stations/games.png">
+</a>
 
 </div>
 
 </div>
+
+<!-- BOTTOM CONTROLS -->
+
+<div class="bottomControls">
+
+<div class="ctrl" onclick="toggleMusic()">
+<img id="musicIcon" src="./stations/musicoff.png">
+</div>
+
+<div class="ctrl" onclick="resetTimer()">
+<img src="./stations/reset.png">
+</div>
+
+</div>
+
+<!-- AUDIO -->
 
 <audio id="music" loop>
-<source src="./stations/audio/music.mp3">
+<source src="./stations/audio/music.mp3" type="audio/mpeg">
 </audio>
 
 <script>
 
-/* LOGIN */
-
-function enter(){
-
-const name=nameInput.value.trim();
-
-if(!name){
-alert("Enter your name");
-return;
-}
-
-sessionStorage.setItem("user",name);
-
-login.style.display="none";
-
-}
-
-if(sessionStorage.getItem("user"))
-login.style.display="none";
-
-/* TIMER */
+/* TIMER SYSTEM */
 
 let time=0;
 let interval=null;
 
 function startTimer(){
 
-if(interval) return;
+if(interval)return;
 
 interval=setInterval(()=>{
 
 time++;
 
-updateTimer();
-updateScore();
-updateProgress();
+updateUI();
 
 },1000);
 
@@ -371,30 +365,18 @@ function resetTimer(){
 
 pauseTimer();
 time=0;
-updateTimer();
-updateScore();
-updateProgress();
+updateUI();
 
 }
 
-/* UPDATE FUNCTIONS */
-
-function updateTimer(){
+function updateUI(){
 
 let m=Math.floor(time/60).toString().padStart(2,"0");
 let s=(time%60).toString().padStart(2,"0");
 
 timer.innerText=m+":"+s;
 
-}
-
-function updateScore(){
-
 score.innerText="Score: "+Math.floor(time/2);
-
-}
-
-function updateProgress(){
 
 let p=Math.min(time/300*100,100);
 
@@ -403,28 +385,28 @@ percent.innerText=Math.floor(p)+"%";
 
 }
 
-/* MUSIC */
+/* MUSIC SYSTEM */
 
-let musicOn=false;
+const music=document.getElementById("music");
+const musicIcon=document.getElementById("musicIcon");
+
+let musicPlaying=false;
 
 function toggleMusic(){
 
-const music=document.getElementById("music");
-const btn=document.getElementById("musicBtn");
-
-if(musicOn){
+if(musicPlaying){
 
 music.pause();
-btn.style.backgroundImage='url("./stations/musicoff.png")';
+musicIcon.src="./stations/musicoff.png";
 
 }else{
 
-music.play();
-btn.style.backgroundImage='url("./stations/musicon.png")';
+music.play().catch(()=>{});
+musicIcon.src="./stations/musicon.png";
 
 }
 
-musicOn=!musicOn;
+musicPlaying=!musicPlaying;
 
 }
 
@@ -432,7 +414,8 @@ musicOn=!musicOn;
 
 function exitGame(){
 
-sessionStorage.removeItem("user");
+pauseTimer();
+music.pause();
 location.reload();
 
 }
