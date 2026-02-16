@@ -83,7 +83,7 @@ padding:6px 14px;
 border-radius:10px;
 }
 
-/* ===== MAIN CONTROLS (balanced) ===== */
+/* ===== MAIN CONTROLS ===== */
 
 .controls{
 display:flex;
@@ -155,13 +155,13 @@ display:flex;
 flex-direction:column;
 align-items:center;
 justify-content:center;
-height:calc(100vh - 200px);
+height:calc(100vh - 210px);
 }
 
 .row{
 display:flex;
-gap:24px;
-margin-bottom:20px;
+gap:22px;
+margin-bottom:22px;
 }
 
 .stationWrap{
@@ -172,8 +172,8 @@ text-decoration:none;
 }
 
 .station{
-width:160px;
-height:160px;
+width:155px;
+height:155px;
 background:white;
 border-radius:20px;
 display:flex;
@@ -196,7 +196,7 @@ object-fit:contain;
 
 .stationLabel{
 margin-top:8px;
-font-size:16px;
+font-size:15px;
 letter-spacing:2px;
 text-shadow:
 2px 2px 0 black,
@@ -293,34 +293,57 @@ fill:#6d5acb;
 <div class="percent" id="percent">0%</div>
 
 <!-- STATIONS -->
+
 <div class="main">
 
 <div class="row">
-<a href="#" class="stationWrap">
+
+<a href="./stations/vocabulary.html" class="stationWrap">
 <div class="station"><img src="./stations/vocabulary.png"></div>
 <div class="stationLabel">VOCABULARY</div>
 </a>
 
-<a href="#" class="stationWrap">
+<a href="./stations/listening.html" class="stationWrap">
 <div class="station"><img src="./stations/listening.png"></div>
 <div class="stationLabel">LISTENING</div>
 </a>
 
-<a href="#" class="stationWrap">
+<a href="./stations/speaking.html" class="stationWrap">
+<div class="station"><img src="./stations/speaking.png"></div>
+<div class="stationLabel">SPEAKING</div>
+</a>
+
+<a href="./stations/reading.html" class="stationWrap">
 <div class="station"><img src="./stations/reading.png"></div>
 <div class="stationLabel">READING</div>
 </a>
 
-<a href="#" class="stationWrap">
+</div>
+
+<div class="row">
+
+<a href="./stations/writing.html" class="stationWrap">
 <div class="station"><img src="./stations/writing.png"></div>
 <div class="stationLabel">WRITING</div>
 </a>
+
+<a href="./stations/challenge.html" class="stationWrap">
+<div class="station"><img src="./stations/challenge.png"></div>
+<div class="stationLabel">CHALLENGE</div>
+</a>
+
+<a href="./stations/games.html" class="stationWrap">
+<div class="station"><img src="./stations/games.png"></div>
+<div class="stationLabel">GAMES</div>
+</a>
+
 </div>
 
 </div>
 
 <!-- MINI CONSOLE -->
 <div class="miniConsole">
+
 <div class="smallCtrl" onclick="resetTimer()">
 <svg viewBox="0 0 24 24">
 <path d="M12 6V3L8 7l4 4V8c2.8 0 5 2.2 5 5a5 5 0 1 1-5-5z"/>
@@ -332,6 +355,7 @@ fill:#6d5acb;
 <path d="M3 9v6h4l5 5V4L7 9H3z"/>
 </svg>
 </div>
+
 </div>
 
 <audio id="music" loop>
