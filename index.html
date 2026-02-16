@@ -18,7 +18,7 @@ color:white;
 overflow:hidden;
 }
 
-/* ================= LOGIN ================= */
+/* LOGIN */
 
 .loginOverlay{
 position:fixed;
@@ -39,7 +39,6 @@ flex-direction:column;
 align-items:center;
 gap:18px;
 color:#3c1c6b;
-box-shadow:0 25px 60px rgba(0,0,0,0.7);
 }
 
 .loginBox input{
@@ -59,7 +58,7 @@ color:white;
 cursor:pointer;
 }
 
-/* ================= TOP ================= */
+/* TOP */
 
 .top{
 display:flex;
@@ -81,7 +80,7 @@ padding:6px 14px;
 border-radius:10px;
 }
 
-/* ===== MAIN CONTROLS ===== */
+/* MAIN CONTROLS */
 
 .controls{
 display:flex;
@@ -113,7 +112,7 @@ stroke:#3c1c6b;
 stroke-width:2;
 }
 
-/* ================= TITLE ================= */
+/* TITLE */
 
 .title{
 text-align:center;
@@ -121,7 +120,7 @@ font-size:48px;
 margin-top:4px;
 }
 
-/* ================= PROGRESS ================= */
+/* PROGRESS */
 
 .bar{
 width:78%;
@@ -146,7 +145,7 @@ font-size:13px;
 margin-top:4px;
 }
 
-/* ================= STATIONS ================= */
+/* STATIONS */
 
 .main{
 display:flex;
@@ -192,21 +191,20 @@ height:94%;
 object-fit:contain;
 }
 
-/* ===== MUCH MORE LEGIBLE LABEL ===== */
+/* NEON LABEL */
 
 .stationLabel{
-margin-top:10px;
-font-size:18px;
+margin-top:8px;
+font-size:16px;
 letter-spacing:2px;
-color:#3c1c6b;
-background:white;
-padding:6px 14px;
-border-radius:12px;
-box-shadow:0 6px 15px rgba(0,0,0,0.4);
-font-weight:800;
+color:#ffffff;
+text-shadow:
+0 0 4px #fff,
+0 0 8px #ff7eb3,
+0 0 14px #6d5acb;
 }
 
-/* ================= MINI CONSOLE (BIGGER) ================= */
+/* MINI CONSOLE */
 
 .miniConsole{
 position:fixed;
@@ -229,9 +227,7 @@ display:flex;
 align-items:center;
 justify-content:center;
 cursor:pointer;
-box-shadow:
-0 8px 20px rgba(0,0,0,0.6),
-inset 0 0 6px rgba(0,0,0,0.2);
+box-shadow:0 8px 20px rgba(0,0,0,0.6);
 transition:.2s;
 }
 
@@ -243,14 +239,6 @@ transform:scale(1.1);
 width:70%;
 height:70%;
 fill:#6d5acb;
-}
-
-/* ================= RESPONSIVE ================= */
-
-@media(max-width:900px){
-.station{width:120px;height:120px;}
-.bigCtrl{width:50px;height:50px;}
-.smallCtrl{width:48px;height:48px;}
 }
 
 </style>
@@ -301,41 +289,39 @@ fill:#6d5acb;
 <div class="bar"><div class="fill" id="fill"></div></div>
 <div class="percent" id="percent">0%</div>
 
-<!-- STATIONS -->
-
 <div class="main">
 
 <div class="row">
 <a href="./stations/vocabulary.html" class="stationWrap">
 <div class="station"><img src="./stations/vocabulary.png"></div>
-<div class="stationLabel">VOCABULARY</div>
+<div class="stationLabel">VOCAB</div>
 </a>
 
 <a href="./stations/listening.html" class="stationWrap">
 <div class="station"><img src="./stations/listening.png"></div>
-<div class="stationLabel">LISTENING</div>
+<div class="stationLabel">LISTEN</div>
 </a>
 
 <a href="./stations/speaking.html" class="stationWrap">
 <div class="station"><img src="./stations/speaking.png"></div>
-<div class="stationLabel">SPEAKING</div>
+<div class="stationLabel">SPEAK</div>
 </a>
 
 <a href="./stations/reading.html" class="stationWrap">
 <div class="station"><img src="./stations/reading.png"></div>
-<div class="stationLabel">READING</div>
+<div class="stationLabel">READ</div>
 </a>
 </div>
 
 <div class="row">
 <a href="./stations/writing.html" class="stationWrap">
 <div class="station"><img src="./stations/writing.png"></div>
-<div class="stationLabel">WRITING</div>
+<div class="stationLabel">WRITE</div>
 </a>
 
 <a href="./stations/challenge.html" class="stationWrap">
 <div class="station"><img src="./stations/challenge.png"></div>
-<div class="stationLabel">CHALLENGE</div>
+<div class="stationLabel">CHALL</div>
 </a>
 
 <a href="./stations/games.html" class="stationWrap">
@@ -349,9 +335,10 @@ fill:#6d5acb;
 <!-- MINI CONSOLE -->
 
 <div class="miniConsole">
+
 <div class="smallCtrl" onclick="resetTimer()">
 <svg viewBox="0 0 24 24">
-<path d="M12 6V3L8 7l4 4V8c2.8 0 5 2.2 5 5a5 5 0 1 1-5-5z"/>
+<path d="M12 5a7 7 0 1 1-6.2 4H3l4-4 4 4H8.8A5.5 5.5 0 1 0 12 6z"/>
 </svg>
 </div>
 
@@ -360,6 +347,7 @@ fill:#6d5acb;
 <path d="M3 9v6h4l5 5V4L7 9H3z"/>
 </svg>
 </div>
+
 </div>
 
 <audio id="music" loop>
