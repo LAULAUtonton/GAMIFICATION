@@ -2,246 +2,276 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Reading Station</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>THE PIT – Reading Mode</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800&display=swap" rel="stylesheet">
 
 <style>
 
-/* DARK METAL GRAY BACKGROUND + WHITE TEXT */
-body {
-    background: linear-gradient(135deg, #2b2b2b, #1f1f1f, #2a2a2a);
-    color: white;
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
+body{
+margin:0;
+font-family:'Orbitron',sans-serif;
+background:radial-gradient(circle,#bbf7d0 0%,#16a34a 60%,#052e16 100%);
+color:#111827;
+overflow-x:hidden;
 }
 
-/* UNIVERSAL ACTIVITY COLORS */
-.ordering-theme { background: #00B0FF20; border-left: 6px solid #00B0FF; }
-.matching-theme { background: #AB47BC20; border-left: 6px solid #AB47BC; }
-.trivia-theme { background: #4CAF5020; border-left: 6px solid #4CAF50; }
-.fill-theme { background: #EF535020; border-left: 6px solid #EF5350; }
-.builder-theme { background: #FDD83520; border-left: 6px solid #FDD835; }
-.listen-theme { background: #FFA72620; border-left: 6px solid #FFA726; }
-.read-theme { background: #5C6BC020; border-left: 6px solid #5C6BC0; }
-.speak-theme { background: #26C6DA20; border-left: 6px solid #26C6DA; }
+/* ================= CONTAINER ================= */
 
-/* FIXED BOTTOM BAR — PURPLE */
-.fixed-bar {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    background: #6A1B9A;
-    padding: 12px;
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    z-index: 9999;
-    border-top: 2px solid #4A0072;
-    backdrop-filter: blur(6px);
+.readingContainer{
+width:85%;
+max-width:900px;
+margin:50px auto;
+background:white;
+padding:40px;
+border-radius:25px;
+box-shadow:0 25px 50px rgba(0,0,0,0.6);
 }
 
-/* YELLOW BUTTONS */
-.bar-btn {
-    background: #FFEB3B;
-    color: #1A1A1A;
-    padding: 10px 20px;
-    border-radius: 10px;
-    border: none;
-    cursor: pointer;
-    font-size: 16px;
-}
-.bar-btn:hover { background: #FBC02D; color: black; }
+/* ================= TITLE ================= */
 
-/* GENERAL LAYOUT */
-.screen {
-    display: none;
-    padding: 30px;
-    margin-bottom: 100px;
-    border-radius: 12px;
-}
-#main {
-    padding: 30px;
-    margin-bottom: 100px;
-}
-button {
-    padding: 12px 20px;
-    margin: 10px;
-    border-radius: 10px;
-    border: none;
-    background: #4FC3F7;
-    cursor: pointer;
-    font-size: 18px;
-    color: black;
-}
-button:hover { background: #0288D1; color: white; }
-
-/* ========================= */
-/* UNIVERSAL HUD CSS */
-/* ========================= */
-
-#progress-container {
-    width: 100%;
-    height: 12px;
-    background: #444;
-    border-bottom: 2px solid #222;
-}
-#progress-bar {
-    width: 0%;
-    height: 100%;
-    background: #FFEB3B;
-    transition: width 0.4s ease;
+.readingTitle{
+text-align:center;
+font-size:32px;
+color:#14532d;
+margin-bottom:25px;
+letter-spacing:3px;
 }
 
-#hud-row {
-    display: flex;
-    gap: 10px;
-    padding: 10px 20px;
+/* ================= STREAK ================= */
+
+.streakText{
+text-align:center;
+font-weight:800;
+margin-bottom:15px;
+font-size:18px;
+color:#166534;
 }
 
-#score-box {
-    padding: 10px 20px;
-    font-size: 20px;
-    background: #6A1B9A;
-    border-radius: 10px;
+.streakContainer{
+width:100%;
+height:22px;
+background:#e5e7eb;
+border-radius:15px;
+overflow:hidden;
+margin-bottom:30px;
 }
 
-#timer-box {
-    padding: 10px 20px;
-    font-size: 20px;
-    background: #AB47BC;
-    border-radius: 10px;
+.streakFill{
+height:100%;
+width:0%;
+background:linear-gradient(90deg,#22c55e,#4ade80);
+transition:.3s;
 }
 
-#tip-box {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    background: #333;
-    padding: 15px 20px;
-    border-radius: 10px;
-    border: 2px solid #FFEB3B;
-    font-size: 16px;
-    max-width: 250px;
-    color: white;
-    z-index: 9999;
+/* ================= QUESTION CARD ================= */
+
+.questionCard{
+background:#f0fdf4;
+padding:25px;
+border-radius:18px;
+border:2px solid #22c55e;
+box-shadow:0 8px 20px rgba(34,197,94,0.3);
+margin-bottom:20px;
+}
+
+.questionText{
+font-size:18px;
+margin-bottom:15px;
+}
+
+/* ================= OPTIONS ================= */
+
+.optionBtn{
+display:block;
+width:100%;
+margin:10px 0;
+padding:12px 18px;
+border-radius:14px;
+background:white;
+border:2px solid #22c55e;
+cursor:pointer;
+font-weight:600;
+transition:.2s;
+}
+
+.optionBtn:hover{
+background:#dcfce7;
+transform:scale(1.02);
+}
+
+.optionBtn.correct{
+background:#22c55e;
+color:white;
+border:none;
+}
+
+.optionBtn.wrong{
+background:#ef4444;
+color:white;
+border:none;
+}
+
+/* ================= SUCCESS GLOW ================= */
+
+.streakSuccess{
+box-shadow:0 0 25px #22c55e,0 0 50px #4ade80;
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media(max-width:700px){
+.readingContainer{width:95%;padding:25px;}
 }
 
 </style>
 </head>
-
 <body>
 
-<!-- ========================= -->
-<!-- UNIVERSAL HUD BLOCK -->
-<!-- ========================= -->
+<div class="readingContainer">
 
-<div id="progress-container">
-    <div id="progress-bar"></div>
+<h2 class="readingTitle">READING STREAK MODE</h2>
+
+<div class="streakText">
+STREAK: <span id="streakCount">0</span> / 20
 </div>
 
-<div id="hud-row">
-    <div id="score-box">Score: <span id="score">0</span></div>
-    <div id="timer-box">Time: <span id="timer">00:00</span></div>
+<div class="streakContainer">
+<div class="streakFill" id="streakFill"></div>
 </div>
 
-<div id="tip-box">
-    <strong>Tip:</strong> <span id="tip-text">Choose a reading activity to begin!</span>
-</div>
+<div id="questionArea"></div>
 
-<!-- ========================= -->
-<!-- END HUD BLOCK -->
-<!-- ========================= -->
-
-<!-- FIXED BOTTOM BAR -->
-<div class="fixed-bar">
-    <button class="bar-btn" onclick="goBack()">Back</button>
-    <button class="bar-btn" onclick="location.href='../index.html'">Main Menu</button>
-    <button class="bar-btn" onclick="alert('Paused')">Pause</button>
-</div>
-
-<!-- MAIN MENU -->
-<div id="main">
-    <h1>Reading Station</h1>
-    <button onclick="openScreen('text1')">Reading Text 1</button>
-    <button onclick="openScreen('text2')">Reading Text 2</button>
-    <button onclick="openScreen('text3')">Reading Text 3</button>
-</div>
-
-<!-- READING TEXT 1 -->
-<div id="text1" class="screen read-theme">
-    <h2>Reading Text 1</h2>
-    <p>Read the passage and answer the questions.</p>
-</div>
-
-<!-- READING TEXT 2 -->
-<div id="text2" class="screen read-theme">
-    <h2>Reading Text 2</h2>
-    <p>Read the text and complete the tasks.</p>
-</div>
-
-<!-- READING TEXT 3 -->
-<div id="text3" class="screen read-theme">
-    <h2>Reading Text 3</h2>
-    <p>Read the story and choose the correct answers.</p>
 </div>
 
 <script>
 
-/* SCREEN NAVIGATION */
-function openScreen(id) {
-    document.querySelectorAll('.screen, #main').forEach(s => s.style.display = 'none');
-    document.getElementById(id).style.display = 'block';
+/* ================= SAMPLE BANK (replace with full bank) ================= */
 
-    setTip("Read carefully and complete the activity!");
-    startTimer();
-    setProgress(20);
+const READING_BANK = [
+{
+type:"title",
+question:"Choose the best title:",
+options:["A School Trip","Too Much Screen Time?","A Football Match","Holiday Fun"],
+answer:"Too Much Screen Time?"
+},
+{
+type:"scan",
+question:"How many hours did Daniel spend on his phone?",
+options:["2","6","7"],
+answer:"7"
+},
+{
+type:"patch",
+question:"Daniel felt tired and ______ in class.",
+options:["distracted","happy","relaxed"],
+answer:"distracted"
+},
+{
+type:"wrong",
+question:"Which statement is NOT true?",
+options:[
+"He played board games.",
+"He deleted his phone permanently.",
+"He felt calmer."
+],
+answer:"He deleted his phone permanently."
+},
+{
+type:"match",
+question:"Main idea of the text:",
+options:[
+"Reducing screen time improves wellbeing",
+"Buying new phones is important",
+"School is boring"
+],
+answer:"Reducing screen time improves wellbeing"
+},
+{
+type:"inference",
+question:"Why did Daniel feel happier?",
+options:[
+"He reduced screen time",
+"He bought new apps",
+"He left school"
+],
+answer:"He reduced screen time"
+}
+];
+
+/* ================= GAME LOGIC ================= */
+
+let streak = 0;
+let lastType = null;
+
+const streakCount = document.getElementById("streakCount");
+const streakFill = document.getElementById("streakFill");
+const questionArea = document.getElementById("questionArea");
+
+function getRandomQuestion(){
+
+let available = READING_BANK.filter(q => q.type !== lastType);
+let random = available[Math.floor(Math.random()*available.length)];
+lastType = random.type;
+return random;
 }
 
-function goBack() {
-    document.querySelectorAll('.screen').forEach(s => s.style.display = 'none');
-    document.getElementById('main').style.display = 'block';
+function loadQuestion(){
 
-    stopTimer();
-    setTip("Choose a reading activity to begin!");
-    setProgress(0);
+questionArea.innerHTML="";
+let q = getRandomQuestion();
+
+let card = document.createElement("div");
+card.className="questionCard";
+
+let questionText = document.createElement("div");
+questionText.className="questionText";
+questionText.innerText = q.question;
+card.appendChild(questionText);
+
+q.options.forEach(option => {
+
+let btn = document.createElement("button");
+btn.className="optionBtn";
+btn.innerText=option;
+
+btn.onclick=function(){
+
+if(option === q.answer){
+btn.classList.add("correct");
+streak++;
+updateStreak();
+setTimeout(loadQuestion,800);
+}else{
+btn.classList.add("wrong");
+streak=0;
+updateStreak();
+}
+};
+
+card.appendChild(btn);
+
+});
+
+questionArea.appendChild(card);
 }
 
-/* ========================= */
-/* UNIVERSAL HUD JS */
-/* ========================= */
+function updateStreak(){
 
-function setProgress(percent) {
-    document.getElementById("progress-bar").style.width = percent + "%";
+streakCount.innerText=streak;
+let percent = (streak/20)*100;
+streakFill.style.width = percent+"%";
+
+if(streak === 20){
+document.querySelector(".readingContainer").classList.add("streakSuccess");
+alert("READING MASTER UNLOCKED!");
+streak=0;
+updateStreak();
+}
 }
 
-let score = 0;
-function addScore(points) {
-    score += points;
-    document.getElementById("score").textContent = score;
-}
-
-let time = 0;
-let timerInterval;
-
-function startTimer() {
-    stopTimer();
-    time = 0;
-    timerInterval = setInterval(() => {
-        time++;
-        let minutes = String(Math.floor(time / 60)).padStart(2, '0');
-        let seconds = String(time % 60).padStart(2, '0');
-        document.getElementById("timer").textContent = `${minutes}:${seconds}`;
-    }, 1000);
-}
-
-function stopTimer() {
-    clearInterval(timerInterval);
-}
-
-function setTip(text) {
-    document.getElementById("tip-text").textContent = text;
-}
+loadQuestion();
 
 </script>
 
