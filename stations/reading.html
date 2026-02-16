@@ -14,37 +14,60 @@ margin:0;
 font-family:'Orbitron',sans-serif;
 background:radial-gradient(circle,#bbf7d0 0%,#16a34a 60%,#052e16 100%);
 color:#111827;
-overflow-x:hidden;
 }
 
 /* ================= CONTAINER ================= */
 
 .readingContainer{
-width:85%;
-max-width:900px;
-margin:50px auto;
+width:90%;
+max-width:950px;
+margin:40px auto;
 background:white;
 padding:40px;
 border-radius:25px;
 box-shadow:0 25px 50px rgba(0,0,0,0.6);
 }
 
-/* ================= TITLE ================= */
-
 .readingTitle{
 text-align:center;
-font-size:32px;
+font-size:30px;
 color:#14532d;
-margin-bottom:25px;
-letter-spacing:3px;
+margin-bottom:20px;
 }
 
-/* ================= STREAK ================= */
+.textBox{
+background:#f0fdf4;
+padding:25px;
+border-radius:18px;
+line-height:1.7;
+margin-bottom:25px;
+border:2px solid #22c55e;
+max-height:300px;
+overflow-y:auto;
+}
+
+.startBtn{
+display:block;
+margin:20px auto;
+padding:12px 25px;
+border-radius:14px;
+border:none;
+background:#22c55e;
+color:white;
+font-weight:800;
+cursor:pointer;
+transition:.2s;
+}
+
+.startBtn:hover{
+background:#16a34a;
+transform:scale(1.05);
+}
 
 .streakText{
 text-align:center;
 font-weight:800;
-margin-bottom:15px;
+margin:20px 0 10px 0;
 font-size:18px;
 color:#166534;
 }
@@ -65,8 +88,6 @@ background:linear-gradient(90deg,#22c55e,#4ade80);
 transition:.3s;
 }
 
-/* ================= QUESTION CARD ================= */
-
 .questionCard{
 background:#f0fdf4;
 padding:25px;
@@ -76,18 +97,11 @@ box-shadow:0 8px 20px rgba(34,197,94,0.3);
 margin-bottom:20px;
 }
 
-.questionText{
-font-size:18px;
-margin-bottom:15px;
-}
-
-/* ================= OPTIONS ================= */
-
 .optionBtn{
 display:block;
 width:100%;
 margin:10px 0;
-padding:12px 18px;
+padding:12px;
 border-radius:14px;
 background:white;
 border:2px solid #22c55e;
@@ -98,7 +112,6 @@ transition:.2s;
 
 .optionBtn:hover{
 background:#dcfce7;
-transform:scale(1.02);
 }
 
 .optionBtn.correct{
@@ -113,16 +126,8 @@ color:white;
 border:none;
 }
 
-/* ================= SUCCESS GLOW ================= */
-
 .streakSuccess{
-box-shadow:0 0 25px #22c55e,0 0 50px #4ade80;
-}
-
-/* ================= RESPONSIVE ================= */
-
-@media(max-width:700px){
-.readingContainer{width:95%;padding:25px;}
+box-shadow:0 0 30px #22c55e,0 0 60px #4ade80;
 }
 
 </style>
@@ -132,6 +137,12 @@ box-shadow:0 0 25px #22c55e,0 0 50px #4ade80;
 <div class="readingContainer">
 
 <h2 class="readingTitle">READING STREAK MODE</h2>
+
+<div class="textBox" id="textBox"></div>
+
+<button class="startBtn" onclick="startChallenge()">START CHALLENGE</button>
+
+<div id="gameArea" style="display:none;">
 
 <div class="streakText">
 STREAK: <span id="streakCount">0</span> / 20
@@ -145,135 +156,69 @@ STREAK: <span id="streakCount">0</span> / 20
 
 </div>
 
+</div>
+
+<script src="reading-bank.js"></script>
+
 <script>
 
-/* ================= SAMPLE BANK (replace with full bank) ================= */
+/* ================= VARIABLES ================= */
 
-const READING_BANK = [
-{
-type:"title",
-question:"Choose the best title:",
-options:["A School Trip","Too Much Screen Time?","A Football Match","Holiday Fun"],
-answer:"Too Much Screen Time?"
-},
-{
-type:"scan",
-question:"How many hours did Daniel spend on his phone?",
-options:["2","6","7"],
-answer:"7"
-},
-{
-type:"patch",
-question:"Daniel felt tired and ______ in class.",
-options:["distracted","happy","relaxed"],
-answer:"distracted"
-},
-{
-type:"wrong",
-question:"Which statement is NOT true?",
-options:[
-"He played board games.",
-"He deleted his phone permanently.",
-"He felt calmer."
-],
-answer:"He deleted his phone permanently."
-},
-{
-type:"match",
-question:"Main idea of the text:",
-options:[
-"Reducing screen time improves wellbeing",
-"Buying new phones is important",
-"School is boring"
-],
-answer:"Reducing screen time improves wellbeing"
-},
-{
-type:"inference",
-question:"Why did Daniel feel happier?",
-options:[
-"He reduced screen time",
-"He bought new apps",
-"He left school"
-],
-answer:"He reduced screen time"
-}
-];
-
-/* ================= GAME LOGIC ================= */
-
+let currentText;
 let streak = 0;
 let lastType = null;
+let questionCounter = 0;
 
-const streakCount = document.getElementById("streakCount");
-const streakFill = document.getElementById("streakFill");
-const questionArea = document.getElementById("questionArea");
+/* ================= LOAD RANDOM TEXT ================= */
+
+function loadRandomText(){
+currentText = TEXT_BANK[Math.floor(Math.random()*TEXT_BANK.length)];
+document.getElementById("textBox").innerText = currentText.content;
+}
+
+/* ================= START ================= */
+
+function startChallenge(){
+document.querySelector(".startBtn").style.display="none";
+document.getElementById("gameArea").style.display="block";
+loadRandomText();
+loadQuestion();
+}
+
+/* ================= GET QUESTION ================= */
 
 function getRandomQuestion(){
 
-let available = READING_BANK.filter(q => q.type !== lastType);
-let random = available[Math.floor(Math.random()*available.length)];
+let filtered = READING_BANK.filter(q =>
+q.textId === currentText.id && q.type !== lastType
+);
+
+if(filtered.length === 0){
+lastType = null;
+filtered = READING_BANK.filter(q => q.textId === currentText.id);
+}
+
+let random = filtered[Math.floor(Math.random()*filtered.length)];
 lastType = random.type;
 return random;
 }
 
+/* ================= LOAD QUESTION ================= */
+
 function loadQuestion(){
 
-questionArea.innerHTML="";
+const area = document.getElementById("questionArea");
+area.innerHTML="";
+
 let q = getRandomQuestion();
 
 let card = document.createElement("div");
 card.className="questionCard";
 
 let questionText = document.createElement("div");
-questionText.className="questionText";
-questionText.innerText = q.question;
+questionText.innerText=q.question;
 card.appendChild(questionText);
 
-q.options.forEach(option => {
-
+q.options.forEach(opt=>{
 let btn = document.createElement("button");
-btn.className="optionBtn";
-btn.innerText=option;
-
-btn.onclick=function(){
-
-if(option === q.answer){
-btn.classList.add("correct");
-streak++;
-updateStreak();
-setTimeout(loadQuestion,800);
-}else{
-btn.classList.add("wrong");
-streak=0;
-updateStreak();
-}
-};
-
-card.appendChild(btn);
-
-});
-
-questionArea.appendChild(card);
-}
-
-function updateStreak(){
-
-streakCount.innerText=streak;
-let percent = (streak/20)*100;
-streakFill.style.width = percent+"%";
-
-if(streak === 20){
-document.querySelector(".readingContainer").classList.add("streakSuccess");
-alert("READING MASTER UNLOCKED!");
-streak=0;
-updateStreak();
-}
-}
-
-loadQuestion();
-
-</script>
-
-</body>
-</html>
+btn.className
