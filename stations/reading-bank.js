@@ -1,198 +1,299 @@
-/* ================= TEXT BANK ================= */
-
 const TEXT_BANK = [
 
-{
-id:"T1",
-title:"Too Much Screen Time?",
-content:`
-Daniel used to spend almost seven hours a day on his phone.
-He checked social media before school and watched videos late at night.
-His parents were worried because he was always tired.
+/* ================= UNIT 1 ================= */
 
-One weekend, he decided to try a digital detox.
-He turned off his phone and spent time outside with his family.
-On Sunday, he felt calmer and happier.`
+{
+id: "U1_T1",
+unit: 1,
+title: "A Night at the Old Factory",
+grammarFocus: "Past simple (regular/irregular) + there was/were",
+vocabularyFocus: ["appear","disappear","container","safe","worried","excited"],
+difficulty: "A2+",
+skills: ["gist","sequence","detail","inference"],
+content: `
+Last Friday, my friends and I visited an old factory near our town. There was a broken gate and there were pieces of metal on the ground. We felt nervous but curious.
+
+Inside the building, there were large containers and old machines. Dust covered everything. Suddenly, we heard a loud noise upstairs. My friend Leo said it was probably the wind, but I wasn’t sure.
+
+We walked carefully towards the stairs. There was a small light coming from one of the rooms. When we opened the door, we discovered a group of artists preparing an exhibition. They were using recycled materials to create sculptures.
+
+They explained that the factory had closed years ago, and they wanted to transform it into a cultural space. We felt relieved and impressed.
+
+At the end of the visit, we helped them move some materials. What started as a scary adventure became an unforgettable experience.
+`
 },
 
 {
-id:"T2",
-title:"A Week in Ireland",
-content:`
-Laura travelled to Ireland for a school exchange.
-She stayed with a host family near Dublin.
-At first, she felt nervous.
+id: "U1_T2",
+unit: 1,
+title: "The Time Capsule",
+grammarFocus: "Past simple + past time phrases",
+vocabularyFocus: ["hide","include","inside","outside","items","safe"],
+difficulty: "A2+",
+skills: ["gist","detail","vocabulary","sequence"],
+content: `
+Last month, students at our school found a small metal box under a tree in the playground. There was a note attached to it. It said, “Open in 2024.”
 
-Classes were different and students worked in groups.
-By the end of the week, she felt more confident.`
+Our teacher explained that it was a time capsule from twenty years ago. Inside, there were photos, letters and small objects. Some students had written about their favourite music and hobbies.
+
+We read that in 2004, there were no smartphones in our school. Students listened to CDs and wrote letters instead of sending messages online.
+
+One letter described how teenagers felt excited about the future. They believed technology would change everything. Reading their predictions made us smile.
+
+We decided to create our own time capsule. We included drawings, class photos and messages about our lives today. We buried it in the same place, hoping future students will feel as surprised as we did.
+`
+},
+
+/* ================= UNIT 2 ================= */
+
+{
+id: "U2_T1",
+unit: 2,
+title: "While the Storm Was Growing",
+grammarFocus: "Past continuous + past simple",
+vocabularyFocus: ["bright","huge","strange","materials","artist"],
+difficulty: "A2+",
+skills: ["sequence","grammar-awareness","detail","inference"],
+content: `
+It was getting dark while we were walking home from school. The sky was becoming grey and the wind was blowing strongly. I was carrying a cardboard model for my art project.
+
+Suddenly, it started to rain heavily. We were running when a loud noise interrupted us. A tree branch fell in front of us.
+
+While we were waiting under a bus stop, we saw an artist protecting his paintings. He was using plastic sheets to cover them.
+
+After a few minutes, the storm stopped. We continued our way home, laughing about the adventure. Later, I realised that I was feeling proud because we stayed calm during the storm.
+
+It wasn’t a terrible day. It was an unusual one.
+`
 },
 
 {
-id:"T3",
-title:"Teenagers Who Care",
-content:`
-A group of students organised a beach clean-up.
-More than fifty people collected plastic bottles.
+id: "U2_T2",
+unit: 2,
+title: "An Unexpected Interview",
+grammarFocus: "Past continuous + interrupted action",
+vocabularyFocus: ["designer","illustrator","photographer","brilliant","enormous"],
+difficulty: "A2+",
+skills: ["gist","detail","inference","structure"],
+content: `
+I was preparing my homework when my teacher called me. She said a famous street artist was visiting our school, and she asked if I wanted to interview him.
 
-They plan to repeat the event every three months.`
+While students were organising the exhibition, I was writing my questions. I was feeling nervous because it was my first interview.
+
+The artist explained that he started painting when he was a teenager. He described how he was creating murals while other children were playing outside.
+
+When the interview ended, I felt proud. It was an enormous opportunity. I learned that passion and practice are more important than talent.
+`
+},
+
+/* ================= UNIT 3 ================= */
+
+{
+id: "U3_T1",
+unit: 3,
+title: "If We Work Together",
+grammarFocus: "First conditional + will/won’t",
+vocabularyFocus: ["cycling","concert","festival","lake","picnic area"],
+difficulty: "A2+",
+skills: ["conditional-logic","detail","gist","prediction"],
+content: `
+Our town is planning an outdoor festival near the lake. If the weather is good, many families will attend. There will be music concerts, food trucks and cycling activities.
+
+The organisers say that if volunteers help, the event will run smoothly. If we collect enough money, we will donate it to a local charity.
+
+Some students are worried about the environment. They believe that if people leave rubbish behind, the park will become dirty.
+
+However, if everyone respects the rules, the festival will be a success. I think it will become a yearly tradition.
+`
 },
 
 {
-id:"T4",
-title:"Is Gaming Always Bad?",
-content:`
-Carlos enjoys playing video games.
-Some games develop skills,
-but too much gaming can affect sleep.
+id: "U3_T2",
+unit: 3,
+title: "Healthy Choices",
+grammarFocus: "First conditional + predictions",
+vocabularyFocus: ["working out","jogging","outdoor gym","fun run"],
+difficulty: "A2+",
+skills: ["inference","detail","cause-effect","gist"],
+content: `
+If we exercise regularly, we will feel more energetic. Many teenagers are joining a weekend fun run in our town.
 
-He created a schedule to find balance.`
+The coach says that if we train twice a week, we will improve quickly. If we eat healthy food, our performance will increase.
+
+Some students think they won’t finish the race. But if they believe in themselves, they will succeed.
+
+Taking care of our health today will protect our future.
+`
+},
+
+/* ================= UNIT 4 ================= */
+
+{
+id: "U4_T1",
+unit: 4,
+title: "Our Plans for the Summer",
+grammarFocus: "Be going to + will",
+vocabularyFocus: ["take part","volunteer","community","prediction"],
+difficulty: "A2+",
+skills: ["future-forms","gist","detail"],
+content: `
+This summer, I’m going to volunteer at a local community centre. We are going to organise activities for children.
+
+My friend thinks it will be challenging, but I believe it will be rewarding. We’re going to prepare games and help with homework.
+
+I’m sure I will learn new skills. It’s going to be a different summer from previous years.
+`
 },
 
 {
-id:"T5",
-title:"Small Changes, Big Results",
-content:`
-Sara stopped drinking fizzy drinks.
-She started walking to school.
+id: "U4_T2",
+unit: 4,
+title: "Life in 2050",
+grammarFocus: "Will for predictions",
+vocabularyFocus: ["renewable","technology","environmentally friendly"],
+difficulty: "A2+",
+skills: ["prediction","inference","detail"],
+content: `
+In 2050, cities will be greener and more sustainable. People will use electric transport and renewable energy.
 
-After a few weeks, she felt more energetic.`
+Schools will probably use virtual classrooms. Students won’t carry heavy books anymore.
+
+However, teachers will still guide and inspire students. Technology will help education, but it won’t replace human interaction.
+`
+},
+
+/* ================= UNIT 5 ================= */
+
+{
+id: "U5_T1",
+unit: 5,
+title: "More Than Just a Game",
+grammarFocus: "Comparatives + can/could",
+vocabularyFocus: ["harder","faster","better","more exciting"],
+difficulty: "A2+",
+skills: ["comparison","detail","gist"],
+content: `
+Last year, I couldn’t run very fast. Now I can run faster and longer than before.
+
+Football is more exciting than tennis, but tennis is more relaxing. Team sports are better for cooperation.
+
+Improving isn’t easy, but practice makes you stronger.
+`
 },
 
 {
-id:"T6",
-title:"Friends from Another Country",
-content:`
-Miguel met Tom through a language app.
-They practise English and Spanish weekly.
+id: "U5_T2",
+unit: 5,
+title: "Choosing the Best Activity",
+grammarFocus: "Superlatives + ability",
+vocabularyFocus: ["most popular","the best","the most difficult"],
+difficulty: "A2+",
+skills: ["comparison","inference","detail"],
+content: `
+In our school survey, swimming was the most popular activity. Basketball was more competitive, but swimming was more relaxing.
 
-Technology helped create a real friendship.`
+Students said it was the best way to stay fit. Everyone can find an activity that suits them.
+`
+},
+
+/* ================= UNIT 6 ================= */
+
+{
+id: "U6_T1",
+unit: 6,
+title: "A New Challenge",
+grammarFocus: "Present perfect (ever/never)",
+vocabularyFocus: ["injury","train","warm up","energy"],
+difficulty: "A2+",
+skills: ["experience","detail","gist"],
+content: `
+Have you ever joined a sports competition? I have recently started training for one.
+
+I have never experienced such excitement before. Since January, I have improved my stamina.
+
+Training has taught me discipline and patience.
+`
 },
 
 {
-id:"T7",
-title:"My First Job",
-content:`
-Andrea worked at a café.
-She learned to communicate with customers.
+id: "U6_T2",
+unit: 6,
+title: "Healthy Habits",
+grammarFocus: "Present perfect + since/for",
+vocabularyFocus: ["lifestyle","stretch","muscles","rest"],
+difficulty: "A2+",
+skills: ["detail","inference","vocabulary"],
+content: `
+I have changed my lifestyle this year. I have exercised regularly for six months.
 
-She became more confident and independent.`
+I have felt more energetic since I started. Rest and stretching have become important parts of my routine.
+`
+},
+
+/* ================= UNIT 7 ================= */
+
+{
+id: "U7_T1",
+unit: 7,
+title: "Online Responsibility",
+grammarFocus: "Must/should/have to",
+vocabularyFocus: ["respect","rule","responsible","protect"],
+difficulty: "A2+",
+skills: ["modal-meaning","detail","inference"],
+content: `
+Students must protect their passwords. They shouldn’t share personal information.
+
+Sometimes we have to report inappropriate behaviour. We must act responsibly online.
+`
 },
 
 {
-id:"T8",
-title:"A Trip to Remember",
-content:`
-Marcos travelled to Madrid.
-His suitcase was missing at the airport.
+id: "U7_T2",
+unit: 7,
+title: "School Guidelines",
+grammarFocus: "Obligation and advice",
+vocabularyFocus: ["uniform","attendance","behave"],
+difficulty: "A2+",
+skills: ["modal-recognition","detail"],
+content: `
+Students must attend classes regularly. They should respect teachers and classmates.
 
-It arrived the next day. He learned to stay calm.`
+Rules exist to create a safe environment.
+`
+},
+
+/* ================= UNIT 8 ================= */
+
+{
+id: "U8_T1",
+unit: 8,
+title: "By Ourselves",
+grammarFocus: "Reflexive + indefinite pronouns",
+vocabularyFocus: ["somebody","nobody","everywhere","themselves"],
+difficulty: "A2+",
+skills: ["pronoun-recognition","detail","inference"],
+content: `
+Last weekend, we organised a camping trip ourselves. Nobody helped us prepare.
+
+Somebody forgot the food, but we solved the problem ourselves.
+
+Doing things independently can teach responsibility.
+`
 },
 
 {
-id:"T9",
-title:"Helping the Community",
-content:`
-Students painted a sports centre.
-They worked in teams and felt proud.
+id: "U8_T2",
+unit: 8,
+title: "Everyone Can Help",
+grammarFocus: "Indefinite pronouns",
+vocabularyFocus: ["everybody","anyone","something","nothing"],
+difficulty: "A2+",
+skills: ["gist","detail","vocabulary"],
+content: `
+Everybody in our class participated in the charity event. Nobody wanted to stay at home.
 
-Volunteering made a difference.`
-},
-
-{
-id:"T10",
-title:"Tablets in the Classroom",
-content:`
-Students use tablets for research.
-Some teachers worry about distractions.
-
-The school created rules for proper use.`
+We collected something for each family in need. Anyone can make a difference.
+`
 }
-
-];
-
-
-/* ================= QUESTION BANK ================= */
-
-const READING_BANK = [
-
-/* ===== T1 ===== */
-
-{ textId:"T1", type:"title", question:"Choose the best title:", options:["Holiday in Spain","Too Much Screen Time?","A Football Match"], answer:"Too Much Screen Time?" },
-{ textId:"T1", type:"scan", question:"How many hours did Daniel spend on his phone?", options:["2","6","7"], answer:"7" },
-{ textId:"T1", type:"patch", question:"Daniel felt ______ in class.", options:["distracted","happy","relaxed"], answer:"distracted" },
-{ textId:"T1", type:"wrong", question:"Which is NOT true?", options:["He tried a detox.","He deleted his phone forever.","He felt calmer."], answer:"He deleted his phone forever." },
-{ textId:"T1", type:"inference", question:"Why did he feel happier?", options:["Less screen time","New phone","No school"], answer:"Less screen time" },
-
-/* ===== T2 ===== */
-
-{ textId:"T2", type:"title", question:"Choose the best title:", options:["Trip to London","A Week in Ireland","School Exam"], answer:"A Week in Ireland" },
-{ textId:"T2", type:"scan", question:"Where did Laura stay?", options:["Hotel","Host family","Alone"], answer:"Host family" },
-{ textId:"T2", type:"patch", question:"She felt more ______ speaking English.", options:["confident","angry","sad"], answer:"confident" },
-{ textId:"T2", type:"wrong", question:"Which is NOT true?", options:["She felt nervous.","Classes were different.","Ireland is in Spain."], answer:"Ireland is in Spain." },
-{ textId:"T2", type:"inference", question:"Why was the exchange useful?", options:["Improved English","Hated school","Returned early"], answer:"Improved English" },
-
-/* ===== T3 ===== */
-
-{ textId:"T3", type:"title", question:"Choose the best title:", options:["Beach Holiday","Teenagers Who Care","Plastic Factory"], answer:"Teenagers Who Care" },
-{ textId:"T3", type:"scan", question:"How many people participated?", options:["10","More than 50","5"], answer:"More than 50" },
-{ textId:"T3", type:"patch", question:"They collected plastic ______.", options:["bottles","shoes","tables"], answer:"bottles" },
-{ textId:"T3", type:"wrong", question:"Which is NOT true?", options:["They cleaned a beach.","They collected rubbish.","They built a hotel."], answer:"They built a hotel." },
-{ textId:"T3", type:"inference", question:"Why repeat the event?", options:["Help environment","Make money","Homework"], answer:"Help environment" },
-
-/* ===== T4 ===== */
-
-{ textId:"T4", type:"title", question:"Choose the best title:", options:["Video Games and Balance","Cooking Lesson","Travel Story"], answer:"Video Games and Balance" },
-{ textId:"T4", type:"scan", question:"What can too much gaming affect?", options:["Sleep","Food","Weather"], answer:"Sleep" },
-{ textId:"T4", type:"patch", question:"Carlos created a ______.", options:["schedule","problem","game"], answer:"schedule" },
-{ textId:"T4", type:"wrong", question:"Which is NOT true?", options:["Gaming can develop skills.","Balance is important.","Gaming improves sleep."], answer:"Gaming improves sleep." },
-{ textId:"T4", type:"inference", question:"Why did Carlos make a schedule?", options:["Find balance","Stop gaming","Win money"], answer:"Find balance" },
-
-/* ===== T5 ===== */
-
-{ textId:"T5", type:"title", question:"Choose the best title:", options:["Healthy Changes","Math Exam","Football Match"], answer:"Healthy Changes" },
-{ textId:"T5", type:"scan", question:"What did Sara stop drinking?", options:["Water","Fizzy drinks","Milk"], answer:"Fizzy drinks" },
-{ textId:"T5", type:"patch", question:"She felt more ______.", options:["energetic","tired","angry"], answer:"energetic" },
-{ textId:"T5", type:"wrong", question:"Which is NOT true?", options:["She walked to school.","She felt better.","She ate more sugar."], answer:"She ate more sugar." },
-{ textId:"T5", type:"inference", question:"What is the message?", options:["Small habits help","School is hard","Sports are boring"], answer:"Small habits help" },
-
-/* ===== T6 ===== */
-
-{ textId:"T6", type:"title", question:"Choose the best title:", options:["Online Friendship","Bad Travel","Exam Day"], answer:"Online Friendship" },
-{ textId:"T6", type:"scan", question:"Where does Tom live?", options:["Spain","Scotland","France"], answer:"Scotland" },
-{ textId:"T6", type:"patch", question:"They practise ______ weekly.", options:["languages","math","sports"], answer:"languages" },
-{ textId:"T6", type:"wrong", question:"Which is NOT true?", options:["They met online.","They practise weekly.","They met at school."], answer:"They met at school." },
-{ textId:"T6", type:"inference", question:"What helped create friendship?", options:["Technology","Money","School"], answer:"Technology" },
-
-/* ===== T7 ===== */
-
-{ textId:"T7", type:"title", question:"Choose the best title:", options:["My First Job","A Holiday","A Test"], answer:"My First Job" },
-{ textId:"T7", type:"scan", question:"Where did Andrea work?", options:["Café","Hospital","Airport"], answer:"Café" },
-{ textId:"T7", type:"patch", question:"She became more ______.", options:["confident","lazy","sad"], answer:"confident" },
-{ textId:"T7", type:"wrong", question:"Which is NOT true?", options:["She worked at a café.","She felt nervous.","She hated customers."], answer:"She hated customers." },
-{ textId:"T7", type:"inference", question:"What did she gain?", options:["Experience","Money only","Nothing"], answer:"Experience" },
-
-/* ===== T8 ===== */
-
-{ textId:"T8", type:"title", question:"Choose the best title:", options:["Travel Problem","School Day","Beach Party"], answer:"Travel Problem" },
-{ textId:"T8", type:"scan", question:"What was missing?", options:["Suitcase","Passport","Money"], answer:"Suitcase" },
-{ textId:"T8", type:"patch", question:"It arrived the ______ day.", options:["next","same","last"], answer:"next" },
-{ textId:"T8", type:"wrong", question:"Which is NOT true?", options:["He travelled to Madrid.","The suitcase arrived later.","They cancelled the trip."], answer:"They cancelled the trip." },
-{ textId:"T8", type:"inference", question:"What did he learn?", options:["Stay calm","Be angry","Travel alone"], answer:"Stay calm" },
-
-/* ===== T9 ===== */
-
-{ textId:"T9", type:"title", question:"Choose the best title:", options:["Community Work","Exam Results","Video Games"], answer:"Community Work" },
-{ textId:"T9", type:"scan", question:"What did they paint?", options:["Sports centre","Hotel","Beach"], answer:"Sports centre" },
-{ textId:"T9", type:"patch", question:"They felt ______.", options:["proud","angry","bored"], answer:"proud" },
-{ textId:"T9", type:"wrong", question:"Which is NOT true?", options:["They worked in teams.","They volunteered.","They destroyed the building."], answer:"They destroyed the building." },
-{ textId:"T9", type:"inference", question:"What is the benefit?", options:["Help community","Win prize","Skip school"], answer:"Help community" },
-
-/* ===== T10 ===== */
-
-{ textId:"T10", type:"title", question:"Choose the best title:", options:["Tablets at School","Sports Day","Travel Story"], answer:"Tablets at School" },
-{ textId:"T10", type:"scan", question:"What do students use tablets for?", options:["Research","Cooking","Driving"], answer:"Research" },
-{ textId:"T10", type:"patch", question:"Teachers worry about ______.", options:["distractions","weather","sports"], answer:"distractions" },
-{ textId:"T10", type:"wrong", question:"Which is NOT true?", options:["Students use tablets.","Rules were created.","Teachers removed all technology."], answer:"Teachers removed all technology." },
-{ textId:"T10", type:"inference", question:"Why create rules?", options:["Control usage","Stop learning","Close school"], answer:"Control usage" }
 
 ];
