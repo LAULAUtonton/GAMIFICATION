@@ -1,0 +1,606 @@
+const READING_BANK = [
+
+/* =========================================================
+FORMAT:
+{
+textId: "U1_T1",
+type: "title" | "order" | "detail" | "inference" | "mainword",
+question: "",
+options: [],
+answer: ""
+}
+========================================================= */
+
+/* ================= UNIT 1 ================= */
+
+{
+textId:"U1_T1",
+type:"title",
+question:"Choose the best title.",
+options:["A Dangerous Night","Artists in an Old Factory","A Closed Factory Forever","A Metal Adventure"],
+answer:"Artists in an Old Factory"
+},
+{
+textId:"U1_T1",
+type:"order",
+question:"What happened first?",
+options:["They helped move materials","They heard a loud noise","They entered the factory","They met the artists"],
+answer:"They entered the factory"
+},
+{
+textId:"U1_T1",
+type:"detail",
+question:"What were the artists preparing?",
+options:["A concert","An exhibition","A party","A school project"],
+answer:"An exhibition"
+},
+{
+textId:"U1_T1",
+type:"inference",
+question:"How did the students feel at the end?",
+options:["Angry","Relieved and impressed","Disappointed","Confused"],
+answer:"Relieved and impressed"
+},
+{
+textId:"U1_T1",
+type:"mainword",
+question:"What is the key theme of the story?",
+options:["Fear","Transformation","Danger","Silence"],
+answer:"Transformation"
+},
+
+{
+textId:"U1_T2",
+type:"title",
+question:"Choose the best title.",
+options:["Lost Letters","The Time Capsule","A Hidden Treasure Map","An Old Tree Story"],
+answer:"The Time Capsule"
+},
+{
+textId:"U1_T2",
+type:"order",
+question:"What did students do after reading the old letters?",
+options:["They threw the box away","They created a new capsule","They forgot about it","They closed the school"],
+answer:"They created a new capsule"
+},
+{
+textId:"U1_T2",
+type:"detail",
+question:"What was inside the box?",
+options:["Phones","Photos and letters","Money","Clothes"],
+answer:"Photos and letters"
+},
+{
+textId:"U1_T2",
+type:"inference",
+question:"Why did students smile?",
+options:["Because the predictions were funny","Because the box was empty","Because it was broken","Because it was small"],
+answer:"Because the predictions were funny"
+},
+{
+textId:"U1_T2",
+type:"mainword",
+question:"Main concept of the text?",
+options:["Future","Memory","Competition","Technology"],
+answer:"Memory"
+},
+
+/* ================= UNIT 2 ================= */
+
+{
+textId:"U2_T1",
+type:"title",
+question:"Best title?",
+options:["A Terrible Storm","An Unexpected Storm","A School Trip","A Broken Model"],
+answer:"An Unexpected Storm"
+},
+{
+textId:"U2_T1",
+type:"detail",
+question:"What fell during the storm?",
+options:["A lamp","A branch","A wall","A sign"],
+answer:"A branch"
+},
+{
+textId:"U2_T1",
+type:"inference",
+question:"Why were they proud?",
+options:["They won a prize","They stayed calm","They escaped danger","They met friends"],
+answer:"They stayed calm"
+},
+{
+textId:"U2_T1",
+type:"mainword",
+question:"Main word of the story?",
+options:["Storm","Fear","Calm","Rain"],
+answer:"Storm"
+},
+{
+textId:"U2_T1",
+type:"order",
+question:"What happened after it started raining?",
+options:["They ran","They went home","They slept","They called police"],
+answer:"They ran"
+},
+
+{
+textId:"U2_T2",
+type:"title",
+question:"Best title?",
+options:["My Homework","Meeting an Artist","A Broken Interview","A Loud School"],
+answer:"Meeting an Artist"
+},
+{
+textId:"U2_T2",
+type:"detail",
+question:"Who did the student interview?",
+options:["A singer","A teacher","A street artist","A designer"],
+answer:"A street artist"
+},
+{
+textId:"U2_T2",
+type:"inference",
+question:"What did the student learn?",
+options:["Art is easy","Talent is everything","Passion matters","School is boring"],
+answer:"Passion matters"
+},
+{
+textId:"U2_T2",
+type:"mainword",
+question:"Key concept?",
+options:["Homework","Interview","Failure","Noise"],
+answer:"Interview"
+},
+{
+textId:"U2_T2",
+type:"order",
+question:"What happened first?",
+options:["The interview ended","The teacher called","Students organised","He became famous"],
+answer:"The teacher called"
+},
+
+/* ================= UNIT 3 ================= */
+
+{
+textId:"U3_T1",
+type:"title",
+question:"Best title?",
+options:["A Lake Problem","A Community Festival","A Dirty Park","A Lost Charity"],
+answer:"A Community Festival"
+},
+{
+textId:"U3_T1",
+type:"detail",
+question:"Where will the festival happen?",
+options:["In a city hall","Near the lake","In a school","In a forest"],
+answer:"Near the lake"
+},
+{
+textId:"U3_T1",
+type:"inference",
+question:"Why are students worried?",
+options:["About money","About rubbish","About tickets","About music"],
+answer:"About rubbish"
+},
+{
+textId:"U3_T1",
+type:"mainword",
+question:"Main idea?",
+options:["Charity","Festival","Concert","Cycling"],
+answer:"Festival"
+},
+{
+textId:"U3_T1",
+type:"order",
+question:"If volunteers help, what will happen?",
+options:["It will fail","It will run smoothly","It will close","It will rain"],
+answer:"It will run smoothly"
+},
+
+{
+textId:"U3_T2",
+type:"title",
+question:"Best title?",
+options:["Fun Run Challenge","A Lost Race","School Games","Weekend Homework"],
+answer:"Fun Run Challenge"
+},
+{
+textId:"U3_T2",
+type:"detail",
+question:"How often should they train?",
+options:["Once a month","Twice a week","Every day","Never"],
+answer:"Twice a week"
+},
+{
+textId:"U3_T2",
+type:"inference",
+question:"What helps success?",
+options:["Luck","Belief","Money","Age"],
+answer:"Belief"
+},
+{
+textId:"U3_T2",
+type:"mainword",
+question:"Main theme?",
+options:["Failure","Health","Fear","Competition"],
+answer:"Health"
+},
+{
+textId:"U3_T2",
+type:"order",
+question:"What improves performance?",
+options:["Healthy food","Sleeping late","Watching TV","Skipping training"],
+answer:"Healthy food"
+},
+
+/* ================= UNIT 4 ================= */
+
+{
+textId:"U4_T1",
+type:"title",
+question:"Best title?",
+options:["A Different Summer","A Holiday Disaster","A Long Trip","A School Exam"],
+answer:"A Different Summer"
+},
+{
+textId:"U4_T1",
+type:"detail",
+question:"What are they going to organise?",
+options:["Concerts","Activities for children","A race","A party"],
+answer:"Activities for children"
+},
+{
+textId:"U4_T1",
+type:"inference",
+question:"Why is it rewarding?",
+options:["Money","Helping others","Travelling","Winning"],
+answer:"Helping others"
+},
+{
+textId:"U4_T1",
+type:"mainword",
+question:"Key idea?",
+options:["Volunteer","Homework","Music","Exam"],
+answer:"Volunteer"
+},
+{
+textId:"U4_T1",
+type:"order",
+question:"What happens first?",
+options:["They learn skills","They volunteer","They relax","They stop"],
+answer:"They volunteer"
+},
+
+{
+textId:"U4_T2",
+type:"title",
+question:"Best title?",
+options:["Technology Problems","Life in 2050","School Rules","Green Energy Today"],
+answer:"Life in 2050"
+},
+{
+textId:"U4_T2",
+type:"detail",
+question:"What will cities use?",
+options:["Gas cars","Electric transport","Horses","Paper books"],
+answer:"Electric transport"
+},
+{
+textId:"U4_T2",
+type:"inference",
+question:"Will teachers disappear?",
+options:["Yes","No","Maybe","Not sure"],
+answer:"No"
+},
+{
+textId:"U4_T2",
+type:"mainword",
+question:"Main theme?",
+options:["Past","Future","History","Sports"],
+answer:"Future"
+},
+{
+textId:"U4_T2",
+type:"order",
+question:"What will schools use?",
+options:["Virtual classrooms","Blackboards only","Nothing","Paper only"],
+answer:"Virtual classrooms"
+},
+
+/* ================= UNIT 5 ================= */
+
+{
+textId:"U5_T1",
+type:"title",
+question:"Best title?",
+options:["More Than Just a Game","A Bad Sport","Losing Match","A School Event"],
+answer:"More Than Just a Game"
+},
+{
+textId:"U5_T1",
+type:"detail",
+question:"What improved?",
+options:["Reading","Running speed","Math","Drawing"],
+answer:"Running speed"
+},
+{
+textId:"U5_T1",
+type:"mainword",
+question:"Key concept?",
+options:["Improvement","Loss","Team","Field"],
+answer:"Improvement"
+},
+{
+textId:"U5_T1",
+type:"inference",
+question:"What helps you improve?",
+options:["Practice","Luck","Money","Sleep only"],
+answer:"Practice"
+},
+{
+textId:"U5_T1",
+type:"order",
+question:"What was first?",
+options:["Could run fast","Couldn’t run fast","Won race","Stopped"],
+answer:"Couldn’t run fast"
+},
+
+{
+textId:"U5_T2",
+type:"title",
+question:"Best title?",
+options:["Choosing the Best Activity","A Hard Exam","The Worst Sport","No Sports"],
+answer:"Choosing the Best Activity"
+},
+{
+textId:"U5_T2",
+type:"detail",
+question:"Most popular activity?",
+options:["Swimming","Basketball","Tennis","Running"],
+answer:"Swimming"
+},
+{
+textId:"U5_T2",
+type:"mainword",
+question:"Main theme?",
+options:["Choice","Fear","Uniform","Money"],
+answer:"Choice"
+},
+{
+textId:"U5_T2",
+type:"inference",
+question:"Why choose activity carefully?",
+options:["To enjoy it","To impress teacher","To win prize","To finish fast"],
+answer:"To enjoy it"
+},
+{
+textId:"U5_T2",
+type:"order",
+question:"What was more competitive?",
+options:["Swimming","Basketball","Reading","Walking"],
+answer:"Basketball"
+},
+
+/* ================= UNIT 6 ================= */
+
+{
+textId:"U6_T1",
+type:"title",
+question:"Best title?",
+options:["A New Challenge","A Bad Injury","Lost Energy","No Training"],
+answer:"A New Challenge"
+},
+{
+textId:"U6_T1",
+type:"detail",
+question:"What has improved?",
+options:["Stamina","Grades","Drawing","Cooking"],
+answer:"Stamina"
+},
+{
+textId:"U6_T1",
+type:"mainword",
+question:"Main theme?",
+options:["Experience","Pain","School","Travel"],
+answer:"Experience"
+},
+{
+textId:"U6_T1",
+type:"inference",
+question:"What did training teach?",
+options:["Discipline","Fear","Luck","Silence"],
+answer:"Discipline"
+},
+{
+textId:"U6_T1",
+type:"order",
+question:"What happened first?",
+options:["Joined competition","Improved stamina","Won medal","Stopped"],
+answer:"Joined competition"
+},
+
+{
+textId:"U6_T2",
+type:"title",
+question:"Best title?",
+options:["Healthy Habits","Lazy Life","Late Nights","Fast Food"],
+answer:"Healthy Habits"
+},
+{
+textId:"U6_T2",
+type:"detail",
+question:"How long has the person exercised?",
+options:["Six months","One day","Ten years","One week"],
+answer:"Six months"
+},
+{
+textId:"U6_T2",
+type:"mainword",
+question:"Main concept?",
+options:["Routine","Anger","Failure","Music"],
+answer:"Routine"
+},
+{
+textId:"U6_T2",
+type:"inference",
+question:"Why stretch?",
+options:["Prevent injury","Look cool","Win","Sleep"],
+answer:"Prevent injury"
+},
+{
+textId:"U6_T2",
+type:"order",
+question:"What changed first?",
+options:["Lifestyle","Energy","Grades","Friends"],
+answer:"Lifestyle"
+},
+
+/* ================= UNIT 7 ================= */
+
+{
+textId:"U7_T1",
+type:"title",
+question:"Best title?",
+options:["Online Responsibility","School Trip","No Rules","Free Internet"],
+answer:"Online Responsibility"
+},
+{
+textId:"U7_T1",
+type:"detail",
+question:"What must students protect?",
+options:["Passwords","Books","Uniforms","Shoes"],
+answer:"Passwords"
+},
+{
+textId:"U7_T1",
+type:"mainword",
+question:"Main theme?",
+options:["Responsibility","Games","Food","Music"],
+answer:"Responsibility"
+},
+{
+textId:"U7_T1",
+type:"inference",
+question:"Why report behaviour?",
+options:["Stay safe","Get famous","Win","Laugh"],
+answer:"Stay safe"
+},
+{
+textId:"U7_T1",
+type:"order",
+question:"What should not be shared?",
+options:["Personal information","Homework","Shoes","Food"],
+answer:"Personal information"
+},
+
+{
+textId:"U7_T2",
+type:"title",
+question:"Best title?",
+options:["School Guidelines","Holiday Rules","Sports Day","No Classes"],
+answer:"School Guidelines"
+},
+{
+textId:"U7_T2",
+type:"detail",
+question:"Students must attend?",
+options:["Classes","Parties","Trips","Concerts"],
+answer:"Classes"
+},
+{
+textId:"U7_T2",
+type:"mainword",
+question:"Main concept?",
+options:["Rules","Music","Games","Lunch"],
+answer:"Rules"
+},
+{
+textId:"U7_T2",
+type:"inference",
+question:"Why rules exist?",
+options:["Create safety","Punish","Control","Win"],
+answer:"Create safety"
+},
+{
+textId:"U7_T2",
+type:"order",
+question:"What should students respect?",
+options:["Teachers","Food","Shoes","Chairs"],
+answer:"Teachers"
+},
+
+/* ================= UNIT 8 ================= */
+
+{
+textId:"U8_T1",
+type:"title",
+question:"Best title?",
+options:["By Ourselves","A School Exam","Lost Trip","Broken Tent"],
+answer:"By Ourselves"
+},
+{
+textId:"U8_T1",
+type:"detail",
+question:"Who helped them?",
+options:["Nobody","Teacher","Parents","Friends"],
+answer:"Nobody"
+},
+{
+textId:"U8_T1",
+type:"mainword",
+question:"Main idea?",
+options:["Independence","Fear","Rain","Homework"],
+answer:"Independence"
+},
+{
+textId:"U8_T1",
+type:"inference",
+question:"What did they learn?",
+options:["Responsibility","Cooking","Drawing","Math"],
+answer:"Responsibility"
+},
+{
+textId:"U8_T1",
+type:"order",
+question:"What was forgotten?",
+options:["Food","Tent","Map","Shoes"],
+answer:"Food"
+},
+
+{
+textId:"U8_T2",
+type:"title",
+question:"Best title?",
+options:["Everyone Can Help","A Lost Charity","No Participation","Empty School"],
+answer:"Everyone Can Help"
+},
+{
+textId:"U8_T2",
+type:"detail",
+question:"Who participated?",
+options:["Everybody","Nobody","Only teachers","Visitors"],
+answer:"Everybody"
+},
+{
+textId:"U8_T2",
+type:"mainword",
+question:"Main concept?",
+options:["Participation","Silence","Fear","Homework"],
+answer:"Participation"
+},
+{
+textId:"U8_T2",
+type:"inference",
+question:"What message does the text give?",
+options:["Anyone can make a difference","Stay home","Ignore problems","Wait"],
+answer:"Anyone can make a difference"
+},
+{
+textId:"U8_T2",
+type:"order",
+question:"What did they collect?",
+options:["Something for families","Tickets","Money only","Books"],
+answer:"Something for families"
+}
+
+];
