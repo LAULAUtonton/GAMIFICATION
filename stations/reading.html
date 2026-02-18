@@ -153,10 +153,6 @@ body{
 .optionBtn.correct{ background:#22c55e; color:white; border:none; }
 .optionBtn.wrong{ background:#ef4444; color:white; border:none; }
 
-.streakSuccess{
-  box-shadow:0 0 30px #22c55e,0 0 60px #4ade80;
-}
-
 .errorBox{
   background:#fff1f2;
   border:2px solid #ef4444;
@@ -187,30 +183,29 @@ body{
 
   <div id="gameArea" style="display:none;">
     <div class="streakText">STREAK: <span id="streakCount">0</span> / 20</div>
-    <div class="streakContainer"><div class="streakFill" id="streakFill"></div></div>
+    <div class="streakContainer">
+      <div class="streakFill" id="streakFill"></div>
+    </div>
     <div id="questionArea"></div>
   </div>
 
 </div>
 
 <!-- LOAD BANK FIRST -->
-<script src="./reading-bank.js"></scrip>
+<script src="./reading-bank.js"></script>
 
 <script>
-/* ================= SAFETY CHECK ================= */
-
 const wrap = document.getElementById("wrap");
 
-if (typeof TEXT_BANK === "undefined" )  {
+/* SAFETY CHECK */
+if (typeof TEXT_BANK === "undefined" || typeof READING_BANK === "undefined") {
   wrap.innerHTML = `<div class="errorBox">
-    ERROR: reading-bank.js not loaded.<br><br>
-    Make sure reading-bank.js is in the same folder as reading.html.
+    ERROR: reading-bank.js loaded, but TEXT_BANK or READING_BANK is missing.
   </div>`;
-  throw new Error("reading-bank.js not loaded");
+  throw new Error("TEXT_BANK/READING_BANK missing");
 }
 
-/* ================= DOM ================= */
-
+/* DOM */
 const textBox = document.getElementById("textBox");
 const textTitlePill = document.getElementById("textTitlePill");
 const startBtn = document.getElementById("startBtn");
@@ -220,16 +215,14 @@ const questionArea = document.getElementById("questionArea");
 const streakCountEl = document.getElementById("streakCount");
 const streakFillEl = document.getElementById("streakFill");
 
-/* ================= STATE ================= */
-
+/* STATE */
 let currentText = null;
 let streak = 0;
 let lastType = null;
 let correctCounter = 0;
 let isRunning = false;
 
-/* ================= FUNCTIONS ================= */
-
+/* FUNCTIONS */
 function pickRandomText(){
   currentText = TEXT_BANK[Math.floor(Math.random()*TEXT_BANK.length)];
   textTitlePill.textContent = "TEXT: " + (currentText.title || currentText.id);
@@ -242,7 +235,6 @@ function updateStreakUI(){
   streakFillEl.style.width = (streak/20*100) + "%";
 
   if(streak === 20){
-    document.querySelector(".readingContainer").classList.add("streakSuccess");
     alert("READING MASTER UNLOCKED!");
     streak = 0;
     correctCounter = 0;
@@ -309,8 +301,7 @@ function renderQuestion(){
   questionArea.appendChild(card);
 }
 
-/* ================= EVENTS ================= */
-
+/* EVENTS */
 switchTextBtn.onclick = () => {
   pickRandomText();
   if(isRunning) renderQuestion();
@@ -327,10 +318,9 @@ startBtn.onclick = () => {
   renderQuestion();
 };
 
-/* ================= INIT ================= */
-
+/* INIT */
 pickRandomText();
-
 </script>
+
 </body>
 </html>
