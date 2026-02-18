@@ -225,11 +225,17 @@ let isRunning = false;
 /* FUNCTIONS */
 function pickRandomText(){
   currentText = TEXT_BANK[Math.floor(Math.random()*TEXT_BANK.length)];
-  textTitlePill.textContent = "TEXT: " + (currentText.title || currentText.id);
-  textBox.textContent = currentText.content || "";
+  textTitlePill.textContent = "TEXT: " + currentText.title;
+
+  textBox.innerHTML = "";
+  currentText.paragraphs.forEach((p,i)=>{
+    const para = document.createElement("p");
+    para.innerHTML = "<strong>P"+(i+1)+":</strong> " + p;
+    textBox.appendChild(para);
+  });
+
   lastType = null;
 }
-
 function updateStreakUI(){
   streakCountEl.textContent = streak;
   streakFillEl.style.width = (streak/20*100) + "%";
