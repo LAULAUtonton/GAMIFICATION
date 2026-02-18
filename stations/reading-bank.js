@@ -297,3 +297,478 @@ We collected something for each family in need. Anyone can make a difference.
 }
 
 ];
+
+const READING_BANK = [
+
+/* ================= UNIT 1 ================= */
+
+{
+textId: "U1_T1",
+type: "gist",
+question: "What is the main idea of the text?",
+options: [
+  "Friends visited an old factory and found artists preparing an exhibition",
+  "Friends got lost in an abandoned building",
+  "Friends bought sculptures from artists",
+  "Friends were scared by ghosts in a factory"
+],
+answer: "Friends visited an old factory and found artists preparing an exhibition"
+},
+
+{
+textId: "U1_T1",
+type: "detail",
+question: "What was on the ground at the old factory?",
+options: [
+  "Pieces of metal",
+  "Broken glass",
+  "Old newspapers",
+  "Plastic bags"
+],
+answer: "Pieces of metal"
+},
+
+{
+textId: "U1_T1",
+type: "inference",
+question: "How did the friends feel at the end?",
+options: [
+  "Relieved and impressed",
+  "Scared and worried",
+  "Angry and disappointed",
+  "Confused and lost"
+],
+answer: "Relieved and impressed"
+},
+
+{
+textId: "U1_T2",
+type: "gist",
+question: "What is the text mainly about?",
+options: [
+  "Students finding and creating a time capsule",
+  "Students playing in the playground",
+  "Students cleaning the school",
+  "Students buying old technology"
+],
+answer: "Students finding and creating a time capsule"
+},
+
+{
+textId: "U1_T2",
+type: "detail",
+question: "When was the time capsule supposed to be opened?",
+options: [
+  "2024",
+  "2004",
+  "2014",
+  "2020"
+],
+answer: "2024"
+},
+
+{
+textId: "U1_T2",
+type: "vocabulary",
+question: "What did students in 2004 NOT have?",
+options: [
+  "Smartphones",
+  "CDs",
+  "Letters",
+  "Music"
+],
+answer: "Smartphones"
+},
+
+/* ================= UNIT 2 ================= */
+
+{
+textId: "U2_T1",
+type: "sequence",
+question: "What happened while they were walking home?",
+options: [
+  "It started to get dark and rain",
+  "They met their friends",
+  "They found money",
+  "They bought ice cream"
+],
+answer: "It started to get dark and rain"
+},
+
+{
+textId: "U2_T1",
+type: "detail",
+question: "What was the narrator carrying?",
+options: [
+  "A cardboard model for art project",
+  "An umbrella",
+  "A backpack",
+  "A painting"
+],
+answer: "A cardboard model for art project"
+},
+
+{
+textId: "U2_T1",
+type: "inference",
+question: "How did the narrator feel about the experience?",
+options: [
+  "Proud that they stayed calm",
+  "Angry about the storm",
+  "Sad about the rain",
+  "Scared of the weather"
+],
+answer: "Proud that they stayed calm"
+},
+
+{
+textId: "U2_T2",
+type: "gist",
+question: "What is the text about?",
+options: [
+  "A student's first interview with a street artist",
+  "A student's homework assignment",
+  "A student's art exhibition",
+  "A student's painting lesson"
+],
+answer: "A student's first interview with a street artist"
+},
+
+{
+textId: "U2_T2",
+type: "detail",
+question: "What was the narrator doing when the teacher called?",
+options: [
+  "Preparing homework",
+  "Playing games",
+  "Eating lunch",
+  "Reading a book"
+],
+answer: "Preparing homework"
+},
+
+/* ================= UNIT 3 ================= */
+
+{
+textId: "U3_T1",
+type: "conditional-logic",
+question: "What will happen if the weather is good?",
+options: [
+  "Many families will attend the festival",
+  "The festival will be cancelled",
+  "The park will close",
+  "Nobody will come"
+],
+answer: "Many families will attend the festival"
+},
+
+{
+textId: "U3_T1",
+type: "detail",
+question: "Where is the festival planned?",
+options: [
+  "Near the lake",
+  "In the school",
+  "At the beach",
+  "In the mountains"
+],
+answer: "Near the lake"
+},
+
+{
+textId: "U3_T2",
+type: "cause-effect",
+question: "What will happen if we exercise regularly?",
+options: [
+  "We will feel more energetic",
+  "We will feel tired",
+  "We will get sick",
+  "We will sleep more"
+],
+answer: "We will feel more energetic"
+},
+
+{
+textId: "U3_T2",
+type: "detail",
+question: "How often should students train according to the coach?",
+options: [
+  "Twice a week",
+  "Every day",
+  "Once a month",
+  "Three times a week"
+],
+answer: "Twice a week"
+},
+
+/* ================= UNIT 4 ================= */
+
+{
+textId: "U4_T1",
+type: "gist",
+question: "What is the narrator going to do this summer?",
+options: [
+  "Volunteer at a community centre",
+  "Go on vacation",
+  "Study at home",
+  "Work in an office"
+],
+answer: "Volunteer at a community centre"
+},
+
+{
+textId: "U4_T1",
+type: "detail",
+question: "What activities are they going to organise?",
+options: [
+  "Activities for children",
+  "Activities for adults",
+  "Sports competitions",
+  "Music concerts"
+],
+answer: "Activities for children"
+},
+
+{
+textId: "U4_T2",
+type: "prediction",
+question: "According to the text, what will cities be like in 2050?",
+options: [
+  "Greener and more sustainable",
+  "Bigger and noisier",
+  "Smaller and quieter",
+  "The same as today"
+],
+answer: "Greener and more sustainable"
+},
+
+{
+textId: "U4_T2",
+type: "detail",
+question: "What won't students carry anymore?",
+options: [
+  "Heavy books",
+  "Pencils",
+  "Lunch boxes",
+  "Smartphones"
+],
+answer: "Heavy books"
+},
+
+/* ================= UNIT 5 ================= */
+
+{
+textId: "U5_T1",
+type: "comparison",
+question: "According to the text, which sport is more exciting?",
+options: [
+  "Football",
+  "Tennis",
+  "Swimming",
+  "Basketball"
+],
+answer: "Football"
+},
+
+{
+textId: "U5_T1",
+type: "detail",
+question: "What couldn't the narrator do last year?",
+options: [
+  "Run very fast",
+  "Play football",
+  "Swim",
+  "Play tennis"
+],
+answer: "Run very fast"
+},
+
+{
+textId: "U5_T2",
+type: "detail",
+question: "What was the most popular activity in the survey?",
+options: [
+  "Swimming",
+  "Basketball",
+  "Football",
+  "Tennis"
+],
+answer: "Swimming"
+},
+
+{
+textId: "U5_T2",
+type: "inference",
+question: "According to the text, what did students think about swimming?",
+options: [
+  "It was the best way to stay fit",
+  "It was the most difficult",
+  "It was boring",
+  "It was dangerous"
+],
+answer: "It was the best way to stay fit"
+},
+
+/* ================= UNIT 6 ================= */
+
+{
+textId: "U6_T1",
+type: "experience",
+question: "What has the narrator recently started doing?",
+options: [
+  "Training for a sports competition",
+  "Playing video games",
+  "Learning to cook",
+  "Reading books"
+],
+answer: "Training for a sports competition"
+},
+
+{
+textId: "U6_T1",
+type: "detail",
+question: "Since when has the narrator improved their stamina?",
+options: [
+  "Since January",
+  "Since March",
+  "Since last year",
+  "Since summer"
+],
+answer: "Since January"
+},
+
+{
+textId: "U6_T2",
+type: "detail",
+question: "How long has the narrator exercised regularly?",
+options: [
+  "For six months",
+  "For one year",
+  "For two weeks",
+  "For three months"
+],
+answer: "For six months"
+},
+
+{
+textId: "U6_T2",
+type: "inference",
+question: "What has become important in the narrator's routine?",
+options: [
+  "Rest and stretching",
+  "Watching TV",
+  "Playing games",
+  "Eating fast food"
+],
+answer: "Rest and stretching"
+},
+
+/* ================= UNIT 7 ================= */
+
+{
+textId: "U7_T1",
+type: "modal-meaning",
+question: "What must students protect?",
+options: [
+  "Their passwords",
+  "Their books",
+  "Their friends",
+  "Their toys"
+],
+answer: "Their passwords"
+},
+
+{
+textId: "U7_T1",
+type: "detail",
+question: "What shouldn't students share?",
+options: [
+  "Personal information",
+  "School supplies",
+  "Food",
+  "Games"
+],
+answer: "Personal information"
+},
+
+{
+textId: "U7_T2",
+type: "modal-recognition",
+question: "What must students do regularly?",
+options: [
+  "Attend classes",
+  "Play sports",
+  "Watch movies",
+  "Use computers"
+],
+answer: "Attend classes"
+},
+
+{
+textId: "U7_T2",
+type: "inference",
+question: "Why do rules exist?",
+options: [
+  "To create a safe environment",
+  "To make students unhappy",
+  "To punish students",
+  "To make school boring"
+],
+answer: "To create a safe environment"
+},
+
+/* ================= UNIT 8 ================= */
+
+{
+textId: "U8_T1",
+type: "detail",
+question: "What did the group organise by themselves?",
+options: [
+  "A camping trip",
+  "A birthday party",
+  "A school project",
+  "A music concert"
+],
+answer: "A camping trip"
+},
+
+{
+textId: "U8_T1",
+type: "inference",
+question: "What can doing things independently teach us?",
+options: [
+  "Responsibility",
+  "Fear",
+  "Laziness",
+  "Selfishness"
+],
+answer: "Responsibility"
+},
+
+{
+textId: "U8_T2",
+type: "detail",
+question: "Who participated in the charity event?",
+options: [
+  "Everybody in the class",
+  "Only the teacher",
+  "Nobody",
+  "A few students"
+],
+answer: "Everybody in the class"
+},
+
+{
+textId: "U8_T2",
+type: "vocabulary",
+question: "What did they collect for families in need?",
+options: [
+  "Something for each family",
+  "Nothing",
+  "Only money",
+  "Only food"
+],
+answer: "Something for each family"
+}
+
+];
