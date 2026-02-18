@@ -259,7 +259,6 @@ function getQuestion(){
   lastType = q.type;
   return q;
 }
-
 function renderQuestion(){
   if(!isRunning) return;
 
@@ -280,7 +279,7 @@ function renderQuestion(){
     btn.textContent = opt;
 
     btn.onclick = () => {
-      card.querySelectorAll("button").forEach(b=>b.disabled=true);
+      card.querySelectorAll("button").forEach(b => b.disabled = true);
 
       if(opt === q.answer){
         btn.classList.add("correct");
