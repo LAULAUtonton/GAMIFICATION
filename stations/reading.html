@@ -194,14 +194,14 @@ body{
 </div>
 
 <!-- LOAD BANK FIRST -->
-<script src="./reading-bank.js"></script>
+<script src="./reading-bank.js"></scrip>
 
 <script>
 /* ================= SAFETY CHECK ================= */
 
 const wrap = document.getElementById("wrap");
 
-if (typeof TEXT_BANK === "undefined" || typeof READING_BANK === "undefined") {
+if (typeof TEXT_BANK === "undefined" )  {
   wrap.innerHTML = `<div class="errorBox">
     ERROR: reading-bank.js not loaded.<br><br>
     Make sure reading-bank.js is in the same folder as reading.html.
