@@ -162,16 +162,16 @@ body{
   <div class="readingTitle">READING STREAK MODE</div>
   <div class="subTitle">Goal: 20 correct answers in a row</div>
 
- <div class="topRow">
-  <div class="pill" id="textTitlePill">TEXT: —</div>
-  <div style="display:flex;gap:10px;flex-wrap:wrap;">
-    <button class="switchBtn" id="menuBtn">MAIN MENU</button>
-    <button class="switchBtn" id="switchTextBtn">NEW TEXT</button>
-    <button class="startBtn" id="startBtn">START</button>
+  <div class="topRow">
+    <div class="pill" id="textTitlePill">TEXT: —</div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;">
+      <button class="switchBtn" id="menuBtn">MAIN MENU</button>
+      <button class="switchBtn" id="switchTextBtn">NEW TEXT</button>
+      <button class="startBtn" id="startBtn">START</button>
+    </div>
   </div>
-</div>
 
- <div class="textBox" id="textBox">Loading text…</div>
+  <div class="textBox" id="textBox">Loading text…</div>
 
   <div id="gameArea" style="display:none;">
     <div class="streakText">STREAK: <span id="streakCount">0</span> / 20</div>
@@ -195,14 +195,15 @@ if(typeof TEXT_BANK==="undefined" || typeof READING_BANK==="undefined"){
 }
 
 /* DOM */
-const textBox=document.getElementById("textBox");
-const textTitlePill=document.getElementById("textTitlePill");
-const startBtn=document.getElementById("startBtn");
-const switchTextBtn=document.getElementById("switchTextBtn");
-const gameArea=document.getElementById("gameArea");
-const questionArea=document.getElementById("questionArea");
-const streakCountEl=document.getElementById("streakCount");
-const streakFillEl=document.getElementById("streakFill");
+const textBox = document.getElementById("textBox");
+const textTitlePill = document.getElementById("textTitlePill");
+const startBtn = document.getElementById("startBtn");
+const switchTextBtn = document.getElementById("switchTextBtn");
+const menuBtn = document.getElementById("menuBtn");
+const gameArea = document.getElementById("gameArea");
+const questionArea = document.getElementById("questionArea");
+const streakCountEl = document.getElementById("streakCount");
+const streakFillEl = document.getElementById("streakFill");
 
 /* STATE */
 let currentText=null;
@@ -242,6 +243,13 @@ function updateStreak(){
 /* GET QUESTION */
 function getQuestion(){
   const pool=READING_BANK.filter(q=>q.textId===currentText.id);
+  if(pool.length===0){
+    return {
+      question:"No questions available for this text.",
+      options:["Continue"],
+      answer:"Continue"
+    };
+  }
   return pool[Math.floor(Math.random()*pool.length)];
 }
 
@@ -307,10 +315,14 @@ startBtn.onclick=()=>{
   renderQuestion();
 };
 
+/* 🔥 MAIN MENU FIX */
+menuBtn.onclick=()=>{
+  window.location.href="../index.html"; 
+};
+
 /* INIT */
 pickRandomText();
 
 </script>
 </body>
 </html>
-
