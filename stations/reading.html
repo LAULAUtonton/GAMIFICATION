@@ -48,9 +48,8 @@ body{
   line-height:1.7;
   margin-bottom:18px;
   border:2px solid #22c55e;
-  max-height:350px;
+  max-height:320px;
   overflow-y:auto;
-  white-space:pre-wrap;
 }
 
 .topRow{
@@ -85,13 +84,14 @@ body{
   background:#22c55e;
   color:white;
 }
-.startBtn:hover{ background:#16a34a; }
 
 .switchBtn{
   border:2px solid #22c55e;
   background:white;
   color:#14532d;
 }
+
+.startBtn:hover{ transform:scale(1.05); }
 .switchBtn:hover{ background:#dcfce7; }
 
 .streakText{
@@ -128,7 +128,7 @@ body{
 
 .questionText{
   font-size:18px;
-  margin-bottom:10px;
+  margin-bottom:12px;
   color:#14532d;
   font-weight:900;
 }
@@ -144,39 +144,39 @@ body{
   cursor:pointer;
   font-weight:800;
   text-align:left;
-  transition:.2s;
 }
 
-.optionBtn:hover{ background:#dcfce7; }
-.optionBtn.correct{ background:#22c55e; color:white; border:none; }
-.optionBtn.wrong{ background:#ef4444; color:white; border:none; }
-
-.errorBox{
-  background:#fff1f2;
-  border:2px solid #ef4444;
-  color:#7f1d1d;
-  padding:18px;
-  border-radius:16px;
-  font-weight:900;
+.optionBtn.correct{
+  background:#22c55e;
+  color:white;
+  border:none;
 }
+
+.optionBtn.wrong{
+  background:#ef4444;
+  color:white;
+  border:none;
+}
+
 </style>
 </head>
 
 <body>
-<div class="readingContainer" id="wrap">
+
+<div class="readingContainer">
 
   <div class="readingTitle">READING STREAK MODE</div>
   <div class="subTitle">Goal: 20 correct answers in a row</div>
 
   <div class="topRow">
     <div class="pill" id="textTitlePill">TEXT: —</div>
-    <div style="display:flex;gap:10px;">
+    <div>
       <button class="switchBtn" id="switchTextBtn">NEW TEXT</button>
-      <button class="startBtn" id="startBtn">START</button>
+      <button class="startBtn" id="startBtn">START CHALLENGE</button>
     </div>
   </div>
 
-  <div class="textBox" id="textBox">Loading text…</div>
+  <div class="textBox" id="textBox"></div>
 
   <div id="gameArea" style="display:none;">
     <div class="streakText">STREAK: <span id="streakCount">0</span> / 20</div>
@@ -188,81 +188,89 @@ body{
 
 </div>
 
+<!-- LOAD BANK -->
 <script src="./reading-bank.js"></script>
 
 <script>
-if (typeof TEXT_BANK === "undefined" || typeof READING_BANK === "undefined") {
-  document.getElementById("wrap").innerHTML =
-    `<div class="errorBox">ERROR: reading-bank.js not loaded correctly.</div>`;
-  throw new Error("Bank missing");
-}
 
-const textBox = document.getElementById("textBox");
-const textTitlePill = document.getElementById("textTitlePill");
-const startBtn = document.getElementById("startBtn");
-const switchTextBtn = document.getElementById("switchTextBtn");
-const gameArea = document.getElementById("gameArea");
-const questionArea = document.getElementById("questionArea");
-const streakCountEl = document.getElementById("streakCount");
-const streakFillEl = document.getElementById("streakFill");
+/* ---------- STATE ---------- */
 
 let currentText = null;
 let streak = 0;
-let lastType = null;
 let isRunning = false;
+let roundQuestions = [];
+let questionIndex = 0;
 
-/* ---------- LOAD TEXT ---------- */
+/* ---------- DOM ---------- */
+
+const textBox = document.getElementById("textBox");
+const textTitlePill = document.getElementById("textTitlePill");
+const questionArea = document.getElementById("questionArea");
+const streakCountEl = document.getElementById("streakCount");
+const streakFillEl = document.getElementById("streakFill");
+const gameArea = document.getElementById("gameArea");
+
+/* ---------- HELPERS ---------- */
+
+function shuffle(arr){
+  return arr.sort(()=>Math.random()-0.5);
+}
+
+/* ---------- TEXT ---------- */
 
 function pickRandomText(){
   currentText = TEXT_BANK[Math.floor(Math.random()*TEXT_BANK.length)];
-
   textTitlePill.textContent = "TEXT: " + currentText.title;
+  textBox.innerHTML = "";
 
-  // Works with BOTH content and paragraphs
-  if(currentText.content){
-    textBox.innerText = currentText.content;
-  }
-  else if(currentText.paragraphs){
-    textBox.innerHTML = "";
-    currentText.paragraphs.forEach((p,i)=>{
-      const para = document.createElement("p");
-      para.innerHTML = "<strong>P"+(i+1)+":</strong> " + p;
-      textBox.appendChild(para);
-    });
-  }
+  currentText.paragraphs.forEach((p,i)=>{
+    const para = document.createElement("p");
+    para.innerHTML = "<strong>P"+(i+1)+":</strong> " + p;
+    textBox.appendChild(para);
+  });
+
+  prepareRound();
+}
+
+/* ---------- ROUND SYSTEM ---------- */
+
+function prepareRound(){
+  const allQuestions = READING_BANK.filter(q => q.textId === currentText.id);
+  roundQuestions = shuffle([...allQuestions]).slice(0,4); // max 4 per round
+  questionIndex = 0;
 }
 
 /* ---------- STREAK ---------- */
 
-function updateStreakUI(){
+function updateStreak(){
   streakCountEl.textContent = streak;
   streakFillEl.style.width = (streak/20*100) + "%";
+
+  if(streak === 20){
+    alert("READING MASTER UNLOCKED!");
+    streak = 0;
+  }
 }
 
-/* ---------- QUESTIONS ---------- */
-
-function getQuestion(){
-  const pool = READING_BANK.filter(q => q.textId === currentText.id);
-  const filtered = pool.filter(q => q.type !== lastType);
-  const finalPool = filtered.length ? filtered : pool;
-  const q = finalPool[Math.floor(Math.random()*finalPool.length)];
-  lastType = q.type;
-  return q;
-}
+/* ---------- QUESTION RENDER ---------- */
 
 function renderQuestion(){
-  if(!isRunning) return;
+
+  if(questionIndex >= roundQuestions.length){
+    prepareRound(); // new mini-round
+  }
+
+  const q = roundQuestions[questionIndex];
 
   questionArea.innerHTML = "";
-  const q = getQuestion();
 
   const card = document.createElement("div");
   card.className = "questionCard";
 
-  const qt = document.createElement("div");
-  qt.className = "questionText";
-  qt.textContent = q.question;
-  card.appendChild(qt);
+  const title = document.createElement("div");
+  title.className = "questionText";
+  title.textContent = q.question;
+  card.appendChild(title);
 
   q.options.forEach(opt=>{
     const btn = document.createElement("button");
@@ -280,7 +288,9 @@ function renderQuestion(){
         streak = 0;
       }
 
-      updateStreakUI();
+      updateStreak();
+      questionIndex++;
+
       setTimeout(renderQuestion,700);
     };
 
@@ -292,20 +302,23 @@ function renderQuestion(){
 
 /* ---------- EVENTS ---------- */
 
-switchTextBtn.onclick = ()=>{
-  pickRandomText();
-};
-
-startBtn.onclick = ()=>{
-  gameArea.style.display="block";
+document.getElementById("startBtn").onclick = ()=>{
   isRunning = true;
+  gameArea.style.display = "block";
   streak = 0;
-  updateStreakUI();
+  updateStreak();
   renderQuestion();
 };
 
-/* INIT */
+document.getElementById("switchTextBtn").onclick = ()=>{
+  pickRandomText();
+  if(isRunning) renderQuestion();
+};
+
+/* ---------- INIT ---------- */
+
 pickRandomText();
+
 </script>
 
 </body>
