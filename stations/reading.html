@@ -162,15 +162,16 @@ body{
   <div class="readingTitle">READING STREAK MODE</div>
   <div class="subTitle">Goal: 20 correct answers in a row</div>
 
-  <div class="topRow">
-    <div class="pill" id="textTitlePill">TEXT: —</div>
-    <div>
-      <button class="switchBtn" id="switchTextBtn">NEW TEXT</button>
-      <button class="startBtn" id="startBtn">START</button>
-    </div>
+ <div class="topRow">
+  <div class="pill" id="textTitlePill">TEXT: —</div>
+  <div style="display:flex;gap:10px;flex-wrap:wrap;">
+    <button class="switchBtn" id="menuBtn">MAIN MENU</button>
+    <button class="switchBtn" id="switchTextBtn">NEW TEXT</button>
+    <button class="startBtn" id="startBtn">START</button>
   </div>
+</div>
 
-  <div class="textBox" id="textBox">Loading text…</div>
+ <div class="textBox" id="textBox">Loading text…</div>
 
   <div id="gameArea" style="display:none;">
     <div class="streakText">STREAK: <span id="streakCount">0</span> / 20</div>
@@ -310,7 +311,6 @@ startBtn.onclick=()=>{
 pickRandomText();
 
 </script>
-
 </body>
 </html>
 
