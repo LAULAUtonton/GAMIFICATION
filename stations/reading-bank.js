@@ -1,362 +1,373 @@
-/* ================= TEXT BANK ================= */
+/* =========================================================
+   THE PIT – READING BANK
+   Units 1–4 (ESO 2 aligned – varied cognitive question types)
+   ========================================================= */
+
+/* ========================= TEXT BANK ========================= */
 
 const TEXT_BANK = [
 
 /* ================= UNIT 1 ================= */
 
 {
-id: "U1_T1",
-title: "The Abandoned Factory Project",
-content: `
-Last year, our town council decided to renovate an abandoned factory near the river. For decades, the building had remained empty and people believed it was unsafe. However, a group of young architects proposed transforming it into a cultural centre.
+  id: "U1_T1",
+  title: "Teenagers in 1900",
+  content: `
+In 1900, the word “teenager” didn’t exist. Young people were either children or adults. 
+Many boys and girls started working at the age of fourteen. They worked in factories, 
+on farms or in small family businesses.
 
-At first, many neighbours were worried about the cost of the project. They thought it would be too expensive and unnecessary. Nevertheless, the architects explained that they would use recycled materials and local labour to reduce expenses.
+Life was hard. Working days were long and the jobs were often dangerous. 
+There were few laws to protect young workers. Education was not a priority for many families, 
+because they needed money to survive.
 
-During the renovation process, workers discovered old photographs and tools inside the building. These objects revealed the factory's historical importance in the town's development.
+However, things began to change in the 1920s and 1930s. More young people stayed in school 
+for longer. There were new laws about education and child labour. Teenagers started to 
+develop their own music, fashion and identity.
 
-Today, the factory has become a modern space for exhibitions, concerts and workshops. What once symbolised decay now represents creativity and cooperation.
+This period marked the birth of teenage culture.
 `
 },
 
 {
-id: "U1_T2",
-title: "A Night of Surprises",
-content: `
-During a school trip, our class visited an old theatre that had been closed for years. The building looked dark and mysterious from the outside.
+  id: "U1_T2",
+  title: "The Rise of Youth Culture",
+  content: `
+In the early 20th century, young people had very little free time. Most of them 
+helped their families or worked long hours. There were no special activities designed 
+for teenagers.
 
-While we were exploring the main hall, our teacher explained that the theatre had once been the centre of cultural life in the town. Suddenly, the lights turned on and music started playing.
+By the 1950s, everything had changed. Teenagers had more free time and more money. 
+They began to listen to rock and roll, wear different clothes and spend time with friends.
 
-A group of local actors appeared on stage and performed a short play for us. They wanted to show how the theatre could become active again.
+Cinema, radio and later television helped create a global youth culture. 
+Young people from different countries started sharing music and trends.
 
-By the end of the evening, we realised that abandoned places can have a second opportunity if people work together.
+For the first time in history, teenagers became a powerful social group 
+with their own voice.
 `
 },
 
 /* ================= UNIT 2 ================= */
 
 {
-id: "U2_T1",
-title: "The Storm That Changed Our Plans",
-content: `
-We were preparing for a school cycling competition when dark clouds began to cover the sky. The wind was getting stronger and teachers were discussing whether to cancel the event.
+  id: "U2_T1",
+  title: "The Stormy Afternoon",
+  content: `
+It was getting dark while we were walking home from school. The sky was turning grey 
+and the wind was blowing strongly. We were laughing when the first drops of rain fell.
 
-While students were organising their equipment, heavy rain suddenly started falling. Some participants were feeling disappointed, but others were laughing and running for shelter.
+Suddenly, a loud crash interrupted us. A tree branch fell onto the road. 
+Cars were stopping and people were running for shelter.
 
-After thirty minutes, the storm stopped. Although the competition was postponed, we decided to organise indoor activities instead.
+While we were waiting under a bus stop, we saw a photographer taking pictures. 
+She was standing calmly in the rain.
 
-The experience taught us that flexibility and teamwork are sometimes more important than winning.
+Later, the storm ended as quickly as it had started. 
+It became an unforgettable afternoon.
 `
 },
 
 {
-id: "U2_T2",
-title: "An Unexpected Interview",
-content: `
-I was finishing my homework when my teacher called me. She said a well-known photographer was visiting our school and asked if I wanted to interview her.
+  id: "U2_T2",
+  title: "An Unexpected Discovery",
+  content: `
+While I was cleaning the attic, I found an old wooden box. 
+Dust was covering everything around it.
 
-While students were preparing the exhibition room, I was writing questions about her career. I felt nervous but excited.
+When I opened it, I discovered letters and black-and-white photographs. 
+My grandmother had written them during the 1940s.
 
-During the interview, she explained that she had travelled to different countries documenting environmental problems. She was working in Africa when she took her most famous photograph.
+She described how people were living during difficult times. 
+Families were helping each other and sharing what little they had.
 
-When the session ended, I understood that dedication and passion are essential for success.
+Reading those letters made me understand my family’s history better.
 `
 },
 
 /* ================= UNIT 3 ================= */
 
 {
-id: "U3_T1",
-title: "If We Work Together",
-content: `
-Our town is planning an outdoor festival near the lake. If the weather is good, hundreds of families will attend. There will be concerts, cycling competitions and food stalls.
+  id: "U3_T1",
+  title: "If We Protect the Park",
+  content: `
+Our town has a beautiful park near the lake. If people respect the rules, 
+the park will remain clean and safe.
 
-The organisers explained that if volunteers help with cleaning and organisation, the event will run smoothly. If enough money is collected, it will be donated to a local charity.
+Every weekend there are concerts and sports activities. 
+If volunteers help, the events will be successful.
 
-Some students are concerned about pollution. They believe that if people leave rubbish behind, the park will suffer damage.
+However, if visitors leave rubbish behind, the environment will suffer. 
+Animals will lose their habitat and the lake will become polluted.
 
-However, if everyone respects the environment, the festival will become a positive tradition for the community.
+If everyone works together, the park will continue to be 
+a place for families and friends.
 `
 },
 
 {
-id: "U3_T2",
-title: "Healthy Choices",
-content: `
-Many teenagers are joining a weekend fun run organised by the local sports centre. If participants train regularly, they will improve their stamina.
+  id: "U3_T2",
+  title: "Planning the School Festival",
+  content: `
+The school is organising a music festival. If the weather is good, 
+the concert will take place outdoors.
 
-The coach says that if students eat balanced meals and sleep well, their performance will increase. Some believe they will not finish the race, but if they stay motivated, they will succeed.
+Students are preparing decorations and rehearsing performances. 
+If more people buy tickets, the school will raise money for charity.
 
-The event is not only about competition. It encourages young people to adopt healthier lifestyles.
+Some teachers are worried about noise levels. 
+If the sound is too loud, neighbours will complain.
 
-Taking care of our bodies today will protect our future well-being.
+With good organisation, the festival will become an annual tradition.
 `
 },
 
 /* ================= UNIT 4 ================= */
 
 {
-id: "U4_T1",
-title: "Our Plans for the Summer",
-content: `
-This summer, I am going to volunteer at a community centre. We are going to organise activities for younger children and help them with homework.
+  id: "U4_T1",
+  title: "Summer Plans",
+  content: `
+This summer, I’m going to volunteer at a community centre. 
+We are going to organise sports activities for children.
 
-My friend thinks it will be challenging, but I believe it will be rewarding. We are going to prepare workshops and sports competitions.
+My best friend is going to travel abroad. She says she will learn 
+about new cultures and traditions.
 
-I am sure I will learn new skills and meet different people. It is going to be a summer full of responsibility and growth.
+We think it will be an exciting holiday. 
+It’s going to be different from previous years.
 `
 },
 
 {
-id: "U4_T2",
-title: "Life in 2050",
-content: `
-Experts believe that cities will become greener in 2050. People will use electric transport and renewable energy sources.
+  id: "U4_T2",
+  title: "Life in 2050",
+  content: `
+In 2050, cities will be greener and more sustainable. 
+People will use renewable energy and electric transport.
 
-Schools will probably combine traditional lessons with virtual reality experiences. Students will not carry heavy books anymore.
+Schools will probably use virtual classrooms. 
+Students won’t carry heavy books anymore.
 
-Although technology will transform daily life, teachers will still guide and inspire students. Human interaction will continue to be essential in education.
+However, teachers will still guide students. 
+Technology will help education, but it won’t replace human interaction.
 `
 }
 
 ];
 
-/* ================= QUESTION BANK ================= */
+
+/* ========================= QUESTION BANK ========================= */
 
 const READING_BANK = [
 
-/* ========== U1_T1 ========== */
+/* ================= UNIT 1 QUESTIONS ================= */
 
+/* U1_T1 */
 {
-textId: "U1_T1",
-type: "main-idea",
-question: "What is the best title for the text?",
-options: [
-"The Transformation of an Old Factory",
-"Life by the River",
-"The Cost of Construction",
-"A Dangerous Building"
-],
-answer: "The Transformation of an Old Factory"
+  textId: "U1_T1",
+  type: "main-idea",
+  question: "What is the main idea of the text?",
+  options: [
+    "Teenagers worked hard and teenage culture appeared later",
+    "Factories were very modern in 1900",
+    "Teenagers had too much free time",
+    "Schools were always compulsory"
+  ],
+  answer: "Teenagers worked hard and teenage culture appeared later"
+},
+{
+  textId: "U1_T1",
+  type: "paragraph-title",
+  question: "What is the best title for paragraph 3?",
+  options: [
+    "Change and new opportunities",
+    "Dangerous factories",
+    "Farm life",
+    "Childhood games"
+  ],
+  answer: "Change and new opportunities"
+},
+{
+  textId: "U1_T1",
+  type: "true-false",
+  question: "Teenagers in 1900 usually stayed in school until 18.",
+  options: ["True", "False"],
+  answer: "False"
+},
+{
+  textId: "U1_T1",
+  type: "keyword",
+  question: "Which word best represents paragraph 2?",
+  options: ["Danger", "Celebration", "Technology", "Freedom"],
+  answer: "Danger"
 },
 
+/* U1_T2 */
 {
-textId: "U1_T1",
-type: "sequence",
-question: "What happened before the renovation started?",
-options: [
-"The building was empty for decades",
-"The factory opened as a museum",
-"Concerts were organised",
-"The mayor resigned"
-],
-answer: "The building was empty for decades"
+  textId: "U1_T2",
+  type: "summary",
+  question: "Which sentence best summarises the text?",
+  options: [
+    "Teenagers gradually became an important social group",
+    "Young people disliked music",
+    "Radio destroyed youth culture",
+    "Teenagers avoided cinema"
+  ],
+  answer: "Teenagers gradually became an important social group"
+},
+{
+  textId: "U1_T2",
+  type: "detail",
+  question: "What helped create global youth culture?",
+  options: [
+    "Cinema and media",
+    "Factories",
+    "Farms",
+    "Libraries"
+  ],
+  answer: "Cinema and media"
+},
+{
+  textId: "U1_T2",
+  type: "order",
+  question: "Which happened first?",
+  options: [
+    "Teenagers worked long hours",
+    "Teenagers listened to rock and roll",
+    "Television existed",
+    "Youth culture spread globally"
+  ],
+  answer: "Teenagers worked long hours"
 },
 
+/* ================= UNIT 2 QUESTIONS ================= */
+
 {
-textId: "U1_T1",
-type: "key-word",
-question: "Which word best represents the message of the text?",
-options: [
-"Transformation",
-"Fear",
-"Isolation",
-"Competition"
-],
-answer: "Transformation"
+  textId: "U2_T1",
+  type: "sequence",
+  question: "What happened after the branch fell?",
+  options: [
+    "Cars stopped and people ran",
+    "The sun appeared",
+    "They arrived home",
+    "School reopened"
+  ],
+  answer: "Cars stopped and people ran"
+},
+{
+  textId: "U2_T1",
+  type: "inference",
+  question: "How did the photographer feel?",
+  options: [
+    "Calm",
+    "Terrified",
+    "Angry",
+    "Bored"
+  ],
+  answer: "Calm"
+},
+{
+  textId: "U2_T2",
+  type: "main-idea",
+  question: "What is the text mainly about?",
+  options: [
+    "Discovering family history",
+    "Cleaning houses",
+    "Modern photography",
+    "School homework"
+  ],
+  answer: "Discovering family history"
+},
+{
+  textId: "U2_T2",
+  type: "vocabulary",
+  question: "What does 'discovered' mean in the text?",
+  options: [
+    "Found",
+    "Destroyed",
+    "Lost",
+    "Painted"
+  ],
+  answer: "Found"
 },
 
+/* ================= UNIT 3 QUESTIONS ================= */
+
 {
-textId: "U1_T1",
-type: "true-false",
-question: "The renovation used local labour.",
-options: ["True","False"],
-answer: "True"
+  textId: "U3_T1",
+  type: "conditional-logic",
+  question: "If visitors leave rubbish, what will happen?",
+  options: [
+    "The environment will suffer",
+    "The lake will grow",
+    "Animals will multiply",
+    "Nothing will change"
+  ],
+  answer: "The environment will suffer"
+},
+{
+  textId: "U3_T1",
+  type: "best-title",
+  question: "What is the best title?",
+  options: [
+    "Protecting Our Community Spaces",
+    "Building Factories",
+    "Modern Technology",
+    "Travelling Abroad"
+  ],
+  answer: "Protecting Our Community Spaces"
+},
+{
+  textId: "U3_T2",
+  type: "prediction",
+  question: "If more people buy tickets, what will happen?",
+  options: [
+    "The school will raise money",
+    "The festival will close",
+    "Teachers will cancel it",
+    "Students will leave"
+  ],
+  answer: "The school will raise money"
 },
 
-/* ========== U1_T2 ========== */
+/* ================= UNIT 4 QUESTIONS ================= */
 
 {
-textId: "U1_T2",
-type: "summary",
-question: "What is paragraph 3 mainly about?",
-options: [
-"A surprise performance",
-"The history of the town",
-"A cancelled trip",
-"A school exam"
-],
-answer: "A surprise performance"
+  textId: "U4_T1",
+  type: "future-form",
+  question: "What is the speaker going to do?",
+  options: [
+    "Volunteer at a community centre",
+    "Stay at home",
+    "Start university",
+    "Move abroad"
+  ],
+  answer: "Volunteer at a community centre"
 },
-
 {
-textId: "U1_T2",
-type: "detail",
-question: "Why did the actors perform?",
-options: [
-"To show the theatre's potential",
-"To practise for a competition",
-"To earn money",
-"To close the theatre"
-],
-answer: "To show the theatre's potential"
+  textId: "U4_T2",
+  type: "prediction",
+  question: "What will probably change in 2050?",
+  options: [
+    "Energy use",
+    "Human emotions",
+    "Gravity",
+    "History"
+  ],
+  answer: "Energy use"
 },
-
-/* ========== U2_T1 ========== */
-
 {
-textId: "U2_T1",
-type: "sequence",
-question: "What happened first?",
-options: [
-"Dark clouds appeared",
-"Indoor activities were organised",
-"The competition ended",
-"The sun returned"
-],
-answer: "Dark clouds appeared"
-},
-
-{
-textId: "U2_T1",
-type: "main-idea",
-question: "What lesson did students learn?",
-options: [
-"Teamwork and flexibility are important",
-"Storms are dangerous",
-"Cycling is difficult",
-"Rain ruins everything"
-],
-answer: "Teamwork and flexibility are important"
-},
-
-/* ========== U2_T2 ========== */
-
-{
-textId: "U2_T2",
-type: "detail",
-question: "Where was the photographer working when she took her famous photo?",
-options: [
-"Africa",
-"Europe",
-"Asia",
-"America"
-],
-answer: "Africa"
-},
-
-{
-textId: "U2_T2",
-type: "key-word",
-question: "Which word best describes the photographer?",
-options: [
-"Dedicated",
-"Lazy",
-"Careless",
-"Unprepared"
-],
-answer: "Dedicated"
-},
-
-/* ========== U3_T1 ========== */
-
-{
-textId: "U3_T1",
-type: "true-false",
-question: "Money collected at the festival will support charity.",
-options: ["True","False"],
-answer: "True"
-},
-
-{
-textId: "U3_T1",
-type: "inference",
-question: "What could happen if people leave rubbish?",
-options: [
-"The park will suffer damage",
-"The festival will grow",
-"The weather will improve",
-"Attendance will increase"
-],
-answer: "The park will suffer damage"
-},
-
-/* ========== U3_T2 ========== */
-
-{
-textId: "U3_T2",
-type: "main-idea",
-question: "What is the purpose of the event?",
-options: [
-"Promote healthy lifestyles",
-"Make money",
-"Cancel competitions",
-"Test new technology"
-],
-answer: "Promote healthy lifestyles"
-},
-
-{
-textId: "U3_T2",
-type: "detail",
-question: "What improves performance?",
-options: [
-"Balanced meals and sleep",
-"Watching television",
-"Skipping training",
-"Eating fast food"
-],
-answer: "Balanced meals and sleep"
-},
-
-/* ========== U4_T1 ========== */
-
-{
-textId: "U4_T1",
-type: "main-idea",
-question: "What is the writer planning?",
-options: [
-"To volunteer",
-"To travel abroad",
-"To compete professionally",
-"To move house"
-],
-answer: "To volunteer"
-},
-
-{
-textId: "U4_T1",
-type: "inference",
-question: "How does the writer feel about summer?",
-options: [
-"Positive and motivated",
-"Angry",
-"Bored",
-"Afraid"
-],
-answer: "Positive and motivated"
-},
-
-/* ========== U4_T2 ========== */
-
-{
-textId: "U4_T2",
-type: "true-false",
-question: "Teachers will disappear in 2050.",
-options: ["True","False"],
-answer: "False"
-},
-
-{
-textId: "U4_T2",
-type: "summary",
-question: "What is the central idea?",
-options: [
-"Technology will change life but human interaction remains important",
-"Schools will close",
-"Books will become expensive",
-"Cities will disappear"
-],
-answer: "Technology will change life but human interaction remains important"
+  textId: "U4_T2",
+  type: "inference",
+  question: "What does the text suggest about teachers?",
+  options: [
+    "They will remain important",
+    "They will disappear",
+    "They will stop teaching",
+    "They will be robots"
+  ],
+  answer: "They will remain important"
 }
 
 ];
