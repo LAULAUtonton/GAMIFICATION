@@ -48,8 +48,12 @@ body{
   line-height:1.7;
   margin-bottom:18px;
   border:2px solid #22c55e;
-  max-height:320px;
+  max-height:350px;
   overflow-y:auto;
+}
+
+.textBox p{
+  margin-bottom:14px;
 }
 
 .topRow{
@@ -84,15 +88,14 @@ body{
   background:#22c55e;
   color:white;
 }
+.startBtn:hover{ background:#16a34a; transform:scale(1.04); }
 
 .switchBtn{
   border:2px solid #22c55e;
   background:white;
   color:#14532d;
 }
-
-.startBtn:hover{ transform:scale(1.05); }
-.switchBtn:hover{ background:#dcfce7; }
+.switchBtn:hover{ background:#dcfce7; transform:scale(1.03); }
 
 .streakText{
   text-align:center;
@@ -123,6 +126,7 @@ body{
   padding:22px;
   border-radius:18px;
   border:2px solid #22c55e;
+  box-shadow:0 8px 20px rgba(34,197,94,0.3);
   margin-bottom:18px;
 }
 
@@ -143,40 +147,39 @@ body{
   border:2px solid #22c55e;
   cursor:pointer;
   font-weight:800;
+  transition:.2s;
   text-align:left;
 }
+.optionBtn:hover{ background:#dcfce7; }
+.optionBtn.correct{ background:#22c55e; color:white; border:none; }
+.optionBtn.wrong{ background:#ef4444; color:white; border:none; }
 
-.optionBtn.correct{
-  background:#22c55e;
-  color:white;
-  border:none;
+.errorBox{
+  background:#fff1f2;
+  border:2px solid #ef4444;
+  color:#7f1d1d;
+  padding:18px;
+  border-radius:16px;
+  font-weight:900;
 }
-
-.optionBtn.wrong{
-  background:#ef4444;
-  color:white;
-  border:none;
-}
-
 </style>
 </head>
 
 <body>
-
-<div class="readingContainer">
+<div class="readingContainer" id="wrap">
 
   <div class="readingTitle">READING STREAK MODE</div>
   <div class="subTitle">Goal: 20 correct answers in a row</div>
 
   <div class="topRow">
     <div class="pill" id="textTitlePill">TEXT: —</div>
-    <div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;">
       <button class="switchBtn" id="switchTextBtn">NEW TEXT</button>
-      <button class="startBtn" id="startBtn">START CHALLENGE</button>
+      <button class="startBtn" id="startBtn">START</button>
     </div>
   </div>
 
-  <div class="textBox" id="textBox"></div>
+  <div class="textBox" id="textBox">Loading text…</div>
 
   <div id="gameArea" style="display:none;">
     <div class="streakText">STREAK: <span id="streakCount">0</span> / 20</div>
@@ -188,108 +191,127 @@ body{
 
 </div>
 
-<!-- LOAD BANK -->
 <script src="./reading-bank.js"></script>
 
 <script>
 
-/* ---------- STATE ---------- */
+/* SAFETY CHECK */
+if(typeof TEXT_BANK === "undefined" || typeof READING_BANK === "undefined"){
+  document.getElementById("wrap").innerHTML =
+  `<div class="errorBox">ERROR: reading-bank.js not loaded correctly.</div>`;
+  throw new Error("Bank missing");
+}
 
-let currentText = null;
-let streak = 0;
-let isRunning = false;
-let roundQuestions = [];
-let questionIndex = 0;
-
-/* ---------- DOM ---------- */
-
+/* DOM */
 const textBox = document.getElementById("textBox");
 const textTitlePill = document.getElementById("textTitlePill");
+const startBtn = document.getElementById("startBtn");
+const switchTextBtn = document.getElementById("switchTextBtn");
+const gameArea = document.getElementById("gameArea");
 const questionArea = document.getElementById("questionArea");
 const streakCountEl = document.getElementById("streakCount");
 const streakFillEl = document.getElementById("streakFill");
-const gameArea = document.getElementById("gameArea");
 
-/* ---------- HELPERS ---------- */
+/* STATE */
+let currentText=null;
+let streak=0;
+let correctCounter=0;
+let usedQuestions=[];
+let questionsThisRound=[];
+let isRunning=false;
 
+/* TEXT DISPLAY */
+function displayText(text){
+  textBox.innerHTML="";
+  if(text.paragraphs){
+    text.paragraphs.forEach((p,i)=>{
+      const para=document.createElement("p");
+      para.innerHTML="<strong>P"+(i+1)+":</strong> "+p;
+      textBox.appendChild(para);
+    });
+  } else if(text.content){
+    const parts=text.content.trim().split("\n\n");
+    parts.forEach((p,i)=>{
+      const para=document.createElement("p");
+      para.innerHTML="<strong>P"+(i+1)+":</strong> "+p;
+      textBox.appendChild(para);
+    });
+  }
+}
+
+/* NEW ROUND */
+function prepareRound(){
+  usedQuestions=[];
+  const pool=READING_BANK.filter(q=>q.textId===currentText.id);
+  questionsThisRound=shuffle(pool).slice(0,4);
+}
+
+/* RANDOM TEXT */
+function pickRandomText(){
+  currentText=TEXT_BANK[Math.floor(Math.random()*TEXT_BANK.length)];
+  textTitlePill.textContent="TEXT: "+currentText.title;
+  displayText(currentText);
+  prepareRound();
+}
+
+/* SHUFFLE */
 function shuffle(arr){
   return arr.sort(()=>Math.random()-0.5);
 }
 
-/* ---------- TEXT ---------- */
-
-function pickRandomText(){
-  currentText = TEXT_BANK[Math.floor(Math.random()*TEXT_BANK.length)];
-  textTitlePill.textContent = "TEXT: " + currentText.title;
-  textBox.innerHTML = "";
-
-  currentText.paragraphs.forEach((p,i)=>{
-    const para = document.createElement("p");
-    para.innerHTML = "<strong>P"+(i+1)+":</strong> " + p;
-    textBox.appendChild(para);
-  });
-
-  prepareRound();
-}
-
-/* ---------- ROUND SYSTEM ---------- */
-
-function prepareRound(){
-  const allQuestions = READING_BANK.filter(q => q.textId === currentText.id);
-  roundQuestions = shuffle([...allQuestions]).slice(0,4); // max 4 per round
-  questionIndex = 0;
-}
-
-/* ---------- STREAK ---------- */
-
+/* STREAK */
 function updateStreak(){
-  streakCountEl.textContent = streak;
-  streakFillEl.style.width = (streak/20*100) + "%";
-
-  if(streak === 20){
+  streakCountEl.textContent=streak;
+  streakFillEl.style.width=(streak/20*100)+"%";
+  if(streak===20){
     alert("READING MASTER UNLOCKED!");
-    streak = 0;
+    streak=0;
+    correctCounter=0;
   }
 }
 
-/* ---------- QUESTION RENDER ---------- */
-
+/* RENDER QUESTION */
 function renderQuestion(){
+  if(!isRunning) return;
 
-  if(questionIndex >= roundQuestions.length){
-    prepareRound(); // new mini-round
+  if(usedQuestions.length>=questionsThisRound.length){
+    prepareRound();
   }
 
-  const q = roundQuestions[questionIndex];
+  const q=questionsThisRound[usedQuestions.length];
+  usedQuestions.push(q);
 
-  questionArea.innerHTML = "";
+  questionArea.innerHTML="";
+  const card=document.createElement("div");
+  card.className="questionCard";
 
-  const card = document.createElement("div");
-  card.className = "questionCard";
+  const qt=document.createElement("div");
+  qt.className="questionText";
+  qt.textContent=q.question;
+  card.appendChild(qt);
 
-  const title = document.createElement("div");
-  title.className = "questionText";
-  title.textContent = q.question;
-  card.appendChild(title);
+  shuffle(q.options).forEach(opt=>{
+    const btn=document.createElement("button");
+    btn.className="optionBtn";
+    btn.textContent=opt;
 
-  q.options.forEach(opt=>{
-    const btn = document.createElement("button");
-    btn.className = "optionBtn";
-    btn.textContent = opt;
-
-    btn.onclick = ()=>{
+    btn.onclick=()=>{
       card.querySelectorAll("button").forEach(b=>b.disabled=true);
 
-      if(opt === q.answer){
+      if(opt===q.answer){
         btn.classList.add("correct");
         streak++;
+        correctCounter++;
       } else {
         btn.classList.add("wrong");
-        streak = 0;
+        streak=0;
       }
 
       updateStreak();
-      questionIndex++;
+
+      if(correctCounter%4===0){
+        pickRandomText();
+      }
 
       setTimeout(renderQuestion,700);
     };
@@ -300,26 +322,25 @@ function renderQuestion(){
   questionArea.appendChild(card);
 }
 
-/* ---------- EVENTS ---------- */
-
-document.getElementById("startBtn").onclick = ()=>{
-  isRunning = true;
-  gameArea.style.display = "block";
-  streak = 0;
-  updateStreak();
-  renderQuestion();
-};
-
-document.getElementById("switchTextBtn").onclick = ()=>{
+/* EVENTS */
+switchTextBtn.onclick=()=>{
   pickRandomText();
   if(isRunning) renderQuestion();
 };
 
-/* ---------- INIT ---------- */
+startBtn.onclick=()=>{
+  startBtn.style.display="none";
+  gameArea.style.display="block";
+  isRunning=true;
+  streak=0;
+  correctCounter=0;
+  updateStreak();
+  renderQuestion();
+};
 
+/* INIT */
 pickRandomText();
 
 </script>
-
 </body>
 </html>
