@@ -1,264 +1,460 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>THE PIT – Reading Mode</title>
+<title>THE PIT</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800&display=swap" rel="stylesheet">
 
 <style>
-body{
-  margin:0;
-  font-family:'Orbitron',sans-serif;
-  background:radial-gradient(circle,#bbf7d0 0%,#16a34a 60%,#052e16 100%);
-  color:#111827;
+
+html,body{
+margin:0;
+height:100vh;
+font-family:'Orbitron',sans-serif;
+background:radial-gradient(circle,#ff7eb3 0%,#6d5acb 45%,#3c1c6b 100%);
+color:white;
+overflow:hidden;
 }
 
-/* ===== TOP CONTROL BAR ===== */
+/* ================= LOGIN ================= */
 
-.topBar{
-  display:flex;
-  justify-content:space-between;
-  padding:12px 20px;
+.loginOverlay{
+position:fixed;
+inset:0;
+background:rgba(0,0,0,0.9);
+display:flex;
+justify-content:center;
+align-items:center;
+z-index:9999;
 }
 
-.controlBtn{
-  background:white;
-  border:2px solid #16a34a;
-  padding:8px 14px;
-  border-radius:12px;
-  cursor:pointer;
-  font-weight:800;
+.loginBox{
+background:white;
+padding:40px;
+border-radius:22px;
+display:flex;
+flex-direction:column;
+align-items:center;
+gap:18px;
+color:#3c1c6b;
 }
 
-.controlBtn:hover{
-  background:#dcfce7;
+.loginBox input{
+padding:12px;
+border-radius:12px;
+border:none;
+width:220px;
+text-align:center;
+
 }
 
-/* ===== MAIN CONTAINER ===== */
-
-.readingContainer{
-  width:90%;
-  max-width:950px;
-  margin:20px auto;
-  background:white;
-  padding:30px;
-  border-radius:25px;
-  box-shadow:0 25px 50px rgba(0,0,0,0.6);
+.loginBox button{
+padding:10px 24px;
+border:none;
+border-radius:14px;
+background:#6d5acb;
+color:white;
+cursor:pointer;
 }
 
-.readingTitle{
-  text-align:center;
-  font-size:28px;
-  color:#14532d;
-  margin-bottom:10px;
+/* ================= TOP ================= */
+
+.top{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:16px 30px;
+
+
+
 }
 
-.textBox{
-  background:#f0fdf4;
-  padding:18px;
-  border-radius:18px;
-  border:2px solid #22c55e;
-  max-height:300px;
-  overflow-y:auto;
-  margin-bottom:18px;
+.info{
+display:flex;
+gap:25px;
+font-size:20px;
+align-items:center;
 }
 
-.questionCard{
-  background:#f0fdf4;
-  padding:18px;
-  border-radius:18px;
-  border:2px solid #22c55e;
+.timerBox{
+background:rgba(0,0,0,0.45);
+padding:8px 16px;
+border-radius:12px;
+
+
+
+
 }
 
-.optionBtn{
-  display:block;
-  width:100%;
-  margin:8px 0;
-  padding:10px;
-  border-radius:12px;
-  border:2px solid #22c55e;
-  background:white;
-  cursor:pointer;
-  font-weight:700;
+/* ===== BIG CONTROLS ===== */
+
+.controls{
+display:flex;
+gap:18px;
 }
 
-.optionBtn.correct{
-  background:#22c55e;
-  color:white;
-  border:none;
+.bigCtrl{
+width:65px;
+height:65px;
+background:white;
+border-radius:18px;
+display:flex;
+align-items:center;
+justify-content:center;
+cursor:pointer;
+box-shadow:0 10px 25px rgba(0,0,0,0.7);
+transition:.2s;
 }
 
-.optionBtn.wrong{
-  background:#ef4444;
-  color:white;
-  border:none;
+.bigCtrl:hover{
+transform:scale(1.12);
+
+
 }
 
-.streakBox{
-  margin:15px 0;
-  font-weight:900;
+.bigCtrl svg{
+width:70%;
+height:70%;
+fill:#3c1c6b;
+stroke:#3c1c6b;
+stroke-width:2;
 }
+
+/* ================= TITLE ================= */
+
+.title{
+text-align:center;
+font-size:50px;
+margin-top:4px;
+}
+
+
+
+/* ================= PROGRESS BAR ================= */
+
+.bar{
+width:80%;
+margin:auto;
+height:18px;
+background:rgba(255,255,255,0.25);
+border-radius:10px;
+overflow:hidden;
+box-shadow:0 6px 16px rgba(0,0,0,0.5);
+}
+
+.fill{
+height:100%;
+width:0%;
+background:linear-gradient(90deg,#ff7eb3,#ffffff);
+}
+
+
+
+
+.percent{
+width:80%;
+margin:auto;
+text-align:right;
+font-size:15px;
+margin-top:6px;
+font-weight:600;
+}
+
+/* ================= STATIONS ================= */
+
+.main{
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+height:calc(100vh - 230px);
+}
+
+.row{
+display:flex;
+gap:24px;
+margin-bottom:24px;
+}
+
+.stationWrap{
+display:flex;
+flex-direction:column;
+align-items:center;
+text-decoration:none;
+}
+
+.station{
+width:155px;
+height:155px;
+background:white;
+border-radius:20px;
+position:relative;
+overflow:hidden;
+display:flex;
+align-items:center;
+justify-content:center;
+cursor:pointer;
+box-shadow:0 14px 35px rgba(0,0,0,0.7);
+transition:.2s;
+}
+
+.station:hover{
+transform:scale(1.08);
+}
+
+.station img{
+position:absolute;
+width:110%;
+height:110%;
+object-fit:contain;
+}
+
+/* ===== READABLE NEON LABEL ===== */
+
+.stationLabel{
+margin-top:12px;
+font-size:20px;
+letter-spacing:3px;
+color:white;
+font-weight:800;
+-webkit-text-stroke:1px black;
+text-shadow:0 0 10px rgba(255,255,255,0.7);
+}
+
+/* ================= BIG MINI CONSOLE ================= */
+
+.miniConsole{
+position:fixed;
+bottom:22px;
+right:22px;
+background:rgba(0,0,0,0.75);
+padding:20px 24px;
+border-radius:22px;
+display:flex;
+gap:22px;
+box-shadow:0 15px 40px rgba(0,0,0,0.8);
+}
+
+.smallCtrl{
+width:70px;
+height:70px;
+background:white;
+border-radius:18px;
+display:flex;
+align-items:center;
+justify-content:center;
+cursor:pointer;
+box-shadow:
+0 10px 25px rgba(0,0,0,0.7),
+inset 0 0 6px rgba(0,0,0,0.2);
+transition:.2s;
+}
+
+.smallCtrl:hover{
+transform:scale(1.15);
+}
+
+.smallCtrl svg{
+width:75%;
+height:75%;
+fill:#6d5acb;
+}
+
+/* ================= RESPONSIVE ================= */
+
+
+
+@media(max-width:900px){
+.station{width:130px;height:130px;}
+.bigCtrl{width:55px;height:55px;}
+.smallCtrl{width:60px;height:60px;}
+
+
+}
+
 </style>
 </head>
 
 <body>
 
-<div class="topBar">
-  <button class="controlBtn" onclick="goMain()">MAIN MENU</button>
-  <div>
-    <button class="controlBtn" onclick="togglePause()">PAUSE</button>
-    <button class="controlBtn" onclick="toggleMusic()">MUSIC</button>
-    <button class="controlBtn" onclick="exitGame()">EXIT</button>
-  </div>
+<!-- LOGIN -->
+<div class="loginOverlay" id="loginOverlay">
+<div class="loginBox">
+<h2>ENTER YOUR NAME</h2>
+<input type="text" id="playerName">
+<button onclick="startGame()">START</button>
+</div>
 </div>
 
-<div class="readingContainer">
+<!-- TOP -->
+<div class="top">
+<div class="info">
+<div class="timerBox" id="timer">00:00</div>
+<div id="score">Score: 0</div>
+<div id="playerDisplay"></div>
+</div>
 
-  <div class="readingTitle">READING MODE</div>
+<div class="controls">
+<div class="bigCtrl" onclick="startTimer()">
+<svg viewBox="0 0 24 24"><polygon points="6,4 20,12 6,20"/></svg>
+</div>
 
-  <div id="textBox" class="textBox"></div>
+<div class="bigCtrl" onclick="pauseTimer()">
+<svg viewBox="0 0 24 24">
+<rect x="5" y="4" width="5" height="16"/>
+<rect x="14" y="4" width="5" height="16"/>
+</svg>
+</div>
 
-  <div class="streakBox">
-    STREAK: <span id="streak">0</span>
-  </div>
+<div class="bigCtrl" onclick="exitGame()">
+<svg viewBox="0 0 24 24">
+<line x1="5" y1="5" x2="19" y2="19"/>
+<line x1="19" y1="5" x2="5" y2="19"/>
+</svg>
+</div>
+</div>
+</div>
 
-  <div id="questionArea"></div>
+<div class="title">THE PIT</div>
 
-  <button class="controlBtn" onclick="startRound()">START ROUND</button>
+<div class="bar"><div class="fill" id="fill"></div></div>
+<div class="percent" id="percent">0%</div>
+
+<!-- STATIONS -->
+
+<div class="main">
+
+<div class="row">
+
+
+<a href="./stations/listening.html" class="stationWrap">
+<div class="station"><img src="./stations/listening.png"></div>
+<div class="stationLabel">LISTEN</div>
+</a>
+
+<a href="./stations/speaking.html" class="stationWrap">
+<div class="station"><img src="./stations/speaking.png"></div>
+<div class="stationLabel">SPEAK</div>
+</a>
+
+<a href="./stations/reading.html" class="stationWrap">
+<div class="station"><img src="./stations/reading.png"></div>
+<div class="stationLabel">READ</div>
+</a>
+
+<a href="./stations/writing.html" class="stationWrap">
+<div class="station"><img src="./stations/writing.png"></div>
+<div class="stationLabel">WRITE</div>
+</a>
 
 </div>
+
+
+<div class="row">
+
+
+<a href="./stations/vocabulary.html" class="stationWrap">
+<div class="station"><img src="./stations/vocabulary.png"></div>
+<div class="stationLabel">VOCAB</div>
+</a>
+
+<a href="./stations/challenge.html" class="stationWrap">
+<div class="station"><img src="./stations/challenge.png"></div>
+<div class="stationLabel">CHALL</div>
+</a>
+
+
+<a href="./stations/games.html" class="stationWrap">
+<div class="station"><img src="./stations/games.png"></div>
+<div class="stationLabel">GAMES</div>
+</a>
+
+</div>
+
+
+</div>
+
+
+
+<!-- BIG MINI CONSOLE -->
+
+
+
+
+<div class="miniConsole">
+
+
+
+
+
+
+
+
+<div class="smallCtrl" onclick="resetTimer()">
+<svg viewBox="0 0 24 24">
+<path d="M12 5a7 7 0 1 1-6.2 4H3l4-4 4 4H8.8A5.5 5.5 0 1 0 12 6z"/>
+</svg>
+</div>
+
+<div class="smallCtrl" onclick="toggleMusic()">
+<svg viewBox="0 0 24 24">
+<path d="M3 9v6h4l5 5V4L7 9H3z"/>
+</svg>
+</div>
+
+</div>
+
 
 <audio id="music" loop>
-  <source src="../audio/music.mp3">
+<source src="./stations/audio/music.mp3">
 </audio>
-
-<script src="./reading-bank.js"></script>
 
 <script>
 
-/* ===== STATE ===== */
-
-let currentText = null;
-let currentRoundQuestions = [];
-let usedQuestions = [];
-let streak = 0;
-let paused = false;
-
-/* ===== TEXT LOADING ===== */
-
-function pickRandomText(){
-  currentText = TEXT_BANK[Math.floor(Math.random()*TEXT_BANK.length)];
-  renderText();
+function startGame(){
+let name=document.getElementById("playerName").value.trim();
+if(!name){alert("Enter name");return;}
+localStorage.setItem("playerName",name);
+document.getElementById("playerDisplay").innerText="Player: "+name;
+document.getElementById("loginOverlay").style.display="none";
 }
 
-function renderText(){
-  const box = document.getElementById("textBox");
-  box.innerHTML = "";
+window.onload=function(){
+let saved=localStorage.getItem("playerName");
+if(saved){
+document.getElementById("playerDisplay").innerText="Player: "+saved;
+document.getElementById("loginOverlay").style.display="none";
 
-  if(currentText.content){
-    const parts = currentText.content.trim().split("\n\n");
-    parts.forEach((p,i)=>{
-      box.innerHTML += "<p><strong>P"+(i+1)+":</strong> "+p+"</p>";
-    });
-  }
+
+}
+};
+
+let time=0,interval=null;
+
+function startTimer(){
+if(interval)return;
+interval=setInterval(()=>{time++;updateUI();},1000);
 }
 
-/* ===== ROUND SYSTEM ===== */
+function pauseTimer(){clearInterval(interval);interval=null;}
+function resetTimer(){pauseTimer();time=0;updateUI();}
+function exitGame(){pauseTimer();localStorage.removeItem("playerName");location.reload();}
 
-function startRound(){
-  if(paused) return;
-
-  usedQuestions = [];
-
-  const pool = READING_BANK.filter(q=>q.textId===currentText.id);
-
-  // Shuffle
-  const shuffled = pool.sort(()=>Math.random()-0.5);
-
-  // Max 4 questions
-  currentRoundQuestions = shuffled.slice(0,4);
-
-  renderNextQuestion();
+function updateUI(){
+let m=Math.floor(time/60).toString().padStart(2,"0");
+let s=(time%60).toString().padStart(2,"0");
+timer.innerText=m+":"+s;
+score.innerText="Score: "+Math.floor(time/2);
+let p=Math.min(time/300*100,100);
+fill.style.width=p+"%";
+percent.innerText=Math.floor(p)+"%";
 }
 
-function renderNextQuestion(){
-  if(paused) return;
-
-  const area = document.getElementById("questionArea");
-  area.innerHTML = "";
-
-  if(currentRoundQuestions.length===0){
-    alert("ROUND COMPLETE!");
-    pickRandomText();
-    return;
-  }
-
-  const q = currentRoundQuestions.shift();
-
-  const card = document.createElement("div");
-  card.className="questionCard";
-
-  const qt = document.createElement("div");
-  qt.innerText = q.question;
-  card.appendChild(qt);
-
-  q.options.forEach(opt=>{
-    const btn = document.createElement("button");
-    btn.className="optionBtn";
-    btn.innerText = opt;
-
-    btn.onclick=()=>{
-      if(opt===q.answer){
-        btn.classList.add("correct");
-        streak++;
-      }else{
-        btn.classList.add("wrong");
-        streak=0;
-      }
-
-      document.getElementById("streak").innerText=streak;
-
-      setTimeout(renderNextQuestion,700);
-    }
-
-    card.appendChild(btn);
-  });
-
-  area.appendChild(card);
-}
-
-/* ===== CONTROLS ===== */
-
-function togglePause(){
-  paused = !paused;
-  alert(paused ? "PAUSED" : "RESUMED");
-}
-
+let music=document.getElementById("music");
 function toggleMusic(){
-  const m = document.getElementById("music");
-  if(m.paused){
-    m.play();
-  }else{
-    m.pause();
-  }
+music.paused?music.play():music.pause();
 }
-
-function exitGame(){
-  location.reload();
-}
-
-function goMain(){
-  window.location.href="../index.html";
-}
-
-/* ===== INIT ===== */
-
-pickRandomText();
 
 </script>
-
-</body>
-</html>
