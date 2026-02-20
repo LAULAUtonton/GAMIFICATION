@@ -2,7 +2,6 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Speaking Station</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>THE PIT – Speaking Mode</title>
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800&display=swap" rel="stylesheet">
@@ -240,125 +239,6 @@ body{
   color:#0c4a6e;
 }
 
-/* DARK METAL GRAY BACKGROUND + WHITE TEXT */
-body {
-    background: linear-gradient(135deg, #2b2b2b, #1f1f1f, #2a2a2a);
-    color: white;
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-}
-
-/* UNIVERSAL ACTIVITY COLORS */
-.ordering-theme { background: #00B0FF20; border-left: 6px solid #00B0FF; }
-.matching-theme { background: #AB47BC20; border-left: 6px solid #AB47BC; }
-.trivia-theme { background: #4CAF5020; border-left: 6px solid #4CAF50; }
-.fill-theme { background: #EF535020; border-left: 6px solid #EF5350; }
-.builder-theme { background: #FDD83520; border-left: 6px solid #FDD835; }
-.listen-theme { background: #FFA72620; border-left: 6px solid #FFA726; }
-.read-theme { background: #5C6BC020; border-left: 6px solid #5C6BC0; }
-.speak-theme { background: #26C6DA20; border-left: 6px solid #26C6DA; }
-
-/* FIXED BOTTOM BAR — PURPLE */
-.fixed-bar {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    background: #6A1B9A;
-    padding: 12px;
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    z-index: 9999;
-    border-top: 2px solid #4A0072;
-    backdrop-filter: blur(6px);
-}
-
-/* YELLOW BUTTONS */
-.bar-btn {
-    background: #FFEB3B;
-    color: #1A1A1A;
-    padding: 10px 20px;
-    border-radius: 10px;
-    border: none;
-    cursor: pointer;
-    font-size: 16px;
-}
-.bar-btn:hover { background: #FBC02D; color: black; }
-
-/* GENERAL LAYOUT */
-.screen {
-    display: none;
-    padding: 30px;
-    margin-bottom: 100px;
-    border-radius: 12px;
-}
-#main {
-    padding: 30px;
-    margin-bottom: 100px;
-}
-button {
-    padding: 12px 20px;
-    margin: 10px;
-    border-radius: 10px;
-    border: none;
-    background: #4FC3F7;
-    cursor: pointer;
-    font-size: 18px;
-    color: black;
-}
-button:hover { background: #0288D1; color: white; }
-
-/* ========================= */
-/* UNIVERSAL HUD CSS */
-/* ========================= */
-
-#progress-container {
-    width: 100%;
-    height: 12px;
-    background: #444;
-    border-bottom: 2px solid #222;
-}
-#progress-bar {
-    width: 0%;
-    height: 100%;
-    background: #FFEB3B;
-    transition: width 0.4s ease;
-}
-
-#hud-row {
-    display: flex;
-    gap: 10px;
-    padding: 10px 20px;
-}
-
-#score-box {
-    padding: 10px 20px;
-    font-size: 20px;
-    background: #6A1B9A;
-    border-radius: 10px;
-}
-
-#timer-box {
-    padding: 10px 20px;
-    font-size: 20px;
-    background: #AB47BC;
-    border-radius: 10px;
-}
-
-#tip-box {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    background: #333;
-    padding: 15px 20px;
-    border-radius: 10px;
-    border: 2px solid #FFEB3B;
-    font-size: 16px;
-    max-width: 250px;
-    color: white;
-    z-index: 9999;
 .dialoguePreview{
   margin-top:10px;
   padding:8px;
@@ -405,19 +285,12 @@ button:hover { background: #0288D1; color: white; }
 }
 </style>
 </head>
-
 <body>
 
-<!-- ========================= -->
-<!-- UNIVERSAL HUD BLOCK -->
-<!-- ========================= -->
 <div class="speakingContainer">
   <h1 class="speakingTitle">SPEAKING STREAK MODE</h1>
   <div class="subTitle">Student = Role A • Chatbot = Role B</div>
 
-<div id="progress-container">
-    <div id="progress-bar"></div>
-</div>
   <div class="topRow">
     <div class="pill" id="dialogueCountPill">DIALOGUES: 16</div>
     <div style="display:flex;gap:10px;flex-wrap:wrap;">
@@ -427,51 +300,25 @@ button:hover { background: #0288D1; color: white; }
     </div>
   </div>
 
-<div id="hud-row">
-    <div id="score-box">Score: <span id="score">0</span></div>
-    <div id="timer-box">Time: <span id="timer">00:00</span></div>
-</div>
   <div class="hudRow">
     <div class="hudBox">SCORE: <span id="score">0</span></div>
     <div class="hudBox">TIME: <span id="timer">00:00</span></div>
     <div class="hudBox">COMPLETED: <span id="completed">0</span>/16</div>
   </div>
 
-<div id="tip-box">
-    <strong>Tip:</strong> <span id="tip-text">Choose a speaking task to begin!</span>
-</div>
   <div class="tipBox"><strong>Tip:</strong> <span id="tip-text">Read your Role A line first, then click Talk to me.</span></div>
 
-<!-- ========================= -->
-<!-- END HUD BLOCK -->
-<!-- ========================= -->
   <div class="progressTrack"><div class="progressFill" id="progress-bar"></div></div>
 
-<!-- FIXED BOTTOM BAR -->
-<div class="fixed-bar">
-    <button class="bar-btn" onclick="goBack()">Back</button>
-    <button class="bar-btn" onclick="location.href='../index.html'">Main Menu</button>
-    <button class="bar-btn" onclick="alert('Paused')">Pause</button>
   <div id="dialogueGrid" class="dialogueGrid"></div>
 </div>
 
-<!-- MAIN MENU -->
-<div id="main">
-    <h1>Speaking Station</h1>
-    <button onclick="openScreen('speak1')">Speaking Task 1</button>
-    <button onclick="openScreen('speak2')">Speaking Task 2</button>
-    <button onclick="openScreen('speak3')">Speaking Task 3</button>
 <div class="fixed-bar">
   <button class="bar-btn" onclick="location.href='../index.html'">MAIN MENU</button>
   <button class="bar-btn" onclick="toggleTimer()">PAUSE / RESUME</button>
   <button class="bar-btn" onclick="resetPractice()">RESET</button>
 </div>
 
-<!-- SPEAKING 1 -->
-<div id="speak1" class="screen speak-theme">
-    <h2>Speaking Task 1</h2>
-    <p>Describe the picture or situation aloud.</p>
-</div>
 <script>
 const dialogues = [
 {unit:'Unit 1 – Identity & Daily Life', focus:'Present Simple', title:'New in Class', lines:[['A','Hi, I\'m Daniel. I\'m new here.'],['B','Hi Daniel! I\'m Sara. Where are you from?'],['A','I\'m from Seville.'],['B','Nice! What do you usually do after school?'],['A','I usually play basketball and study in the evening.'],['B','That\'s cool. Are you good at sports?'],['A','Yes, I am. But I don\'t like Maths very much.'],['B','Don\'t worry. I can help you with that.']]},
@@ -495,11 +342,6 @@ const dialogues = [
 const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 const recognitionSupported = !!SpeechRecognition;
 
-<!-- SPEAKING 2 -->
-<div id="speak2" class="screen speak-theme">
-    <h2>Speaking Task 2</h2>
-    <p>Answer the following questions using full sentences.</p>
-</div>
 let score = 0;
 let time = 0;
 let timerInterval = null;
@@ -514,11 +356,6 @@ function normalizeText(text){
     .trim();
 }
 
-<!-- SPEAKING 3 -->
-<div id="speak3" class="screen speak-theme">
-    <h2>Speaking Task 3</h2>
-    <p>Talk for one minute about the given topic.</p>
-</div>
 function similarityScore(a,b){
   if(!a || !b) return 0;
   const expectedWords = normalizeText(a).split(' ').filter(Boolean);
@@ -528,12 +365,7 @@ function similarityScore(a,b){
   return hits / expectedWords.length;
 }
 
-<script>
 
-/* SCREEN NAVIGATION */
-function openScreen(id) {
-    document.querySelectorAll('.screen, #main').forEach(s => s.style.display = 'none');
-    document.getElementById(id).style.display = 'block';
 function isCorrectAnswer(expected, student){
   const normalizedExpected = normalizeText(expected);
   const normalizedStudent = normalizeText(student);
@@ -541,9 +373,6 @@ function isCorrectAnswer(expected, student){
 
   if(normalizedExpected === normalizedStudent) return true;
 
-    setTip("Speak clearly and try to expand your ideas!");
-    startTimer();
-    setProgress(20);
   const expectedWords = normalizedExpected.split(' ').filter(Boolean);
   const studentWords = normalizedStudent.split(' ').filter(Boolean);
   const accuracy = similarityScore(expected, student);
@@ -552,29 +381,18 @@ function isCorrectAnswer(expected, student){
   return accuracy >= 0.9 && lengthRatio >= 0.8 && lengthRatio <= 1.25;
 }
 
-function goBack() {
-    document.querySelectorAll('.screen').forEach(s => s.style.display = 'none');
-    document.getElementById('main').style.display = 'block';
 function setProgress(percent){
   document.getElementById('progress-bar').style.width = percent + '%';
 }
 
-    stopTimer();
-    setTip("Choose a speaking task to begin!");
-    setProgress(0);
 function setTip(text){
   document.getElementById('tip-text').textContent = text;
 }
 
-/* ========================= */
-/* UNIVERSAL HUD JS */
-/* ========================= */
 function updateCompletedCount(){
   document.getElementById('completed').textContent = Object.keys(state).length;
 }
 
-function setProgress(percent) {
-    document.getElementById("progress-bar").style.width = percent + "%";
 function startTimer(){
   if(timerInterval) return;
   timerInterval = setInterval(()=>{
@@ -586,17 +404,11 @@ function startTimer(){
   },1000);
 }
 
-let score = 0;
-function addScore(points) {
-    score += points;
-    document.getElementById("score").textContent = score;
 function toggleTimer(){
   paused = !paused;
   setTip(paused ? 'Timer paused.' : 'Timer resumed. Keep speaking!');
 }
 
-let time = 0;
-let timerInterval;
 function renderDialogues(){
   const grid = document.getElementById('dialogueGrid');
   grid.innerHTML = dialogues.map((d,i)=>{
@@ -651,23 +463,12 @@ function updateStatusBadge(index, status, text){
   badge.textContent = text;
 }
 
-function startTimer() {
-    stopTimer();
-    time = 0;
-    timerInterval = setInterval(() => {
-        time++;
-        let minutes = String(Math.floor(time / 60)).padStart(2, '0');
-        let seconds = String(time % 60).padStart(2, '0');
-        document.getElementById("timer").textContent = `${minutes}:${seconds}`;
-    }, 1000);
 function updateExpectedLine(index, line){
   const expectedNode = document.getElementById(`expected-${index}`);
   if(!expectedNode) return;
   expectedNode.innerHTML = `<strong>Your line now:</strong> ${line || 'Dialogue complete.'}`;
 }
 
-function stopTimer() {
-    clearInterval(timerInterval);
 function talkToMe(index){
   startTimer();
   if(!(index in state)) state[index]=0;
@@ -721,8 +522,6 @@ function talkToMe(index){
   }
 }
 
-function setTip(text) {
-    document.getElementById("tip-text").textContent = text;
 function resetPractice(){
   score = 0;
   time = 0;
