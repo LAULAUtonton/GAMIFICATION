@@ -107,6 +107,50 @@ textarea{
   font-weight:800;
   color:#9a3412;
 }
+
+.promptCard{
+  background:#fff7ed;
+  border:2px solid #fdba74;
+  border-radius:14px;
+  padding:14px;
+  margin-bottom:10px;
+}
+
+.promptTitle{
+  margin:0 0 8px 0;
+  color:#9a3412;
+  font-size:16px;
+}
+
+.promptMeta{
+  margin:0;
+  font-size:12px;
+  color:#c2410c;
+  font-weight:700;
+}
+
+.promptHint{
+  margin-top:10px;
+  padding:10px;
+  border-radius:10px;
+  background:#ffffff;
+  border:1px dashed #fdba74;
+  font-size:13px;
+}
+
+.checklist{
+  margin-top:10px;
+  background:#ffffff;
+  border:1px solid #fed7aa;
+  border-radius:10px;
+  padding:10px;
+}
+
+.checkItem{
+  font-size:13px;
+  margin:4px 0;
+  color:#9a3412;
+}
 </style>
 </head>
 
@@ -150,11 +194,13 @@ textarea{
 <!-- WRITING AREA -->
 <div id="writingArea">
 
-  <div id="promptBox"></div>
+  <div id="promptBox" class="promptCard"></div>
+  <div id="taskChecklist" class="checklist"></div>
 
   <textarea id="writingInput" placeholder="Start writing here..."></textarea>
   <div class="wordCount" id="wordCounter">Words: 0</div>
 
+  <button class="button whiteBtn" onclick="nextTask()">Next Task</button>
   <button class="button orangeBtn" onclick="submitWriting()">Submit</button>
 
   <div id="feedbackBox" class="feedback hidden"></div>
@@ -223,45 +269,187 @@ input.addEventListener("input", ()=>{
 /* ================= MODES ================= */
 
 let currentMode = "quick";
+let taskIndex = 0;
+
+const modeConfig = {
+  quick: {
+    label: "Quick Fix",
+    tasks: [
+      {
+        title: "Fix grammar and agreement",
+        prompt: "Correct the sentence:",
+        source: "We was very nervous and there was many machines.",
+        minWords: 5,
+        mustHave: ["we were", "there were"],
+        checklist: ["Correct both grammar mistakes", "Write one complete corrected sentence"]
+      },
+      {
+        title: "Fix tense and punctuation",
+        prompt: "Correct the sentence:",
+        source: "Yesterday i go to school but i forget my notebook",
+        minWords: 5,
+        mustHave: ["went", "forgot"],
+        checklist: ["Use past simple", "Add capital letter and final punctuation"]
+      },
+      {
+        title: "Fix third person present simple",
+        prompt: "Correct the sentence:",
+        source: "My sister study english every night and watch videos.",
+        minWords: 5,
+        mustHave: ["studies", "watches"],
+        checklist: ["Fix verb form for 'she'", "Keep the original meaning"]
+      }
+    ]
+  },
+  transform: {
+    label: "Transform",
+    tasks: [
+      {
+        title: "Join ideas with although",
+        prompt: "Rewrite these two sentences as one:",
+        source: "We were scared. We continued walking.",
+        minWords: 7,
+        mustHave: ["although"],
+        checklist: ["Write one sentence only", "Use 'although' correctly"]
+      },
+      {
+        title: "Use because",
+        prompt: "Rewrite as one clear sentence:",
+        source: "She was tired. She finished the project.",
+        minWords: 7,
+        mustHave: ["because"],
+        checklist: ["Connect both ideas", "Use a logical reason"]
+      },
+      {
+        title: "Use relative clause",
+        prompt: "Combine naturally:",
+        source: "I met a student. The student won the science fair.",
+        minWords: 7,
+        mustHave: ["who"],
+        checklist: ["Write one fluent sentence", "Use the relative pronoun 'who'"]
+      }
+    ]
+  },
+  paragraph: {
+    label: "Build Paragraph",
+    tasks: [
+      {
+        title: "Describe a place",
+        prompt: "Write an 80-word paragraph:",
+        source: "Describe a mysterious place you visited. Include where it is, what you saw, and how you felt.",
+        minWords: 70,
+        minSentences: 3,
+        mustHave: [],
+        checklist: ["Include location, details, and feelings", "Write at least 70 words"]
+      },
+      {
+        title: "Daily routine paragraph",
+        prompt: "Write an 80-word paragraph:",
+        source: "Describe your school morning routine. Use sequence words (first, then, after that, finally).",
+        minWords: 70,
+        minSentences: 3,
+        mustHave: ["first", "then", "finally"],
+        checklist: ["Use sequence words", "Organize ideas in order"]
+      },
+      {
+        title: "Technology opinion paragraph",
+        prompt: "Write an 80-word paragraph:",
+        source: "Explain one benefit and one problem of using mobile phones at school.",
+        minWords: 70,
+        minSentences: 3,
+        mustHave: [],
+        checklist: ["State one benefit and one problem", "Give a short personal opinion"]
+      }
+    ]
+  },
+  boss: {
+    label: "Boss Level",
+    tasks: [
+      {
+        title: "Future of school",
+        prompt: "Write 100 words:",
+        source: "How will technology change schools in the next 10 years? Include at least two predictions with will.",
+        minWords: 95,
+        minSentences: 4,
+        mustHave: ["will"],
+        checklist: ["Write 2+ predictions", "Support your ideas with examples"]
+      },
+      {
+        title: "Health campaign text",
+        prompt: "Write 100 words:",
+        source: "Create a short campaign text to encourage healthy habits among teens.",
+        minWords: 95,
+        minSentences: 4,
+        mustHave: ["should"],
+        checklist: ["Include advice for teens", "Use persuasive language"]
+      }
+    ]
+  }
+};
 
 function setMode(mode){
   currentMode = mode;
-  document.getElementById("modeBadge").innerText = "Mode: " + mode;
+  taskIndex = 0;
+  document.getElementById("modeBadge").innerText = "Mode: " + modeConfig[mode].label;
+  loadPrompt();
+}
+
+function nextTask(){
+  const tasks = modeConfig[currentMode].tasks;
+  taskIndex = (taskIndex + 1) % tasks.length;
   loadPrompt();
 }
 
 function loadPrompt(){
   const promptBox = document.getElementById("promptBox");
+  const mode = modeConfig[currentMode];
+  const task = mode.tasks[taskIndex];
 
-  if(currentMode==="quick"){
-    promptBox.innerHTML = "<strong>Correct the mistakes:</strong><br>We was very nervous and there was many machines.";
-  }
-  if(currentMode==="transform"){
-    promptBox.innerHTML = "<strong>Rewrite using 'although':</strong><br>We were scared. We continued walking.";
-  }
-  if(currentMode==="paragraph"){
-    promptBox.innerHTML = "<strong>Write a short paragraph (80 words):</strong><br>Describe a mysterious place you visited.";
-  }
-  if(currentMode==="boss"){
-    promptBox.innerHTML = "<strong>Boss Level:</strong><br>Write 100 words about how technology will change schools.";
-  }
+  promptBox.innerHTML = `
+    <h3 class="promptTitle">${task.title}</h3>
+    <p class="promptMeta">${mode.label} • Task ${taskIndex + 1}/${mode.tasks.length}</p>
+    <p><strong>${task.prompt}</strong><br>${task.source}</p>
+    <div class="promptHint">Goal: write at least <strong>${task.minWords}</strong> words, then revise based on feedback.</div>
+  `;
+
+  const checklist = (task.checklist || []).map(item=>`<div class="checkItem">• ${item}</div>`).join("");
+  document.getElementById("taskChecklist").innerHTML = `<strong>Task Checklist</strong>${checklist}`;
 
   input.value="";
+  document.getElementById("wordCounter").innerText = "Words: 0";
   document.getElementById("feedbackBox").classList.add("hidden");
 }
 
 /* ================= GRAMMAR CHECK ================= */
 
 function grammarCheck(text){
-  let feedback = [];
+  const mustFix = [];
+  const coaching = [];
+  const task = modeConfig[currentMode].tasks[taskIndex];
+  const words = text.split(/\s+/).filter(Boolean);
+  const sentences = text.split(/[.?!]+/).map(x=>x.trim()).filter(Boolean);
+  const lowerText = text.toLowerCase();
 
-  if(!text.match(/[A-Z]/)) feedback.push("Start sentences with capital letters.");
-  if(!text.match(/[.?!]$/)) feedback.push("End your text with punctuation.");
-  if(text.includes("there was many")) feedback.push("Use 'there were' with plural nouns.");
-  if(text.includes("we was")) feedback.push("Use 'we were'.");
-  if(text.split(" ").length < 5) feedback.push("Write longer sentences.");
+  if(!text.match(/[A-Z]/)) coaching.push("Start sentences with capital letters.");
+  if(!text.match(/[.?!]$/)) coaching.push("End your text with punctuation.");
+  if(text.includes("there was many")) coaching.push("Use 'there were' with plural nouns.");
+  if(text.includes("we was")) coaching.push("Use 'we were'.");
 
-  return feedback;
+  if(words.length < task.minWords){
+    mustFix.push(`Your answer is too short for this task. Aim for at least ${task.minWords} words.`);
+  }
+
+  if(task.minSentences && sentences.length < task.minSentences){
+    mustFix.push(`Write at least ${task.minSentences} full sentences for this task.`);
+  }
+
+  (task.mustHave || []).forEach(keyword=>{
+    if(!lowerText.includes(keyword)){
+      coaching.push(`Consider using "${keyword}" to fully complete this task.`);
+    }
+  });
+
+  return { mustFix, coaching };
 }
 
 /* ================= SUBMIT ================= */
@@ -270,13 +458,17 @@ function submitWriting(){
   const text = input.value.trim();
   if(!text) return alert("Write something first.");
 
-  const feedback = grammarCheck(text);
+  const review = grammarCheck(text);
   const box = document.getElementById("feedbackBox");
 
-  if(feedback.length===0){
-    box.innerHTML = "✅ Excellent! No major grammar issues detected.";
+  if(review.mustFix.length===0){
+    const coachingText = review.coaching.length
+      ? `<br><br><strong>Next improvement:</strong><br>${review.coaching.join("<br>")}`
+      : "";
+    box.innerHTML = "✅ Great effort! You completed the writing task." + coachingText;
   } else {
-    box.innerHTML = "<strong>Feedback:</strong><br>" + feedback.join("<br>");
+    box.innerHTML = "<strong>Please revise before finishing:</strong><br>" + review.mustFix.join("<br>") +
+      (review.coaching.length ? "<br><br><strong>Coaching tips:</strong><br>" + review.coaching.join("<br>") : "");
   }
 
   box.classList.remove("hidden");
