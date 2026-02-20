@@ -2,248 +2,338 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Vocabulary Station</title>
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>THE PIT – Games Station</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800&display=swap" rel="stylesheet">
 <style>
-
-/* DARK METAL GRAY BACKGROUND + WHITE TEXT */
-body {
-    background: linear-gradient(135deg, #2b2b2b, #1f1f1f, #2a2a2a);
-    color: white;
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
+body{
+  margin:0;
+  font-family:'Orbitron',sans-serif;
+  background:radial-gradient(circle,#dbeafe 0%,#2563eb 55%,#0b1a44 100%);
+  color:#0f172a;
 }
-
-/* UNIVERSAL ACTIVITY COLORS */
-.ordering-theme { background: #00B0FF20; border-left: 6px solid #00B0FF; }
-.matching-theme { background: #AB47BC20; border-left: 6px solid #AB47BC; }
-.trivia-theme { background: #4CAF5020; border-left: 6px solid #4CAF50; }
-.fill-theme { background: #EF535020; border-left: 6px solid #EF5350; }
-.builder-theme { background: #FDD83520; border-left: 6px solid #FDD835; }
-.listen-theme { background: #FFA72620; border-left: 6px solid #FFA726; }
-.read-theme { background: #5C6BC020; border-left: 6px solid #5C6BC0; }
-.speak-theme { background: #26C6DA20; border-left: 6px solid #26C6DA; }
-
-/* FIXED BOTTOM BAR — PURPLE */
-.fixed-bar {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    background: #6A1B9A;
-    padding: 12px;
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    z-index: 9999;
-    border-top: 2px solid #4A0072;
-    backdrop-filter: blur(6px);
+.wrapper{
+  width:92%;
+  max-width:1100px;
+  margin:28px auto 110px;
+  background:#fff;
+  border-radius:24px;
+  padding:24px;
+  box-shadow:0 24px 50px rgba(2,6,23,.45);
 }
-
-/* YELLOW BUTTONS */
-.bar-btn {
-    background: #FFEB3B;
-    color: #1A1A1A;
-    padding: 10px 20px;
-    border-radius: 10px;
-    border: none;
-    cursor: pointer;
-    font-size: 16px;
-}
-.bar-btn:hover { background: #FBC02D; color: black; }
-
-/* GENERAL LAYOUT */
-.screen {
-    display: none;
-    padding: 30px;
-    margin-bottom: 100px;
-    border-radius: 12px;
-}
-#main {
-    padding: 30px;
-    margin-bottom: 100px;
-}
-button {
-    padding: 12px 20px;
-    margin: 10px;
-    border-radius: 10px;
-    border: none;
-    background: #4FC3F7;
-    cursor: pointer;
-    font-size: 18px;
-    color: black;
-}
-button:hover { background: #0288D1; color: white; }
-
-/* ========================= */
-/* UNIVERSAL HUD CSS */
-/* ========================= */
-
-#progress-container {
-    width: 100%;
-    height: 12px;
-    background: #444;
-    border-bottom: 2px solid #222;
-}
-#progress-bar {
-    width: 0%;
-    height: 100%;
-    background: #FFEB3B;
-    transition: width 0.4s ease;
-}
-
-#hud-row {
-    display: flex;
-    gap: 10px;
-    padding: 10px 20px;
-}
-
-#score-box {
-    padding: 10px 20px;
-    font-size: 20px;
-    background: #6A1B9A;
-    border-radius: 10px;
-}
-
-#timer-box {
-    padding: 10px 20px;
-    font-size: 20px;
-    background: #AB47BC;
-    border-radius: 10px;
-}
-
-#tip-box {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    background: #333;
-    padding: 15px 20px;
-    border-radius: 10px;
-    border: 2px solid #FFEB3B;
-    font-size: 16px;
-    max-width: 250px;
-    color: white;
-    z-index: 9999;
-}
-
+h1{margin:0 0 8px;color:#1e3a8a;text-align:center;letter-spacing:1.5px}
+.sub{margin:0 0 18px;text-align:center;color:#1d4ed8;font-size:13px}
+.hud{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;margin-bottom:14px}
+.box{background:#eff6ff;border:2px solid #60a5fa;border-radius:12px;padding:10px 12px;font-weight:800;color:#1e3a8a}
+.progressTrack{height:16px;background:#e5e7eb;border-radius:999px;overflow:hidden;margin-bottom:16px}
+.progressFill{height:100%;width:0;background:linear-gradient(90deg,#3b82f6,#22d3ee);transition:.25s}
+.tip{background:#ecfeff;border:2px solid #67e8f9;padding:10px 12px;border-radius:12px;font-size:13px;margin-bottom:14px;color:#0f766e}
+.levelGrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-bottom:16px}
+.levelCard{border:2px solid #93c5fd;background:#eff6ff;border-radius:14px;padding:12px}
+.levelCard.locked{opacity:.5;filter:grayscale(.25)}
+.levelCard h3{margin:0 0 6px;font-size:16px;color:#1e40af}
+.levelMeta{font-size:12px;color:#1d4ed8;margin-bottom:8px}
+.levelCard button{width:100%;padding:10px;border:0;border-radius:10px;font-family:inherit;font-weight:900;background:#2563eb;color:#fff;cursor:pointer}
+.levelCard button:disabled{background:#94a3b8;cursor:not-allowed}
+.quiz{display:none;background:#f8fafc;border:2px solid #cbd5e1;border-radius:14px;padding:14px}
+.question{margin:0 0 8px;color:#0f172a;font-size:15px}
+.answers{display:grid;grid-template-columns:1fr;gap:8px}
+.answers button{padding:11px;border-radius:10px;border:2px solid #bfdbfe;background:#fff;color:#1e3a8a;text-align:left;font-family:inherit;font-weight:800;cursor:pointer}
+.answers button:hover{background:#eff6ff}
+.feedback{margin-top:10px;min-height:20px;font-size:13px;font-weight:800}
+.feedback.ok{color:#166534}
+.feedback.bad{color:#b91c1c}
+.actions{display:flex;gap:10px;margin-top:10px;flex-wrap:wrap}
+.actions button{padding:10px 14px;border-radius:10px;border:0;font-family:inherit;font-weight:900;cursor:pointer}
+.primary{background:#2563eb;color:#fff}
+.secondary{background:#e2e8f0;color:#0f172a}
+.fixed-bar{position:fixed;left:0;bottom:0;width:100%;background:#0f172a;border-top:2px solid #1e293b;padding:10px;display:flex;justify-content:center;gap:10px;z-index:20}
+.fixed-bar button{border:0;border-radius:10px;padding:10px 14px;font-family:inherit;font-weight:900;background:#dbeafe;color:#1e3a8a;cursor:pointer}
 </style>
 </head>
-
 <body>
+<div class="wrapper">
+  <h1>GAMES STATION</h1>
+  <p class="sub">Challenge Mode • Companion of Reading, Writing, Listening, Speaking, Grammar, and Vocabulary</p>
 
-<!-- ========================= -->
-<!-- UNIVERSAL HUD BLOCK -->
-<!-- ========================= -->
+  <div class="hud">
+    <div class="box">LEVEL: <span id="levelLabel">1</span>/6</div>
+    <div class="box">SCORE: <span id="score">0</span></div>
+    <div class="box">STREAK: <span id="streak">0</span></div>
+    <div class="box">TIME: <span id="timer">00:00</span></div>
+  </div>
 
-<div id="progress-container">
-    <div id="progress-bar"></div>
+  <div class="progressTrack"><div class="progressFill" id="progressFill"></div></div>
+  <div class="tip"><strong>Tip:</strong> <span id="tipText">Pass each level with at least 70% to unlock the next one.</span></div>
+
+  <div id="levelGrid" class="levelGrid"></div>
+
+  <div id="quizBox" class="quiz">
+    <p class="question" id="questionText"></p>
+    <div id="answers" class="answers"></div>
+    <div id="feedback" class="feedback"></div>
+    <div class="actions">
+      <button class="primary" id="nextBtn" onclick="nextQuestion()" disabled>Next</button>
+      <button class="secondary" onclick="exitLevel()">Exit Level</button>
+    </div>
+  </div>
 </div>
 
-<div id="hud-row">
-    <div id="score-box">Score: <span id="score">0</span></div>
-    <div id="timer-box">Time: <span id="timer">00:00</span></div>
-</div>
-
-<div id="tip-box">
-    <strong>Tip:</strong> <span id="tip-text">Choose an activity to begin!</span>
-</div>
-
-<!-- ========================= -->
-<!-- END HUD BLOCK -->
-<!-- ========================= -->
-
-<!-- FIXED BOTTOM BAR -->
 <div class="fixed-bar">
-    <button class="bar-btn" onclick="goBack()">Back</button>
-    <button class="bar-btn" onclick="location.href='../index.html'">Main Menu</button>
-    <button class="bar-btn" onclick="alert('Paused')">Pause</button>
-</div>
-
-<!-- MAIN MENU -->
-<div id="main">
-    <h1>Vocabulary Station</h1>
-    <button onclick="openScreen('matching')">Matching</button>
-    <button onclick="openScreen('ordering')">Ordering</button>
-    <button onclick="openScreen('fill')">Fill in the Blanks</button>
-</div>
-
-<!-- MATCHING -->
-<div id="matching" class="screen matching-theme">
-    <h2>Matching Activity</h2>
-    <p>Match the words with their definitions.</p>
-</div>
-
-<!-- ORDERING -->
-<div id="ordering" class="screen ordering-theme">
-    <h2>Ordering Activity</h2>
-    <p>Put the words in the correct order.</p>
-</div>
-
-<!-- FILL IN THE BLANKS -->
-<div id="fill" class="screen fill-theme">
-    <h2>Fill in the Blanks</h2>
-    <p>Complete the sentences with the correct words.</p>
+  <button onclick="location.href='../index.html'">Main Menu</button>
+  <button onclick="resetProgress()">Reset Progress</button>
+  <button onclick="togglePause()">Pause/Resume Timer</button>
 </div>
 
 <script>
+const levels = [
+  {
+    id:1,
+    skill:'Vocabulary',
+    title:'Word Master Sprint',
+    questions:[
+      {q:'Choose the synonym of "huge".', options:['tiny','massive','narrow','soft'], correct:1},
+      {q:'Pick the correct word: "I ____ homework every evening."', options:['do','make','play','take'], correct:0},
+      {q:'Opposite of "noisy" is...', options:['bright','silent','heavy','dirty'], correct:1}
+    ]
+  },
+  {
+    id:2,
+    skill:'Grammar',
+    title:'Grammar Gate',
+    questions:[
+      {q:'Choose the correct sentence.', options:['She go to school daily.','She goes to school daily.','She going to school daily.','She gone to school daily.'], correct:1},
+      {q:'Past simple of "eat" is...', options:['eated','ate','eaten','eat'], correct:1},
+      {q:'Complete: "They ____ playing now."', options:['is','am','are','be'], correct:2}
+    ]
+  },
+  {
+    id:3,
+    skill:'Reading',
+    title:'Reading Detective',
+    questions:[
+      {q:'Text: "Lina missed the bus, so she walked to school." Why was she late?', options:['She overslept','She walked','She missed the bus','She forgot her bag'], correct:2},
+      {q:'Text: "The sign said: Library closes at 6 PM." Best conclusion?', options:['It opens at 6 PM','It is open all night','It shuts at 6 PM','It shuts at noon'], correct:2},
+      {q:'Text: "Although it rained, the match continued." This means...', options:['Rain stopped the match','The match kept going','No rain fell','The match was canceled'], correct:1}
+    ]
+  },
+  {
+    id:4,
+    skill:'Listening Logic',
+    title:'Audio Sense (Text Sim)',
+    questions:[
+      {q:'Heard line: "Turn left at the museum." What is the direction?', options:['Go right','Go straight','Turn left','Turn back'], correct:2},
+      {q:'Heard line: "I was studying when you called." Main tense pattern?', options:['Past continuous + past simple','Present simple + present continuous','Future + present','Past perfect only'], correct:0},
+      {q:'Heard line: "Could you repeat that, please?" Speaker wants to...', options:['end conversation','ask for repetition','give directions','apologize'], correct:1}
+    ]
+  },
+  {
+    id:5,
+    skill:'Writing',
+    title:'Sentence Builder',
+    questions:[
+      {q:'Best topic sentence for a paragraph about healthy habits?', options:['I have many pencils.','Healthy habits improve our daily life.','Yesterday was cloudy.','Music is very loud.'], correct:1},
+      {q:'Choose the best connector for contrast.', options:['because','and','although','so'], correct:2},
+      {q:'Which sentence is properly punctuated?', options:['first i wake up then i eat','First, I wake up. Then, I eat.','First I wake up then I eat','first, I wake up then i eat'], correct:1}
+    ]
+  },
+  {
+    id:6,
+    skill:'Speaking Strategy',
+    title:'Conversation Boss',
+    questions:[
+      {q:'Best response: "How are you feeling today?"', options:['Blue.','I feeling fine.','I am feeling great, thanks.','Yesterday.'], correct:2},
+      {q:'For clear speaking, you should...', options:['speak too fast','skip endings','use pauses and stress key words','avoid eye contact always'], correct:2},
+      {q:'If you did not understand, best phrase is...', options:['Never mind.','Can you say that again, please?','Bye.','I know everything.'], correct:1}
+    ]
+  }
+];
 
-/* SCREEN NAVIGATION */
-function openScreen(id) {
-    document.querySelectorAll('.screen, #main').forEach(s => s.style.display = 'none');
-    document.getElementById(id).style.display = 'block';
+let state = {
+  unlocked: 1,
+  score: 0,
+  streak: 0,
+  activeLevel: null,
+  qIndex: 0,
+  correctCount: 0,
+  answered: false,
+  seconds: 0,
+  paused: false,
+  timerRef: null
+};
 
-    setTip("Complete the activity to earn points!");
-    startTimer();
-    setProgress(20);
+function saveState(){
+  localStorage.setItem('pitGamesStationState', JSON.stringify({
+    unlocked: state.unlocked,
+    score: state.score,
+    streak: state.streak
+  }));
 }
 
-function goBack() {
-    document.querySelectorAll('.screen').forEach(s => s.style.display = 'none');
-    document.getElementById('main').style.display = 'block';
-
-    stopTimer();
-    setTip("Choose an activity to begin!");
-    setProgress(0);
+function loadState(){
+  const raw = localStorage.getItem('pitGamesStationState');
+  if(!raw) return;
+  try{
+    const parsed = JSON.parse(raw);
+    state.unlocked = Math.min(Math.max(parsed.unlocked || 1, 1), levels.length);
+    state.score = parsed.score || 0;
+    state.streak = parsed.streak || 0;
+  } catch {
+    // ignore corrupted storage
+  }
 }
 
-/* ========================= */
-/* UNIVERSAL HUD JS */
-/* ========================= */
-
-function setProgress(percent) {
-    document.getElementById("progress-bar").style.width = percent + "%";
+function startTimer(){
+  if(state.timerRef) return;
+  state.timerRef = setInterval(()=>{
+    if(state.paused) return;
+    state.seconds++;
+    const m = String(Math.floor(state.seconds/60)).padStart(2,'0');
+    const s = String(state.seconds%60).padStart(2,'0');
+    document.getElementById('timer').textContent = `${m}:${s}`;
+  },1000);
 }
 
-let score = 0;
-function addScore(points) {
-    score += points;
-    document.getElementById("score").textContent = score;
+function togglePause(){
+  state.paused = !state.paused;
+  setTip(state.paused ? 'Timer paused.' : 'Timer resumed. Keep pushing levels!');
 }
 
-let time = 0;
-let timerInterval;
-
-function startTimer() {
-    stopTimer();
-    time = 0;
-    timerInterval = setInterval(() => {
-        time++;
-        let minutes = String(Math.floor(time / 60)).padStart(2, '0');
-        let seconds = String(time % 60).padStart(2, '0');
-        document.getElementById("timer").textContent = `${minutes}:${seconds}`;
-    }, 1000);
+function setTip(text){
+  document.getElementById('tipText').textContent = text;
 }
 
-function stopTimer() {
-    clearInterval(timerInterval);
+function renderHUD(){
+  document.getElementById('score').textContent = state.score;
+  document.getElementById('streak').textContent = state.streak;
+  document.getElementById('levelLabel').textContent = state.unlocked;
+  const pct = Math.round((state.unlocked-1)/levels.length*100);
+  document.getElementById('progressFill').style.width = `${pct}%`;
 }
 
-function setTip(text) {
-    document.getElementById("tip-text").textContent = text;
+function renderLevels(){
+  const grid = document.getElementById('levelGrid');
+  grid.innerHTML = levels.map(level=>{
+    const locked = level.id > state.unlocked;
+    return `
+      <div class="levelCard ${locked ? 'locked' : ''}">
+        <h3>Level ${level.id}: ${level.title}</h3>
+        <div class="levelMeta">Skill: ${level.skill} • 3 Questions • Pass 70%</div>
+        <button ${locked ? 'disabled' : ''} onclick="startLevel(${level.id})">${locked ? 'Locked' : 'Start Level'}</button>
+      </div>
+    `;
+  }).join('');
 }
 
+function startLevel(id){
+  const level = levels.find(l=>l.id===id);
+  if(!level) return;
+  state.activeLevel = level;
+  state.qIndex = 0;
+  state.correctCount = 0;
+  state.answered = false;
+  document.getElementById('quizBox').style.display = 'block';
+  setTip(`Level ${id}: ${level.skill}. Stay accurate to keep your streak.`);
+  renderQuestion();
+  startTimer();
+}
+
+function renderQuestion(){
+  const q = state.activeLevel.questions[state.qIndex];
+  document.getElementById('questionText').textContent = `Q${state.qIndex+1}/3 — ${q.q}`;
+  const answers = document.getElementById('answers');
+  answers.innerHTML = q.options.map((opt,idx)=>`<button onclick="selectAnswer(${idx})">${opt}</button>`).join('');
+  document.getElementById('feedback').textContent = '';
+  document.getElementById('feedback').className = 'feedback';
+  document.getElementById('nextBtn').disabled = true;
+  state.answered = false;
+}
+
+function selectAnswer(choice){
+  if(state.answered) return;
+  state.answered = true;
+  const q = state.activeLevel.questions[state.qIndex];
+  const fb = document.getElementById('feedback');
+
+  if(choice === q.correct){
+    state.correctCount++;
+    state.score += 10;
+    state.streak += 1;
+    fb.textContent = '✅ Correct! +10 points';
+    fb.classList.add('ok');
+  } else {
+    state.streak = 0;
+    fb.textContent = `❌ Not this time. Correct answer: ${q.options[q.correct]}`;
+    fb.classList.add('bad');
+  }
+
+  renderHUD();
+  document.getElementById('nextBtn').disabled = false;
+}
+
+function nextQuestion(){
+  if(!state.activeLevel) return;
+  if(state.qIndex < state.activeLevel.questions.length - 1){
+    state.qIndex++;
+    renderQuestion();
+    return;
+  }
+  finishLevel();
+}
+
+function finishLevel(){
+  const total = state.activeLevel.questions.length;
+  const ratio = state.correctCount / total;
+  const passed = ratio >= 0.7;
+  const bonus = passed ? 20 : 0;
+  if(passed) state.score += bonus;
+
+  if(passed && state.unlocked < levels.length && state.activeLevel.id === state.unlocked){
+    state.unlocked++;
+  }
+
+  saveState();
+  renderHUD();
+  renderLevels();
+
+  const pct = Math.round(ratio*100);
+  const fb = document.getElementById('feedback');
+  fb.textContent = passed
+    ? `🏆 Level cleared (${pct}%). Bonus +${bonus}. Next level unlocked!`
+    : `⚠️ Level not cleared (${pct}%). Reach 70% to unlock next level.`;
+  fb.className = `feedback ${passed ? 'ok' : 'bad'}`;
+
+  setTip(passed
+    ? 'Great job! Try the next level to train another skill.'
+    : 'Retry this level, focus on accuracy, then progress.');
+
+  document.getElementById('nextBtn').disabled = true;
+}
+
+function exitLevel(){
+  state.activeLevel = null;
+  document.getElementById('quizBox').style.display = 'none';
+  setTip('Choose a level to continue your all-skills challenge.');
+}
+
+function resetProgress(){
+  localStorage.removeItem('pitGamesStationState');
+  state.unlocked = 1;
+  state.score = 0;
+  state.streak = 0;
+  state.activeLevel = null;
+  state.qIndex = 0;
+  state.correctCount = 0;
+  document.getElementById('quizBox').style.display = 'none';
+  renderHUD();
+  renderLevels();
+  setTip('Progress reset. Start from Level 1 again.');
+}
+
+loadState();
+renderHUD();
+renderLevels();
+startTimer();
 </script>
-
 </body>
 </html>
