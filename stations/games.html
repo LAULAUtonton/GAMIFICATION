@@ -1,355 +1,411 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>THE PIT – Games Station</title>
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800&display=swap" rel="stylesheet">
-<style>
-body{margin:0;font-family:'Orbitron',sans-serif;background:radial-gradient(circle,#dbeafe 0%,#2563eb 55%,#0b1a44 100%);color:#0f172a}
-.wrapper{width:92%;max-width:1100px;margin:28px auto 110px;background:#fff;border-radius:24px;padding:24px;box-shadow:0 24px 50px rgba(2,6,23,.45)}
-h1{margin:0 0 8px;color:#1e3a8a;text-align:center;letter-spacing:1.5px}
-.sub{margin:0 0 18px;text-align:center;color:#1d4ed8;font-size:13px}
-.hud{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;margin-bottom:14px}
-.box{background:#eff6ff;border:2px solid #60a5fa;border-radius:12px;padding:10px 12px;font-weight:800;color:#1e3a8a}
-.progressTrack{height:16px;background:#e5e7eb;border-radius:999px;overflow:hidden;margin-bottom:16px}
-.progressFill{height:100%;width:0;background:linear-gradient(90deg,#3b82f6,#22d3ee);transition:.25s}
-.tip{background:#ecfeff;border:2px solid #67e8f9;padding:10px 12px;border-radius:12px;font-size:13px;margin-bottom:14px;color:#0f766e}
-.activityPanel{background:#f8fafc;border:2px solid #cbd5e1;border-radius:14px;padding:12px;margin-bottom:14px}
-.activityPanel h2{margin:0 0 8px;color:#1e3a8a;font-size:18px}
-.activityGrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px}
-.activityCard{background:#eff6ff;border:1px solid #93c5fd;border-radius:10px;padding:8px}
-.activityCard b{display:block;color:#1e40af;margin-bottom:4px;font-size:13px}
-.activityCard span{font-size:12px;color:#334155;line-height:1.3}
-.levelGrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-bottom:16px}
-.levelCard{border:2px solid #93c5fd;background:#eff6ff;border-radius:14px;padding:12px}
-.levelCard.locked{opacity:.5;filter:grayscale(.25)}
-.levelCard h3{margin:0 0 6px;font-size:16px;color:#1e40af}
-.levelMeta{font-size:12px;color:#1d4ed8;margin-bottom:8px}
-.levelCard button{width:100%;padding:10px;border:0;border-radius:10px;font-family:inherit;font-weight:900;background:#2563eb;color:#fff;cursor:pointer}
-.levelCard button:disabled{background:#94a3b8;cursor:not-allowed}
-.quiz{display:none;background:#f8fafc;border:2px solid #cbd5e1;border-radius:14px;padding:14px}
-.question{margin:0 0 8px;color:#0f172a;font-size:15px}
-.answers{display:grid;grid-template-columns:1fr;gap:8px}
-.answers button{padding:11px;border-radius:10px;border:2px solid #bfdbfe;background:#fff;color:#1e3a8a;text-align:left;font-family:inherit;font-weight:800;cursor:pointer}
-.answers button:hover{background:#eff6ff}
-.feedback{margin-top:10px;min-height:20px;font-size:13px;font-weight:800}
-.feedback.ok{color:#166534}
-.feedback.bad{color:#b91c1c}
-.actions{display:flex;gap:10px;margin-top:10px;flex-wrap:wrap}
-.actions button{padding:10px 14px;border-radius:10px;border:0;font-family:inherit;font-weight:900;cursor:pointer}
-.primary{background:#2563eb;color:#fff}
-.secondary{background:#e2e8f0;color:#0f172a}
-.fixed-bar{position:fixed;left:0;bottom:0;width:100%;background:#0f172a;border-top:2px solid #1e293b;padding:10px;display:flex;justify-content:center;gap:10px;z-index:20}
-.fixed-bar button{border:0;border-radius:10px;padding:10px 14px;font-family:inherit;font-weight:900;background:#dbeafe;color:#1e3a8a;cursor:pointer}
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>THE PIT – Games Station Arcade</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg1:#dbeafe;
+      --bg2:#2563eb;
+      --bg3:#0b1a44;
+      --ink:#0f172a;
+      --brand:#1d4ed8;
+      --soft:#eff6ff;
+      --ok:#166534;
+      --bad:#991b1b;
+    }
+
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:'Orbitron',sans-serif;
+      background:radial-gradient(circle,var(--bg1) 0%,var(--bg2) 56%,var(--bg3) 100%);
+      color:var(--ink);
+    }
+
+    .app{
+      width:min(1120px,94vw);
+      margin:20px auto 100px;
+      background:#fff;
+      border-radius:22px;
+      padding:18px;
+      box-shadow:0 24px 48px rgba(2,6,23,.45);
+    }
+
+    h1{margin:0;text-align:center;color:#1e3a8a}
+    .sub{margin:6px 0 14px;text-align:center;color:#1d4ed8;font-size:12px}
+
+    .hud{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px;margin-bottom:12px}
+    .hudBox{background:var(--soft);border:2px solid #93c5fd;border-radius:12px;padding:10px;font-size:12px;font-weight:800;color:#1e3a8a}
+
+    .tip{background:#ecfeff;border:2px solid #67e8f9;border-radius:10px;padding:10px;font-size:12px;color:#0f766e;margin-bottom:10px}
+
+    .tabs{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:8px;margin-bottom:12px}
+    .tabBtn{border:0;border-radius:10px;padding:10px;font-family:inherit;font-size:11px;font-weight:800;background:#dbeafe;color:#1e3a8a;cursor:pointer}
+    .tabBtn.active{background:#2563eb;color:#fff}
+
+    .panel{display:none;background:#f8fafc;border:2px solid #cbd5e1;border-radius:14px;padding:12px}
+    .panel.active{display:block}
+
+    .defsGrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px}
+    .defCard{background:#eff6ff;border:1px solid #bfdbfe;border-radius:10px;padding:8px}
+    .defCard b{display:block;color:#1e40af;font-size:12px;margin-bottom:4px}
+    .defCard span{font-size:11px;color:#334155;line-height:1.35}
+
+    .qTitle{font-size:13px;margin:0 0 8px;color:#1e3a8a}
+    .answers{display:grid;gap:8px}
+    .answers button{border:2px solid #bfdbfe;background:#fff;color:#1e3a8a;border-radius:10px;padding:10px;text-align:left;font-family:inherit;font-size:11px;font-weight:800;cursor:pointer}
+    .answers button:disabled{cursor:not-allowed;opacity:.8}
+    .answers button.correct{background:#dcfce7;border-color:#22c55e;color:var(--ok)}
+    .answers button.wrong{background:#fee2e2;border-color:#ef4444;color:var(--bad)}
+
+    .row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+    .btn{border:0;border-radius:10px;padding:10px 12px;font-family:inherit;font-size:11px;font-weight:900;cursor:pointer}
+    .btnPrimary{background:#2563eb;color:#fff}
+    .btnSoft{background:#e2e8f0;color:#0f172a}
+    .feedback{margin-top:8px;min-height:18px;font-size:12px;font-weight:800}
+    .ok{color:var(--ok)}
+    .bad{color:var(--bad)}
+
+    .board{display:grid;grid-template-columns:repeat(4,minmax(70px,1fr));gap:8px;margin-top:8px}
+    .card{height:70px;border-radius:10px;border:2px solid #bfdbfe;background:#dbeafe;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;text-align:center;padding:6px;cursor:pointer}
+    .card.open,.card.matched{background:#fff}
+    .card.matched{border-color:#86efac;color:#166534}
+
+    .wheelBox{display:grid;gap:8px}
+    .wheelResult{background:#eff6ff;border:2px dashed #93c5fd;border-radius:10px;padding:10px;font-size:12px;font-weight:800;color:#1e3a8a}
+
+    .fixed{
+      position:fixed;left:0;right:0;bottom:0;
+      background:#0f172a;border-top:2px solid #1e293b;
+      display:flex;justify-content:center;gap:8px;flex-wrap:wrap;
+      padding:8px;z-index:30;
+    }
+    .fixed button{border:0;border-radius:10px;padding:8px 10px;background:#dbeafe;color:#1e3a8a;font-family:inherit;font-size:11px;font-weight:900;cursor:pointer}
+
+    @media (max-width:640px){
+      .app{margin:10px auto 86px;padding:12px}
+      .board{grid-template-columns:repeat(4,minmax(56px,1fr))}
+      .card{height:60px;font-size:10px}
+    }
+  </style>
 </head>
 <body>
-<div class="wrapper">
-  <h1>GAMES STATION</h1>
-  <p class="sub">Challenge Mode • Companion of Reading, Writing, Listening, Speaking, Grammar, and Vocabulary</p>
+  <main class="app">
+    <h1>GAMES STATION ARCADE</h1>
+    <p class="sub">Whole new responsive version • clear feedback • playable games</p>
 
-  <div class="hud">
-    <div class="box">LEVEL: <span id="levelLabel">1</span>/11</div>
-    <div class="box">SCORE: <span id="score">0</span></div>
-    <div class="box">STREAK: <span id="streak">0</span></div>
-    <div class="box">TIME: <span id="timer">00:00</span></div>
+    <section class="hud">
+      <div class="hudBox">SCORE: <span id="score">0</span></div>
+      <div class="hudBox">STARS: <span id="stars">0</span></div>
+      <div class="hudBox">TIME: <span id="timer">00:00</span></div>
+      <div class="hudBox">BEST: <span id="best">-</span></div>
+    </section>
+
+    <div class="tip"><strong>Tip:</strong> <span id="tip">Choose a tab and play. Every correct action gives points.</span></div>
+
+    <section class="tabs" id="tabs"></section>
+
+    <section id="panel-definitions" class="panel active">
+      <h3 class="qTitle">Activity Definitions</h3>
+      <div class="defsGrid" id="defsGrid"></div>
+    </section>
+
+    <section id="panel-quiz" class="panel">
+      <h3 class="qTitle" id="quizQ">Question</h3>
+      <div class="answers" id="quizAnswers"></div>
+      <div class="feedback" id="quizFb"></div>
+      <div class="row">
+        <button class="btn btnPrimary" id="quizNext">Next Question</button>
+      </div>
+    </section>
+
+    <section id="panel-pairs" class="panel">
+      <h3 class="qTitle">Matching Pairs</h3>
+      <p class="sub" style="text-align:left;margin:0 0 6px">Find all matching pairs.</p>
+      <div class="board" id="pairsBoard"></div>
+      <div class="feedback" id="pairsFb"></div>
+      <div class="row">
+        <button class="btn btnPrimary" id="pairsRestart">Restart Pairs</button>
+      </div>
+    </section>
+
+    <section id="panel-wheel" class="panel">
+      <h3 class="qTitle">Spin the Wheel</h3>
+      <div class="wheelBox">
+        <button class="btn btnPrimary" id="spinBtn">SPIN</button>
+        <div class="wheelResult" id="wheelResult">Spin to get a random speaking/writing challenge.</div>
+      </div>
+      <div class="feedback" id="wheelFb"></div>
+    </section>
+  </main>
+
+  <div class="fixed">
+    <button onclick="location.href='../index.html'">Main Menu</button>
+    <button id="pauseBtn">Pause/Resume Timer</button>
+    <button id="resetBtn">Reset Arcade</button>
   </div>
-
-  <div class="progressTrack"><div class="progressFill" id="progressFill"></div></div>
-  <div class="tip"><strong>Tip:</strong> <span id="tipText">Pass each level with at least 70% to unlock the next one.</span></div>
-
-  <section class="activityPanel">
-    <h2>Game Types & Definitions</h2>
-    <div id="activityGrid" class="activityGrid"></div>
-  </section>
-
-  <div id="levelGrid" class="levelGrid"></div>
-
-  <div id="quizBox" class="quiz">
-    <p class="question" id="questionText"></p>
-    <div id="answers" class="answers"></div>
-    <div id="feedback" class="feedback"></div>
-    <div class="actions">
-      <button class="primary" id="nextBtn" onclick="nextQuestion()" disabled>Next</button>
-      <button class="secondary" onclick="exitLevel()">Exit Level</button>
-    </div>
-  </div>
-</div>
-
-<div class="fixed-bar">
-  <button onclick="location.href='../index.html'">Main Menu</button>
-  <button onclick="resetProgress()">Reset Progress</button>
-  <button onclick="togglePause()">Pause/Resume Timer</button>
-</div>
 
 <script>
-const gameTypes = [
-  {name:'Quiz', definition:'A series of multiple choice questions. Tap the correct answer to proceed.'},
-  {name:'Group sort', definition:'Drag and drop each item into its correct group.'},
-  {name:'Matching pairs', definition:'Tap a pair of tiles at a time to reveal if they are a match.'},
-  {name:'Spin the wheel', definition:'Spin the wheel to see which item comes up next.'},
-  {name:'Find the match', definition:'Tap the matching answer to eliminate it. Repeat until all answers are gone.'},
-  {name:'Complete the sentence', definition:'A cloze activity where you drag and drop words into blank spaces within a text.'},
-  {name:'Fishing bowl', definition:'Catch the correct word or phrase from a moving bowl to complete the challenge.'},
-  {name:'Anagram', definition:'Drag the letters into their correct positions to unscramble the word or phrase.'},
-  {name:'Open the box', definition:'Tap each box in turn to open them up and reveal the item inside.'},
-  {name:'Flash cards', definition:'Test yourself using cards with prompts on the front and answers on the back.'},
-  {name:'Unjumble', definition:'Drag and drop words to rearrange each sentence into its correct order.'}
-];
+  const definitions = [
+    ['Quiz','A series of multiple choice questions. Tap the correct answer to proceed.'],
+    ['Flash cards','Test yourself using cards with prompts on the front and answers on the back.'],
+    ['Speaking cards','Deal out cards at random from a shuffled deck.'],
+    ['Group sort','Drag and drop each item into its correct group.'],
+    ['Spin the wheel','Spin the wheel to see which item comes up next.'],
+    ['Complete the sentence','A cloze activity where you drag and drop words into blank spaces within a text.'],
+    ['Anagram','Drag the letters into their correct positions to unscramble the word or phrase.'],
+    ['Find the match','Tap the matching answer to eliminate it. Repeat until all answers are gone.'],
+    ['Unjumble','Drag and drop words to rearrange each sentence into its correct order.'],
+    ['Matching pairs','Tap a pair of tiles at a time to reveal if they are a match.'],
+    ['Open the box','Tap each box in turn to open them up and reveal the item inside.'],
+    ['Fishing bowl','Catch the correct item from the bowl to complete the challenge.']
+  ];
 
-const levels = [
-  { id:1, skill:'Quiz', title:'Quiz Sprint', questions:[
-    {q:'Which sentence is correct?', options:['She go to school.','She goes to school.','She going school.','She gone school.'], correct:1},
-    {q:'Past simple of "see" is...', options:['saw','seen','see','seed'], correct:0},
-    {q:'Choose a synonym for "quick".', options:['slow','fast','late','quiet'], correct:1}
-  ]},
-  { id:2, skill:'Group sort', title:'Sort It Right', questions:[
-    {q:'Which belongs to the "verb" group?', options:['happiness','run','blue','school'], correct:1},
-    {q:'Which belongs to "food"?', options:['rice','desk','laugh','quiet'], correct:0},
-    {q:'Which item is an adjective?', options:['jump','river','beautiful','lesson'], correct:2}
-  ]},
-  { id:3, skill:'Matching pairs', title:'Pair Hunter', questions:[
-    {q:'Find the matching pair for "big".', options:['tiny','huge','sad','clean'], correct:1},
-    {q:'Match "begin" with...', options:['finish','start','break','close'], correct:1},
-    {q:'Match "doctor" with workplace.', options:['airport','hospital','library','cinema'], correct:1}
-  ]},
-  { id:4, skill:'Spin the wheel', title:'Wheel Challenge', questions:[
-    {q:'Wheel lands on tense: Past. Pick a past verb.', options:['play','played','plays','playing'], correct:1},
-    {q:'Wheel lands on connector. Best contrast word?', options:['and','although','because','so'], correct:1},
-    {q:'Wheel lands on pronunciation. Stress in "ho-TEL" is on...', options:['1st syllable','2nd syllable','both equally','none'], correct:1}
-  ]},
-  { id:5, skill:'Find the match', title:'Elimination Round', questions:[
-    {q:'Find a response to: "How are you?"', options:['At 5 o\'clock.','I\'m fine, thanks.','Blue and red.','In my bag.'], correct:1},
-    {q:'Find the correct match: "museum"', options:['a place to watch films','a place with old objects','a sports field','a train'], correct:1},
-    {q:'Find the match for "rain".', options:['umbrella','toothbrush','pillow','fork'], correct:0}
-  ]},
-  { id:6, skill:'Complete the sentence', title:'Cloze Builder', questions:[
-    {q:'Complete: "If I study, I ____ pass the exam."', options:['will','am','did','was'], correct:0},
-    {q:'Complete: "She ____ breakfast every day."', options:['eat','eats','eating','ate'], correct:1},
-    {q:'Complete: "They were tired, ____ they continued."', options:['because','although','but','so'], correct:3}
-  ]},
-  { id:7, skill:'Fishing bowl', title:'Catch the Right Word', questions:[
-    {q:'Catch the correct comparative adjective.', options:['gooder','more good','better','best'], correct:2},
-    {q:'Catch the correct preposition: "arrive ___ school"', options:['at','on','in','to'], correct:0},
-    {q:'Catch the correct question word: "___ do you live?"', options:['What','Who','Where','When'], correct:2}
-  ]},
-  { id:8, skill:'Anagram', title:'Unscramble Attack', questions:[
-    {q:'Unscramble "LEAPP"', options:['apple','pleap','pepla','appel'], correct:0},
-    {q:'Unscramble "LSEHOF"', options:['floesh','shelf','flesh','helps'], correct:1},
-    {q:'Unscramble "TEHRI"', options:['their','three','there','other'], correct:0}
-  ]},
-  { id:9, skill:'Open the box', title:'Mystery Box', questions:[
-    {q:'Box reveals a sentence opener. Best one?', options:['because','Yesterday,','if','although'], correct:1},
-    {q:'Box reveals punctuation need. End this sentence with...', options:[',',':','?','.'], correct:3},
-    {q:'Box reveals speaking phrase for repetition:', options:['Say again please.','Repeat can you?','Can you say that again, please?','Again say.'], correct:2}
-  ]},
-  { id:10, skill:'Flash cards', title:'Flash Recall', questions:[
-    {q:'Flash card front: "go (past)". Back should be...', options:['goed','went','gone','going'], correct:1},
-    {q:'Flash card front: "opposite of expensive".', options:['cheap','popular','crowded','gentle'], correct:0},
-    {q:'Flash card front: "adverb of quick".', options:['quick','quickly','quicker','quickness'], correct:1}
-  ]},
-  { id:11, skill:'Unjumble', title:'Sentence Order Boss', questions:[
-    {q:'Unjumble: "usually / I / after school / study"', options:['I usually study after school.','Usually I after school study.','After usually school I study.','Study I school after usually.'], correct:0},
-    {q:'Unjumble: "now / is / teacher / explaining / the"', options:['Now explaining teacher is the.','The teacher is explaining now.','Teacher now the is explaining.','Is now the teacher explaining the.'], correct:1},
-    {q:'Unjumble: "to / going / are / we / travel"', options:['We are going travel to.','Are going we to travel.','We are going to travel.','Going we are to travel.'], correct:2}
-  ]}
-];
+  const tabs = [
+    ['definitions','Definitions'],
+    ['quiz','Quiz'],
+    ['pairs','Matching Pairs'],
+    ['wheel','Spin the Wheel']
+  ];
 
-let state = {
-  unlocked: 1,
-  score: 0,
-  streak: 0,
-  activeLevel: null,
-  qIndex: 0,
-  correctCount: 0,
-  answered: false,
-  seconds: 0,
-  paused: false,
-  timerRef: null
-};
+  const quizData = [
+    {q:'Choose the correct sentence.', options:['She go to school.','She goes to school.','She going to school.','She gone to school.'], correct:1},
+    {q:'Past simple of "eat" is...', options:['eat','eaten','ate','eated'], correct:2},
+    {q:'Complete: "If I study, I ____ pass."', options:['will','am','did','was'], correct:0},
+    {q:'Find the adjective.', options:['run','quickly','beautiful','eat'], correct:2}
+  ];
 
-function saveState(){
-  localStorage.setItem('pitGamesStationState', JSON.stringify({
-    unlocked: state.unlocked,
-    score: state.score,
-    streak: state.streak
-  }));
-}
+  const wheelChallenges = [
+    'Say a 10-second introduction using present simple.',
+    'Write one sentence with because and one with although.',
+    'Make a prediction with will about next weekend.',
+    'Ask and answer one question in past simple.',
+    'Give 3 healthy habits using should.'
+  ];
 
-function loadState(){
-  const raw = localStorage.getItem('pitGamesStationState');
-  if(!raw) return;
-  try {
-    const parsed = JSON.parse(raw);
-    state.unlocked = Math.min(Math.max(parsed.unlocked || 1, 1), levels.length);
-    state.score = parsed.score || 0;
-    state.streak = parsed.streak || 0;
-  } catch (_error) {
-    localStorage.removeItem('pitGamesStationState');
+  const pairWords = ['big|huge','small|tiny','start|begin','quick|fast','happy|glad','finish|end'];
+
+  const state = {
+    score:0,
+    stars:0,
+    best:'-',
+    paused:false,
+    seconds:0,
+    timerRef:null,
+    quizIndex:0,
+    quizAnswered:false,
+    deck:[],
+    open:[]
+  };
+
+  function save(){
+    localStorage.setItem('pitArcadeV2', JSON.stringify({score:state.score,stars:state.stars,best:state.best}));
   }
-}
 
-function startTimer(){
-  if(state.timerRef) return;
-  state.timerRef = setInterval(()=>{
-    if(state.paused) return;
-    state.seconds++;
-    const m = String(Math.floor(state.seconds / 60)).padStart(2, '0');
-    const s = String(state.seconds % 60).padStart(2, '0');
-    document.getElementById('timer').textContent = `${m}:${s}`;
-  }, 1000);
-}
+  function load(){
+    const raw = localStorage.getItem('pitArcadeV2');
+    if(!raw) return;
+    try{
+      const p = JSON.parse(raw);
+      state.score = p.score || 0;
+      state.stars = p.stars || 0;
+      state.best = p.best || '-';
+    }catch(e){
+      localStorage.removeItem('pitArcadeV2');
+    }
+  }
 
-function togglePause(){
-  state.paused = !state.paused;
-  setTip(state.paused ? 'Timer paused.' : 'Timer resumed. Keep pushing levels!');
-}
+  function hud(){
+    document.getElementById('score').textContent = state.score;
+    document.getElementById('stars').textContent = state.stars;
+    document.getElementById('best').textContent = state.best;
+  }
 
-function setTip(text){
-  document.getElementById('tipText').textContent = text;
-}
+  function setTip(msg){ document.getElementById('tip').textContent = msg; }
 
-function renderDefinitions(){
-  const activityGrid = document.getElementById('activityGrid');
-  activityGrid.innerHTML = gameTypes
-    .map(item => `<div class="activityCard"><b>${item.name}</b><span>${item.definition}</span></div>`)
-    .join('');
-}
+  function startTimer(){
+    if(state.timerRef) return;
+    state.timerRef = setInterval(()=>{
+      if(state.paused) return;
+      state.seconds++;
+      const m = String(Math.floor(state.seconds/60)).padStart(2,'0');
+      const s = String(state.seconds%60).padStart(2,'0');
+      document.getElementById('timer').textContent = `${m}:${s}`;
+    },1000);
+  }
 
-function renderHUD(){
-  document.getElementById('score').textContent = state.score;
-  document.getElementById('streak').textContent = state.streak;
-  document.getElementById('levelLabel').textContent = state.unlocked;
-  const pct = Math.round((state.unlocked - 1) / levels.length * 100);
-  document.getElementById('progressFill').style.width = `${pct}%`;
-}
+  function addPoints(points, mode){
+    state.score += points;
+    if(mode){
+      state.best = mode;
+    }
+    hud();
+    save();
+  }
 
-function renderLevels(){
-  const grid = document.getElementById('levelGrid');
-  grid.innerHTML = levels.map(level => {
-    const locked = level.id > state.unlocked;
-    return `
-      <div class="levelCard ${locked ? 'locked' : ''}">
-        <h3>Level ${level.id}: ${level.title}</h3>
-        <div class="levelMeta">Skill: ${level.skill} • 3 Questions • Pass 70%</div>
-        <button ${locked ? 'disabled' : ''} onclick="startLevel(${level.id})">${locked ? 'Locked' : 'Start Level'}</button>
-      </div>
-    `;
-  }).join('');
-}
+  function addStar(mode){
+    state.stars += 1;
+    state.best = mode;
+    hud();
+    save();
+  }
 
-function startLevel(id){
-  const level = levels.find(l => l.id === id);
-  if(!level) return;
-  state.activeLevel = level;
-  state.qIndex = 0;
-  state.correctCount = 0;
-  state.answered = false;
-  document.getElementById('quizBox').style.display = 'block';
-  setTip(`Level ${id}: ${level.skill}. Stay accurate to keep your streak.`);
-  renderQuestion();
+  function buildTabs(){
+    const host = document.getElementById('tabs');
+    host.innerHTML = tabs.map(([id,label],i)=>`<button class="tabBtn ${i===0?'active':''}" data-target="${id}">${label}</button>`).join('');
+    host.querySelectorAll('button').forEach(btn=>{
+      btn.addEventListener('click',()=>activatePanel(btn.dataset.target, btn));
+    });
+  }
+
+  function activatePanel(name, clickedBtn){
+    document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+    document.getElementById(`panel-${name}`).classList.add('active');
+    document.querySelectorAll('.tabBtn').forEach(b=>b.classList.remove('active'));
+    if(clickedBtn) clickedBtn.classList.add('active');
+  }
+
+  function renderDefinitions(){
+    document.getElementById('defsGrid').innerHTML = definitions.map(([name,def])=>`<div class="defCard"><b>${name}</b><span>${def}</span></div>`).join('');
+  }
+
+  function renderQuiz(){
+    const item = quizData[state.quizIndex];
+    state.quizAnswered = false;
+    document.getElementById('quizQ').textContent = `Q${state.quizIndex+1}/${quizData.length}: ${item.q}`;
+    document.getElementById('quizAnswers').innerHTML = item.options.map((opt,i)=>`<button data-i="${i}">${opt}</button>`).join('');
+    document.getElementById('quizFb').textContent = '';
+
+    document.querySelectorAll('#quizAnswers button').forEach(btn=>{
+      btn.addEventListener('click',()=>answerQuiz(Number(btn.dataset.i)));
+    });
+  }
+
+  function answerQuiz(choice){
+    if(state.quizAnswered) return;
+    state.quizAnswered = true;
+    const item = quizData[state.quizIndex];
+    const fb = document.getElementById('quizFb');
+
+    document.querySelectorAll('#quizAnswers button').forEach((btn,i)=>{
+      btn.disabled = true;
+      if(i === item.correct) btn.classList.add('correct');
+      if(i === choice && choice !== item.correct) btn.classList.add('wrong');
+    });
+
+    if(choice === item.correct){
+      fb.textContent = '✅ Correct! +10 points';
+      fb.className = 'feedback ok';
+      addPoints(10,'Quiz');
+    } else {
+      fb.textContent = `❌ Wrong. Correct answer: ${item.options[item.correct]}`;
+      fb.className = 'feedback bad';
+    }
+  }
+
+  function nextQuiz(){
+    state.quizIndex = (state.quizIndex + 1) % quizData.length;
+    if(state.quizIndex === 0){
+      addStar('Quiz');
+      setTip('Quiz loop completed. Star earned!');
+    }
+    renderQuiz();
+  }
+
+  function setupPairs(){
+    const cards = [];
+    pairWords.forEach((pair,idx)=>{
+      const [a,b] = pair.split('|');
+      cards.push({id:`${idx}-a`,pair:idx,text:a,open:false,matched:false});
+      cards.push({id:`${idx}-b`,pair:idx,text:b,open:false,matched:false});
+    });
+
+    state.deck = cards.sort(()=>Math.random()-0.5);
+    state.open = [];
+    document.getElementById('pairsFb').textContent = '';
+    drawPairs();
+  }
+
+  function drawPairs(){
+    const board = document.getElementById('pairsBoard');
+    board.innerHTML = state.deck.map((c,i)=>`<button class="card ${c.open?'open':''} ${c.matched?'matched':''}" data-idx="${i}">${(c.open||c.matched)?c.text:'?'}</button>`).join('');
+    board.querySelectorAll('.card').forEach(btn=>btn.addEventListener('click',()=>flipCard(Number(btn.dataset.idx))));
+  }
+
+  function flipCard(i){
+    const c = state.deck[i];
+    if(!c || c.open || c.matched || state.open.length === 2) return;
+
+    c.open = true;
+    state.open.push(c);
+    drawPairs();
+
+    if(state.open.length === 2){
+      const [a,b] = state.open;
+      if(a.pair === b.pair){
+        a.matched = true;
+        b.matched = true;
+        state.open = [];
+        addPoints(12,'Matching Pairs');
+        document.getElementById('pairsFb').textContent = '✅ Match! +12 points';
+        document.getElementById('pairsFb').className = 'feedback ok';
+
+        if(state.deck.every(x=>x.matched)){
+          addStar('Matching Pairs');
+          document.getElementById('pairsFb').textContent = '🏆 Board cleared! Star earned.';
+        }
+      } else {
+        document.getElementById('pairsFb').textContent = '❌ Not a pair.';
+        document.getElementById('pairsFb').className = 'feedback bad';
+        setTimeout(()=>{
+          a.open = false;
+          b.open = false;
+          state.open = [];
+          drawPairs();
+        },600);
+      }
+    }
+  }
+
+  function spinWheel(){
+    const pick = wheelChallenges[Math.floor(Math.random()*wheelChallenges.length)];
+    document.getElementById('wheelResult').textContent = pick;
+    document.getElementById('wheelFb').textContent = '✅ New challenge ready. +5 points';
+    document.getElementById('wheelFb').className = 'feedback ok';
+    addPoints(5,'Spin the Wheel');
+  }
+
+  function resetArcade(){
+    localStorage.removeItem('pitArcadeV2');
+    state.score = 0;
+    state.stars = 0;
+    state.best = '-';
+    state.quizIndex = 0;
+    hud();
+    renderQuiz();
+    setupPairs();
+    document.getElementById('wheelResult').textContent = 'Spin to get a random speaking/writing challenge.';
+    document.getElementById('wheelFb').textContent = '';
+    setTip('Arcade reset complete. Start fresh.');
+  }
+
+  // boot
+  load();
+  hud();
+  buildTabs();
+  renderDefinitions();
+  renderQuiz();
+  setupPairs();
   startTimer();
-}
 
-function renderQuestion(){
-  const q = state.activeLevel.questions[state.qIndex];
-  document.getElementById('questionText').textContent = `Q${state.qIndex + 1}/3 — ${q.q}`;
-  document.getElementById('answers').innerHTML = q.options
-    .map((opt, idx) => `<button onclick="selectAnswer(${idx})">${opt}</button>`)
-    .join('');
-  document.getElementById('feedback').textContent = '';
-  document.getElementById('feedback').className = 'feedback';
-  document.getElementById('nextBtn').disabled = true;
-  state.answered = false;
-}
-
-function selectAnswer(choice){
-  if(state.answered) return;
-  state.answered = true;
-  const q = state.activeLevel.questions[state.qIndex];
-  const fb = document.getElementById('feedback');
-
-  if(choice === q.correct){
-    state.correctCount++;
-    state.score += 10;
-    state.streak += 1;
-    fb.textContent = '✅ Correct! +10 points';
-    fb.classList.add('ok');
-  } else {
-    state.streak = 0;
-    fb.textContent = `❌ Not this time. Correct answer: ${q.options[q.correct]}`;
-    fb.classList.add('bad');
-  }
-
-  renderHUD();
-  document.getElementById('nextBtn').disabled = false;
-}
-
-function nextQuestion(){
-  if(!state.activeLevel) return;
-  if(state.qIndex < state.activeLevel.questions.length - 1){
-    state.qIndex++;
-    renderQuestion();
-    return;
-  }
-  finishLevel();
-}
-
-function finishLevel(){
-  const total = state.activeLevel.questions.length;
-  const ratio = state.correctCount / total;
-  const passed = ratio >= 0.7;
-  const bonus = passed ? 20 : 0;
-  if(passed) state.score += bonus;
-
-  if(passed && state.unlocked < levels.length && state.activeLevel.id === state.unlocked){
-    state.unlocked++;
-  }
-
-  saveState();
-  renderHUD();
-  renderLevels();
-
-  const pct = Math.round(ratio * 100);
-  const fb = document.getElementById('feedback');
-  fb.textContent = passed
-    ? `🏆 Level cleared (${pct}%). Bonus +${bonus}. Next level unlocked!`
-    : `⚠️ Level not cleared (${pct}%). Reach 70% to unlock next level.`;
-  fb.className = `feedback ${passed ? 'ok' : 'bad'}`;
-
-  setTip(passed
-    ? 'Great job! Try the next level to train another game type.'
-    : 'Retry this level, focus on accuracy, then progress.');
-
-  document.getElementById('nextBtn').disabled = true;
-}
-
-function exitLevel(){
-  state.activeLevel = null;
-  document.getElementById('quizBox').style.display = 'none';
-  setTip('Choose a level to continue your all-skills challenge.');
-}
-
-function resetProgress(){
-  localStorage.removeItem('pitGamesStationState');
-  state.unlocked = 1;
-  state.score = 0;
-  state.streak = 0;
-  state.activeLevel = null;
-  state.qIndex = 0;
-  state.correctCount = 0;
-  document.getElementById('quizBox').style.display = 'none';
-  renderHUD();
-  renderLevels();
-  setTip('Progress reset. Start from Level 1 again.');
-}
-
-loadState();
-renderDefinitions();
-renderHUD();
-renderLevels();
-startTimer();
+  document.getElementById('quizNext').addEventListener('click', nextQuiz);
+  document.getElementById('pairsRestart').addEventListener('click', setupPairs);
+  document.getElementById('spinBtn').addEventListener('click', spinWheel);
+  document.getElementById('pauseBtn').addEventListener('click', ()=>{ state.paused = !state.paused; setTip(state.paused ? 'Timer paused.' : 'Timer resumed.'); });
+  document.getElementById('resetBtn').addEventListener('click', resetArcade);
 </script>
 </body>
 </html>
