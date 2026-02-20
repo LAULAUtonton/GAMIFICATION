@@ -1,752 +1,339 @@
- (cd "$(git rev-parse --show-toplevel)" && git apply --3way <<'EOF' 
-diff --git a/stations/speaking.html b/stations/speaking.html
-index 43a5d8fc17edd2ec7a65e5601b26bf0312fdb125..834687bb4f395da99fd5d868e060f2bf03a988f0 100644
---- a/stations/speaking.html
-+++ b/stations/speaking.html
-@@ -1,249 +1,542 @@
- <!DOCTYPE html>
- <html lang="en">
- <head>
- <meta charset="UTF-8">
--<title>Speaking Station</title>
-+<meta name="viewport" content="width=device-width, initial-scale=1.0">
-+<title>THE PIT – Speaking Mode</title>
-+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800&display=swap" rel="stylesheet">
- 
- <style>
-+body{
-+  margin:0;
-+  font-family:'Orbitron',sans-serif;
-+  background:radial-gradient(circle,#bae6fd 0%,#0ea5e9 55%,#082f49 100%);
-+  color:#111827;
-+}
-+
-+.speakingContainer{
-+  width:92%;
-+  max-width:1100px;
-+  margin:34px auto 120px auto;
-+  background:white;
-+  padding:32px;
-+  border-radius:25px;
-+  box-shadow:0 25px 50px rgba(0,0,0,0.55);
-+}
-+
-+.speakingTitle{
-+  text-align:center;
-+  font-size:30px;
-+  color:#0c4a6e;
-+  margin:0 0 8px 0;
-+  letter-spacing:2px;
-+}
-+
-+.subTitle{
-+  text-align:center;
-+  margin:0 0 18px 0;
-+  font-size:14px;
-+  color:#0369a1;
-+}
-+
-+.topRow{
-+  display:flex;
-+  gap:10px;
-+  justify-content:space-between;
-+  flex-wrap:wrap;
-+  margin-bottom:14px;
-+}
-+
-+.pill{
-+  padding:8px 12px;
-+  border-radius:999px;
-+  background:#e0f2fe;
-+  border:1px solid #38bdf8;
-+  font-weight:800;
-+  font-size:13px;
-+}
-+
-+.switchBtn,.startBtn{
-+  padding:12px 16px;
-+  border-radius:14px;
-+  font-weight:900;
-+  cursor:pointer;
-+  transition:.2s;
-+  font-family:'Orbitron',sans-serif;
-+}
-+
-+.switchBtn{
-+  border:2px solid #38bdf8;
-+  background:white;
-+  color:#0c4a6e;
-+}
-+
-+.startBtn{
-+  border:none;
-+  background:#0ea5e9;
-+  color:white;
-+}
-+
-+.hudRow{
-+  display:flex;
-+  gap:10px;
-+  flex-wrap:wrap;
-+  margin-bottom:12px;
-+}
-+
-+.hudBox{
-+  padding:10px 16px;
-+  border-radius:12px;
-+  font-weight:900;
-+  border:2px solid #38bdf8;
-+  background:#f0f9ff;
-+  color:#0c4a6e;
-+}
-+
-+.tipBox{
-+  background:#f0f9ff;
-+  border:2px solid #38bdf8;
-+  border-radius:14px;
-+  padding:12px 14px;
-+  font-size:14px;
-+  margin-bottom:16px;
-+}
-+
-+.progressTrack{
-+  width:100%;
-+  height:18px;
-+  background:#e5e7eb;
-+  border-radius:12px;
-+  overflow:hidden;
-+  margin-bottom:18px;
-+}
-+
-+.progressFill{
-+  height:100%;
-+  width:0%;
-+  background:linear-gradient(90deg,#0ea5e9,#22d3ee);
-+  transition:.3s;
-+}
-+
-+.dialogueGrid{
-+  display:grid;
-+  grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
-+  gap:14px;
-+}
-+
-+.dialogueCard{
-+  background:#f0f9ff;
-+  border:2px solid #38bdf8;
-+  border-radius:18px;
-+  padding:14px;
-+}
-+
-+.dialogueMeta{
-+  font-size:12px;
-+  color:#0369a1;
-+  margin-bottom:8px;
-+  font-weight:800;
-+}
-+
-+.roleBox{
-+  background:white;
-+  border:1px solid #38bdf8;
-+  border-radius:10px;
-+  padding:8px;
-+  margin:6px 0;
-+  font-size:13px;
-+  line-height:1.35;
-+}
-+
-+.botLine{
-+  margin-top:8px;
-+  background:#0c4a6e;
-+  color:white;
-+  border-radius:12px;
-+  padding:10px;
-+  min-height:42px;
-+  font-size:13px;
-+}
-+
-+.smallNote{
-+  font-size:11px;
-+  color:#0369a1;
-+  margin-top:8px;
-+}
-+
-+.answerRow{
-+  display:flex;
-+  gap:8px;
-+  margin-top:8px;
-+  flex-wrap:wrap;
-+}
-+
-+.answerInput{
-+  flex:1;
-+  min-width:180px;
-+  border:1px solid #7dd3fc;
-+  border-radius:10px;
-+  padding:8px 10px;
-+  font-family:inherit;
-+  font-size:12px;
-+}
-+
-+.micBtn{
-+  border:none;
-+  background:#0284c7;
-+  color:white;
-+  border-radius:10px;
-+  padding:8px 10px;
-+  font-weight:800;
-+  cursor:pointer;
-+  font-family:inherit;
-+  font-size:11px;
-+}
-+
-+.feedbackLine{
-+  margin-top:8px;
-+  font-size:11px;
-+  color:#075985;
-+  min-height:16px;
-+}
-+
-+
-+.statusBadge{
-+  display:inline-block;
-+  margin-top:8px;
-+  padding:6px 10px;
-+  border-radius:999px;
-+  font-size:11px;
-+  font-weight:900;
-+  border:1px solid transparent;
-+}
-+
-+.status-neutral{
-+  background:#e0f2fe;
-+  color:#075985;
-+  border-color:#7dd3fc;
-+}
-+
-+.status-correct{
-+  background:#dcfce7;
-+  color:#166534;
-+  border-color:#86efac;
-+}
-+
-+.status-wrong{
-+  background:#fee2e2;
-+  color:#991b1b;
-+  border-color:#fca5a5;
-+}
-+
-+.expectedLine{
-+  margin-top:8px;
-+  background:#f8fafc;
-+  border:1px dashed #38bdf8;
-+  border-radius:10px;
-+  padding:8px;
-+  font-size:12px;
-+  color:#0c4a6e;
-+}
- 
--/* DARK METAL GRAY BACKGROUND + WHITE TEXT */
--body {
--    background: linear-gradient(135deg, #2b2b2b, #1f1f1f, #2a2a2a);
--    color: white;
--    font-family: Arial, sans-serif;
--    margin: 0;
--    padding: 0;
--}
--
--/* UNIVERSAL ACTIVITY COLORS */
--.ordering-theme { background: #00B0FF20; border-left: 6px solid #00B0FF; }
--.matching-theme { background: #AB47BC20; border-left: 6px solid #AB47BC; }
--.trivia-theme { background: #4CAF5020; border-left: 6px solid #4CAF50; }
--.fill-theme { background: #EF535020; border-left: 6px solid #EF5350; }
--.builder-theme { background: #FDD83520; border-left: 6px solid #FDD835; }
--.listen-theme { background: #FFA72620; border-left: 6px solid #FFA726; }
--.read-theme { background: #5C6BC020; border-left: 6px solid #5C6BC0; }
--.speak-theme { background: #26C6DA20; border-left: 6px solid #26C6DA; }
--
--/* FIXED BOTTOM BAR — PURPLE */
--.fixed-bar {
--    position: fixed;
--    bottom: 0;
--    left: 0;
--    width: 100%;
--    background: #6A1B9A;
--    padding: 12px;
--    display: flex;
--    justify-content: center;
--    gap: 20px;
--    z-index: 9999;
--    border-top: 2px solid #4A0072;
--    backdrop-filter: blur(6px);
--}
--
--/* YELLOW BUTTONS */
--.bar-btn {
--    background: #FFEB3B;
--    color: #1A1A1A;
--    padding: 10px 20px;
--    border-radius: 10px;
--    border: none;
--    cursor: pointer;
--    font-size: 16px;
--}
--.bar-btn:hover { background: #FBC02D; color: black; }
--
--/* GENERAL LAYOUT */
--.screen {
--    display: none;
--    padding: 30px;
--    margin-bottom: 100px;
--    border-radius: 12px;
--}
--#main {
--    padding: 30px;
--    margin-bottom: 100px;
--}
--button {
--    padding: 12px 20px;
--    margin: 10px;
--    border-radius: 10px;
--    border: none;
--    background: #4FC3F7;
--    cursor: pointer;
--    font-size: 18px;
--    color: black;
--}
--button:hover { background: #0288D1; color: white; }
--
--/* ========================= */
--/* UNIVERSAL HUD CSS */
--/* ========================= */
--
--#progress-container {
--    width: 100%;
--    height: 12px;
--    background: #444;
--    border-bottom: 2px solid #222;
--}
--#progress-bar {
--    width: 0%;
--    height: 100%;
--    background: #FFEB3B;
--    transition: width 0.4s ease;
--}
--
--#hud-row {
--    display: flex;
--    gap: 10px;
--    padding: 10px 20px;
--}
--
--#score-box {
--    padding: 10px 20px;
--    font-size: 20px;
--    background: #6A1B9A;
--    border-radius: 10px;
--}
--
--#timer-box {
--    padding: 10px 20px;
--    font-size: 20px;
--    background: #AB47BC;
--    border-radius: 10px;
--}
--
--#tip-box {
--    position: fixed;
--    top: 20px;
--    right: 20px;
--    background: #333;
--    padding: 15px 20px;
--    border-radius: 10px;
--    border: 2px solid #FFEB3B;
--    font-size: 16px;
--    max-width: 250px;
--    color: white;
--    z-index: 9999;
-+.dialoguePreview{
-+  margin-top:10px;
-+  padding:8px;
-+  border-radius:10px;
-+  background:white;
-+  border:1px solid #bae6fd;
-+  max-height:160px;
-+  overflow:auto;
- }
- 
-+.previewLine{
-+  font-size:12px;
-+  margin:4px 0;
-+  color:#0f172a;
-+}
-+
-+.previewLine b{
-+  color:#0369a1;
-+}
-+
-+.fixed-bar{
-+  position:fixed;
-+  bottom:0;
-+  left:0;
-+  width:100%;
-+  background:#0c4a6e;
-+  border-top:2px solid #082f49;
-+  padding:10px;
-+  display:flex;
-+  justify-content:center;
-+  gap:12px;
-+  z-index:9999;
-+}
-+
-+.bar-btn{
-+  background:#bae6fd;
-+  border:none;
-+  border-radius:10px;
-+  color:#0c4a6e;
-+  padding:10px 14px;
-+  font-weight:900;
-+  cursor:pointer;
-+  font-family:'Orbitron',sans-serif;
-+}
- </style>
- </head>
--
- <body>
- 
--<!-- ========================= -->
--<!-- UNIVERSAL HUD BLOCK -->
--<!-- ========================= -->
-+<div class="speakingContainer">
-+  <h1 class="speakingTitle">SPEAKING STREAK MODE</h1>
-+  <div class="subTitle">Student = Role A • Chatbot = Role B</div>
- 
--<div id="progress-container">
--    <div id="progress-bar"></div>
--</div>
-+  <div class="topRow">
-+    <div class="pill" id="dialogueCountPill">DIALOGUES: 16</div>
-+    <div style="display:flex;gap:10px;flex-wrap:wrap;">
-+      <button class="switchBtn" onclick="location.href='../index.html'">MAIN MENU</button>
-+      <button class="switchBtn" onclick="toggleTimer()">PAUSE / RESUME</button>
-+      <button class="startBtn" onclick="resetPractice()">RESET PRACTICE</button>
-+    </div>
-+  </div>
- 
--<div id="hud-row">
--    <div id="score-box">Score: <span id="score">0</span></div>
--    <div id="timer-box">Time: <span id="timer">00:00</span></div>
--</div>
-+  <div class="hudRow">
-+    <div class="hudBox">SCORE: <span id="score">0</span></div>
-+    <div class="hudBox">TIME: <span id="timer">00:00</span></div>
-+    <div class="hudBox">COMPLETED: <span id="completed">0</span>/16</div>
-+  </div>
- 
--<div id="tip-box">
--    <strong>Tip:</strong> <span id="tip-text">Choose a speaking task to begin!</span>
--</div>
-+  <div class="tipBox"><strong>Tip:</strong> <span id="tip-text">Read your Role A line first, then click Talk to me.</span></div>
- 
--<!-- ========================= -->
--<!-- END HUD BLOCK -->
--<!-- ========================= -->
-+  <div class="progressTrack"><div class="progressFill" id="progress-bar"></div></div>
- 
--<!-- FIXED BOTTOM BAR -->
--<div class="fixed-bar">
--    <button class="bar-btn" onclick="goBack()">Back</button>
--    <button class="bar-btn" onclick="location.href='../index.html'">Main Menu</button>
--    <button class="bar-btn" onclick="alert('Paused')">Pause</button>
-+  <div id="dialogueGrid" class="dialogueGrid"></div>
- </div>
- 
--<!-- MAIN MENU -->
--<div id="main">
--    <h1>Speaking Station</h1>
--    <button onclick="openScreen('speak1')">Speaking Task 1</button>
--    <button onclick="openScreen('speak2')">Speaking Task 2</button>
--    <button onclick="openScreen('speak3')">Speaking Task 3</button>
-+<div class="fixed-bar">
-+  <button class="bar-btn" onclick="location.href='../index.html'">MAIN MENU</button>
-+  <button class="bar-btn" onclick="toggleTimer()">PAUSE / RESUME</button>
-+  <button class="bar-btn" onclick="resetPractice()">RESET</button>
- </div>
- 
--<!-- SPEAKING 1 -->
--<div id="speak1" class="screen speak-theme">
--    <h2>Speaking Task 1</h2>
--    <p>Describe the picture or situation aloud.</p>
--</div>
-+<script>
-+const dialogues = [
-+{unit:'Unit 1 – Identity & Daily Life', focus:'Present Simple', title:'New in Class', lines:[['A','Hi, I\'m Daniel. I\'m new here.'],['B','Hi Daniel! I\'m Sara. Where are you from?'],['A','I\'m from Seville.'],['B','Nice! What do you usually do after school?'],['A','I usually play basketball and study in the evening.'],['B','That\'s cool. Are you good at sports?'],['A','Yes, I am. But I don\'t like Maths very much.'],['B','Don\'t worry. I can help you with that.']]},
-+{unit:'Unit 1 – Identity & Daily Life', focus:'Present Simple', title:'Daily Routine', lines:[['A','What time do you wake up?'],['B','I wake up at seven. What about you?'],['A','I wake up at half past seven.'],['B','Do you have breakfast at home?'],['A','Yes, I do. I usually eat toast and fruit.'],['B','I never have time for breakfast!']]},
-+{unit:'Unit 2 – School Life', focus:'Present Continuous', title:'Right Now', lines:[['A','What are you doing?'],['B','I\'m finishing my Science project.'],['A','Are you working alone?'],['B','No, I\'m working with Marta.'],['A','The teacher is explaining something now.'],['B','Oh no! We\'re not listening!']]},
-+{unit:'Unit 2 – School Life', focus:'Present Continuous', title:'In the Classroom', lines:[['A','Why are you laughing?'],['B','Because Leo is telling a joke.'],['A','Is the teacher watching?'],['B','Yes, she is. She\'s looking at us right now!'],['A','We\'re in trouble…']]},
-+{unit:'Unit 3 – Technology', focus:'Past Simple', title:'Online Problem', lines:[['A','You look upset. What happened?'],['B','I posted the wrong photo yesterday.'],['A','Really? Did many people see it?'],['B','Yes, they did. Everyone commented.'],['A','Did you delete it?'],['B','Yes, but it was too late.']]},
-+{unit:'Unit 3 – Technology', focus:'Past Simple', title:'Weekend Gaming', lines:[['A','What did you do last night?'],['B','I played video games for three hours.'],['A','Wow! Did you win?'],['B','No, I didn\'t. I lost every match!'],['A','That\'s unlucky.']]},
-+{unit:'Unit 4 – Future Plans', focus:'Will / Going to', title:'Weekend Plans', lines:[['A','What are you going to do this weekend?'],['B','I\'m going to visit my grandparents.'],['A','That sounds nice.'],['B','What about you?'],['A','I think I\'ll stay at home and study.'],['B','Don\'t worry. You\'ll do great on the exam.']]},
-+{unit:'Unit 4 – Future Plans', focus:'Will / Going to', title:'Predictions', lines:[['A','Look at those clouds.'],['B','Yes, it will rain soon.'],['A','Are you going to bring an umbrella?'],['B','No, I\'ll just run home!']]},
-+{unit:'Unit 5 – Health', focus:'Health', title:'At the Doctor', lines:[['A','What\'s the matter?'],['B','I have a terrible headache.'],['A','How long have you had it?'],['B','Since yesterday.'],['A','You should rest and drink water.'],['B','Okay, I will.']]},
-+{unit:'Unit 5 – Health', focus:'Health Habits', title:'Healthy Habits', lines:[['A','Do you eat vegetables every day?'],['B','Not really. I prefer fast food.'],['A','That\'s not healthy.'],['B','I know. I\'m going to change my diet.']]},
-+{unit:'Unit 6 – Travel', focus:'Directions', title:'Asking for Directions', lines:[['A','Excuse me, how do I get to the museum?'],['B','Go straight ahead and turn left.'],['A','Is it far?'],['B','No, it\'s five minutes from here.'],['A','Thank you very much.'],['B','You\'re welcome!']]},
-+{unit:'Unit 6 – Travel', focus:'Airport', title:'At the Airport', lines:[['A','Where are you flying?'],['B','I\'m flying to London.'],['A','Is it your first time there?'],['B','Yes, I\'m very excited.']]},
-+{unit:'Unit 7 – Environment', focus:'Eco Ideas', title:'Eco Ideas', lines:[['A','We should recycle more at school.'],['B','That\'s a good idea.'],['A','If we recycle paper, we will save trees.'],['B','And we can use less plastic.']]},
-+{unit:'Unit 7 – Environment', focus:'Climate', title:'Climate Talk', lines:[['A','Do you think climate change is serious?'],['B','Yes, it is.'],['A','What can we do?'],['B','We can use bikes instead of cars.']]},
-+{unit:'Unit 8 – Entertainment', focus:'Movies', title:'Movie Recommendation', lines:[['A','Have you seen the new superhero film?'],['B','No, is it good?'],['A','Yes, it\'s amazing!'],['B','What\'s it about?'],['A','It\'s about a teenager who saves the city.'],['B','I\'ll watch it tonight.']]},
-+{unit:'Unit 8 – Entertainment', focus:'Music', title:'Music Taste', lines:[['A','What kind of music do you like?'],['B','I like pop and hip-hop.'],['A','Really? I prefer rock.'],['B','That\'s interesting. We\'re very different!']]}
-+];
-+
-+const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-+const recognitionSupported = !!SpeechRecognition;
- 
--<!-- SPEAKING 2 -->
--<div id="speak2" class="screen speak-theme">
--    <h2>Speaking Task 2</h2>
--    <p>Answer the following questions using full sentences.</p>
--</div>
-+let score = 0;
-+let time = 0;
-+let timerInterval = null;
-+let paused = false;
-+const state = {};
-+
-+function normalizeText(text){
-+  return text
-+    .toLowerCase()
-+    .replace(/[^a-z0-9\s]/g,' ')
-+    .replace(/\s+/g,' ')
-+    .trim();
-+}
- 
--<!-- SPEAKING 3 -->
--<div id="speak3" class="screen speak-theme">
--    <h2>Speaking Task 3</h2>
--    <p>Talk for one minute about the given topic.</p>
--</div>
-+function similarityScore(a,b){
-+  if(!a || !b) return 0;
-+  const expectedWords = normalizeText(a).split(' ').filter(Boolean);
-+  const studentWords = new Set(normalizeText(b).split(' ').filter(Boolean));
-+  if(!expectedWords.length) return 0;
-+  const hits = expectedWords.filter(w=>studentWords.has(w)).length;
-+  return hits / expectedWords.length;
-+}
- 
--<script>
- 
--/* SCREEN NAVIGATION */
--function openScreen(id) {
--    document.querySelectorAll('.screen, #main').forEach(s => s.style.display = 'none');
--    document.getElementById(id).style.display = 'block';
-+function isCorrectAnswer(expected, student){
-+  const normalizedExpected = normalizeText(expected);
-+  const normalizedStudent = normalizeText(student);
-+  if(!normalizedExpected || !normalizedStudent) return false;
-+
-+  if(normalizedExpected === normalizedStudent) return true;
- 
--    setTip("Speak clearly and try to expand your ideas!");
--    startTimer();
--    setProgress(20);
-+  const expectedWords = normalizedExpected.split(' ').filter(Boolean);
-+  const studentWords = normalizedStudent.split(' ').filter(Boolean);
-+  const accuracy = similarityScore(expected, student);
-+  const lengthRatio = studentWords.length / expectedWords.length;
-+
-+  return accuracy >= 0.9 && lengthRatio >= 0.8 && lengthRatio <= 1.25;
- }
- 
--function goBack() {
--    document.querySelectorAll('.screen').forEach(s => s.style.display = 'none');
--    document.getElementById('main').style.display = 'block';
-+function setProgress(percent){
-+  document.getElementById('progress-bar').style.width = percent + '%';
-+}
- 
--    stopTimer();
--    setTip("Choose a speaking task to begin!");
--    setProgress(0);
-+function setTip(text){
-+  document.getElementById('tip-text').textContent = text;
- }
- 
--/* ========================= */
--/* UNIVERSAL HUD JS */
--/* ========================= */
-+function updateCompletedCount(){
-+  document.getElementById('completed').textContent = Object.keys(state).length;
-+}
- 
--function setProgress(percent) {
--    document.getElementById("progress-bar").style.width = percent + "%";
-+function startTimer(){
-+  if(timerInterval) return;
-+  timerInterval = setInterval(()=>{
-+    if(paused) return;
-+    time++;
-+    const m = String(Math.floor(time/60)).padStart(2,'0');
-+    const s = String(time%60).padStart(2,'0');
-+    document.getElementById('timer').textContent = `${m}:${s}`;
-+  },1000);
- }
- 
--let score = 0;
--function addScore(points) {
--    score += points;
--    document.getElementById("score").textContent = score;
-+function toggleTimer(){
-+  paused = !paused;
-+  setTip(paused ? 'Timer paused.' : 'Timer resumed. Keep speaking!');
- }
- 
--let time = 0;
--let timerInterval;
-+function renderDialogues(){
-+  const grid = document.getElementById('dialogueGrid');
-+  grid.innerHTML = dialogues.map((d,i)=>{
-+    const aLines = d.lines.filter(x=>x[0]==='A').map(x=>`<div class="roleBox">A: ${x[1]}</div>`).join('');
-+    const firstALine = d.lines.find(x=>x[0]==='A')?.[1] || 'No Role A line.';
-+    const fullPreview = d.lines.map(x=>`<div class="previewLine"><b>${x[0]}:</b> ${x[1]}</div>`).join('');
-+    return `<div class="dialogueCard" id="dialogue-card-${i}">
-+      <h3>${d.title}</h3>
-+      <div class="dialogueMeta">${d.unit} • Focus: ${d.focus}</div>
-+      ${aLines}
-+      <div class="expectedLine" id="expected-${i}"><strong>Your line now:</strong> ${firstALine}</div>
-+      <div class="answerRow">
-+        <input id="answer-${i}" class="answerInput" placeholder="Type (or dictate) your last Role A line..." />
-+        <button class="micBtn" onclick="recordAnswer(${i})">🎙️ SPEAK</button>
-+      </div>
-+      <button class="startBtn" onclick="talkToMe(${i})">TALK TO ME</button>
-+      <div class="botLine" id="bot-line-${i}">Bot (Role B): Click Talk to me to start.</div>
-+      <div class="statusBadge status-neutral" id="status-${i}">⏳ Waiting for your correct answer</div>
-+      <div class="feedbackLine" id="feedback-${i}">${recognitionSupported ? 'Voice input ready (browser support detected).' : 'Voice input not supported in this browser. Type your answer instead.'}</div>
-+      <div class="smallNote">Say your A line first, then listen/respond.</div>
-+      <details class="dialoguePreview"><summary>View full dialogue (A + B)</summary>${fullPreview}</details>
-+    </div>`;
-+  }).join('');
-+}
-+
-+function recordAnswer(index){
-+  if(!recognitionSupported){
-+    setTip('Voice recognition is not supported here. Please type your answer.');
-+    return;
-+  }
-+  const recognition = new SpeechRecognition();
-+  recognition.lang = 'en-US';
-+  recognition.interimResults = false;
-+  recognition.maxAlternatives = 1;
-+  document.getElementById(`feedback-${index}`).textContent = 'Listening...';
-+  recognition.onresult = (event)=>{
-+    const transcript = event.results[0][0].transcript;
-+    document.getElementById(`answer-${index}`).value = transcript;
-+    document.getElementById(`feedback-${index}`).textContent = 'Captured voice input. Click TALK TO ME.';
-+  };
-+  recognition.onerror = ()=>{
-+    document.getElementById(`feedback-${index}`).textContent = 'Could not capture voice. You can type your answer.';
-+  };
-+  recognition.start();
-+}
-+
-+
-+function updateStatusBadge(index, status, text){
-+  const badge = document.getElementById(`status-${index}`);
-+  if(!badge) return;
-+  badge.className = `statusBadge ${status}`;
-+  badge.textContent = text;
-+}
- 
--function startTimer() {
--    stopTimer();
--    time = 0;
--    timerInterval = setInterval(() => {
--        time++;
--        let minutes = String(Math.floor(time / 60)).padStart(2, '0');
--        let seconds = String(time % 60).padStart(2, '0');
--        document.getElementById("timer").textContent = `${minutes}:${seconds}`;
--    }, 1000);
-+function updateExpectedLine(index, line){
-+  const expectedNode = document.getElementById(`expected-${index}`);
-+  if(!expectedNode) return;
-+  expectedNode.innerHTML = `<strong>Your line now:</strong> ${line || 'Dialogue complete.'}`;
- }
- 
--function stopTimer() {
--    clearInterval(timerInterval);
-+function talkToMe(index){
-+  startTimer();
-+  if(!(index in state)) state[index]=0;
-+  const aLines = dialogues[index].lines.filter(x=>x[0]==='A').map(x=>x[1]);
-+  const bLines = dialogues[index].lines.filter(x=>x[0]==='B').map(x=>x[1]);
-+  if(!bLines.length) return;
-+
-+  const expectedA = aLines[(state[index]) % aLines.length] || aLines[aLines.length-1] || '';
-+  const studentInput = document.getElementById(`answer-${index}`).value.trim();
-+  const accuracy = similarityScore(expectedA, studentInput);
-+
-+  if(!studentInput){
-+    document.getElementById(`feedback-${index}`).textContent = 'Add your Role A answer (type or 🎙️) before getting a bot reply.';
-+    updateStatusBadge(index, 'status-wrong', '❌ No answer yet');
-+    setTip('Type or record your line first. Then click Talk to me.');
-+    return;
-+  }
-+
-+  if(!isCorrectAnswer(expectedA, studentInput)){
-+    document.getElementById(`feedback-${index}`).textContent = `Not correct yet. Try saying: "${expectedA}"`;
-+    updateStatusBadge(index, 'status-wrong', '❌ Not correct yet');
-+    setTip('The bot replies only after the correct Role A answer. Try again.');
-+    score = Math.max(0, score - 1);
-+    document.getElementById('score').textContent = score;
-+    return;
-+  }
-+
-+  const line = bLines[state[index] % bLines.length];
-+  document.getElementById(`bot-line-${index}`).textContent = `Bot (Role B): ${line}`;
-+  document.getElementById(`feedback-${index}`).textContent = `Correct! (${Math.round(accuracy*100)}% match).`;
-+  updateStatusBadge(index, 'status-correct', '✅ Correct answer');
-+  state[index]++;
-+  document.getElementById(`answer-${index}`).value = '';
-+
-+  const nextExpected = aLines[(state[index]) % aLines.length] || '';
-+  updateExpectedLine(index, nextExpected);
-+
-+  score += 5;
-+  document.getElementById('score').textContent = score;
-+  updateCompletedCount();
-+
-+  const progress = Math.min(Object.keys(state).length / dialogues.length * 100, 100);
-+  setProgress(progress.toFixed(0));
-+  setTip('Great! Continue by saying your next Role A line out loud.');
-+
-+  if('speechSynthesis' in window){
-+    const msg = new SpeechSynthesisUtterance(line);
-+    msg.rate = 0.95;
-+    window.speechSynthesis.cancel();
-+    window.speechSynthesis.speak(msg);
-+  }
- }
- 
--function setTip(text) {
--    document.getElementById("tip-text").textContent = text;
-+function resetPractice(){
-+  score = 0;
-+  time = 0;
-+  paused = false;
-+  for(const k in state) delete state[k];
-+  document.getElementById('score').textContent = '0';
-+  document.getElementById('timer').textContent = '00:00';
-+  setProgress(0);
-+  updateCompletedCount();
-+  setTip('Practice reset. Read Role A, then click Talk to me.');
-+  renderDialogues();
- }
- 
-+renderDialogues();
- </script>
- 
- </body>
- </html>
- 
-EOF
-)
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>THE PIT – Speaking Mode</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800&display=swap" rel="stylesheet">
+
+<style>
+body{
+  margin:0;
+  font-family:'Orbitron',sans-serif;
+  background:radial-gradient(circle,#bae6fd 0%,#0ea5e9 55%,#082f49 100%);
+  color:#111827;
+}
+
+.speakingContainer{
+  width:92%;
+  max-width:1100px;
+  margin:34px auto 120px auto;
+  background:white;
+  padding:32px;
+  border-radius:25px;
+  box-shadow:0 25px 50px rgba(0,0,0,0.55);
+}
+
+.speakingTitle{
+  text-align:center;
+  font-size:30px;
+  color:#0c4a6e;
+  margin:0 0 8px 0;
+  letter-spacing:2px;
+}
+
+.subTitle{
+  text-align:center;
+  margin:0 0 18px 0;
+  font-size:14px;
+  color:#0369a1;
+}
+
+.topRow{
+  display:flex;
+  gap:10px;
+  justify-content:space-between;
+  flex-wrap:wrap;
+  margin-bottom:14px;
+}
+
+.pill{
+  padding:8px 12px;
+  border-radius:999px;
+  background:#e0f2fe;
+  border:1px solid #38bdf8;
+  font-weight:800;
+  font-size:13px;
+}
+
+.switchBtn,.startBtn{
+  padding:12px 16px;
+  border-radius:14px;
+  font-weight:900;
+  cursor:pointer;
+  transition:.2s;
+  font-family:'Orbitron',sans-serif;
+}
+
+.switchBtn{
+  border:2px solid #38bdf8;
+  background:white;
+  color:#0c4a6e;
+}
+
+.startBtn{
+  border:none;
+  background:#0ea5e9;
+  color:white;
+}
+
+.hudRow{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-bottom:12px;
+}
+
+.hudBox{
+  padding:10px 16px;
+  border-radius:12px;
+  font-weight:900;
+  border:2px solid #38bdf8;
+  background:#f0f9ff;
+  color:#0c4a6e;
+}
+
+.tipBox{
+  background:#f0f9ff;
+  border:2px solid #38bdf8;
+  border-radius:14px;
+  padding:12px 14px;
+  font-size:14px;
+  margin-bottom:16px;
+}
+
+.progressTrack{
+  width:100%;
+  height:18px;
+  background:#e5e7eb;
+  border-radius:12px;
+  overflow:hidden;
+  margin-bottom:18px;
+}
+
+.progressFill{
+  height:100%;
+  width:0%;
+  background:linear-gradient(90deg,#0ea5e9,#22d3ee);
+  transition:.3s;
+}
+
+.dialogueGrid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+  gap:14px;
+}
+
+.dialogueCard{
+  background:#f0f9ff;
+  border:2px solid #38bdf8;
+  border-radius:18px;
+  padding:14px;
+}
+
+.dialogueMeta{
+  font-size:12px;
+  color:#0369a1;
+  margin-bottom:8px;
+  font-weight:800;
+}
+
+.roleBox{
+  background:white;
+  border:1px solid #38bdf8;
+  border-radius:10px;
+  padding:8px;
+  margin:6px 0;
+  font-size:13px;
+  line-height:1.35;
+}
+
+.botLine{
+  margin-top:8px;
+  background:#0c4a6e;
+  color:white;
+  border-radius:12px;
+  padding:10px;
+  min-height:42px;
+  font-size:13px;
+}
+
+.smallNote{
+  font-size:11px;
+  color:#0369a1;
+  margin-top:8px;
+}
+
+.fixed-bar{
+  position:fixed;
+  bottom:0;
+  left:0;
+  width:100%;
+  background:#0c4a6e;
+  border-top:2px solid #082f49;
+  padding:10px;
+  display:flex;
+  justify-content:center;
+  gap:12px;
+  z-index:9999;
+}
+
+.bar-btn{
+  background:#bae6fd;
+  border:none;
+  border-radius:10px;
+  color:#0c4a6e;
+  padding:10px 14px;
+  font-weight:900;
+  cursor:pointer;
+  font-family:'Orbitron',sans-serif;
+}
+</style>
+</head>
+<body>
+
+<div class="speakingContainer">
+  <h1 class="speakingTitle">SPEAKING STREAK MODE</h1>
+  <div class="subTitle">Student = Role A • Chatbot = Role B</div>
+
+  <div class="topRow">
+    <div class="pill" id="dialogueCountPill">DIALOGUES: 16</div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;">
+      <button class="switchBtn" onclick="location.href='../index.html'">MAIN MENU</button>
+      <button class="switchBtn" onclick="toggleTimer()">PAUSE / RESUME</button>
+      <button class="startBtn" onclick="resetPractice()">RESET PRACTICE</button>
+    </div>
+  </div>
+
+  <div class="hudRow">
+    <div class="hudBox">SCORE: <span id="score">0</span></div>
+    <div class="hudBox">TIME: <span id="timer">00:00</span></div>
+    <div class="hudBox">COMPLETED: <span id="completed">0</span>/16</div>
+  </div>
+
+  <div class="tipBox"><strong>Tip:</strong> <span id="tip-text">Read your Role A line first, then click Talk to me.</span></div>
+
+  <div class="progressTrack"><div class="progressFill" id="progress-bar"></div></div>
+
+  <div id="dialogueGrid" class="dialogueGrid"></div>
+</div>
+
+<div class="fixed-bar">
+  <button class="bar-btn" onclick="location.href='../index.html'">MAIN MENU</button>
+  <button class="bar-btn" onclick="toggleTimer()">PAUSE / RESUME</button>
+  <button class="bar-btn" onclick="resetPractice()">RESET</button>
+</div>
+
+<script>
+const dialogues = [
+{unit:'Unit 1 – Identity & Daily Life', focus:'Present Simple', title:'New in Class', lines:[['A','Hi, I\'m Daniel. I\'m new here.'],['B','Hi Daniel! I\'m Sara. Where are you from?'],['A','I\'m from Seville.'],['B','Nice! What do you usually do after school?'],['A','I usually play basketball and study in the evening.'],['B','That\'s cool. Are you good at sports?'],['A','Yes, I am. But I don\'t like Maths very much.'],['B','Don\'t worry. I can help you with that.']]},
+{unit:'Unit 1 – Identity & Daily Life', focus:'Present Simple', title:'Daily Routine', lines:[['A','What time do you wake up?'],['B','I wake up at seven. What about you?'],['A','I wake up at half past seven.'],['B','Do you have breakfast at home?'],['A','Yes, I do. I usually eat toast and fruit.'],['B','I never have time for breakfast!']]},
+{unit:'Unit 2 – School Life', focus:'Present Continuous', title:'Right Now', lines:[['A','What are you doing?'],['B','I\'m finishing my Science project.'],['A','Are you working alone?'],['B','No, I\'m working with Marta.'],['A','The teacher is explaining something now.'],['B','Oh no! We\'re not listening!']]},
+{unit:'Unit 2 – School Life', focus:'Present Continuous', title:'In the Classroom', lines:[['A','Why are you laughing?'],['B','Because Leo is telling a joke.'],['A','Is the teacher watching?'],['B','Yes, she is. She\'s looking at us right now!'],['A','We\'re in trouble…']]},
+{unit:'Unit 3 – Technology', focus:'Past Simple', title:'Online Problem', lines:[['A','You look upset. What happened?'],['B','I posted the wrong photo yesterday.'],['A','Really? Did many people see it?'],['B','Yes, they did. Everyone commented.'],['A','Did you delete it?'],['B','Yes, but it was too late.']]},
+{unit:'Unit 3 – Technology', focus:'Past Simple', title:'Weekend Gaming', lines:[['A','What did you do last night?'],['B','I played video games for three hours.'],['A','Wow! Did you win?'],['B','No, I didn\'t. I lost every match!'],['A','That\'s unlucky.']]},
+{unit:'Unit 4 – Future Plans', focus:'Will / Going to', title:'Weekend Plans', lines:[['A','What are you going to do this weekend?'],['B','I\'m going to visit my grandparents.'],['A','That sounds nice.'],['B','What about you?'],['A','I think I\'ll stay at home and study.'],['B','Don\'t worry. You\'ll do great on the exam.']]},
+{unit:'Unit 4 – Future Plans', focus:'Will / Going to', title:'Predictions', lines:[['A','Look at those clouds.'],['B','Yes, it will rain soon.'],['A','Are you going to bring an umbrella?'],['B','No, I\'ll just run home!']]},
+{unit:'Unit 5 – Health', focus:'Health', title:'At the Doctor', lines:[['A','What\'s the matter?'],['B','I have a terrible headache.'],['A','How long have you had it?'],['B','Since yesterday.'],['A','You should rest and drink water.'],['B','Okay, I will.']]},
+{unit:'Unit 5 – Health', focus:'Health Habits', title:'Healthy Habits', lines:[['A','Do you eat vegetables every day?'],['B','Not really. I prefer fast food.'],['A','That\'s not healthy.'],['B','I know. I\'m going to change my diet.']]},
+{unit:'Unit 6 – Travel', focus:'Directions', title:'Asking for Directions', lines:[['A','Excuse me, how do I get to the museum?'],['B','Go straight ahead and turn left.'],['A','Is it far?'],['B','No, it\'s five minutes from here.'],['A','Thank you very much.'],['B','You\'re welcome!']]},
+{unit:'Unit 6 – Travel', focus:'Airport', title:'At the Airport', lines:[['A','Where are you flying?'],['B','I\'m flying to London.'],['A','Is it your first time there?'],['B','Yes, I\'m very excited.']]},
+{unit:'Unit 7 – Environment', focus:'Eco Ideas', title:'Eco Ideas', lines:[['A','We should recycle more at school.'],['B','That\'s a good idea.'],['A','If we recycle paper, we will save trees.'],['B','And we can use less plastic.']]},
+{unit:'Unit 7 – Environment', focus:'Climate', title:'Climate Talk', lines:[['A','Do you think climate change is serious?'],['B','Yes, it is.'],['A','What can we do?'],['B','We can use bikes instead of cars.']]},
+{unit:'Unit 8 – Entertainment', focus:'Movies', title:'Movie Recommendation', lines:[['A','Have you seen the new superhero film?'],['B','No, is it good?'],['A','Yes, it\'s amazing!'],['B','What\'s it about?'],['A','It\'s about a teenager who saves the city.'],['B','I\'ll watch it tonight.']]},
+{unit:'Unit 8 – Entertainment', focus:'Music', title:'Music Taste', lines:[['A','What kind of music do you like?'],['B','I like pop and hip-hop.'],['A','Really? I prefer rock.'],['B','That\'s interesting. We\'re very different!']]}
+];
+
+let score = 0;
+let time = 0;
+let timerInterval = null;
+let paused = false;
+const state = {};
+
+function setProgress(percent){
+  document.getElementById('progress-bar').style.width = percent + '%';
+}
+
+function setTip(text){
+  document.getElementById('tip-text').textContent = text;
+}
+
+function updateCompletedCount(){
+  document.getElementById('completed').textContent = Object.keys(state).length;
+}
+
+function startTimer(){
+  if(timerInterval) return;
+  timerInterval = setInterval(()=>{
+    if(paused) return;
+    time++;
+    const m = String(Math.floor(time/60)).padStart(2,'0');
+    const s = String(time%60).padStart(2,'0');
+    document.getElementById('timer').textContent = `${m}:${s}`;
+  },1000);
+}
+
+function toggleTimer(){
+  paused = !paused;
+  setTip(paused ? 'Timer paused.' : 'Timer resumed. Keep speaking!');
+}
+
+function renderDialogues(){
+  const grid = document.getElementById('dialogueGrid');
+  grid.innerHTML = dialogues.map((d,i)=>{
+    const aLines = d.lines.filter(x=>x[0]==='A').map(x=>`<div class="roleBox">A: ${x[1]}</div>`).join('');
+    return `<div class="dialogueCard">
+      <h3>${d.title}</h3>
+      <div class="dialogueMeta">${d.unit} • Focus: ${d.focus}</div>
+      ${aLines}
+      <button class="startBtn" onclick="talkToMe(${i})">TALK TO ME</button>
+      <div class="botLine" id="bot-line-${i}">Bot (Role B): Click Talk to me to start.</div>
+      <div class="smallNote">Say your A line first, then listen/respond.</div>
+    </div>`;
+  }).join('');
+}
+
+function talkToMe(index){
+  startTimer();
+  if(!(index in state)) state[index]=0;
+  const bLines = dialogues[index].lines.filter(x=>x[0]==='B').map(x=>x[1]);
+  if(!bLines.length) return;
+
+  const line = bLines[state[index] % bLines.length];
+  document.getElementById(`bot-line-${index}`).textContent = `Bot (Role B): ${line}`;
+  state[index]++;
+
+  score += 5;
+  document.getElementById('score').textContent = score;
+  updateCompletedCount();
+
+  const progress = Math.min(Object.keys(state).length / dialogues.length * 100, 100);
+  setProgress(progress.toFixed(0));
+  setTip('Great! Continue by saying your next Role A line out loud.');
+
+  if('speechSynthesis' in window){
+    const msg = new SpeechSynthesisUtterance(line);
+    msg.rate = 0.95;
+    window.speechSynthesis.cancel();
+    window.speechSynthesis.speak(msg);
+  }
+}
+
+function resetPractice(){
+  score = 0;
+  time = 0;
+  paused = false;
+  for(const k in state) delete state[k];
+  document.getElementById('score').textContent = '0';
+  document.getElementById('timer').textContent = '00:00';
+  setProgress(0);
+  updateCompletedCount();
+  setTip('Practice reset. Read Role A, then click Talk to me.');
+  renderDialogues();
+}
+
+renderDialogues();
+</script>
+
+</body>
+</html>
