@@ -1,221 +1,420 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<meta charset="UTF-8">
+<title>Vocabulary Station</title>
+
+<style>
+
+/* DARK METAL GRAY BACKGROUND + WHITE TEXT */
+body {
+    background: linear-gradient(135deg, #2b2b2b, #1f1f1f, #2a2a2a);
+    color: white;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+/* UNIVERSAL ACTIVITY COLORS */
+.ordering-theme { background: #00B0FF20; border-left: 6px solid #00B0FF; }
+.matching-theme { background: #AB47BC20; border-left: 6px solid #AB47BC; }
+.trivia-theme { background: #4CAF5020; border-left: 6px solid #4CAF50; }
+.fill-theme { background: #EF535020; border-left: 6px solid #EF5350; }
+.builder-theme { background: #FDD83520; border-left: 6px solid #FDD835; }
+.listen-theme { background: #FFA72620; border-left: 6px solid #FFA726; }
+.read-theme { background: #5C6BC020; border-left: 6px solid #5C6BC0; }
+.speak-theme { background: #26C6DA20; border-left: 6px solid #26C6DA; }
+
+/* FIXED BOTTOM BAR — PURPLE */
+.fixed-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: #6A1B9A;
+    padding: 12px;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    z-index: 9999;
+    border-top: 2px solid #4A0072;
+    backdrop-filter: blur(6px);
+}
+
+/* YELLOW BUTTONS */
+.bar-btn {
+    background: #FFEB3B;
+    color: #1A1A1A;
+    padding: 10px 20px;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+}
+.bar-btn:hover { background: #FBC02D; color: black; }
+
+/* GENERAL LAYOUT */
+.screen {
+    display: none;
+    padding: 30px;
+    margin-bottom: 100px;
+    border-radius: 12px;
+}
+#main {
+    padding: 30px;
+    margin-bottom: 100px;
+}
+button {
+    padding: 12px 20px;
+    margin: 10px;
+    border-radius: 10px;
+    border: none;
+    background: #4FC3F7;
+    cursor: pointer;
+    font-size: 18px;
+    color: black;
+}
+button:hover { background: #0288D1; color: white; }
+
+/* ========================= */
+/* UNIVERSAL HUD CSS */
+/* ========================= */
+
+#progress-container {
+    width: 100%;
+    height: 12px;
+    background: #444;
+    border-bottom: 2px solid #222;
+}
+#progress-bar {
+    width: 0%;
+    height: 100%;
+    background: #FFEB3B;
+    transition: width 0.4s ease;
+}
+
+#hud-row {
+    display: flex;
+    gap: 10px;
+    padding: 10px 20px;
+}
+
+#score-box {
+    padding: 10px 20px;
+    font-size: 20px;
+    background: #6A1B9A;
+    border-radius: 10px;
+}
+
+#timer-box {
+    padding: 10px 20px;
+    font-size: 20px;
+    background: #AB47BC;
+    border-radius: 10px;
+}
+
+#tip-box {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: #333;
+    padding: 15px 20px;
+    border-radius: 10px;
+    border: 2px solid #FFEB3B;
+    font-size: 16px;
+    max-width: 250px;
+    color: white;
+    z-index: 9999;
+}
+
+</style>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>THE PIT – Games Station Arcade</title>
+  <title>THE PIT – Games Station</title>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
   <style>
-    :root{
-      --bg1:#dbeafe;
-      --bg2:#2563eb;
-      --bg3:#0b1a44;
-      --ink:#0f172a;
-      --brand:#1d4ed8;
-      --soft:#eff6ff;
-      --ok:#166534;
-      --bad:#991b1b;
-    }
-
+    :root{--bg1:#dbeafe;--bg2:#2563eb;--bg3:#0b1a44;--ink:#0f172a;--panel:#f8fafc;--line:#bfdbfe;--brand:#1d4ed8;--ok:#166534;--bad:#991b1b}
     *{box-sizing:border-box}
-    body{
-      margin:0;
-      font-family:'Orbitron',sans-serif;
-      background:radial-gradient(circle,var(--bg1) 0%,var(--bg2) 56%,var(--bg3) 100%);
-      color:var(--ink);
-    }
+    body{margin:0;font-family:'Orbitron',sans-serif;background:radial-gradient(circle,var(--bg1) 0%,var(--bg2) 56%,var(--bg3) 100%);color:var(--ink)}
+    .app{width:min(1120px,95vw);margin:14px auto 92px;background:#fff;border-radius:20px;padding:14px;box-shadow:0 18px 42px rgba(2,6,23,.45)}
+    h1{margin:0;text-align:center;color:#1e3a8a;font-size:clamp(20px,4vw,30px)}
+    .sub{margin:6px 0 10px;text-align:center;color:var(--brand);font-size:12px}
 
-    .app{
-      width:min(1120px,94vw);
-      margin:20px auto 100px;
-      background:#fff;
-      border-radius:22px;
-      padding:18px;
-      box-shadow:0 24px 48px rgba(2,6,23,.45);
-    }
-
-    h1{margin:0;text-align:center;color:#1e3a8a}
-    .sub{margin:6px 0 14px;text-align:center;color:#1d4ed8;font-size:12px}
-
-    .hud{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px;margin-bottom:12px}
-    .hudBox{background:var(--soft);border:2px solid #93c5fd;border-radius:12px;padding:10px;font-size:12px;font-weight:800;color:#1e3a8a}
-
+    .hud{display:grid;grid-template-columns:repeat(4,minmax(120px,1fr));gap:8px;margin-bottom:10px}
+    .box{background:#eff6ff;border:2px solid #93c5fd;border-radius:10px;padding:9px;font-size:12px;font-weight:800;color:#1e3a8a}
     .tip{background:#ecfeff;border:2px solid #67e8f9;border-radius:10px;padding:10px;font-size:12px;color:#0f766e;margin-bottom:10px}
 
-    .tabs{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:8px;margin-bottom:12px}
-    .tabBtn{border:0;border-radius:10px;padding:10px;font-family:inherit;font-size:11px;font-weight:800;background:#dbeafe;color:#1e3a8a;cursor:pointer}
-    .tabBtn.active{background:#2563eb;color:#fff}
+    .gameMenu{display:grid;grid-template-columns:repeat(4,minmax(150px,1fr));gap:8px;margin-bottom:10px}
+    .gameBtn{border:2px solid var(--line);background:#fff;color:#1e3a8a;border-radius:10px;padding:10px;font-family:inherit;font-size:11px;font-weight:800;cursor:pointer;text-align:left}
+    .gameBtn.active{background:#dbeafe;border-color:#2563eb}
 
-    .panel{display:none;background:#f8fafc;border:2px solid #cbd5e1;border-radius:14px;padding:12px}
+    .panel{display:none;background:var(--panel);border:2px solid #cbd5e1;border-radius:12px;padding:12px}
     .panel.active{display:block}
-
-    .defsGrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px}
-    .defCard{background:#eff6ff;border:1px solid #bfdbfe;border-radius:10px;padding:8px}
-    .defCard b{display:block;color:#1e40af;font-size:12px;margin-bottom:4px}
-    .defCard span{font-size:11px;color:#334155;line-height:1.35}
-
-    .qTitle{font-size:13px;margin:0 0 8px;color:#1e3a8a}
+    .panel h2{margin:0 0 8px;color:#1e3a8a;font-size:15px}
+    .question{font-size:13px;margin:6px 0 8px}
     .answers{display:grid;gap:8px}
-    .answers button{border:2px solid #bfdbfe;background:#fff;color:#1e3a8a;border-radius:10px;padding:10px;text-align:left;font-family:inherit;font-size:11px;font-weight:800;cursor:pointer}
-    .answers button:disabled{cursor:not-allowed;opacity:.8}
+    .answers button{border:2px solid var(--line);background:#fff;color:#1e3a8a;border-radius:10px;padding:10px;font-family:inherit;font-size:11px;font-weight:800;text-align:left;cursor:pointer}
+    .answers button:disabled{opacity:.85;cursor:not-allowed}
     .answers button.correct{background:#dcfce7;border-color:#22c55e;color:var(--ok)}
     .answers button.wrong{background:#fee2e2;border-color:#ef4444;color:var(--bad)}
-
+    .feedback{min-height:18px;margin-top:8px;font-size:12px;font-weight:800}
+    .ok{color:var(--ok)} .bad{color:var(--bad)}
     .row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
-    .btn{border:0;border-radius:10px;padding:10px 12px;font-family:inherit;font-size:11px;font-weight:900;cursor:pointer}
-    .btnPrimary{background:#2563eb;color:#fff}
-    .btnSoft{background:#e2e8f0;color:#0f172a}
-    .feedback{margin-top:8px;min-height:18px;font-size:12px;font-weight:800}
-    .ok{color:var(--ok)}
-    .bad{color:var(--bad)}
+    .btn{border:0;border-radius:10px;padding:9px 12px;font-family:inherit;font-size:11px;font-weight:900;cursor:pointer}
+    .primary{background:#2563eb;color:#fff}
+    .soft{background:#e2e8f0;color:#0f172a}
 
-    .board{display:grid;grid-template-columns:repeat(4,minmax(70px,1fr));gap:8px;margin-top:8px}
-    .card{height:70px;border-radius:10px;border:2px solid #bfdbfe;background:#dbeafe;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;text-align:center;padding:6px;cursor:pointer}
-    .card.open,.card.matched{background:#fff}
-    .card.matched{border-color:#86efac;color:#166534}
+    .pairsBoard{display:grid;grid-template-columns:repeat(4,minmax(66px,1fr));gap:8px}
+    .pairCard{height:62px;border:2px solid var(--line);background:#dbeafe;border-radius:10px;font-family:inherit;font-size:11px;font-weight:800;color:#1e3a8a;cursor:pointer}
+    .pairCard.open,.pairCard.matched{background:#fff}
+    .pairCard.matched{border-color:#22c55e;color:#166534}
 
-    .wheelBox{display:grid;gap:8px}
-    .wheelResult{background:#eff6ff;border:2px dashed #93c5fd;border-radius:10px;padding:10px;font-size:12px;font-weight:800;color:#1e3a8a}
+    .wheelCard{background:#eff6ff;border:2px dashed #93c5fd;border-radius:10px;padding:12px;font-size:12px;font-weight:800;color:#1e3a8a;min-height:54px}
 
-    .fixed{
-      position:fixed;left:0;right:0;bottom:0;
-      background:#0f172a;border-top:2px solid #1e293b;
-      display:flex;justify-content:center;gap:8px;flex-wrap:wrap;
-      padding:8px;z-index:30;
-    }
+    .anagramWord{font-size:13px;font-weight:900;color:#1e3a8a;margin:6px 0}
+    .anagramInput{width:100%;border:2px solid var(--line);border-radius:10px;padding:10px;font-family:inherit;font-size:12px}
+
+    .fixed{position:fixed;left:0;right:0;bottom:0;background:#0f172a;border-top:2px solid #1e293b;padding:8px;display:flex;justify-content:center;gap:8px;flex-wrap:wrap;z-index:20}
     .fixed button{border:0;border-radius:10px;padding:8px 10px;background:#dbeafe;color:#1e3a8a;font-family:inherit;font-size:11px;font-weight:900;cursor:pointer}
 
-    @media (max-width:640px){
-      .app{margin:10px auto 86px;padding:12px}
-      .board{grid-template-columns:repeat(4,minmax(56px,1fr))}
-      .card{height:60px;font-size:10px}
+    @media (max-width:900px){.gameMenu{grid-template-columns:repeat(2,minmax(140px,1fr))}}
+    @media (max-width:680px){
+      .app{padding:10px;margin:8px auto 84px}
+      .hud{grid-template-columns:repeat(2,minmax(120px,1fr))}
+      .box,.tip{font-size:11px}
+      .question{font-size:12px}
+      .answers button,.gameBtn,.btn,.fixed button{font-size:10px}
+      .pairsBoard{grid-template-columns:repeat(4,minmax(56px,1fr));gap:6px}
+      .pairCard{height:56px;font-size:10px}
     }
   </style>
 </head>
+
 <body>
+
+<!-- ========================= -->
+<!-- UNIVERSAL HUD BLOCK -->
+<!-- ========================= -->
+
+<div id="progress-container">
+    <div id="progress-bar"></div>
+</div>
+
+<div id="hud-row">
+    <div id="score-box">Score: <span id="score">0</span></div>
+    <div id="timer-box">Time: <span id="timer">00:00</span></div>
+</div>
+
+<div id="tip-box">
+    <strong>Tip:</strong> <span id="tip-text">Choose an activity to begin!</span>
+</div>
+
+<!-- ========================= -->
+<!-- END HUD BLOCK -->
+<!-- ========================= -->
+
+<!-- FIXED BOTTOM BAR -->
+<div class="fixed-bar">
+    <button class="bar-btn" onclick="goBack()">Back</button>
+    <button class="bar-btn" onclick="location.href='../index.html'">Main Menu</button>
+    <button class="bar-btn" onclick="alert('Paused')">Pause</button>
+</div>
+
+<!-- MAIN MENU -->
+<div id="main">
+    <h1>Vocabulary Station</h1>
+    <button onclick="openScreen('matching')">Matching</button>
+    <button onclick="openScreen('ordering')">Ordering</button>
+    <button onclick="openScreen('fill')">Fill in the Blanks</button>
+</div>
+
+<!-- MATCHING -->
+<div id="matching" class="screen matching-theme">
+    <h2>Matching Activity</h2>
+    <p>Match the words with their definitions.</p>
+</div>
+
+<!-- ORDERING -->
+<div id="ordering" class="screen ordering-theme">
+    <h2>Ordering Activity</h2>
+    <p>Put the words in the correct order.</p>
+</div>
+
+<!-- FILL IN THE BLANKS -->
+<div id="fill" class="screen fill-theme">
+    <h2>Fill in the Blanks</h2>
+    <p>Complete the sentences with the correct words.</p>
+</div>
   <main class="app">
-    <h1>GAMES STATION ARCADE</h1>
-    <p class="sub">Whole new responsive version • clear feedback • playable games</p>
+    <h1>GAMES STATION</h1>
+    <p class="sub">Visible working apps: Quiz • Matching Pairs • Spin Wheel • Anagram</p>
 
     <section class="hud">
-      <div class="hudBox">SCORE: <span id="score">0</span></div>
-      <div class="hudBox">STARS: <span id="stars">0</span></div>
-      <div class="hudBox">TIME: <span id="timer">00:00</span></div>
-      <div class="hudBox">BEST: <span id="best">-</span></div>
+      <div class="box">SCORE: <span id="score">0</span></div>
+      <div class="box">STARS: <span id="stars">0</span></div>
+      <div class="box">TIME: <span id="timer">00:00</span></div>
+      <div class="box">BEST APP: <span id="best">-</span></div>
     </section>
 
-    <div class="tip"><strong>Tip:</strong> <span id="tip">Choose a tab and play. Every correct action gives points.</span></div>
+    <div class="tip"><strong>Tip:</strong> <span id="tip">Open any app and play. Each app gives points and stars.</span></div>
 
-    <section class="tabs" id="tabs"></section>
-
-    <section id="panel-definitions" class="panel active">
-      <h3 class="qTitle">Activity Definitions</h3>
-      <div class="defsGrid" id="defsGrid"></div>
+    <section class="gameMenu" id="gameMenu">
+      <button class="gameBtn active" data-panel="quiz">📝 Quiz App<br><small>3-question skill check</small></button>
+      <button class="gameBtn" data-panel="pairs">🃏 Matching Pairs App<br><small>memory + vocabulary</small></button>
+      <button class="gameBtn" data-panel="wheel">🎯 Spin Wheel App<br><small>random speaking/writing tasks</small></button>
+      <button class="gameBtn" data-panel="anagram">🔤 Anagram App<br><small>unscramble words</small></button>
     </section>
 
-    <section id="panel-quiz" class="panel">
-      <h3 class="qTitle" id="quizQ">Question</h3>
-      <div class="answers" id="quizAnswers"></div>
-      <div class="feedback" id="quizFb"></div>
+    <section id="panel-quiz" class="panel active">
+      <h2>Quiz App</h2>
+      <p id="quizQuestion" class="question"></p>
+      <div id="quizAnswers" class="answers"></div>
+      <div id="quizFeedback" class="feedback"></div>
       <div class="row">
-        <button class="btn btnPrimary" id="quizNext">Next Question</button>
+        <button class="btn primary" id="quizNext" disabled>Next Question</button>
+        <button class="btn soft" id="quizRestart">Restart Quiz</button>
       </div>
     </section>
 
     <section id="panel-pairs" class="panel">
-      <h3 class="qTitle">Matching Pairs</h3>
-      <p class="sub" style="text-align:left;margin:0 0 6px">Find all matching pairs.</p>
-      <div class="board" id="pairsBoard"></div>
-      <div class="feedback" id="pairsFb"></div>
+      <h2>Matching Pairs App</h2>
+      <div id="pairsBoard" class="pairsBoard"></div>
+      <div id="pairsFeedback" class="feedback"></div>
       <div class="row">
-        <button class="btn btnPrimary" id="pairsRestart">Restart Pairs</button>
+        <button class="btn soft" id="pairsRestart">Restart Pairs</button>
       </div>
     </section>
 
     <section id="panel-wheel" class="panel">
-      <h3 class="qTitle">Spin the Wheel</h3>
-      <div class="wheelBox">
-        <button class="btn btnPrimary" id="spinBtn">SPIN</button>
-        <div class="wheelResult" id="wheelResult">Spin to get a random speaking/writing challenge.</div>
+      <h2>Spin Wheel App</h2>
+      <div id="wheelResult" class="wheelCard">Press SPIN to get a challenge.</div>
+      <div id="wheelFeedback" class="feedback"></div>
+      <div class="row">
+        <button class="btn primary" id="wheelSpin">SPIN</button>
       </div>
-      <div class="feedback" id="wheelFb"></div>
+    </section>
+
+    <section id="panel-anagram" class="panel">
+      <h2>Anagram App</h2>
+      <p class="question">Unscramble this word:</p>
+      <div id="anagramWord" class="anagramWord">-</div>
+      <input id="anagramInput" class="anagramInput" placeholder="Type your answer" />
+      <div id="anagramFeedback" class="feedback"></div>
+      <div class="row">
+        <button class="btn primary" id="anagramCheck">Check</button>
+        <button class="btn soft" id="anagramNext">Next Anagram</button>
+      </div>
     </section>
   </main>
 
   <div class="fixed">
     <button onclick="location.href='../index.html'">Main Menu</button>
     <button id="pauseBtn">Pause/Resume Timer</button>
-    <button id="resetBtn">Reset Arcade</button>
+    <button id="resetBtn">Reset Score</button>
   </div>
 
 <script>
-  const definitions = [
-    ['Quiz','A series of multiple choice questions. Tap the correct answer to proceed.'],
-    ['Flash cards','Test yourself using cards with prompts on the front and answers on the back.'],
-    ['Speaking cards','Deal out cards at random from a shuffled deck.'],
-    ['Group sort','Drag and drop each item into its correct group.'],
-    ['Spin the wheel','Spin the wheel to see which item comes up next.'],
-    ['Complete the sentence','A cloze activity where you drag and drop words into blank spaces within a text.'],
-    ['Anagram','Drag the letters into their correct positions to unscramble the word or phrase.'],
-    ['Find the match','Tap the matching answer to eliminate it. Repeat until all answers are gone.'],
-    ['Unjumble','Drag and drop words to rearrange each sentence into its correct order.'],
-    ['Matching pairs','Tap a pair of tiles at a time to reveal if they are a match.'],
-    ['Open the box','Tap each box in turn to open them up and reveal the item inside.'],
-    ['Fishing bowl','Catch the correct item from the bowl to complete the challenge.']
-  ];
 
-  const tabs = [
-    ['definitions','Definitions'],
-    ['quiz','Quiz'],
-    ['pairs','Matching Pairs'],
-    ['wheel','Spin the Wheel']
-  ];
+/* SCREEN NAVIGATION */
+function openScreen(id) {
+    document.querySelectorAll('.screen, #main').forEach(s => s.style.display = 'none');
+    document.getElementById(id).style.display = 'block';
 
-  const quizData = [
-    {q:'Choose the correct sentence.', options:['She go to school.','She goes to school.','She going to school.','She gone to school.'], correct:1},
-    {q:'Past simple of "eat" is...', options:['eat','eaten','ate','eated'], correct:2},
-    {q:'Complete: "If I study, I ____ pass."', options:['will','am','did','was'], correct:0},
-    {q:'Find the adjective.', options:['run','quickly','beautiful','eat'], correct:2}
-  ];
+    setTip("Complete the activity to earn points!");
+    startTimer();
+    setProgress(20);
+}
 
-  const wheelChallenges = [
-    'Say a 10-second introduction using present simple.',
-    'Write one sentence with because and one with although.',
-    'Make a prediction with will about next weekend.',
-    'Ask and answer one question in past simple.',
-    'Give 3 healthy habits using should.'
-  ];
+function goBack() {
+    document.querySelectorAll('.screen').forEach(s => s.style.display = 'none');
+    document.getElementById('main').style.display = 'block';
 
-  const pairWords = ['big|huge','small|tiny','start|begin','quick|fast','happy|glad','finish|end'];
+    stopTimer();
+    setTip("Choose an activity to begin!");
+    setProgress(0);
+}
+
+/* ========================= */
+/* UNIVERSAL HUD JS */
+/* ========================= */
+
+function setProgress(percent) {
+    document.getElementById("progress-bar").style.width = percent + "%";
+}
+
+let score = 0;
+function addScore(points) {
+    score += points;
+    document.getElementById("score").textContent = score;
+}
+
+let time = 0;
+let timerInterval;
+
+function startTimer() {
+    stopTimer();
+    time = 0;
+    timerInterval = setInterval(() => {
+        time++;
+        let minutes = String(Math.floor(time / 60)).padStart(2, '0');
+        let seconds = String(time % 60).padStart(2, '0');
+        document.getElementById("timer").textContent = `${minutes}:${seconds}`;
+    }, 1000);
+}
+
+function stopTimer() {
+    clearInterval(timerInterval);
+}
+
+function setTip(text) {
+    document.getElementById("tip-text").textContent = text;
+}
 
   const state = {
-    score:0,
-    stars:0,
-    best:'-',
-    paused:false,
-    seconds:0,
-    timerRef:null,
-    quizIndex:0,
-    quizAnswered:false,
-    deck:[],
-    open:[]
+    score: 0,
+    stars: 0,
+    best: '-',
+    seconds: 0,
+    paused: false,
+    timerRef: null,
+    quizIndex: 0,
+    quizCorrect: 0,
+    quizAnswered: false,
+    pairsDeck: [],
+    pairsOpen: [],
+    anagramIndex: 0
   };
 
-  function save(){
-    localStorage.setItem('pitArcadeV2', JSON.stringify({score:state.score,stars:state.stars,best:state.best}));
-  }
+  const saved = JSON.parse(localStorage.getItem('pitGamesV4') || '{}');
+  state.score = saved.score || 0;
+  state.stars = saved.stars || 0;
+  state.best = saved.best || '-';
 
-  function load(){
-    const raw = localStorage.getItem('pitArcadeV2');
-    if(!raw) return;
-    try{
-      const p = JSON.parse(raw);
-      state.score = p.score || 0;
-      state.stars = p.stars || 0;
-      state.best = p.best || '-';
-    }catch(e){
-      localStorage.removeItem('pitArcadeV2');
-    }
+  const quizData = [
+    {q:'Choose the correct sentence.', options:['She go to school.','She goes to school.','She going school.','She gone school.'], correct:1},
+    {q:'Past simple of "eat" is...', options:['eat','eaten','ate','eated'], correct:2},
+    {q:'Best contrast connector is...', options:['because','although','and','so'], correct:1}
+  ];
+
+  const pairBase = ['big|huge','small|tiny','start|begin','quick|fast'];
+
+  const wheelTasks = [
+    'Say one sentence in present simple about your daily routine.',
+    'Write one sentence using because and one using although.',
+    'Ask for directions politely in English.',
+    'Give one prediction about tomorrow using will.',
+    'Say 3 healthy habits using should.'
+  ];
+
+  const anagrams = [
+    {scrambled:'LEAPP', answer:'APPLE'},
+    {scrambled:'RYECCL', answer:'RECYCLE'},
+    {scrambled:'MOREHOKW', answer:'HOMEWORK'},
+    {scrambled:'TACOHB', answer:'CHATBOT'}
+  ];
+
+  function persist(){
+    localStorage.setItem('pitGamesV4', JSON.stringify({score:state.score, stars:state.stars, best:state.best}));
   }
 
   function hud(){
@@ -224,7 +423,23 @@
     document.getElementById('best').textContent = state.best;
   }
 
-  function setTip(msg){ document.getElementById('tip').textContent = msg; }
+  function tip(text){
+    document.getElementById('tip').textContent = text;
+  }
+
+  function addScore(points, app){
+    state.score += points;
+    if(app) state.best = app;
+    hud();
+    persist();
+  }
+
+  function addStar(app){
+    state.stars += 1;
+    state.best = app;
+    hud();
+    persist();
+  }
 
   function startTimer(){
     if(state.timerRef) return;
@@ -237,47 +452,22 @@
     },1000);
   }
 
-  function addPoints(points, mode){
-    state.score += points;
-    if(mode){
-      state.best = mode;
-    }
-    hud();
-    save();
-  }
-
-  function addStar(mode){
-    state.stars += 1;
-    state.best = mode;
-    hud();
-    save();
-  }
-
-  function buildTabs(){
-    const host = document.getElementById('tabs');
-    host.innerHTML = tabs.map(([id,label],i)=>`<button class="tabBtn ${i===0?'active':''}" data-target="${id}">${label}</button>`).join('');
-    host.querySelectorAll('button').forEach(btn=>{
-      btn.addEventListener('click',()=>activatePanel(btn.dataset.target, btn));
-    });
-  }
-
-  function activatePanel(name, clickedBtn){
+  function activatePanel(panel){
     document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
-    document.getElementById(`panel-${name}`).classList.add('active');
-    document.querySelectorAll('.tabBtn').forEach(b=>b.classList.remove('active'));
-    if(clickedBtn) clickedBtn.classList.add('active');
+    document.getElementById(`panel-${panel}`).classList.add('active');
+    document.querySelectorAll('.gameBtn').forEach(b=>b.classList.remove('active'));
+    document.querySelector(`.gameBtn[data-panel="${panel}"]`).classList.add('active');
   }
 
-  function renderDefinitions(){
-    document.getElementById('defsGrid').innerHTML = definitions.map(([name,def])=>`<div class="defCard"><b>${name}</b><span>${def}</span></div>`).join('');
-  }
-
+  // Quiz app
   function renderQuiz(){
-    const item = quizData[state.quizIndex];
+    const q = quizData[state.quizIndex];
     state.quizAnswered = false;
-    document.getElementById('quizQ').textContent = `Q${state.quizIndex+1}/${quizData.length}: ${item.q}`;
-    document.getElementById('quizAnswers').innerHTML = item.options.map((opt,i)=>`<button data-i="${i}">${opt}</button>`).join('');
-    document.getElementById('quizFb').textContent = '';
+    document.getElementById('quizQuestion').textContent = `Q${state.quizIndex+1}/3 — ${q.q}`;
+    document.getElementById('quizAnswers').innerHTML = q.options.map((opt,i)=>`<button data-i="${i}">${opt}</button>`).join('');
+    document.getElementById('quizFeedback').textContent = '';
+    document.getElementById('quizFeedback').className = 'feedback';
+    document.getElementById('quizNext').disabled = true;
 
     document.querySelectorAll('#quizAnswers button').forEach(btn=>{
       btn.addEventListener('click',()=>answerQuiz(Number(btn.dataset.i)));
@@ -287,125 +477,195 @@
   function answerQuiz(choice){
     if(state.quizAnswered) return;
     state.quizAnswered = true;
-    const item = quizData[state.quizIndex];
-    const fb = document.getElementById('quizFb');
+    const q = quizData[state.quizIndex];
+    const fb = document.getElementById('quizFeedback');
 
     document.querySelectorAll('#quizAnswers button').forEach((btn,i)=>{
       btn.disabled = true;
-      if(i === item.correct) btn.classList.add('correct');
-      if(i === choice && choice !== item.correct) btn.classList.add('wrong');
+      if(i === q.correct) btn.classList.add('correct');
+      if(i === choice && choice !== q.correct) btn.classList.add('wrong');
     });
 
-    if(choice === item.correct){
-      fb.textContent = '✅ Correct! +10 points';
+    if(choice === q.correct){
+      state.quizCorrect++;
+      addScore(10,'Quiz');
+      fb.textContent = '✅ Correct! +10';
       fb.className = 'feedback ok';
-      addPoints(10,'Quiz');
     } else {
-      fb.textContent = `❌ Wrong. Correct answer: ${item.options[item.correct]}`;
+      fb.textContent = `❌ Wrong. Correct: ${q.options[q.correct]}`;
       fb.className = 'feedback bad';
     }
+
+    document.getElementById('quizNext').disabled = false;
   }
 
   function nextQuiz(){
-    state.quizIndex = (state.quizIndex + 1) % quizData.length;
-    if(state.quizIndex === 0){
-      addStar('Quiz');
-      setTip('Quiz loop completed. Star earned!');
+    if(state.quizIndex < quizData.length - 1){
+      state.quizIndex++;
+      renderQuiz();
+      return;
     }
+
+    const passed = state.quizCorrect >= 2;
+    const fb = document.getElementById('quizFeedback');
+    if(passed){
+      addStar('Quiz');
+      addScore(20,'Quiz');
+      fb.textContent = `🏆 Quiz cleared (${state.quizCorrect}/3). Star earned.`;
+      fb.className = 'feedback ok';
+    } else {
+      fb.textContent = `⚠️ Quiz result ${state.quizCorrect}/3. Need 2/3 for a star.`;
+      fb.className = 'feedback bad';
+    }
+    document.getElementById('quizNext').disabled = true;
+  }
+
+  function restartQuiz(){
+    state.quizIndex = 0;
+    state.quizCorrect = 0;
     renderQuiz();
   }
 
+  // Matching pairs app
   function setupPairs(){
-    const cards = [];
-    pairWords.forEach((pair,idx)=>{
+    const deck = [];
+    pairBase.forEach((pair,idx)=>{
       const [a,b] = pair.split('|');
-      cards.push({id:`${idx}-a`,pair:idx,text:a,open:false,matched:false});
-      cards.push({id:`${idx}-b`,pair:idx,text:b,open:false,matched:false});
+      deck.push({id:`${idx}a`,pair:idx,text:a,open:false,matched:false});
+      deck.push({id:`${idx}b`,pair:idx,text:b,open:false,matched:false});
     });
-
-    state.deck = cards.sort(()=>Math.random()-0.5);
-    state.open = [];
-    document.getElementById('pairsFb').textContent = '';
+    state.pairsDeck = deck.sort(()=>Math.random()-0.5);
+    state.pairsOpen = [];
+    document.getElementById('pairsFeedback').textContent = '';
     drawPairs();
   }
 
   function drawPairs(){
     const board = document.getElementById('pairsBoard');
-    board.innerHTML = state.deck.map((c,i)=>`<button class="card ${c.open?'open':''} ${c.matched?'matched':''}" data-idx="${i}">${(c.open||c.matched)?c.text:'?'}</button>`).join('');
-    board.querySelectorAll('.card').forEach(btn=>btn.addEventListener('click',()=>flipCard(Number(btn.dataset.idx))));
+    board.innerHTML = state.pairsDeck.map((card,i)=>`<button class="pairCard ${card.open?'open':''} ${card.matched?'matched':''}" data-i="${i}">${(card.open||card.matched)?card.text:'?'}</button>`).join('');
+    board.querySelectorAll('button').forEach(btn=>btn.addEventListener('click',()=>flipPair(Number(btn.dataset.i))));
   }
 
-  function flipCard(i){
-    const c = state.deck[i];
-    if(!c || c.open || c.matched || state.open.length === 2) return;
+  function flipPair(i){
+    const c = state.pairsDeck[i];
+    if(!c || c.open || c.matched || state.pairsOpen.length===2) return;
 
     c.open = true;
-    state.open.push(c);
+    state.pairsOpen.push(c);
     drawPairs();
 
-    if(state.open.length === 2){
-      const [a,b] = state.open;
-      if(a.pair === b.pair){
+    if(state.pairsOpen.length===2){
+      const [a,b] = state.pairsOpen;
+      if(a.pair===b.pair){
         a.matched = true;
         b.matched = true;
-        state.open = [];
-        addPoints(12,'Matching Pairs');
-        document.getElementById('pairsFb').textContent = '✅ Match! +12 points';
-        document.getElementById('pairsFb').className = 'feedback ok';
-
-        if(state.deck.every(x=>x.matched)){
-          addStar('Matching Pairs');
-          document.getElementById('pairsFb').textContent = '🏆 Board cleared! Star earned.';
+        state.pairsOpen = [];
+        addScore(12,'Pairs');
+        document.getElementById('pairsFeedback').textContent = '✅ Match! +12';
+        document.getElementById('pairsFeedback').className = 'feedback ok';
+        if(state.pairsDeck.every(x=>x.matched)){
+          addStar('Pairs');
+          document.getElementById('pairsFeedback').textContent = '🏆 All pairs found. Star earned.';
         }
       } else {
-        document.getElementById('pairsFb').textContent = '❌ Not a pair.';
-        document.getElementById('pairsFb').className = 'feedback bad';
+        document.getElementById('pairsFeedback').textContent = '❌ Not a pair.';
+        document.getElementById('pairsFeedback').className = 'feedback bad';
         setTimeout(()=>{
           a.open = false;
           b.open = false;
-          state.open = [];
+          state.pairsOpen = [];
           drawPairs();
         },600);
       }
     }
   }
 
+  // Wheel app
   function spinWheel(){
-    const pick = wheelChallenges[Math.floor(Math.random()*wheelChallenges.length)];
-    document.getElementById('wheelResult').textContent = pick;
-    document.getElementById('wheelFb').textContent = '✅ New challenge ready. +5 points';
-    document.getElementById('wheelFb').className = 'feedback ok';
-    addPoints(5,'Spin the Wheel');
+    const task = wheelTasks[Math.floor(Math.random()*wheelTasks.length)];
+    document.getElementById('wheelResult').textContent = task;
+    document.getElementById('wheelFeedback').textContent = '✅ Challenge generated. +5 points';
+    document.getElementById('wheelFeedback').className = 'feedback ok';
+    addScore(5,'Wheel');
   }
 
-  function resetArcade(){
-    localStorage.removeItem('pitArcadeV2');
+  // Anagram app
+  function renderAnagram(){
+    const item = anagrams[state.anagramIndex];
+    document.getElementById('anagramWord').textContent = item.scrambled;
+    document.getElementById('anagramInput').value = '';
+    document.getElementById('anagramFeedback').textContent = '';
+    document.getElementById('anagramFeedback').className = 'feedback';
+  }
+
+  function checkAnagram(){
+    const item = anagrams[state.anagramIndex];
+    const input = document.getElementById('anagramInput').value.trim().toUpperCase();
+    const fb = document.getElementById('anagramFeedback');
+
+    if(!input){
+      fb.textContent = 'Type an answer first.';
+      fb.className = 'feedback bad';
+      return;
+    }
+
+    if(input === item.answer){
+      fb.textContent = '✅ Correct anagram! +10';
+      fb.className = 'feedback ok';
+      addScore(10,'Anagram');
+      if(item.answer === 'CHATBOT') addStar('Anagram');
+    } else {
+      fb.textContent = `❌ Not correct. Try again.`;
+      fb.className = 'feedback bad';
+    }
+  }
+
+  function nextAnagram(){
+    state.anagramIndex = (state.anagramIndex + 1) % anagrams.length;
+    renderAnagram();
+  }
+
+  function resetAll(){
+    localStorage.removeItem('pitGamesV4');
     state.score = 0;
     state.stars = 0;
     state.best = '-';
     state.quizIndex = 0;
+    state.quizCorrect = 0;
+    state.anagramIndex = 0;
     hud();
-    renderQuiz();
+    restartQuiz();
     setupPairs();
-    document.getElementById('wheelResult').textContent = 'Spin to get a random speaking/writing challenge.';
-    document.getElementById('wheelFb').textContent = '';
-    setTip('Arcade reset complete. Start fresh.');
+    renderAnagram();
+    document.getElementById('wheelResult').textContent = 'Press SPIN to get a challenge.';
+    document.getElementById('wheelFeedback').textContent = '';
+    tip('Reset complete. Choose an app and play.');
   }
 
-  // boot
-  load();
-  hud();
-  buildTabs();
-  renderDefinitions();
-  renderQuiz();
-  setupPairs();
-  startTimer();
+  // events
+  document.querySelectorAll('.gameBtn').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      activatePanel(btn.dataset.panel);
+      tip(`Now using ${btn.textContent.split('\n')[0].trim()}.`);
+    });
+  });
 
   document.getElementById('quizNext').addEventListener('click', nextQuiz);
+  document.getElementById('quizRestart').addEventListener('click', restartQuiz);
   document.getElementById('pairsRestart').addEventListener('click', setupPairs);
-  document.getElementById('spinBtn').addEventListener('click', spinWheel);
-  document.getElementById('pauseBtn').addEventListener('click', ()=>{ state.paused = !state.paused; setTip(state.paused ? 'Timer paused.' : 'Timer resumed.'); });
-  document.getElementById('resetBtn').addEventListener('click', resetArcade);
+  document.getElementById('wheelSpin').addEventListener('click', spinWheel);
+  document.getElementById('anagramCheck').addEventListener('click', checkAnagram);
+  document.getElementById('anagramNext').addEventListener('click', nextAnagram);
+  document.getElementById('pauseBtn').addEventListener('click', ()=>{ state.paused = !state.paused; tip(state.paused ? 'Timer paused.' : 'Timer resumed.'); });
+  document.getElementById('resetBtn').addEventListener('click', resetAll);
+
+  // init
+  hud();
+  restartQuiz();
+  setupPairs();
+  renderAnagram();
+  startTimer();
 </script>
+
 </body>
 </html>
