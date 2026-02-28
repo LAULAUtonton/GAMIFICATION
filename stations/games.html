@@ -132,6 +132,9 @@ button:hover { background: #0288D1; color: white; }
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>THE PIT – Games Station</title>
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
   <title>THE PIT – Menú de Juegos</title>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
   <style>
@@ -204,6 +207,7 @@ button:hover { background: #0288D1; color: white; }
     }
     h1{margin:0 0 8px;text-align:center;color:#0c4a6e;letter-spacing:2px}
     .sub{text-align:center;margin:0 0 18px;color:#0369a1;font-size:13px}
+    .versionTag{text-align:center;margin:0 0 14px;font-size:11px;color:#0c4a6e;opacity:.8}
     .screen{display:none}.screen.active{display:block}
 
     .menuGrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
@@ -394,6 +398,7 @@ button:hover { background: #0288D1; color: white; }
   <main class="stationContainer">
     <h1>THE PIT · MENÚ DE JUEGOS</h1>
     <p class="sub">El alumno primero elige un juego. Luego el sistema asigna automáticamente la habilidad adecuada.</p>
+    <p class="versionTag">Versión corregida: Comecocos v2.1</p>
 
     <section id="menuScreen" class="screen active">
       <div class="menuGrid">
@@ -522,7 +527,7 @@ function setTip(text) {
   const sentence = ['I','always','do','my','homework','at','night'];
   const size = 8;
   const skillsByGame = {
-    comecocos: ['Word Order', 'Grammar']
+    comecocos: ['Orden de palabras', 'Gramática']
   };
 
   const state = {
