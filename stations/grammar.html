@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Grammar Station</title>
+<title>Vocabulary Station</title>
 
 <style>
 
@@ -128,6 +128,103 @@ button:hover { background: #0288D1; color: white; }
 }
 
 </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>THE PIT – Games Station</title>
+  <title>Games Station</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
+  <style>
+    :root{--bg1:#dbeafe;--bg2:#2563eb;--bg3:#0b1a44;--ink:#0f172a;--panel:#f8fafc;--line:#bfdbfe;--brand:#1d4ed8;--ok:#166534;--bad:#991b1b}
+    :root{--bg:#0f172a;--panel:#111827;--card:#1f2937;--line:#374151;--ink:#e5e7eb;--brand:#22d3ee;--ok:#86efac;--bad:#fca5a5}
+    *{box-sizing:border-box}
+    body{margin:0;font-family:'Orbitron',sans-serif;background:radial-gradient(circle,var(--bg1) 0%,var(--bg2) 56%,var(--bg3) 100%);color:var(--ink)}
+    .app{width:min(1120px,95vw);margin:14px auto 92px;background:#fff;border-radius:20px;padding:14px;box-shadow:0 18px 42px rgba(2,6,23,.45)}
+    h1{margin:0;text-align:center;color:#1e3a8a;font-size:clamp(20px,4vw,30px)}
+    .sub{margin:6px 0 10px;text-align:center;color:var(--brand);font-size:12px}
+
+    body{margin:0;background:radial-gradient(circle,#ff7eb3 0%,#6d5acb 45%,#3c1c6b 100%);color:var(--ink);font-family:'Orbitron',Arial,sans-serif}
+    .app{width:min(1120px,96vw);margin:12px auto 84px;background:rgba(13,8,30,.82);border:2px solid #c084fc;border-radius:20px;padding:14px;box-shadow:0 18px 40px rgba(0,0,0,.45)}
+    h1{margin:0;text-align:center;color:#ffffff;letter-spacing:2px;text-shadow:0 0 12px rgba(255,255,255,.45)}
+    .sub{text-align:center;margin:6px 0 12px;color:#f5d0fe;font-size:13px}
+    .hud{display:grid;grid-template-columns:repeat(4,minmax(120px,1fr));gap:8px;margin-bottom:10px}
+    .box{background:#eff6ff;border:2px solid #93c5fd;border-radius:10px;padding:9px;font-size:12px;font-weight:800;color:#1e3a8a}
+    .tip{background:#ecfeff;border:2px solid #67e8f9;border-radius:10px;padding:10px;font-size:12px;color:#0f766e;margin-bottom:10px}
+
+    .gameMenu{display:grid;grid-template-columns:repeat(4,minmax(150px,1fr));gap:8px;margin-bottom:10px}
+    .gameBtn{border:2px solid var(--line);background:#fff;color:#1e3a8a;border-radius:10px;padding:10px;font-family:inherit;font-size:11px;font-weight:800;cursor:pointer;text-align:left}
+    .gameBtn.active{background:#dbeafe;border-color:#2563eb}
+
+    .panel{display:none;background:var(--panel);border:2px solid #cbd5e1;border-radius:12px;padding:12px}
+    .box{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.35);border-radius:12px;padding:10px;font-weight:700}
+    .tip{background:rgba(255,255,255,.12);border:1px solid #f0abfc;color:#fdf4ff;border-radius:12px;padding:10px;margin-bottom:12px}
+    .menu{display:grid;grid-template-columns:repeat(3,minmax(180px,1fr));gap:10px}
+    .gameBtn{background:linear-gradient(135deg,rgba(255,255,255,.16),rgba(255,255,255,.08));border:1px solid rgba(255,255,255,.45);color:#f8fafc;border-radius:14px;padding:12px;text-align:left;cursor:pointer;font-weight:700;min-height:86px}
+    .gameBtn.active{border-color:#22d3ee;box-shadow:0 0 0 2px rgba(34,211,238,.45) inset;background:linear-gradient(135deg,rgba(34,211,238,.22),rgba(255,255,255,.1))}
+    .panel{display:none;background:rgba(2,6,23,.78);border:1px solid rgba(255,255,255,.3);border-radius:14px;padding:14px;margin-top:10px;min-height:260px}
+    .panel.active{display:block}
+    .panel h2{margin:0 0 8px;color:#1e3a8a;font-size:15px}
+    .question{font-size:13px;margin:6px 0 8px}
+    .prompt{font-size:18px;font-weight:700;margin-bottom:8px;color:#a5f3fc}
+    .row{display:flex;gap:8px;flex-wrap:wrap}
+    button{border:0;border-radius:8px;padding:9px 11px;font-weight:700;cursor:pointer}
+    .primary{background:#22d3ee;color:#082f49}
+    .soft{background:#334155;color:#e2e8f0}
+    .answers{display:grid;gap:8px}
+    .answers button{border:2px solid var(--line);background:#fff;color:#1e3a8a;border-radius:10px;padding:10px;font-family:inherit;font-size:11px;font-weight:800;text-align:left;cursor:pointer}
+    .answers button:disabled{opacity:.85;cursor:not-allowed}
+    .answers button.correct{background:#dcfce7;border-color:#22c55e;color:var(--ok)}
+    .answers button.wrong{background:#fee2e2;border-color:#ef4444;color:var(--bad)}
+    .feedback{min-height:18px;margin-top:8px;font-size:12px;font-weight:800}
+    .answers button{text-align:left;background:#1e293b;color:#e2e8f0;border:1px solid #475569}
+    .feedback{min-height:18px;margin-top:8px;font-weight:700}
+    .ok{color:var(--ok)} .bad{color:var(--bad)}
+    .row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+    .btn{border:0;border-radius:10px;padding:9px 12px;font-family:inherit;font-size:11px;font-weight:900;cursor:pointer}
+    .primary{background:#2563eb;color:#fff}
+    .soft{background:#e2e8f0;color:#0f172a}
+
+    .pairsBoard{display:grid;grid-template-columns:repeat(4,minmax(66px,1fr));gap:8px}
+    .pairCard{height:62px;border:2px solid var(--line);background:#dbeafe;border-radius:10px;font-family:inherit;font-size:11px;font-weight:800;color:#1e3a8a;cursor:pointer}
+    .pairCard.open,.pairCard.matched{background:#fff}
+    .pairCard.matched{border-color:#22c55e;color:#166534}
+
+    .wheelCard{background:#eff6ff;border:2px dashed #93c5fd;border-radius:10px;padding:12px;font-size:12px;font-weight:800;color:#1e3a8a;min-height:54px}
+
+    .anagramWord{font-size:13px;font-weight:900;color:#1e3a8a;margin:6px 0}
+    .anagramInput{width:100%;border:2px solid var(--line);border-radius:10px;padding:10px;font-family:inherit;font-size:12px}
+
+    .fixed{position:fixed;left:0;right:0;bottom:0;background:#0f172a;border-top:2px solid #1e293b;padding:8px;display:flex;justify-content:center;gap:8px;flex-wrap:wrap;z-index:20}
+    .fixed button{border:0;border-radius:10px;padding:8px 10px;background:#dbeafe;color:#1e3a8a;font-family:inherit;font-size:11px;font-weight:900;cursor:pointer}
+
+    @media (max-width:900px){.gameMenu{grid-template-columns:repeat(2,minmax(140px,1fr))}}
+    @media (max-width:680px){
+      .app{padding:10px;margin:8px auto 84px}
+      .hud{grid-template-columns:repeat(2,minmax(120px,1fr))}
+      .box,.tip{font-size:11px}
+      .question{font-size:12px}
+      .answers button,.gameBtn,.btn,.fixed button{font-size:10px}
+      .pairsBoard{grid-template-columns:repeat(4,minmax(56px,1fr));gap:6px}
+      .pairCard{height:56px;font-size:10px}
+    }
+    .board{display:grid;grid-template-columns:repeat(4,minmax(70px,1fr));gap:8px}
+    .card{height:56px;background:#1e293b;border:1px solid #475569;color:#e2e8f0}
+    .card.matched{background:#14532d;border-color:#22c55e}
+    .chips{display:flex;flex-wrap:wrap;gap:8px}
+    .chip{background:#1e3a8a;border:1px solid #60a5fa;color:#dbeafe;padding:8px 10px;border-radius:999px;cursor:pointer}
+    .gameName{display:block;font-size:15px;font-weight:900;margin-bottom:6px}
+    .gameMeta{display:block;font-size:11px;opacity:.95;line-height:1.35}
+    .activeGameChip{margin:6px 0 4px;text-align:center;color:#e9d5ff;font-size:12px}
+    .arcadeWrap{background:rgba(15,23,42,.65);border:1px solid rgba(255,255,255,.28);border-radius:14px;padding:10px}
+    .arcadeHud{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;font-size:12px;color:#c4b5fd;margin-bottom:8px}
+    .invaderArena{position:relative;height:360px;border-radius:12px;border:1px solid #334155;background:linear-gradient(180deg,#020617,#111827 50%,#0f172a);overflow:hidden}
+    .ship{position:absolute;bottom:14px;width:44px;height:18px;background:#22d3ee;border:2px solid #67e8f9;border-radius:6px}
+    .enemy{position:absolute;min-width:90px;max-width:130px;padding:6px 8px;font-size:10px;text-align:center;border-radius:10px;background:#1f2937;color:#e5e7eb;border:1px solid #64748b}
+    .enemy.badTarget{border-color:#f43f5e;box-shadow:0 0 0 1px rgba(244,63,94,.35) inset}
+    .bullet{position:absolute;width:6px;height:14px;border-radius:3px;background:#f8fafc}
+    .arcadeControls{display:flex;gap:8px;justify-content:center;margin-top:10px}
+    .fixed{position:fixed;left:0;right:0;bottom:0;background:#2e1065;padding:10px;display:flex;justify-content:center;gap:8px;border-top:2px solid #f0abfc}
+    @media(max-width:800px){.menu{grid-template-columns:repeat(2,minmax(140px,1fr))}.hud{grid-template-columns:repeat(2,minmax(120px,1fr))}}
+  </style>
 </head>
 
 <body>
@@ -146,7 +243,7 @@ button:hover { background: #0288D1; color: white; }
 </div>
 
 <div id="tip-box">
-    <strong>Tip:</strong> <span id="tip-text">Choose a grammar activity to begin!</span>
+    <strong>Tip:</strong> <span id="tip-text">Choose an activity to begin!</span>
 </div>
 
 <!-- ========================= -->
@@ -162,29 +259,109 @@ button:hover { background: #0288D1; color: white; }
 
 <!-- MAIN MENU -->
 <div id="main">
-    <h1>Grammar Station</h1>
-    <button onclick="openScreen('grammar1')">Grammar Activity 1</button>
-    <button onclick="openScreen('grammar2')">Grammar Activity 2</button>
-    <button onclick="openScreen('grammar3')">Grammar Activity 3</button>
+    <h1>Vocabulary Station</h1>
+    <button onclick="openScreen('matching')">Matching</button>
+    <button onclick="openScreen('ordering')">Ordering</button>
+    <button onclick="openScreen('fill')">Fill in the Blanks</button>
 </div>
 
-<!-- GRAMMAR 1 -->
-<div id="grammar1" class="screen fill-theme">
-    <h2>Grammar Activity 1</h2>
-    <p>Complete the sentences with the correct verb form.</p>
+<!-- MATCHING -->
+<div id="matching" class="screen matching-theme">
+    <h2>Matching Activity</h2>
+    <p>Match the words with their definitions.</p>
 </div>
 
-<!-- GRAMMAR 2 -->
-<div id="grammar2" class="screen ordering-theme">
-    <h2>Grammar Activity 2</h2>
-    <p>Put the words in the correct grammatical order.</p>
+<!-- ORDERING -->
+<div id="ordering" class="screen ordering-theme">
+    <h2>Ordering Activity</h2>
+    <p>Put the words in the correct order.</p>
 </div>
 
-<!-- GRAMMAR 3 -->
-<div id="grammar3" class="screen trivia-theme">
-    <h2>Grammar Activity 3</h2>
-    <p>Choose the correct grammar option.</p>
+<!-- FILL IN THE BLANKS -->
+<div id="fill" class="screen fill-theme">
+    <h2>Fill in the Blanks</h2>
+    <p>Complete the sentences with the correct words.</p>
 </div>
+  <main class="app">
+    <h1>GAMES STATION</h1>
+    <p class="sub">Visible working apps: Quiz • Matching Pairs • Spin Wheel • Anagram</p>
+    <h1>🎮 Games Station</h1>
+    <p class="sub">Snakes & Ladders • Match Up • Comecocos • Space Invaders • Unjumble • Fishing Bowl • Basketball • Speed Race • Guacamole</p>
+
+    <section class="hud">
+      <div class="box">SCORE: <span id="score">0</span></div>
+      <div class="box">STARS: <span id="stars">0</span></div>
+      <div class="box">TIME: <span id="timer">00:00</span></div>
+      <div class="box">BEST APP: <span id="best">-</span></div>
+      <div class="box">Score: <span id="score">0</span></div>
+      <div class="box">Stars: <span id="stars">0</span></div>
+      <div class="box">Time: <span id="timer">00:00</span></div>
+      <div class="box">Best Game: <span id="best">-</span></div>
+    </section>
+
+    <div class="tip"><strong>Tip:</strong> <span id="tip">Open any app and play. Each app gives points and stars.</span></div>
+    <div class="tip"><strong>Class goal:</strong> practice Unit 1–8 vocabulary and grammar from the class summaries while students play.</div>
+
+    <section class="gameMenu" id="gameMenu">
+      <button class="gameBtn active" data-panel="quiz">📝 Quiz App<br><small>3-question skill check</small></button>
+      <button class="gameBtn" data-panel="pairs">🃏 Matching Pairs App<br><small>memory + vocabulary</small></button>
+      <button class="gameBtn" data-panel="wheel">🎯 Spin Wheel App<br><small>random speaking/writing tasks</small></button>
+      <button class="gameBtn" data-panel="anagram">🔤 Anagram App<br><small>unscramble words</small></button>
+    </section>
+
+    <section id="panel-quiz" class="panel active">
+      <h2>Quiz App</h2>
+      <p id="quizQuestion" class="question"></p>
+      <div id="quizAnswers" class="answers"></div>
+      <div id="quizFeedback" class="feedback"></div>
+      <div class="row">
+        <button class="btn primary" id="quizNext" disabled>Next Question</button>
+        <button class="btn soft" id="quizRestart">Restart Quiz</button>
+      </div>
+    </section>
+
+    <section id="panel-pairs" class="panel">
+      <h2>Matching Pairs App</h2>
+      <div id="pairsBoard" class="pairsBoard"></div>
+      <div id="pairsFeedback" class="feedback"></div>
+      <div class="row">
+        <button class="btn soft" id="pairsRestart">Restart Pairs</button>
+      </div>
+    </section>
+
+    <section id="panel-wheel" class="panel">
+      <h2>Spin Wheel App</h2>
+      <div id="wheelResult" class="wheelCard">Press SPIN to get a challenge.</div>
+      <div id="wheelFeedback" class="feedback"></div>
+      <div class="row">
+        <button class="btn primary" id="wheelSpin">SPIN</button>
+      </div>
+    </section>
+
+    <section id="panel-anagram" class="panel">
+      <h2>Anagram App</h2>
+      <p class="question">Unscramble this word:</p>
+      <div id="anagramWord" class="anagramWord">-</div>
+      <input id="anagramInput" class="anagramInput" placeholder="Type your answer" />
+      <div id="anagramFeedback" class="feedback"></div>
+      <div class="row">
+        <button class="btn primary" id="anagramCheck">Check</button>
+        <button class="btn soft" id="anagramNext">Next Anagram</button>
+      </div>
+    </section>
+    <section class="menu" id="menu"></section>
+    <div id="activeGameChip" class="activeGameChip"></div>
+    <section id="panel" class="panel active"></section>
+  </main>
+
+  <div class="fixed">
+    <button onclick="location.href='../index.html'">Main Menu</button>
+    <button id="pauseBtn">Pause/Resume Timer</button>
+    <button id="resetBtn">Reset Score</button>
+    <button class="soft" onclick="location.href='../index.html'">Main Menu</button>
+    <button class="soft" id="pauseBtn">Pause/Resume</button>
+    <button class="soft" id="resetBtn">Reset</button>
+  </div>
 
 <script>
 
@@ -193,9 +370,134 @@ function openScreen(id) {
     document.querySelectorAll('.screen, #main').forEach(s => s.style.display = 'none');
     document.getElementById(id).style.display = 'block';
 
-    setTip("Read carefully and choose the correct grammar option!");
+    setTip("Complete the activity to earn points!");
     startTimer();
     setProgress(20);
+const state={score:0,stars:0,best:'-',seconds:0,paused:false,timerRef:null,active:'snakes',cleanup:null};
+const saved=JSON.parse(localStorage.getItem('gamesStationV1')||'{}');
+Object.assign(state,{score:saved.score||0,stars:saved.stars||0,best:saved.best||'-'});
+
+
+const score=document.getElementById('score');
+const stars=document.getElementById('stars');
+const timer=document.getElementById('timer');
+const best=document.getElementById('best');
+const menu=document.getElementById('menu');
+const panel=document.getElementById('panel');
+const activeGameChip=document.getElementById('activeGameChip');
+const pauseBtn=document.getElementById('pauseBtn');
+const resetBtn=document.getElementById('resetBtn');
+
+const UNIT_SUMMARY=[
+  {
+    unit:1,
+    grammar:'Past simple + there was/were',
+    vocabulary:['appear','disappear','container','safe','worried','excited','hide','include','inside','outside','items'],
+    sentenceOrder:['There','were','old','containers','inside','the','factory.']
+  },
+  {
+    unit:2,
+    grammar:'Past continuous + interrupted actions',
+    vocabulary:['bright','huge','strange','materials','artist','designer','illustrator','photographer','brilliant','enormous'],
+    sentenceOrder:['While','we','were','waiting,','the','photographer','was','taking','pictures.']
+  },
+  {
+    unit:3,
+    grammar:'First conditional',
+    vocabulary:['cycling','concert','festival','lake','picnic area','working out','jogging','outdoor gym','fun run'],
+    sentenceOrder:['If','we','train','twice','a','week,','we','will','improve','quickly.']
+  },
+  {
+    unit:4,
+    grammar:'Going to + will predictions',
+    vocabulary:['take part','volunteer','community','prediction','renewable','technology','environmentally friendly'],
+    sentenceOrder:['I','am','going','to','volunteer','at','the','community','centre.']
+  },
+  {
+    unit:5,
+    grammar:'Comparatives + superlatives + can/could',
+    vocabulary:['harder','faster','better','more exciting','most popular','the best','the most difficult'],
+    sentenceOrder:['Basketball','is','more','exciting','than','tennis.']
+  },
+  {
+    unit:6,
+    grammar:'Present perfect + since/for + ever/never',
+    vocabulary:['injury','train','warm up','energy','lifestyle','stretch','muscles','rest'],
+    sentenceOrder:['I','have','felt','more','energetic','since','I','started','training.']
+  },
+  {
+    unit:7,
+    grammar:'Must/should/have to',
+    vocabulary:['respect','rule','responsible','protect','uniform','attendance','behave'],
+    sentenceOrder:['Students','must','protect','their','passwords','online.']
+  },
+  {
+    unit:8,
+    grammar:'Reflexive + indefinite pronouns',
+    vocabulary:['somebody','nobody','everywhere','themselves','everybody','anyone','something','nothing'],
+    sentenceOrder:['Everybody','can','help','if','they','believe','in','themselves.']
+  }
+];
+
+const QUESTION_BANK={
+  grammar:[
+    {unit:1,q:'Unit 1: Choose the correct sentence.',o:['There was many containers.','There were many containers.','There were much container.'],c:1},
+    {unit:2,q:'Unit 2: Complete the interrupted action.',o:['While we waited, it started to rain.','While we wait, it starts rain.','While we are waiting, it started rain.'],c:0},
+    {unit:3,q:'Unit 3: First conditional',o:['If we train, we will improve.','If we will train, we improve.','If we trained, we improve.'],c:0},
+    {unit:4,q:'Unit 4: Future plan',o:['I going to volunteer.','I am going to volunteer.','I will going volunteer.'],c:1},
+    {unit:5,q:'Unit 5: Comparative form',o:['Basketball is exciting than tennis.','Basketball is more exciting than tennis.','Basketball is most exciting than tennis.'],c:1},
+    {unit:6,q:'Unit 6: Present perfect',o:['I have trained since January.','I trained since January.','I am training since January.'],c:0},
+    {unit:7,q:'Unit 7: Obligation',o:['Students should to protect passwords.','Students must protect passwords.','Students must protects passwords.'],c:1},
+    {unit:8,q:'Unit 8: Indefinite pronoun',o:['Everybody can help.','Everybody can helps.','Everybody helping can.'],c:0}
+  ],
+  vocab:[
+    {unit:1,q:'Unit 1 vocabulary: choose a word connected to storage.',o:['container','jogging','renewable'],c:0},
+    {unit:2,q:'Unit 2 vocabulary: who takes photos?',o:['designer','photographer','illustrator'],c:1},
+    {unit:3,q:'Unit 3 vocabulary: choose an outdoor activity.',o:['fun run','container','uniform'],c:0},
+    {unit:4,q:'Unit 4 vocabulary: choose the eco word.',o:['prediction','technology','environmentally friendly'],c:2},
+    {unit:5,q:'Unit 5 vocabulary: choose a superlative phrase.',o:['more better','the most difficult','faster than'],c:1},
+    {unit:6,q:'Unit 6 vocabulary: choose a healthy habit.',o:['stretch','disappear','concert'],c:0},
+    {unit:7,q:'Unit 7 vocabulary: choose school duty.',o:['attendance','picnic area','injury'],c:0},
+    {unit:8,q:'Unit 8 vocabulary: pronoun for all people.',o:['everybody','nobody','somebody'],c:0}
+  ]
+};
+
+const MATCH_PAIRS=UNIT_SUMMARY.flatMap(u=>{
+  const picked=u.vocabulary.slice(0,2);
+  return [
+    {left:`Unit ${u.unit}: ${picked[0]}`,right:u.grammar},
+    {left:picked[1]||picked[0],right:`U${u.unit} vocabulary`}
+  ];
+});
+
+const games={
+  snakes:{name:'🐍 Snakes & Ladders',desc:'Roll, move and answer grammar from unit summaries.',render:renderSnakes},
+  matchup:{name:'🧩 Match Up',desc:'Flip cards to match unit vocabulary with focus labels.',render:renderMatch},
+  comecocos:{name:'👻 Comecocos',desc:'Eat the correct Unit 1–8 vocabulary answer.',render:renderComecocos},
+  invaders:{name:'🚀 Space Invaders',desc:'Destroy the wrong grammar sentence before landing.',render:renderInvaders},
+  unjumble:{name:'🔀 Unjumble',desc:'Build sentence order patterns from each unit.',render:renderUnjumble},
+  fishing:{name:'🎣 Fishing Bowl',desc:'Catch the correct vocabulary fish for each unit.',render:renderFishing},
+  basketball:{name:'🏀 Basketball',desc:'Shoot grammar answers to score points quickly.',render:renderBasketball},
+  speed:{name:'🏁 Speed Race',desc:'3-question mixed sprint (grammar + vocabulary).',render:renderSpeedRace},
+  guacamole:{name:'🥑 Guacamole',desc:'Whack the correct grammar mole to win stars.',render:renderGuacamole}
+};
+
+function persist(){localStorage.setItem('gamesStationV1',JSON.stringify({score:state.score,stars:state.stars,best:state.best}));}
+function hud(){score.textContent=state.score;stars.textContent=state.stars;best.textContent=state.best;persist();}
+function addScore(n,game){state.score+=n;state.best=games[game].name;hud();}
+function addStar(game){state.stars++;state.best=games[game].name;hud();}
+
+function startTimer(){if(state.timerRef)return;state.timerRef=setInterval(()=>{if(state.paused)return;state.seconds++;timer.textContent=`${String(Math.floor(state.seconds/60)).padStart(2,'0')}:${String(state.seconds%60).padStart(2,'0')}`;},1000)}
+
+function openGame(key){
+  if(typeof state.cleanup==='function'){
+    state.cleanup();
+    state.cleanup=null;
+  }
+  state.active=key;
+  buildMenu();
+  activeGameChip.textContent=`Now Playing: ${games[key].name}`;
+  games[key].render();
 }
 
 function goBack() {
@@ -203,8 +505,11 @@ function goBack() {
     document.getElementById('main').style.display = 'block';
 
     stopTimer();
-    setTip("Choose a grammar activity to begin!");
+    setTip("Choose an activity to begin!");
     setProgress(0);
+function buildMenu(){
+  menu.innerHTML=Object.entries(games).map(([k,v])=>`<button class="gameBtn ${k===state.active?'active':''}" data-k="${k}"><span class="gameName">${v.name}</span><span class="gameMeta">${v.desc}</span></button>`).join('');
+  document.querySelectorAll('.gameBtn').forEach(b=>b.onclick=()=>openGame(b.dataset.k));
 }
 
 /* ========================= */
@@ -213,6 +518,10 @@ function goBack() {
 
 function setProgress(percent) {
     document.getElementById("progress-bar").style.width = percent + "%";
+function renderMCQ(game,prompt,options,correct,onDone){
+  panel.className='panel active';
+  panel.innerHTML=`<div class="prompt">${prompt}</div><div class="answers">${options.map((o,i)=>`<button data-i="${i}">${o}</button>`).join('')}</div><div id="fb" class="feedback"></div>${onDone?'<div class="row"><button class="primary" id="next">Next</button></div>':''}`;
+  panel.querySelectorAll('.answers button').forEach(btn=>btn.onclick=()=>{const ok=Number(btn.dataset.i)===correct;fb.textContent=ok?'✅ Correct! +10':'❌ Try again.';fb.className='feedback '+(ok?'ok':'bad');if(ok){addScore(10,game);panel.querySelectorAll('.answers button').forEach(b=>b.disabled=true);if(onDone)document.getElementById('next').onclick=onDone;}});
 }
 
 let score = 0;
@@ -233,17 +542,510 @@ function startTimer() {
         let seconds = String(time % 60).padStart(2, '0');
         document.getElementById("timer").textContent = `${minutes}:${seconds}`;
     }, 1000);
+function randomFrom(list){return list[Math.floor(Math.random()*list.length)];}
+function shuffle(list){return [...list].sort(()=>Math.random()-0.5);}
+
+function renderSnakes(){
+  panel.className='panel active';
+  panel.innerHTML=`<div class="prompt">Roll dice and answer Unit Summary grammar questions to climb! You are on square <span id="sq">1</span>.</div><div class="row"><button class="primary" id="roll">Roll Dice</button></div><div id="play"></div>`;
+  let square=1;
+  roll.onclick=()=>{
+    square=Math.min(30,square+(Math.floor(Math.random()*6)+1));
+    sq.textContent=square;
+    const x=randomFrom(QUESTION_BANK.grammar);
+    renderMCQ('snakes',`[U${x.unit}] ${x.q}`,x.o,x.c,()=>{});
+    if(square===30)addStar('snakes');
+  };
 }
 
 function stopTimer() {
     clearInterval(timerInterval);
+function renderMatch(){
+  let deck=[];
+  MATCH_PAIRS.forEach((p,i)=>deck.push({p:i,t:p.left,o:false,m:false},{p:i,t:p.right,o:false,m:false}));
+  deck=shuffle(deck);
+  let open=[];
+  const draw=()=>{panel.className='panel active';panel.innerHTML=`<div class="prompt">Find all matching pairs.</div><div class="board">${deck.map((c,i)=>`<button class="card ${c.m?'matched':''}" data-i="${i}">${c.o||c.m?c.t:'?'}</button>`).join('')}</div><div id="fb" class="feedback"></div>`;
+    panel.querySelectorAll('.card').forEach(btn=>btn.onclick=()=>{const i=Number(btn.dataset.i),c=deck[i];if(c.o||c.m||open.length===2)return;c.o=true;open.push(i);draw();if(open.length===2){const[a,b]=open.map(n=>deck[n]);if(a.p===b.p){a.m=b.m=true;addScore(8,'matchup');if(deck.every(x=>x.m)){fb.textContent='🏆 Star earned!';fb.className='feedback ok';addStar('matchup');}open=[];}else{setTimeout(()=>{a.o=b.o=false;open=[];draw();},500);}}});};
+  draw();
 }
 
 function setTip(text) {
     document.getElementById("tip-text").textContent = text;
+function renderComecocos(){
+  const x=randomFrom(QUESTION_BANK.vocab);
+  renderMCQ('comecocos',`Comecocos [U${x.unit}] Eat the correct unit word!`,x.o,x.c,()=>{});
 }
 
-</script>
+  const state = {
+    score: 0,
+    stars: 0,
+    best: '-',
+    seconds: 0,
+    paused: false,
+    timerRef: null,
+    quizIndex: 0,
+    quizCorrect: 0,
+    quizAnswered: false,
+    pairsDeck: [],
+    pairsOpen: [],
+    anagramIndex: 0
+  };
 
+  const saved = JSON.parse(localStorage.getItem('pitGamesV4') || '{}');
+  state.score = saved.score || 0;
+  state.stars = saved.stars || 0;
+  state.best = saved.best || '-';
+
+  const quizData = [
+    {q:'Choose the correct sentence.', options:['She go to school.','She goes to school.','She going school.','She gone school.'], correct:1},
+    {q:'Past simple of "eat" is...', options:['eat','eaten','ate','eated'], correct:2},
+    {q:'Best contrast connector is...', options:['because','although','and','so'], correct:1}
+  ];
+
+  const pairBase = ['big|huge','small|tiny','start|begin','quick|fast'];
+
+  const wheelTasks = [
+    'Say one sentence in present simple about your daily routine.',
+    'Write one sentence using because and one using although.',
+    'Ask for directions politely in English.',
+    'Give one prediction about tomorrow using will.',
+    'Say 3 healthy habits using should.'
+  ];
+
+  const anagrams = [
+    {scrambled:'LEAPP', answer:'APPLE'},
+    {scrambled:'RYECCL', answer:'RECYCLE'},
+    {scrambled:'MOREHOKW', answer:'HOMEWORK'},
+    {scrambled:'TACOHB', answer:'CHATBOT'}
+  ];
+
+  function persist(){
+    localStorage.setItem('pitGamesV4', JSON.stringify({score:state.score, stars:state.stars, best:state.best}));
+  }
+
+  function hud(){
+    document.getElementById('score').textContent = state.score;
+    document.getElementById('stars').textContent = state.stars;
+    document.getElementById('best').textContent = state.best;
+  }
+
+  function tip(text){
+    document.getElementById('tip').textContent = text;
+  }
+
+  function addScore(points, app){
+    state.score += points;
+    if(app) state.best = app;
+    hud();
+    persist();
+  }
+
+  function addStar(app){
+    state.stars += 1;
+    state.best = app;
+    hud();
+    persist();
+function renderInvaders(){
+  panel.className='panel active';
+  panel.innerHTML=`
+    <div class="prompt">🚀 Space Invaders Arcade (Unit Grammar)</div>
+    <div class="arcadeWrap">
+      <div class="arcadeHud">
+        <span id="invaderTarget"></span>
+        <span>Lives: <b id="invLives">3</b></span>
+        <span>Waves Cleared: <b id="invWaves">0</b>/3</span>
+      </div>
+      <div class="invaderArena" id="invArena">
+        <div class="ship" id="ship"></div>
+      </div>
+      <div class="arcadeControls">
+        <button class="soft" id="leftBtn">⬅ Move</button>
+        <button class="primary" id="shootBtn">🔥 Shoot</button>
+        <button class="soft" id="rightBtn">Move ➡</button>
+      </div>
+      <div id="fb" class="feedback"></div>
+    </div>`;
+
+  const arena=document.getElementById('invArena');
+  const shipEl=document.getElementById('ship');
+  const invLives=document.getElementById('invLives');
+  const invWaves=document.getElementById('invWaves');
+  const invaderTarget=document.getElementById('invaderTarget');
+  const fb=document.getElementById('fb');
+  const leftBtn=document.getElementById('leftBtn');
+  const rightBtn=document.getElementById('rightBtn');
+  const shootBtn=document.getElementById('shootBtn');
+
+  let lives=3,waves=0,playerX=arena.clientWidth/2-22,keys={},bullets=[],enemies=[],done=false,raf;
+
+  const setShip=()=>{shipEl.style.left=`${Math.max(4,Math.min(arena.clientWidth-48,playerX))}px`;};
+  setShip();
+
+  function spawnWave(){
+    arena.querySelectorAll('.enemy').forEach(el=>el.remove());
+    enemies=[];
+    bullets.forEach(b=>b.el.remove());
+    bullets=[];
+    const q=randomFrom(QUESTION_BANK.grammar);
+    const wrongIndexes=q.o.map((_,i)=>i).filter(i=>i!==q.c);
+    const targetIndex=wrongIndexes[Math.floor(Math.random()*wrongIndexes.length)];
+    invaderTarget.textContent=`[U${q.unit}] Target: Shoot the wrong sentence → "${q.o[targetIndex]}"`;
+    const gap=(arena.clientWidth-40)/q.o.length;
+    q.o.forEach((text,i)=>{
+      const el=document.createElement('div');
+      el.className='enemy'+(i===targetIndex?' badTarget':'');
+      el.textContent=text;
+      arena.appendChild(el);
+      enemies.push({x:20+i*gap,y:26+i%2*24,w:Math.min(130,gap-8),h:34,vy:0.22+Math.random()*0.14,text,isTarget:i===targetIndex,el});
+    });
+  }
+
+  function startTimer(){
+    if(state.timerRef) return;
+    state.timerRef = setInterval(()=>{
+      if(state.paused) return;
+      state.seconds++;
+      const m = String(Math.floor(state.seconds/60)).padStart(2,'0');
+      const s = String(state.seconds%60).padStart(2,'0');
+      document.getElementById('timer').textContent = `${m}:${s}`;
+    },1000);
+  function shoot(){
+    if(done)return;
+    const el=document.createElement('div');
+    el.className='bullet';
+    arena.appendChild(el);
+    bullets.push({x:playerX+19,y:arena.clientHeight-34,vy:4.5,el});
+  }
+
+  function activatePanel(panel){
+    document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+    document.getElementById(`panel-${panel}`).classList.add('active');
+    document.querySelectorAll('.gameBtn').forEach(b=>b.classList.remove('active'));
+    document.querySelector(`.gameBtn[data-panel="${panel}"]`).classList.add('active');
+  function end(msg,ok){
+    done=true;
+    fb.textContent=msg;
+    fb.className='feedback '+(ok?'ok':'bad');
+    if(ok){addScore(18,'invaders');addStar('invaders');}
+    if(raf)cancelAnimationFrame(raf);
+  }
+
+  // Quiz app
+  function renderQuiz(){
+    const q = quizData[state.quizIndex];
+    state.quizAnswered = false;
+    document.getElementById('quizQuestion').textContent = `Q${state.quizIndex+1}/3 — ${q.q}`;
+    document.getElementById('quizAnswers').innerHTML = q.options.map((opt,i)=>`<button data-i="${i}">${opt}</button>`).join('');
+    document.getElementById('quizFeedback').textContent = '';
+    document.getElementById('quizFeedback').className = 'feedback';
+    document.getElementById('quizNext').disabled = true;
+
+    document.querySelectorAll('#quizAnswers button').forEach(btn=>{
+      btn.addEventListener('click',()=>answerQuiz(Number(btn.dataset.i)));
+  function loop(){
+    if(done||state.active!=='invaders'){return;}
+    if(keys.ArrowLeft)playerX-=4;
+    if(keys.ArrowRight)playerX+=4;
+    setShip();
+
+    bullets=bullets.filter(b=>{
+      b.y-=b.vy;
+      b.el.style.left=`${b.x}px`;
+      b.el.style.top=`${b.y}px`;
+      if(b.y<0){b.el.remove();return false;}
+      return true;
+    });
+  }
+
+  function answerQuiz(choice){
+    if(state.quizAnswered) return;
+    state.quizAnswered = true;
+    const q = quizData[state.quizIndex];
+    const fb = document.getElementById('quizFeedback');
+
+    document.querySelectorAll('#quizAnswers button').forEach((btn,i)=>{
+      btn.disabled = true;
+      if(i === q.correct) btn.classList.add('correct');
+      if(i === choice && choice !== q.correct) btn.classList.add('wrong');
+    enemies.forEach(e=>{
+      e.y+=e.vy;
+      e.el.style.left=`${e.x}px`;
+      e.el.style.top=`${e.y}px`;
+      e.el.style.width=`${e.w}px`;
+    });
+
+    if(choice === q.correct){
+      state.quizCorrect++;
+      addScore(10,'Quiz');
+      fb.textContent = '✅ Correct! +10';
+      fb.className = 'feedback ok';
+    } else {
+      fb.textContent = `❌ Wrong. Correct: ${q.options[q.correct]}`;
+      fb.className = 'feedback bad';
+    }
+
+    document.getElementById('quizNext').disabled = false;
+  }
+
+  function nextQuiz(){
+    if(state.quizIndex < quizData.length - 1){
+      state.quizIndex++;
+      renderQuiz();
+      return;
+    }
+
+    const passed = state.quizCorrect >= 2;
+    const fb = document.getElementById('quizFeedback');
+    if(passed){
+      addStar('Quiz');
+      addScore(20,'Quiz');
+      fb.textContent = `🏆 Quiz cleared (${state.quizCorrect}/3). Star earned.`;
+      fb.className = 'feedback ok';
+    } else {
+      fb.textContent = `⚠️ Quiz result ${state.quizCorrect}/3. Need 2/3 for a star.`;
+      fb.className = 'feedback bad';
+    }
+    document.getElementById('quizNext').disabled = true;
+  }
+
+  function restartQuiz(){
+    state.quizIndex = 0;
+    state.quizCorrect = 0;
+    renderQuiz();
+  }
+
+  // Matching pairs app
+  function setupPairs(){
+    const deck = [];
+    pairBase.forEach((pair,idx)=>{
+      const [a,b] = pair.split('|');
+      deck.push({id:`${idx}a`,pair:idx,text:a,open:false,matched:false});
+      deck.push({id:`${idx}b`,pair:idx,text:b,open:false,matched:false});
+    bullets.forEach((b,bi)=>{
+      enemies.forEach((e,ei)=>{
+        if(!e) return;
+        const hit=b.x<e.x+e.w && b.x+6>e.x && b.y<e.y+e.h && b.y+14>e.y;
+        if(hit){
+          b.el.remove();
+          bullets[bi]=null;
+          e.el.remove();
+          if(e.isTarget){
+            enemies[ei]=null;
+            waves++;
+            invWaves.textContent=waves;
+            addScore(12,'invaders');
+            fb.textContent='✅ Target destroyed!';
+            fb.className='feedback ok';
+            if(waves>=3){end('🏆 You cleared Space Invaders!',true);return;}
+            spawnWave();
+          }else{
+            lives--;
+            invLives.textContent=lives;
+            fb.textContent='❌ That was not the target sentence.';
+            fb.className='feedback bad';
+            if(lives<=0){end('Game over! Try again.',false);return;}
+          }
+        }
+      });
+    });
+    state.pairsDeck = deck.sort(()=>Math.random()-0.5);
+    state.pairsOpen = [];
+    document.getElementById('pairsFeedback').textContent = '';
+    drawPairs();
+  }
+
+  function drawPairs(){
+    const board = document.getElementById('pairsBoard');
+    board.innerHTML = state.pairsDeck.map((card,i)=>`<button class="pairCard ${card.open?'open':''} ${card.matched?'matched':''}" data-i="${i}">${(card.open||card.matched)?card.text:'?'}</button>`).join('');
+    board.querySelectorAll('button').forEach(btn=>btn.addEventListener('click',()=>flipPair(Number(btn.dataset.i))));
+  }
+    bullets=bullets.filter(Boolean);
+    enemies=enemies.filter(Boolean);
+
+  function flipPair(i){
+    const c = state.pairsDeck[i];
+    if(!c || c.open || c.matched || state.pairsOpen.length===2) return;
+
+    c.open = true;
+    state.pairsOpen.push(c);
+    drawPairs();
+
+    if(state.pairsOpen.length===2){
+      const [a,b] = state.pairsOpen;
+      if(a.pair===b.pair){
+        a.matched = true;
+        b.matched = true;
+        state.pairsOpen = [];
+        addScore(12,'Pairs');
+        document.getElementById('pairsFeedback').textContent = '✅ Match! +12';
+        document.getElementById('pairsFeedback').className = 'feedback ok';
+        if(state.pairsDeck.every(x=>x.matched)){
+          addStar('Pairs');
+          document.getElementById('pairsFeedback').textContent = '🏆 All pairs found. Star earned.';
+        }
+      } else {
+        document.getElementById('pairsFeedback').textContent = '❌ Not a pair.';
+        document.getElementById('pairsFeedback').className = 'feedback bad';
+        setTimeout(()=>{
+          a.open = false;
+          b.open = false;
+          state.pairsOpen = [];
+          drawPairs();
+        },600);
+      }
+    if(enemies.some(e=>e.y+e.h>=arena.clientHeight-30)){
+      lives--;
+      invLives.textContent=lives;
+      fb.textContent='⚠️ Invaders reached your base!';
+      fb.className='feedback bad';
+      if(lives<=0){end('Game over! Try again.',false);return;}
+      spawnWave();
+    }
+  }
+
+  // Wheel app
+  function spinWheel(){
+    const task = wheelTasks[Math.floor(Math.random()*wheelTasks.length)];
+    document.getElementById('wheelResult').textContent = task;
+    document.getElementById('wheelFeedback').textContent = '✅ Challenge generated. +5 points';
+    document.getElementById('wheelFeedback').className = 'feedback ok';
+    addScore(5,'Wheel');
+    raf=requestAnimationFrame(loop);
+  }
+
+  // Anagram app
+  function renderAnagram(){
+    const item = anagrams[state.anagramIndex];
+    document.getElementById('anagramWord').textContent = item.scrambled;
+    document.getElementById('anagramInput').value = '';
+    document.getElementById('anagramFeedback').textContent = '';
+    document.getElementById('anagramFeedback').className = 'feedback';
+  }
+  function onKeyDown(e){if(e.code==='ArrowLeft'||e.code==='ArrowRight')keys[e.code]=true;if(e.code==='Space'){e.preventDefault();shoot();}}
+  function onKeyUp(e){if(e.code==='ArrowLeft'||e.code==='ArrowRight')keys[e.code]=false;}
+
+  document.addEventListener('keydown',onKeyDown);
+  document.addEventListener('keyup',onKeyUp);
+  leftBtn.onmousedown=()=>keys.ArrowLeft=true;
+  rightBtn.onmousedown=()=>keys.ArrowRight=true;
+  leftBtn.onmouseup=leftBtn.onmouseleave=()=>keys.ArrowLeft=false;
+  rightBtn.onmouseup=rightBtn.onmouseleave=()=>keys.ArrowRight=false;
+  shootBtn.onclick=shoot;
+
+  state.cleanup=()=>{
+    if(raf)cancelAnimationFrame(raf);
+    document.removeEventListener('keydown',onKeyDown);
+    document.removeEventListener('keyup',onKeyUp);
+  };
+
+  function checkAnagram(){
+    const item = anagrams[state.anagramIndex];
+    const input = document.getElementById('anagramInput').value.trim().toUpperCase();
+    const fb = document.getElementById('anagramFeedback');
+  spawnWave();
+  loop();
+}
+
+    if(!input){
+      fb.textContent = 'Type an answer first.';
+      fb.className = 'feedback bad';
+      return;
+    }
+function renderUnjumble(){
+  const unit=randomFrom(UNIT_SUMMARY);
+  const target=unit.sentenceOrder;
+  let current=shuffle(target);
+  const draw=()=>{panel.className='panel active';panel.innerHTML=`<div class="prompt">Tap words in correct order.</div><div class="chips">${current.map((w,i)=>`<button class="chip" data-i="${i}">${w}</button>`).join('')}</div><div>Sentence: <span id="sent"></span></div><div id="fb" class="feedback"></div>`;
+    let built=[];panel.querySelectorAll('.chip').forEach(btn=>btn.onclick=()=>{built.push(current[Number(btn.dataset.i)]);btn.disabled=true;sent.textContent=built.join(' ');if(built.length===target.length){const ok=built.join(' ')==target.join(' ');fb.textContent=ok?'✅ Perfect word order! +12':'❌ Order is incorrect.';fb.className='feedback '+(ok?'ok':'bad');if(ok){addScore(12,'unjumble');addStar('unjumble');}}});};
+  draw();
+}
+
+    if(input === item.answer){
+      fb.textContent = '✅ Correct anagram! +10';
+      fb.className = 'feedback ok';
+      addScore(10,'Anagram');
+      if(item.answer === 'CHATBOT') addStar('Anagram');
+    } else {
+      fb.textContent = `❌ Not correct. Try again.`;
+      fb.className = 'feedback bad';
+    }
+  }
+function renderFishing(){
+  const x=randomFrom(QUESTION_BANK.vocab);
+  renderMCQ('fishing',`Fishing Bowl [U${x.unit}] Catch the vocabulary answer.`,x.o,x.c,()=>{});
+}
+function renderBasketball(){
+  const x=randomFrom(QUESTION_BANK.grammar);
+  renderMCQ('basketball',`Basketball [U${x.unit}] Score with grammar!`,x.o,x.c,()=>{});
+}
+
+  function nextAnagram(){
+    state.anagramIndex = (state.anagramIndex + 1) % anagrams.length;
+    renderAnagram();
+  }
+function renderSpeedRace(){
+  const qs=shuffle([...QUESTION_BANK.grammar,...QUESTION_BANK.vocab]).slice(0,3).map(x=>({q:`[U${x.unit}] ${x.q}`,o:x.o,c:x.c}));
+  let i=0,hits=0;
+  const next=()=>{if(i>=qs.length){panel.innerHTML+=`<div class="feedback ${hits>=2?'ok':'bad'}">${hits}/3 correct ${hits>=2?'🏆 Star!':''}</div>`;if(hits>=2){addStar('speed');addScore(20,'speed');}return;}const x=qs[i++];
+    panel.className='panel active';
+    panel.innerHTML=`<div class="prompt">Speed Round ${i}/3: ${x.q}</div><div class="answers">${x.o.map((o,n)=>`<button data-i="${n}">${o}</button>`).join('')}</div><div id="fb" class="feedback"></div><div class="row"><button class="primary" id="next">Next</button></div>`;
+    panel.querySelectorAll('.answers button').forEach(btn=>btn.onclick=()=>{const ok=Number(btn.dataset.i)===x.c;fb.textContent=ok?'✅ Correct!':'❌ Wrong';fb.className='feedback '+(ok?'ok':'bad');if(ok)hits++;panel.querySelectorAll('.answers button').forEach(b=>b.disabled=true);});
+    next.onclick=next;
+    if(i===1)setTimeout(()=>{if(state.active==='speed')next();},30000);
+  };
+  next();
+}
+
+  function resetAll(){
+    localStorage.removeItem('pitGamesV4');
+    state.score = 0;
+    state.stars = 0;
+    state.best = '-';
+    state.quizIndex = 0;
+    state.quizCorrect = 0;
+    state.anagramIndex = 0;
+    hud();
+    restartQuiz();
+    setupPairs();
+    renderAnagram();
+    document.getElementById('wheelResult').textContent = 'Press SPIN to get a challenge.';
+    document.getElementById('wheelFeedback').textContent = '';
+    tip('Reset complete. Choose an app and play.');
+  }
+function renderGuacamole(){
+  const x=randomFrom(QUESTION_BANK.grammar);
+  renderMCQ('guacamole',`Guacamole [U${x.unit}] Whack the correct grammar mole!`,x.o,x.c,()=>{addStar('guacamole');});
+}
+
+  // events
+  document.querySelectorAll('.gameBtn').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      activatePanel(btn.dataset.panel);
+      tip(`Now using ${btn.textContent.split('\n')[0].trim()}.`);
+    });
+  });
+
+  document.getElementById('quizNext').addEventListener('click', nextQuiz);
+  document.getElementById('quizRestart').addEventListener('click', restartQuiz);
+  document.getElementById('pairsRestart').addEventListener('click', setupPairs);
+  document.getElementById('wheelSpin').addEventListener('click', spinWheel);
+  document.getElementById('anagramCheck').addEventListener('click', checkAnagram);
+  document.getElementById('anagramNext').addEventListener('click', nextAnagram);
+  document.getElementById('pauseBtn').addEventListener('click', ()=>{ state.paused = !state.paused; tip(state.paused ? 'Timer paused.' : 'Timer resumed.'); });
+  document.getElementById('resetBtn').addEventListener('click', resetAll);
+
+  // init
+  hud();
+  restartQuiz();
+  setupPairs();
+  renderAnagram();
+  startTimer();
+</script>
+pauseBtn.onclick=()=>{state.paused=!state.paused;};
+resetBtn.onclick=()=>{localStorage.removeItem('gamesStationV1');state.score=0;state.stars=0;state.best='-';state.seconds=0;timer.textContent='00:00';hud();openGame(state.active);};
+
+hud();buildMenu();openGame(state.active);startTimer();
+</script>
 </body>
 </html>
