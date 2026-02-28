@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+<html lang="es">
 <head>
 <meta charset="UTF-8">
 <title>Vocabulary Station</title>
@@ -131,13 +132,10 @@ button:hover { background: #0288D1; color: white; }
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>THE PIT – Games Station</title>
+  <title>THE PIT – Menú de Juegos</title>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
-  <title>Games Station</title>
   <style>
     :root{--bg1:#dbeafe;--bg2:#2563eb;--bg3:#0b1a44;--ink:#0f172a;--panel:#f8fafc;--line:#bfdbfe;--brand:#1d4ed8;--ok:#166534;--bad:#991b1b}
-    :root{
-      --bg:#eaf2ff;--panel:#fff;--line:#bfd7ff;--ink:#102a52;--blue:#2563eb;--blue-soft:#dbeafe;--ok:#166534;--bad:#991b1b;
-    }
     *{box-sizing:border-box}
     body{margin:0;font-family:'Orbitron',sans-serif;background:radial-gradient(circle,var(--bg1) 0%,var(--bg2) 56%,var(--bg3) 100%);color:var(--ink)}
     .app{width:min(1120px,95vw);margin:14px auto 92px;background:#fff;border-radius:20px;padding:14px;box-shadow:0 18px 42px rgba(2,6,23,.45)}
@@ -156,40 +154,12 @@ button:hover { background: #0288D1; color: white; }
     .panel.active{display:block}
     .panel h2{margin:0 0 8px;color:#1e3a8a;font-size:15px}
     .question{font-size:13px;margin:6px 0 8px}
-    body{margin:0;font-family:Arial,Helvetica,sans-serif;background:linear-gradient(180deg,#eaf2ff 0%,#dbeafe 100%);color:var(--ink)}
-    .app{width:min(1020px,95vw);margin:12px auto 94px;background:var(--panel);border:2px solid var(--line);border-radius:14px;padding:14px;box-shadow:0 12px 30px rgba(37,99,235,.15)}
-    h1{margin:0 0 6px;text-align:center;color:#1e3a8a;font-size:clamp(20px,4vw,30px)}
-    .subtitle{text-align:center;margin:0 0 12px;font-size:14px;color:#1d4ed8;line-height:1.45}
-    .hud{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:8px;margin-bottom:12px}
-    .box{background:#eff6ff;border:2px solid #93c5fd;border-radius:10px;padding:10px;font-weight:700;font-size:14px}
-    .help{background:#ecfeff;border:2px solid #67e8f9;border-radius:10px;padding:10px;margin-bottom:12px;font-size:13px;line-height:1.4}
-
-    .gameGrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:8px;margin-bottom:12px}
-    .gameBtn{border:2px solid var(--line);background:#fff;border-radius:10px;padding:10px;cursor:pointer;text-align:left;font-weight:700;color:#1e3a8a;min-height:86px}
-    .gameBtn.active{background:var(--blue-soft);border-color:var(--blue)}
-    .gameBtn small{display:block;color:#334155;font-weight:600;margin-top:4px;line-height:1.3}
-
-    .workspace{background:#f8fbff;border:2px solid #dbeafe;border-radius:12px;padding:12px}
-    .workspace h2{margin:0 0 6px;font-size:18px;color:#1e3a8a}
-    .meta{font-size:13px;margin:0 0 8px;color:#334155}
-    .bank{background:#f0f9ff;border:2px dashed #7dd3fc;border-radius:10px;padding:10px;margin-bottom:10px}
-    .bank strong{display:block;margin-bottom:6px}
-    .bank ul{margin:0;padding-left:18px}
-    .bank li{font-size:13px;line-height:1.45}
-
-    .question{font-size:15px;font-weight:700;margin:8px 0}
     .answers{display:grid;gap:8px}
     .answers button{border:2px solid var(--line);background:#fff;color:#1e3a8a;border-radius:10px;padding:10px;font-family:inherit;font-size:11px;font-weight:800;text-align:left;cursor:pointer}
     .answers button:disabled{opacity:.85;cursor:not-allowed}
     .answers button.correct{background:#dcfce7;border-color:#22c55e;color:var(--ok)}
     .answers button.wrong{background:#fee2e2;border-color:#ef4444;color:var(--bad)}
     .feedback{min-height:18px;margin-top:8px;font-size:12px;font-weight:800}
-    .answers button,.btn{border:2px solid var(--line);background:#fff;border-radius:10px;padding:10px;font-size:14px;cursor:pointer;text-align:left;color:#1e3a8a;font-weight:700}
-    .answers button.correct{border-color:#22c55e;background:#dcfce7;color:#166534}
-    .answers button.wrong{border-color:#ef4444;background:#fee2e2;color:#991b1b}
-    .btnRow{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
-    .btn.primary{background:var(--blue);color:#fff;border-color:var(--blue)}
-    .feedback{min-height:22px;margin-top:8px;font-size:14px;font-weight:700}
     .ok{color:var(--ok)} .bad{color:var(--bad)}
     .row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
     .btn{border:0;border-radius:10px;padding:9px 12px;font-family:inherit;font-size:11px;font-weight:900;cursor:pointer}
@@ -205,13 +175,9 @@ button:hover { background: #0288D1; color: white; }
 
     .anagramWord{font-size:13px;font-weight:900;color:#1e3a8a;margin:6px 0}
     .anagramInput{width:100%;border:2px solid var(--line);border-radius:10px;padding:10px;font-family:inherit;font-size:12px}
-    .wordBig{font-size:22px;letter-spacing:2px;font-weight:800;color:#1e3a8a;margin:8px 0;word-break:break-word}
-    .input{width:100%;padding:10px;border:2px solid var(--line);border-radius:10px;font-size:15px}
 
     .fixed{position:fixed;left:0;right:0;bottom:0;background:#0f172a;border-top:2px solid #1e293b;padding:8px;display:flex;justify-content:center;gap:8px;flex-wrap:wrap;z-index:20}
     .fixed button{border:0;border-radius:10px;padding:8px 10px;background:#dbeafe;color:#1e3a8a;font-family:inherit;font-size:11px;font-weight:900;cursor:pointer}
-    .fixed{position:fixed;left:0;right:0;bottom:0;background:#0f172a;padding:8px;border-top:2px solid #1e293b;display:flex;justify-content:center;gap:8px;flex-wrap:wrap}
-    .fixed button{border:0;border-radius:10px;padding:10px 12px;background:#dbeafe;color:#1e3a8a;font-weight:700;cursor:pointer}
 
     @media (max-width:900px){.gameMenu{grid-template-columns:repeat(2,minmax(140px,1fr))}}
     @media (max-width:680px){
@@ -222,8 +188,100 @@ button:hover { background: #0288D1; color: white; }
       .answers button,.gameBtn,.btn,.fixed button{font-size:10px}
       .pairsBoard{grid-template-columns:repeat(4,minmax(56px,1fr));gap:6px}
       .pairCard{height:56px;font-size:10px}
+    body{
+      margin:0;
+      font-family:'Orbitron',sans-serif;
+      background:radial-gradient(circle,#bae6fd 0%,#0ea5e9 55%,#082f49 100%);
+      color:#0f172a;
     }
-    @media (max-width:640px){.app{padding:10px;margin:8px auto 92px}.box,.help,.bank li,.question,.feedback,.answers button,.btn,.input,.meta{font-size:13px}.wordBig{font-size:18px}}
+    .stationContainer{
+      width:min(1120px, calc(100vw - 24px));
+      margin:14px auto;
+      background:#fff;
+      border-radius:24px;
+      padding:24px;
+      box-shadow:0 25px 60px rgba(0,0,0,.45);
+    }
+    h1{margin:0 0 8px;text-align:center;color:#0c4a6e;letter-spacing:2px}
+    .sub{text-align:center;margin:0 0 18px;color:#0369a1;font-size:13px}
+    .screen{display:none}.screen.active{display:block}
+
+    .menuGrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
+    .gameCard{
+      border:2px solid #38bdf8;
+      border-radius:18px;
+      background:#f0f9ff;
+      padding:14px;
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+    }
+    .gameCard h3{margin:0;color:#0c4a6e}
+    .gameCard p{margin:0;font-size:12px;line-height:1.5;color:#075985}
+
+    .btn{border:none;border-radius:12px;padding:11px 14px;font-weight:900;cursor:pointer;font-family:'Orbitron',sans-serif}
+    .startBtn{background:#0ea5e9;color:#fff}
+    .ghostBtn{background:#fff;border:2px solid #7dd3fc;color:#0c4a6e}
+
+    .infoBar{background:#e0f2fe;border:2px solid #7dd3fc;border-radius:12px;padding:10px 12px;margin:0 0 10px;font-size:12px;color:#0c4a6e}
+    .hud{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 10px}
+    .pill{background:#e0f2fe;border:2px solid #7dd3fc;border-radius:10px;padding:8px 10px;font-size:11px;font-weight:900;color:#0c4a6e}
+
+    .gameWrap{display:grid;grid-template-columns:minmax(0,1fr) 290px;gap:12px}
+    .board{
+      background:#000;
+      border:2px solid #0ea5e9;
+      border-radius:16px;
+      padding:8px;
+      display:grid;
+      grid-template-columns:repeat(8,1fr);
+      gap:3px;
+      min-height:430px;
+    }
+    .cell{
+      height:48px;
+      border-radius:8px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      position:relative;
+      color:#fff;
+      font-size:12px;
+      font-weight:700;
+      text-align:center;
+      line-height:1.1;
+      padding:2px;
+      border:1px solid rgba(14,165,233,.15);
+      background:rgba(14,165,233,.03);
+    }
+    .word{color:#fff;background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.25)}
+    .pac::before{
+      content:"";
+      width:30px;
+      height:30px;
+      background:#1d4ed8;
+      border-radius:50%;
+      clip-path:polygon(50% 50%,100% 22%,100% 78%);
+      transform:rotate(var(--r,0deg));
+      position:absolute;
+    }
+    .ghost::before{
+      content:"";
+      width:28px;
+      height:30px;
+      background:#facc15;
+      border-radius:14px 14px 7px 7px;
+      position:absolute;
+      box-shadow:inset 0 -4px 0 0 #f59e0b;
+    }
+    .ghost::after{
+      content:"• •";
+      color:#111827;
+      font-size:12px;
+      letter-spacing:2px;
+      position:absolute;
+      top:13px;
+    }
   </style>
 </head>
 
@@ -285,35 +343,28 @@ button:hover { background: #0288D1; color: white; }
   <main class="app">
     <h1>GAMES STATION</h1>
     <p class="sub">Visible working apps: Quiz • Matching Pairs • Spin Wheel • Anagram</p>
-    <h1>Games Station</h1>
-    <p class="subtitle">Pick one game app first. The app automatically selects the best activity content for that game structure.</p>
 
     <section class="hud">
       <div class="box">SCORE: <span id="score">0</span></div>
       <div class="box">STARS: <span id="stars">0</span></div>
       <div class="box">TIME: <span id="timer">00:00</span></div>
       <div class="box">BEST APP: <span id="best">-</span></div>
-      <div class="box">Score: <span id="score">0</span></div>
-      <div class="box">Stars: <span id="stars">0</span></div>
-      <div class="box">Time: <span id="timer">00:00</span></div>
-      <div class="box">Selected app: <span id="selectedApp">Space Invaders</span></div>
     </section>
 
     <div class="tip"><strong>Tip:</strong> <span id="tip">Open any app and play. Each app gives points and stars.</span></div>
-    <div class="help"><strong>Flow:</strong> 1) Choose a game app. 2) Read its activity focus and language bank. 3) Play that activity.</div>
 
     <section class="gameMenu" id="gameMenu">
       <button class="gameBtn active" data-panel="quiz">📝 Quiz App<br><small>3-question skill check</small></button>
       <button class="gameBtn" data-panel="pairs">🃏 Matching Pairs App<br><small>memory + vocabulary</small></button>
       <button class="gameBtn" data-panel="wheel">🎯 Spin Wheel App<br><small>random speaking/writing tasks</small></button>
       <button class="gameBtn" data-panel="anagram">🔤 Anagram App<br><small>unscramble words</small></button>
-    <section class="gameGrid" id="gameGrid">
-      <button class="gameBtn active" data-game="space">🚀 Space Invaders <small>Activity: Correct spelling (shoot the right form)</small></button>
-      <button class="gameBtn" data-game="guac">🥑 Guacamole Smash <small>Activity: Categories (smash only verbs)</small></button>
-      <button class="gameBtn" data-game="fish">🐟 Fishbowl <small>Activity: Vocabulary meaning / translation</small></button>
-      <button class="gameBtn" data-game="basket">🏀 Basketball Shot <small>Activity: Grammar choice (1 best answer)</small></button>
-      <button class="gameBtn" data-game="snakes">🐍 Snakes & Ladders <small>Activity: Word order (pick correct sentence)</small></button>
     </section>
+    .side{background:#f0f9ff;border:2px solid #7dd3fc;border-radius:14px;padding:10px}
+    .order{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}
+    .chip{padding:4px 8px;border:1px solid #7dd3fc;border-radius:999px;font-size:10px;background:#fff;color:#0369a1}
+    .chip.done{background:#dcfce7;border-color:#86efac;color:#166534}
+    .feedback{min-height:24px;font-size:11px;font-weight:800}
+    .ok{color:#166534}.bad{color:#991b1b}
 
     <section id="panel-quiz" class="panel active">
       <h2>Quiz App</h2>
@@ -325,9 +376,9 @@ button:hover { background: #0288D1; color: white; }
         <button class="btn soft" id="quizRestart">Restart Quiz</button>
       </div>
     </section>
-    <section class="workspace" id="workspace">
-      <h2 id="gameTitle">🚀 Space Invaders</h2>
-      <p id="gameMeta" class="meta">Structure fit: Fast accuracy game works best with spelling recognition.</p>
+    .controls{display:grid;grid-template-columns:repeat(3,1fr);gap:5px;max-width:180px;margin-top:8px}
+    .controls .btn{padding:7px 10px}
+    .blank{visibility:hidden}
 
     <section id="panel-pairs" class="panel">
       <h2>Matching Pairs App</h2>
@@ -335,9 +386,27 @@ button:hover { background: #0288D1; color: white; }
       <div id="pairsFeedback" class="feedback"></div>
       <div class="row">
         <button class="btn soft" id="pairsRestart">Restart Pairs</button>
-      <div class="bank">
-        <strong id="bankTitle">Language Bank (Spelling)</strong>
-        <ul id="bankList"></ul>
+    @media (max-width:860px){.gameWrap{grid-template-columns:1fr}.board{min-height:360px}}
+    @media (max-width:560px){.stationContainer{padding:14px}.cell{height:40px;font-size:10px}}
+  </style>
+</head>
+<body>
+  <main class="stationContainer">
+    <h1>THE PIT · MENÚ DE JUEGOS</h1>
+    <p class="sub">El alumno primero elige un juego. Luego el sistema asigna automáticamente la habilidad adecuada.</p>
+
+    <section id="menuScreen" class="screen active">
+      <div class="menuGrid">
+        <article class="gameCard">
+          <h3>🟦 Comecocos Clásico</h3>
+          <p>Juego activo. Fondo negro, palabras blancas, Pacman azul y monstruo amarillo.</p>
+          <button id="openGameBtn" class="btn startBtn">Elegir juego</button>
+        </article>
+        <article class="gameCard">
+          <h3>🚧 Próximamente</h3>
+          <p>Otros juegos del menú se activarán después. Ahora se trabaja una experiencia clara y funcional.</p>
+          <button class="btn ghostBtn" disabled>Bloqueado</button>
+        </article>
       </div>
     </section>
 
@@ -347,11 +416,12 @@ button:hover { background: #0288D1; color: white; }
       <div id="wheelFeedback" class="feedback"></div>
       <div class="row">
         <button class="btn primary" id="wheelSpin">SPIN</button>
-      <p id="question" class="question"></p>
-      <div id="answers" class="answers"></div>
-      <div id="textTask" style="display:none">
-        <div id="scrambled" class="wordBig"></div>
-        <input id="textInput" class="input" placeholder="Type your answer" />
+    <section id="gameScreen" class="screen">
+      <div id="assignInfo" class="infoBar"></div>
+      <div class="hud">
+        <div class="pill">Tiempo: <span id="timer">00:00</span></div>
+        <div class="pill">Vidas: <span id="lives">3</span></div>
+        <div class="pill">Siguiente palabra: <span id="nextWord">-</span></div>
       </div>
     </section>
 
@@ -364,10 +434,25 @@ button:hover { background: #0288D1; color: white; }
       <div class="row">
         <button class="btn primary" id="anagramCheck">Check</button>
         <button class="btn soft" id="anagramNext">Next Anagram</button>
-      <p id="feedback" class="feedback"></p>
-      <div class="btnRow">
-        <button id="checkBtn" class="btn primary" style="display:none">Check</button>
-        <button id="nextBtn" class="btn">Next Task</button>
+      <div class="infoBar">Instrucciones: mueve al Comecocos con flechas (teclado o botones). Debes comer las palabras en el orden correcto de la frase.</div>
+
+      <div class="gameWrap">
+        <div id="board" class="board"></div>
+        <aside class="side">
+          <strong>Orden correcto</strong>
+          <div id="orderChips" class="order"></div>
+          <div id="feedback" class="feedback"></div>
+
+          <div class="controls">
+            <span class="blank">.</span><button class="btn ghostBtn" data-dir="up">↑</button><span class="blank">.</span>
+            <button class="btn ghostBtn" data-dir="left">←</button><button class="btn ghostBtn" data-dir="down">↓</button><button class="btn ghostBtn" data-dir="right">→</button>
+          </div>
+
+          <div style="display:flex;gap:6px;margin-top:10px;flex-wrap:wrap">
+            <button id="restartBtn" class="btn ghostBtn">Reiniciar</button>
+            <button id="backBtn" class="btn ghostBtn">Volver al menú</button>
+          </div>
+        </aside>
       </div>
     </section>
   </main>
@@ -434,6 +519,11 @@ function stopTimer() {
 function setTip(text) {
     document.getElementById("tip-text").textContent = text;
 }
+  const sentence = ['I','always','do','my','homework','at','night'];
+  const size = 8;
+  const skillsByGame = {
+    comecocos: ['Word Order', 'Grammar']
+  };
 
   const state = {
     score: 0,
@@ -448,69 +538,15 @@ function setTip(text) {
     pairsDeck: [],
     pairsOpen: [],
     anagramIndex: 0
-  const state = {score:0, stars:0, seconds:0, paused:false, timerRef:null, game:'space', index:0};
-
-  const games = {
-    space: {
-      title:'🚀 Space Invaders',
-      meta:'Structure fit: Fast accuracy game works best with spelling recognition.',
-      bankTitle:'Language Bank (Spelling)',
-      bank:['VOCABULARY','SENTENCE','TRANSLATION','PRONUNCIATION'],
-      type:'text',
-      tasks:[
-        {scrambled:'CAVYBULARO', answer:'VOCABULARY'},
-        {scrambled:'NETSENCE', answer:'SENTENCE'},
-        {scrambled:'NORTISATLNA', answer:'TRANSLATION'}
-      ]
-    },
-    guac: {
-      title:'🥑 Guacamole Smash',
-      meta:'Structure fit: Smash/tap game is ideal for category sorting (e.g., verbs only).',
-      bankTitle:'Language Bank (Categories: VERBS)',
-      bank:['play (verb)','study (verb)','read (verb)','teacher (noun)'],
-      type:'mcq',
-      tasks:[
-        {q:'Smash ONLY verbs. Which is a verb?', options:['teacher','play','classroom'], correct:1},
-        {q:'Smash ONLY verbs. Which is a verb?', options:['study','book','window'], correct:0},
-        {q:'Smash ONLY verbs. Which is a verb?', options:['happy','read','desk'], correct:1}
-      ]
-    },
-    fish: {
-      title:'🐟 Fishbowl',
-      meta:'Structure fit: Guessing game works well for vocabulary meaning and translation.',
-      bankTitle:'Language Bank (Vocabulary/Translation)',
-      bank:['book = libro','homework = tarea','teacher = profesor/profesora'],
-      type:'mcq',
-      tasks:[
-        {q:'What is "book" in Spanish?', options:['libro','silla','escuela'], correct:0},
-        {q:'What is "homework" in Spanish?', options:['tarea','puerta','agua'], correct:0},
-        {q:'What is "teacher" in Spanish?', options:['mesa','profesor','lápiz'], correct:1}
-      ]
-    },
-    basket: {
-      title:'🏀 Basketball Shot',
-      meta:'Structure fit: One-shot choice is perfect for grammar multiple choice.',
-      bankTitle:'Language Bank (Grammar)',
-      bank:['She/He/It + verb-s','because = reason','although = contrast'],
-      type:'mcq',
-      tasks:[
-        {q:'She ___ English every day.', options:['study','studies','studying'], correct:1},
-        {q:'Choose connector for contrast.', options:['because','although','so'], correct:1},
-        {q:'He ___ to school by bus.', options:['go','goes','going'], correct:1}
-      ]
-    },
-    snakes: {
-      title:'🐍 Snakes & Ladders',
-      meta:'Structure fit: Step-by-step board game fits sentence order correction.',
-      bankTitle:'Language Bank (Word Order)',
-      bank:['Subject + adverb + verb + complement','I always read at night.','She usually arrives on time.'],
-      type:'mcq',
-      tasks:[
-        {q:'Pick correct sentence.', options:['Always I read at night.','I always read at night.','I read always at night.'], correct:1},
-        {q:'Pick correct sentence.', options:['She usually arrives on time.','Usually she arrives on time.','She arrives usually on time.'], correct:0},
-        {q:'Pick correct sentence.', options:['We often play after class.','Often we play after class.','We play often after class.'], correct:0}
-      ]
-    }
+    pac:{x:0,y:0,dir:'right'},
+    ghost:{x:7,y:7},
+    words:[],
+    eaten:0,
+    lives:3,
+    seconds:0,
+    timerRef:null,
+    ghostRef:null,
+    running:false
   };
 
   const saved = JSON.parse(localStorage.getItem('pitGamesV4') || '{}');
@@ -543,23 +579,60 @@ function setTip(text) {
 
   function persist(){
     localStorage.setItem('pitGamesV4', JSON.stringify({score:state.score, stars:state.stars, best:state.best}));
+  function setScreen(id){
+    document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
   }
 
   function hud(){
     document.getElementById('score').textContent = state.score;
     document.getElementById('stars').textContent = state.stars;
     document.getElementById('best').textContent = state.best;
+  function updateAssignInfo(){
+    const chosenSkill = skillsByGame.comecocos[Math.floor(Math.random()*skillsByGame.comecocos.length)];
+    document.getElementById('assignInfo').textContent = `Juego elegido: Comecocos Clásico · Skill asignada automáticamente: ${chosenSkill}`;
   }
 
   function tip(text){
     document.getElementById('tip').textContent = text;
   }
+  function setupGame(){
+    state.pac = {x:0,y:0,dir:'right'};
+    state.ghost = {x:size-1,y:size-1};
+    state.eaten = 0;
+    state.lives = 3;
+    state.seconds = 0;
+    state.running = true;
+
+    const fixedSlots = [
+      {x:1,y:1},{x:3,y:1},{x:5,y:1},{x:6,y:2},{x:5,y:3},{x:3,y:3},{x:1,y:3}
+    ];
+    state.words = sentence.map((word, i) => ({ word, x:fixedSlots[i].x, y:fixedSlots[i].y, eaten:false }));
+
+    drawOrder();
+    renderBoard();
+    updateHUD();
+    setFeedback('Empieza el juego: come la primera palabra correcta.', 'ok');
+
+    clearInterval(state.timerRef);
+    state.timerRef = setInterval(() => {
+      if(!state.running) return;
+      state.seconds++;
+      updateHUD();
+    }, 1000);
 
   function addScore(points, app){
     state.score += points;
     if(app) state.best = app;
     hud();
     persist();
+    clearInterval(state.ghostRef);
+    state.ghostRef = setInterval(() => {
+      if(!state.running) return;
+      moveGhost();
+      checkCollision();
+      renderBoard();
+    }, 850);
   }
 
   function addStar(app){
@@ -567,7 +640,10 @@ function setTip(text) {
     state.best = app;
     hud();
     persist();
-    document.getElementById('selectedApp').textContent = games[state.game].title.replace(/^\S+\s/, '');
+  function drawOrder(){
+    document.getElementById('orderChips').innerHTML = sentence
+      .map((w,i)=>`<span class="chip ${i<state.eaten?'done':''}">${i+1}. ${w}</span>`)
+      .join('');
   }
 
   function startTimer(){
@@ -579,6 +655,12 @@ function setTip(text) {
       const s = String(state.seconds%60).padStart(2,'0');
       document.getElementById('timer').textContent = `${m}:${s}`;
     },1000);
+  function updateHUD(){
+    const m = String(Math.floor(state.seconds/60)).padStart(2,'0');
+    const s = String(state.seconds%60).padStart(2,'0');
+    document.getElementById('timer').textContent = `${m}:${s}`;
+    document.getElementById('lives').textContent = state.lives;
+    document.getElementById('nextWord').textContent = sentence[state.eaten] || '¡Completada!';
   }
 
   function activatePanel(panel){
@@ -586,9 +668,10 @@ function setTip(text) {
     document.getElementById(`panel-${panel}`).classList.add('active');
     document.querySelectorAll('.gameBtn').forEach(b=>b.classList.remove('active'));
     document.querySelector(`.gameBtn[data-panel="${panel}"]`).classList.add('active');
-  function renderBank(game){
-    document.getElementById('bankTitle').textContent = game.bankTitle;
-    document.getElementById('bankList').innerHTML = game.bank.map(i=>`<li>${i}</li>`).join('');
+  function setFeedback(msg, type=''){
+    const fb = document.getElementById('feedback');
+    fb.textContent = msg;
+    fb.className = `feedback ${type}`.trim();
   }
 
   // Quiz app
@@ -604,11 +687,10 @@ function setTip(text) {
     document.querySelectorAll('#quizAnswers button').forEach(btn=>{
       btn.addEventListener('click',()=>answerQuiz(Number(btn.dataset.i)));
     });
-  function clearFeedback(){
-    const fb = document.getElementById('feedback');
-    fb.textContent = '';
-    fb.className = 'feedback';
   }
+  function renderBoard(){
+    const board = document.getElementById('board');
+    board.innerHTML = '';
 
   function answerQuiz(choice){
     if(state.quizAnswered) return;
@@ -627,39 +709,22 @@ function setTip(text) {
       addScore(10,'Quiz');
       fb.textContent = '✅ Correct! +10';
       fb.className = 'feedback ok';
-  function renderTask(){
-    const game = games[state.game];
-    const task = game.tasks[state.index % game.tasks.length];
-
-    document.getElementById('gameTitle').textContent = game.title;
-    document.getElementById('gameMeta').textContent = game.meta;
-    renderBank(game);
-    clearFeedback();
-
-    const answersEl = document.getElementById('answers');
-    const textTask = document.getElementById('textTask');
-    const checkBtn = document.getElementById('checkBtn');
-
-    if(game.type === 'mcq'){
-      document.getElementById('question').textContent = task.q;
-      textTask.style.display = 'none';
-      checkBtn.style.display = 'none';
-      answersEl.style.display = 'grid';
-      answersEl.innerHTML = task.options.map((o,i)=>`<button data-i="${i}">${o}</button>`).join('');
-      answersEl.querySelectorAll('button').forEach(btn=>btn.addEventListener('click',()=>checkMCQ(Number(btn.dataset.i), task.correct)));
     } else {
       fb.textContent = `❌ Wrong. Correct: ${q.options[q.correct]}`;
       fb.className = 'feedback bad';
-      document.getElementById('question').textContent = 'Type the correct spelling.';
-      answersEl.style.display = 'none';
-      textTask.style.display = 'block';
-      checkBtn.style.display = 'inline-block';
-      document.getElementById('scrambled').textContent = task.scrambled;
-      document.getElementById('textInput').value = '';
     }
+    for(let y=0;y<size;y++){
+      for(let x=0;x<size;x++){
+        const cell = document.createElement('div');
+        cell.className = 'cell';
 
     document.getElementById('quizNext').disabled = false;
   }
+        const word = state.words.find(w=>!w.eaten && w.x===x && w.y===y);
+        if(word){
+          cell.classList.add('word');
+          cell.textContent = word.word;
+        }
 
   function nextQuiz(){
     if(state.quizIndex < quizData.length - 1){
@@ -667,6 +732,10 @@ function setTip(text) {
       renderQuiz();
       return;
     }
+        if(state.ghost.x===x && state.ghost.y===y){
+          cell.classList.add('ghost');
+          cell.textContent = '';
+        }
 
     const passed = state.quizCorrect >= 2;
     const fb = document.getElementById('quizFeedback');
@@ -674,22 +743,19 @@ function setTip(text) {
       addStar('Quiz');
       addScore(20,'Quiz');
       fb.textContent = `🏆 Quiz cleared (${state.quizCorrect}/3). Star earned.`;
-  function checkMCQ(choice, correct){
-    const buttons = document.querySelectorAll('#answers button');
-    buttons.forEach((b,i)=>{
-      b.disabled = true;
-      if(i === correct) b.classList.add('correct');
-      if(i === choice && choice !== correct) b.classList.add('wrong');
-    });
-    const fb = document.getElementById('feedback');
-    if(choice === correct){
-      state.score += 10;
-      fb.textContent = '✅ Correct +10';
       fb.className = 'feedback ok';
     } else {
       fb.textContent = `⚠️ Quiz result ${state.quizCorrect}/3. Need 2/3 for a star.`;
-      fb.textContent = '❌ Not correct.';
       fb.className = 'feedback bad';
+        if(state.pac.x===x && state.pac.y===y){
+          cell.classList.add('pac');
+          cell.textContent = '';
+          const rot = {right:'0deg',down:'90deg',left:'180deg',up:'270deg'}[state.pac.dir] || '0deg';
+          cell.style.setProperty('--r', rot);
+        }
+
+        board.appendChild(cell);
+      }
     }
     document.getElementById('quizNext').disabled = true;
   }
@@ -699,6 +765,11 @@ function setTip(text) {
     state.quizCorrect = 0;
     renderQuiz();
   }
+  function move(dir){
+    if(!state.running) return;
+    const vectors = {up:[0,-1],down:[0,1],left:[-1,0],right:[1,0]};
+    const d = vectors[dir];
+    if(!d) return;
 
   // Matching pairs app
   function setupPairs(){
@@ -713,11 +784,17 @@ function setTip(text) {
     document.getElementById('pairsFeedback').textContent = '';
     drawPairs();
   }
+    state.pac.dir = dir;
+    state.pac.x = Math.max(0, Math.min(size-1, state.pac.x + d[0]));
+    state.pac.y = Math.max(0, Math.min(size-1, state.pac.y + d[1]));
 
   function drawPairs(){
     const board = document.getElementById('pairsBoard');
     board.innerHTML = state.pairsDeck.map((card,i)=>`<button class="pairCard ${card.open?'open':''} ${card.matched?'matched':''}" data-i="${i}">${(card.open||card.matched)?card.text:'?'}</button>`).join('');
     board.querySelectorAll('button').forEach(btn=>btn.addEventListener('click',()=>flipPair(Number(btn.dataset.i))));
+    checkWordEat();
+    checkCollision();
+    renderBoard();
   }
 
   function flipPair(i){
@@ -750,6 +827,33 @@ function setTip(text) {
           state.pairsOpen = [];
           drawPairs();
         },600);
+  function checkWordEat(){
+    const item = state.words.find(w=>!w.eaten && w.x===state.pac.x && w.y===state.pac.y);
+    if(!item) return;
+
+    const expected = sentence[state.eaten];
+    if(item.word === expected){
+      item.eaten = true;
+      state.eaten++;
+      drawOrder();
+      updateHUD();
+      setFeedback(`✅ Correcto: ${item.word}`, 'ok');
+
+      if(state.eaten === sentence.length){
+        state.running = false;
+        clearInterval(state.timerRef);
+        clearInterval(state.ghostRef);
+        setFeedback('🏆 ¡Excelente! Ordenaste toda la frase.', 'ok');
+      }
+    } else {
+      state.lives--;
+      updateHUD();
+      setFeedback(`❌ Orden incorrecto. Debías comer: ${expected}`, 'bad');
+      if(state.lives <= 0){
+        state.running = false;
+        clearInterval(state.timerRef);
+        clearInterval(state.ghostRef);
+        setFeedback('💀 Sin vidas. Reinicia para intentarlo otra vez.', 'bad');
       }
     }
   }
@@ -770,7 +874,11 @@ function setTip(text) {
     document.getElementById('anagramInput').value = '';
     document.getElementById('anagramFeedback').textContent = '';
     document.getElementById('anagramFeedback').className = 'feedback';
-    hud();
+  function moveGhost(){
+    const dx = state.pac.x - state.ghost.x;
+    const dy = state.pac.y - state.ghost.y;
+    if(Math.abs(dx) >= Math.abs(dy) && dx !== 0) state.ghost.x += Math.sign(dx);
+    else if(dy !== 0) state.ghost.y += Math.sign(dy);
   }
 
   function checkAnagram(){
@@ -786,23 +894,18 @@ function setTip(text) {
 
     if(input === item.answer){
       fb.textContent = '✅ Correct anagram! +10';
-  function checkText(){
-    const game = games[state.game];
-    const task = game.tasks[state.index % game.tasks.length];
-    const input = document.getElementById('textInput').value.trim().toUpperCase();
-    const fb = document.getElementById('feedback');
-    if(!input){ fb.textContent = 'Type an answer first.'; fb.className = 'feedback bad'; return; }
-    if(input === task.answer){
-      state.score += 10;
-      fb.textContent = '✅ Correct +10';
       fb.className = 'feedback ok';
       addScore(10,'Anagram');
       if(item.answer === 'CHATBOT') addStar('Anagram');
-      hud();
     } else {
       fb.textContent = `❌ Not correct. Try again.`;
-      fb.textContent = `❌ Incorrect. Correct: ${task.answer}`;
       fb.className = 'feedback bad';
+  function checkCollision(){
+    if(state.running && state.pac.x === state.ghost.x && state.pac.y === state.ghost.y){
+      state.running = false;
+      clearInterval(state.timerRef);
+      clearInterval(state.ghostRef);
+      setFeedback('👾 El monstruo te atrapó. Pulsa Reiniciar.', 'bad');
     }
   }
 
@@ -810,6 +913,11 @@ function setTip(text) {
     state.anagramIndex = (state.anagramIndex + 1) % anagrams.length;
     renderAnagram();
   }
+  document.getElementById('openGameBtn').addEventListener('click', () => {
+    updateAssignInfo();
+    setScreen('gameScreen');
+    setupGame();
+  });
 
   function resetAll(){
     localStorage.removeItem('pitGamesV4');
@@ -819,11 +927,6 @@ function setTip(text) {
     state.quizIndex = 0;
     state.quizCorrect = 0;
     state.anagramIndex = 0;
-  function switchGame(key){
-    state.game = key;
-    state.index = 0;
-    document.querySelectorAll('.gameBtn').forEach(b=>b.classList.toggle('active', b.dataset.game === key));
-    renderTask();
     hud();
     restartQuiz();
     setupPairs();
@@ -832,6 +935,13 @@ function setTip(text) {
     document.getElementById('wheelFeedback').textContent = '';
     tip('Reset complete. Choose an app and play.');
   }
+  document.getElementById('restartBtn').addEventListener('click', setupGame);
+  document.getElementById('backBtn').addEventListener('click', () => {
+    state.running = false;
+    clearInterval(state.timerRef);
+    clearInterval(state.ghostRef);
+    setScreen('menuScreen');
+  });
 
   // events
   document.querySelectorAll('.gameBtn').forEach(btn=>{
@@ -839,20 +949,8 @@ function setTip(text) {
       activatePanel(btn.dataset.panel);
       tip(`Now using ${btn.textContent.split('\n')[0].trim()}.`);
     });
-  document.querySelectorAll('.gameBtn').forEach(btn=>btn.addEventListener('click',()=>switchGame(btn.dataset.game)));
-  document.getElementById('nextBtn').addEventListener('click',()=>{
-    state.index++;
-    if(state.index % games[state.game].tasks.length === 0) state.stars += 1;
-    renderTask();
-    hud();
-  });
-  document.getElementById('checkBtn').addEventListener('click',checkText);
-  document.getElementById('pauseBtn').addEventListener('click',()=>{ state.paused = !state.paused; });
-  document.getElementById('resetBtn').addEventListener('click',()=>{
-    state.score = 0; state.stars = 0; state.seconds = 0; state.index = 0;
-    document.getElementById('timer').textContent = '00:00';
-    switchGame('space');
-    hud();
+  document.querySelectorAll('[data-dir]').forEach(btn => {
+    btn.addEventListener('click', () => move(btn.dataset.dir));
   });
 
   document.getElementById('quizNext').addEventListener('click', nextQuiz);
@@ -869,8 +967,11 @@ function setTip(text) {
   restartQuiz();
   setupPairs();
   renderAnagram();
-  renderTask();
   startTimer();
+  window.addEventListener('keydown', (e) => {
+    const map = {ArrowUp:'up',ArrowDown:'down',ArrowLeft:'left',ArrowRight:'right'};
+    if(map[e.key]){ e.preventDefault(); move(map[e.key]); }
+  });
 </script>
 
 </body>
