@@ -160,8 +160,8 @@ button:hover { background: #0288D1; color: white; }
     }
 
     .app{
-      width:min(1120px,95vw);
-      margin:14px auto 96px;
+      width:min(1200px,96vw);
+      margin:10px auto 110px;
       background:#fff;
       border-radius:18px;
       padding:14px;
@@ -171,71 +171,76 @@ button:hover { background: #0288D1; color: white; }
 
     h1{margin:0;text-align:center;color:#1e3a8a;font-size:clamp(20px,4vw,30px)}
     .sub{margin:6px 0 10px;text-align:center;color:var(--brand);font-size:12px}
+    .sub{margin:6px 0 10px;text-align:center;color:var(--brand);font-size:12px;line-height:1.5}
 
     .hud{display:grid;grid-template-columns:repeat(4,minmax(120px,1fr));gap:8px;margin-bottom:10px}
+    .hud{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:8px;margin-bottom:10px}
     .box{background:#eff6ff;border:2px solid #93c5fd;border-radius:10px;padding:9px;font-size:12px;font-weight:800;color:#1e3a8a}
     .tip{background:#ecfeff;border:2px solid #67e8f9;border-radius:10px;padding:10px;font-size:12px;color:#0f766e;margin-bottom:10px}
 
+    .gameMenu{display:grid;grid-template-columns:repeat(4,minmax(150px,1fr));gap:8px;margin-bottom:10px}
+    .gameBtn{border:2px solid var(--line);background:#fff;color:#1e3a8a;border-radius:10px;padding:10px;font-family:inherit;font-size:11px;font-weight:800;cursor:pointer;text-align:left}
     .catalog{
       display:grid;
-      grid-template-columns:repeat(3,minmax(180px,1fr));
+      grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
       gap:8px;
       margin-bottom:12px;
     }
-    .gameCard{
-      background:var(--panel);
-      border:2px solid var(--line);
-      border-radius:10px;
-      padding:10px;
-      font-size:11px;
-    }
+    .gameCard{background:var(--panel);border:2px solid var(--line);border-radius:10px;padding:10px;font-size:11px}
     .gameCard h3{margin:0 0 6px;color:#1e3a8a;font-size:12px}
     .tags{display:flex;gap:6px;flex-wrap:wrap}
-    .tag{
-      font-size:10px;
-      font-weight:900;
-      color:#1e40af;
-      background:var(--brand-soft);
-      border:1px solid #93c5fd;
-      border-radius:999px;
-      padding:2px 7px;
-    }
+    .tag{font-size:10px;font-weight:900;color:#1e40af;background:var(--brand-soft);border:1px solid #93c5fd;border-radius:999px;padding:2px 7px}
 
-    .gameMenu{display:grid;grid-template-columns:repeat(4,minmax(150px,1fr));gap:8px;margin-bottom:10px}
-    .gameBtn{border:2px solid var(--line);background:#fff;color:#1e3a8a;border-radius:10px;padding:10px;font-family:inherit;font-size:11px;font-weight:800;cursor:pointer;text-align:left}
+    .languageBank{background:#f0f9ff;border:2px solid #7dd3fc;border-radius:12px;padding:12px;margin-bottom:12px}
+    .languageBank h2{margin:0 0 8px;font-size:14px;color:#0c4a6e}
+    .languageBtnRow{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px}
+    .langBtn{border:2px solid #93c5fd;background:#fff;color:#1e3a8a;border-radius:999px;padding:6px 10px;font-family:inherit;font-size:10px;font-weight:900;cursor:pointer}
+    .langBtn.active{background:#dbeafe;border-color:#2563eb}
+    .langList{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px;margin:0;padding-left:18px}
+    .langList li{font-size:11px;line-height:1.4}
+
+    .gameMenu{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:8px;margin-bottom:10px}
+    .gameBtn{border:2px solid var(--line);background:#fff;color:#1e3a8a;border-radius:10px;padding:10px;font-family:inherit;font-size:11px;font-weight:800;cursor:pointer;text-align:left;min-height:76px}
     .gameBtn.active{background:#dbeafe;border-color:#2563eb}
 
     .panel{display:none;background:var(--panel);border:2px solid #cbd5e1;border-radius:12px;padding:12px}
     .panel.active{display:block}
     .panel h2{margin:0 0 8px;color:#1e3a8a;font-size:15px}
     .question{font-size:13px;margin:6px 0 8px}
+    .question{font-size:13px;margin:6px 0 8px;line-height:1.4}
     .answers{display:grid;gap:8px}
     .answers button{border:2px solid var(--line);background:#fff;color:#1e3a8a;border-radius:10px;padding:10px;font-family:inherit;font-size:11px;font-weight:800;text-align:left;cursor:pointer}
+    .answers button{border:2px solid var(--line);background:#fff;color:#1e3a8a;border-radius:10px;padding:10px;font-family:inherit;font-size:11px;font-weight:800;text-align:left;cursor:pointer;line-height:1.4}
     .answers button:disabled{opacity:.85;cursor:not-allowed}
     .answers button.correct{background:#dcfce7;border-color:#22c55e;color:var(--ok)}
     .answers button.wrong{background:#fee2e2;border-color:#ef4444;color:var(--bad)}
     .feedback{min-height:18px;margin-top:8px;font-size:12px;font-weight:800}
+    .feedback{min-height:18px;margin-top:8px;font-size:12px;font-weight:800;line-height:1.4}
     .ok{color:var(--ok)} .bad{color:var(--bad)}
     .row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
     .btn{border:0;border-radius:10px;padding:9px 12px;font-family:inherit;font-size:11px;font-weight:900;cursor:pointer}
+    .btn{border:0;border-radius:10px;padding:10px 12px;font-family:inherit;font-size:11px;font-weight:900;cursor:pointer;min-height:40px}
     .primary{background:#2563eb;color:#fff}
     .soft{background:#e2e8f0;color:#0f172a}
 
     .pairsBoard{display:grid;grid-template-columns:repeat(4,minmax(66px,1fr));gap:8px}
     .pairCard{height:62px;border:2px solid var(--line);background:#dbeafe;border-radius:10px;font-family:inherit;font-size:11px;font-weight:800;color:#1e3a8a;cursor:pointer}
+    .pairsBoard{display:grid;grid-template-columns:repeat(auto-fit,minmax(70px,1fr));gap:8px}
+    .pairCard{height:64px;border:2px solid var(--line);background:#dbeafe;border-radius:10px;font-family:inherit;font-size:11px;font-weight:800;color:#1e3a8a;cursor:pointer;padding:6px;line-height:1.2}
     .pairCard.open,.pairCard.matched{background:#fff}
     .pairCard.matched{border-color:#22c55e;color:#166534}
 
     .wheelCard{background:#eff6ff;border:2px dashed #93c5fd;border-radius:10px;padding:12px;font-size:12px;font-weight:800;color:#1e3a8a;min-height:54px}
+    .wheelCard{background:#eff6ff;border:2px dashed #93c5fd;border-radius:10px;padding:12px;font-size:12px;font-weight:800;color:#1e3a8a;min-height:60px;line-height:1.5}
 
     .anagramWord{font-size:13px;font-weight:900;color:#1e3a8a;margin:6px 0}
+    .anagramWord{font-size:16px;font-weight:900;color:#1e3a8a;margin:6px 0;letter-spacing:1px;word-break:break-word}
     .anagramInput{width:100%;border:2px solid var(--line);border-radius:10px;padding:10px;font-family:inherit;font-size:12px}
 
     .fixed{position:fixed;left:0;right:0;bottom:0;background:#0f172a;border-top:2px solid #1e293b;padding:8px;display:flex;justify-content:center;gap:8px;flex-wrap:wrap;z-index:20}
     .fixed button{border:0;border-radius:10px;padding:8px 10px;background:#dbeafe;color:#1e3a8a;font-family:inherit;font-size:11px;font-weight:900;cursor:pointer}
 
     @media (max-width:900px){.gameMenu{grid-template-columns:repeat(2,minmax(140px,1fr))}}
-    @media (max-width:900px){.gameMenu{grid-template-columns:repeat(2,minmax(140px,1fr))}.catalog{grid-template-columns:repeat(2,minmax(140px,1fr))}}
     @media (max-width:680px){
       .app{padding:10px;margin:8px auto 84px}
       .hud{grid-template-columns:repeat(2,minmax(120px,1fr))}
@@ -244,7 +249,14 @@ button:hover { background: #0288D1; color: white; }
       .answers button,.gameBtn,.btn,.fixed button{font-size:10px}
       .pairsBoard{grid-template-columns:repeat(4,minmax(56px,1fr));gap:6px}
       .pairCard{height:56px;font-size:10px}
-      .catalog{grid-template-columns:1fr}
+    .fixed button{border:0;border-radius:10px;padding:10px 12px;background:#dbeafe;color:#1e3a8a;font-family:inherit;font-size:11px;font-weight:900;cursor:pointer;min-height:42px}
+
+    @media (max-width:720px){
+      .app{padding:10px;margin:8px auto 96px}
+      .box,.tip,.question,.feedback{font-size:11px}
+      .answers button,.gameBtn,.btn,.fixed button,.langBtn{font-size:10px}
+      .pairCard{font-size:10px;height:58px}
+      .sub{font-size:11px}
     }
   </style>
 </head>
@@ -307,7 +319,7 @@ button:hover { background: #0288D1; color: white; }
   <main class="app">
     <h1>GAMES STATION</h1>
     <p class="sub">Visible working apps: Quiz • Matching Pairs • Spin Wheel • Anagram</p>
-    <p class="sub">Blue reading + writing style. Interactive practice for vocabulary, grammar, anagram, quiz, sentence order, and translation.</p>
+    <p class="sub">Blue reading + writing style. Responsive activities for vocabulary, grammar, anagram, quiz, sentence order, and translation.</p>
 
     <section class="hud">
       <div class="box">SCORE: <span id="score">0</span></div>
@@ -317,6 +329,7 @@ button:hover { background: #0288D1; color: white; }
     </section>
 
     <div class="tip"><strong>Tip:</strong> <span id="tip">Open any app and play. Each app gives points and stars.</span></div>
+    <div class="tip"><strong>Tip:</strong> <span id="tip">Open any app and play. Use the Language Bank to find model phrases.</span></div>
 
     <section class="catalog" aria-label="Reactive games catalog">
       <article class="gameCard"><h3>🚀 Space Invaders</h3><div class="tags"><span class="tag">Vocabulary</span><span class="tag">Reaction</span></div></article>
@@ -328,6 +341,17 @@ button:hover { background: #0288D1; color: white; }
       <article class="gameCard"><h3>👥 Group Sort</h3><div class="tags"><span class="tag">Grammar</span><span class="tag">Category</span></div></article>
       <article class="gameCard"><h3>📦 Open the Box</h3><div class="tags"><span class="tag">Vocabulary</span><span class="tag">Mystery</span></div></article>
       <article class="gameCard"><h3>🔀 Unjumble</h3><div class="tags"><span class="tag">Anagram</span><span class="tag">Sentence Order</span></div></article>
+    </section>
+
+    <section class="languageBank" aria-label="Language bank">
+      <h2>📚 Language Bank for Activities</h2>
+      <div class="languageBtnRow" id="languageBtnRow">
+        <button class="langBtn active" data-lang="vocabulary">Vocabulary</button>
+        <button class="langBtn" data-lang="grammar">Grammar</button>
+        <button class="langBtn" data-lang="sentence">Sentence Order</button>
+        <button class="langBtn" data-lang="translation">Translation</button>
+      </div>
+      <ul id="langList" class="langList"></ul>
     </section>
 
     <section class="gameMenu" id="gameMenu">
@@ -466,14 +490,42 @@ function setTip(text) {
     anagramIndex: 0
     score: 0, stars: 0, best: '-', seconds: 0, paused: false, timerRef: null,
     quizIndex: 0, quizCorrect: 0, quizAnswered: false,
-    pairsDeck: [], pairsOpen: [], anagramIndex: 0
+    pairsDeck: [], pairsOpen: [], anagramIndex: 0,
+    languageKey: 'vocabulary'
   };
 
   const saved = JSON.parse(localStorage.getItem('pitGamesV4') || '{}');
-  const saved = JSON.parse(localStorage.getItem('pitGamesV5') || '{}');
+  const saved = JSON.parse(localStorage.getItem('pitGamesV6') || '{}');
   state.score = saved.score || 0;
   state.stars = saved.stars || 0;
   state.best = saved.best || '-';
+
+  const languageBank = {
+    vocabulary: [
+      'book = libro',
+      'teacher = profesor/profesora',
+      'I can describe classroom objects clearly.',
+      'Use in context: "The teacher gave me a new book."'
+    ],
+    grammar: [
+      'Present simple: She studies English every day.',
+      'Connector for reason: because',
+      'Connector for contrast: although',
+      'Rule reminder: he/she/it + verb-s (she reads, he plays).'
+    ],
+    sentence: [
+      'Correct order: Subject + adverb + verb + complement.',
+      'Example: "I always read at night."',
+      'Prompt: always / she / on time / arrives → She always arrives on time.',
+      'Question form: Do + subject + base verb?'
+    ],
+    translation: [
+      'Ella estudia inglés. → She studies English.',
+      'Nosotros jugamos después de clase. → We play after class.',
+      'Translate idea, not word-by-word.',
+      'Check tense and subject agreement after translating.'
+    ]
+  };
 
   const quizData = [
     {q:'Choose the correct sentence.', options:['She go to school.','She goes to school.','She going school.','She gone school.'], correct:1},
@@ -515,7 +567,7 @@ function setTip(text) {
     localStorage.setItem('pitGamesV4', JSON.stringify({score:state.score, stars:state.stars, best:state.best}));
   }
 
-  function persist(){ localStorage.setItem('pitGamesV5', JSON.stringify({score:state.score, stars:state.stars, best:state.best})); }
+  function persist(){ localStorage.setItem('pitGamesV6', JSON.stringify({score:state.score, stars:state.stars, best:state.best})); }
   function hud(){
     document.getElementById('score').textContent = state.score;
     document.getElementById('stars').textContent = state.stars;
@@ -538,10 +590,15 @@ function setTip(text) {
     state.best = app;
     hud();
     persist();
-  }
   function tip(text){ document.getElementById('tip').textContent = text; }
   function addScore(points, app){ state.score += points; if(app) state.best = app; hud(); persist(); }
   function addStar(app){ state.stars += 1; state.best = app; hud(); persist(); }
+
+  function renderLanguageBank(){
+    document.querySelectorAll('.langBtn').forEach(btn=>btn.classList.toggle('active', btn.dataset.lang === state.languageKey));
+    const list = languageBank[state.languageKey] || [];
+    document.getElementById('langList').innerHTML = list.map(item => `<li>${item}</li>`).join('');
+  }
 
   function startTimer(){
     if(state.timerRef) return;
@@ -760,10 +817,10 @@ function setTip(text) {
     restartQuiz();
     setupPairs();
     renderAnagram();
-    localStorage.removeItem('pitGamesV5');
-    Object.assign(state,{score:0,stars:0,best:'-',quizIndex:0,quizCorrect:0,anagramIndex:0,seconds:0});
+    localStorage.removeItem('pitGamesV6');
+    Object.assign(state,{score:0,stars:0,best:'-',quizIndex:0,quizCorrect:0,anagramIndex:0,seconds:0,languageKey:'vocabulary'});
     document.getElementById('timer').textContent = '00:00';
-    hud(); restartQuiz(); setupPairs(); renderAnagram();
+    hud(); restartQuiz(); setupPairs(); renderAnagram(); renderLanguageBank();
     document.getElementById('wheelResult').textContent = 'Press SPIN to get a challenge.';
     document.getElementById('wheelFeedback').textContent = '';
     tip('Reset complete. Choose an app and play.');
@@ -779,6 +836,7 @@ function setTip(text) {
   });
 
   document.querySelectorAll('.gameBtn').forEach(btn=>btn.addEventListener('click',()=>{ activatePanel(btn.dataset.panel); tip(`Now using ${btn.textContent.split('\n')[0].trim()}.`); }));
+  document.querySelectorAll('.langBtn').forEach(btn=>btn.addEventListener('click',()=>{ state.languageKey = btn.dataset.lang; renderLanguageBank(); }));
   document.getElementById('quizNext').addEventListener('click', nextQuiz);
   document.getElementById('quizRestart').addEventListener('click', restartQuiz);
   document.getElementById('pairsRestart').addEventListener('click', setupPairs);
@@ -794,7 +852,7 @@ function setTip(text) {
   setupPairs();
   renderAnagram();
   startTimer();
-  hud(); restartQuiz(); setupPairs(); renderAnagram(); startTimer();
+  hud(); restartQuiz(); setupPairs(); renderAnagram(); renderLanguageBank(); startTimer();
 </script>
 
 </body>
