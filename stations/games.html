@@ -1,4 +1,4 @@
-!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -131,52 +131,90 @@ button:hover { background: #0288D1; color: white; }
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>THE PIT – Games Station</title>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
   <title>Games Station</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
   <style>
     :root{--bg1:#dbeafe;--bg2:#2563eb;--bg3:#0b1a44;--ink:#0f172a;--panel:#f8fafc;--line:#bfdbfe;--brand:#1d4ed8;--ok:#166534;--bad:#991b1b}
-    :root{--bg:#0f172a;--panel:#111827;--card:#1f2937;--line:#374151;--ink:#e5e7eb;--brand:#22d3ee;--ok:#86efac;--bad:#fca5a5}
+    :root{
+      --bg-1:#e0edff;
+      --bg-2:#3b82f6;
+      --bg-3:#102a6a;
+      --ink:#10203d;
+      --panel:#f8fbff;
+      --line:#bfdbfe;
+      --brand:#1d4ed8;
+      --brand-soft:#dbeafe;
+      --ok:#166534;
+      --bad:#991b1b;
+    }
+
     *{box-sizing:border-box}
     body{margin:0;font-family:'Orbitron',sans-serif;background:radial-gradient(circle,var(--bg1) 0%,var(--bg2) 56%,var(--bg3) 100%);color:var(--ink)}
     .app{width:min(1120px,95vw);margin:14px auto 92px;background:#fff;border-radius:20px;padding:14px;box-shadow:0 18px 42px rgba(2,6,23,.45)}
+    body{
+      margin:0;
+      min-height:100vh;
+      font-family:'Orbitron',sans-serif;
+      color:var(--ink);
+      background:radial-gradient(circle at 15% 10%, var(--bg-1) 0%, var(--bg-2) 52%, var(--bg-3) 100%);
+    }
+
+    .app{
+      width:min(1120px,95vw);
+      margin:14px auto 96px;
+      background:#fff;
+      border-radius:18px;
+      padding:14px;
+      box-shadow:0 18px 42px rgba(2,6,23,.35);
+      border:2px solid #e2e8f0;
+    }
+
     h1{margin:0;text-align:center;color:#1e3a8a;font-size:clamp(20px,4vw,30px)}
     .sub{margin:6px 0 10px;text-align:center;color:var(--brand);font-size:12px}
 
-    body{margin:0;background:radial-gradient(circle at top,#1e3a8a,#0f172a 60%);color:var(--ink);font-family:Arial,sans-serif}
-    .app{width:min(1100px,96vw);margin:12px auto 84px;background:rgba(15,23,42,.85);border:1px solid #334155;border-radius:14px;padding:12px}
-    h1{margin:0;text-align:center;color:#67e8f9}
-    .sub{text-align:center;margin:6px 0 10px;color:#bae6fd;font-size:14px}
     .hud{display:grid;grid-template-columns:repeat(4,minmax(120px,1fr));gap:8px;margin-bottom:10px}
     .box{background:#eff6ff;border:2px solid #93c5fd;border-radius:10px;padding:9px;font-size:12px;font-weight:800;color:#1e3a8a}
     .tip{background:#ecfeff;border:2px solid #67e8f9;border-radius:10px;padding:10px;font-size:12px;color:#0f766e;margin-bottom:10px}
+
+    .catalog{
+      display:grid;
+      grid-template-columns:repeat(3,minmax(180px,1fr));
+      gap:8px;
+      margin-bottom:12px;
+    }
+    .gameCard{
+      background:var(--panel);
+      border:2px solid var(--line);
+      border-radius:10px;
+      padding:10px;
+      font-size:11px;
+    }
+    .gameCard h3{margin:0 0 6px;color:#1e3a8a;font-size:12px}
+    .tags{display:flex;gap:6px;flex-wrap:wrap}
+    .tag{
+      font-size:10px;
+      font-weight:900;
+      color:#1e40af;
+      background:var(--brand-soft);
+      border:1px solid #93c5fd;
+      border-radius:999px;
+      padding:2px 7px;
+    }
 
     .gameMenu{display:grid;grid-template-columns:repeat(4,minmax(150px,1fr));gap:8px;margin-bottom:10px}
     .gameBtn{border:2px solid var(--line);background:#fff;color:#1e3a8a;border-radius:10px;padding:10px;font-family:inherit;font-size:11px;font-weight:800;cursor:pointer;text-align:left}
     .gameBtn.active{background:#dbeafe;border-color:#2563eb}
 
     .panel{display:none;background:var(--panel);border:2px solid #cbd5e1;border-radius:12px;padding:12px}
-    .box{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px;font-weight:700}
-    .tip{background:#082f49;border:1px solid #0e7490;color:#cffafe;border-radius:10px;padding:10px;margin-bottom:10px}
-    .menu{display:grid;grid-template-columns:repeat(3,minmax(170px,1fr));gap:8px}
-    .gameBtn{background:#0b1222;border:1px solid #475569;color:#e2e8f0;border-radius:10px;padding:10px;text-align:left;cursor:pointer;font-weight:700}
-    .gameBtn.active{border-color:var(--brand);background:#0e2235}
-    .panel{display:none;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px;margin-top:10px;min-height:220px}
     .panel.active{display:block}
     .panel h2{margin:0 0 8px;color:#1e3a8a;font-size:15px}
     .question{font-size:13px;margin:6px 0 8px}
-    .prompt{font-size:18px;font-weight:700;margin-bottom:8px;color:#a5f3fc}
-    .row{display:flex;gap:8px;flex-wrap:wrap}
-    button{border:0;border-radius:8px;padding:9px 11px;font-weight:700;cursor:pointer}
-    .primary{background:#22d3ee;color:#082f49}
-    .soft{background:#334155;color:#e2e8f0}
     .answers{display:grid;gap:8px}
     .answers button{border:2px solid var(--line);background:#fff;color:#1e3a8a;border-radius:10px;padding:10px;font-family:inherit;font-size:11px;font-weight:800;text-align:left;cursor:pointer}
     .answers button:disabled{opacity:.85;cursor:not-allowed}
     .answers button.correct{background:#dcfce7;border-color:#22c55e;color:var(--ok)}
     .answers button.wrong{background:#fee2e2;border-color:#ef4444;color:var(--bad)}
     .feedback{min-height:18px;margin-top:8px;font-size:12px;font-weight:800}
-    .answers button{text-align:left;background:#1e293b;color:#e2e8f0;border:1px solid #475569}
-    .feedback{min-height:18px;margin-top:8px;font-weight:700}
     .ok{color:var(--ok)} .bad{color:var(--bad)}
     .row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
     .btn{border:0;border-radius:10px;padding:9px 12px;font-family:inherit;font-size:11px;font-weight:900;cursor:pointer}
@@ -197,6 +235,7 @@ button:hover { background: #0288D1; color: white; }
     .fixed button{border:0;border-radius:10px;padding:8px 10px;background:#dbeafe;color:#1e3a8a;font-family:inherit;font-size:11px;font-weight:900;cursor:pointer}
 
     @media (max-width:900px){.gameMenu{grid-template-columns:repeat(2,minmax(140px,1fr))}}
+    @media (max-width:900px){.gameMenu{grid-template-columns:repeat(2,minmax(140px,1fr))}.catalog{grid-template-columns:repeat(2,minmax(140px,1fr))}}
     @media (max-width:680px){
       .app{padding:10px;margin:8px auto 84px}
       .hud{grid-template-columns:repeat(2,minmax(120px,1fr))}
@@ -205,14 +244,8 @@ button:hover { background: #0288D1; color: white; }
       .answers button,.gameBtn,.btn,.fixed button{font-size:10px}
       .pairsBoard{grid-template-columns:repeat(4,minmax(56px,1fr));gap:6px}
       .pairCard{height:56px;font-size:10px}
+      .catalog{grid-template-columns:1fr}
     }
-    .board{display:grid;grid-template-columns:repeat(4,minmax(70px,1fr));gap:8px}
-    .card{height:56px;background:#1e293b;border:1px solid #475569;color:#e2e8f0}
-    .card.matched{background:#14532d;border-color:#22c55e}
-    .chips{display:flex;flex-wrap:wrap;gap:8px}
-    .chip{background:#1e3a8a;border:1px solid #60a5fa;color:#dbeafe;padding:8px 10px;border-radius:999px;cursor:pointer}
-    .fixed{position:fixed;left:0;right:0;bottom:0;background:#020617;padding:8px;display:flex;justify-content:center;gap:8px;border-top:1px solid #334155}
-    @media(max-width:800px){.menu{grid-template-columns:repeat(2,minmax(140px,1fr))}.hud{grid-template-columns:repeat(2,minmax(120px,1fr))}}
   </style>
 </head>
 
@@ -274,8 +307,7 @@ button:hover { background: #0288D1; color: white; }
   <main class="app">
     <h1>GAMES STATION</h1>
     <p class="sub">Visible working apps: Quiz • Matching Pairs • Spin Wheel • Anagram</p>
-    <h1>🎮 Games Station</h1>
-    <p class="sub">Snakes & Ladders • Match Up • Comecocos • Space Invaders • Unjumble • Fishing Bowl • Basketball • Speed Race • Guacamole</p>
+    <p class="sub">Blue reading + writing style. Interactive practice for vocabulary, grammar, anagram, quiz, sentence order, and translation.</p>
 
     <section class="hud">
       <div class="box">SCORE: <span id="score">0</span></div>
@@ -286,11 +318,26 @@ button:hover { background: #0288D1; color: white; }
 
     <div class="tip"><strong>Tip:</strong> <span id="tip">Open any app and play. Each app gives points and stars.</span></div>
 
+    <section class="catalog" aria-label="Reactive games catalog">
+      <article class="gameCard"><h3>🚀 Space Invaders</h3><div class="tags"><span class="tag">Vocabulary</span><span class="tag">Reaction</span></div></article>
+      <article class="gameCard"><h3>🥑 Guacamole</h3><div class="tags"><span class="tag">Grammar</span><span class="tag">Quick Tap</span></div></article>
+      <article class="gameCard"><h3>🥥 Coconut Score</h3><div class="tags"><span class="tag">Translation</span><span class="tag">Speed</span></div></article>
+      <article class="gameCard"><h3>🐟 Fishbowl</h3><div class="tags"><span class="tag">Sentence Order</span><span class="tag">Team</span></div></article>
+      <article class="gameCard"><h3>🏀 Basketball</h3><div class="tags"><span class="tag">Quiz</span><span class="tag">Accuracy</span></div></article>
+      <article class="gameCard"><h3>🐍 Snakes & Ladders</h3><div class="tags"><span class="tag">Reading</span><span class="tag">Writing</span></div></article>
+      <article class="gameCard"><h3>👥 Group Sort</h3><div class="tags"><span class="tag">Grammar</span><span class="tag">Category</span></div></article>
+      <article class="gameCard"><h3>📦 Open the Box</h3><div class="tags"><span class="tag">Vocabulary</span><span class="tag">Mystery</span></div></article>
+      <article class="gameCard"><h3>🔀 Unjumble</h3><div class="tags"><span class="tag">Anagram</span><span class="tag">Sentence Order</span></div></article>
+    </section>
+
     <section class="gameMenu" id="gameMenu">
       <button class="gameBtn active" data-panel="quiz">📝 Quiz App<br><small>3-question skill check</small></button>
       <button class="gameBtn" data-panel="pairs">🃏 Matching Pairs App<br><small>memory + vocabulary</small></button>
       <button class="gameBtn" data-panel="wheel">🎯 Spin Wheel App<br><small>random speaking/writing tasks</small></button>
       <button class="gameBtn" data-panel="anagram">🔤 Anagram App<br><small>unscramble words</small></button>
+      <button class="gameBtn" data-panel="pairs">🃏 Matching App<br><small>memory + vocabulary</small></button>
+      <button class="gameBtn" data-panel="wheel">🎯 Challenge Wheel<br><small>reading & writing prompts</small></button>
+      <button class="gameBtn" data-panel="anagram">🔤 Unjumble App<br><small>anagram practice</small></button>
     </section>
 
     <section id="panel-quiz" class="panel active">
@@ -306,29 +353,29 @@ button:hover { background: #0288D1; color: white; }
 
     <section id="panel-pairs" class="panel">
       <h2>Matching Pairs App</h2>
+      <h2>Matching App</h2>
       <div id="pairsBoard" class="pairsBoard"></div>
       <div id="pairsFeedback" class="feedback"></div>
       <div class="row">
         <button class="btn soft" id="pairsRestart">Restart Pairs</button>
       </div>
-      <div class="box">Score: <span id="score">0</span></div>
-      <div class="box">Stars: <span id="stars">0</span></div>
-      <div class="box">Time: <span id="timer">00:00</span></div>
-      <div class="box">Best Game: <span id="best">-</span></div>
+      <div class="row"><button class="btn soft" id="pairsRestart">Restart Matching</button></div>
     </section>
 
     <section id="panel-wheel" class="panel">
       <h2>Spin Wheel App</h2>
+      <h2>Challenge Wheel</h2>
       <div id="wheelResult" class="wheelCard">Press SPIN to get a challenge.</div>
       <div id="wheelFeedback" class="feedback"></div>
       <div class="row">
         <button class="btn primary" id="wheelSpin">SPIN</button>
       </div>
+      <div class="row"><button class="btn primary" id="wheelSpin">SPIN</button></div>
     </section>
-    <div class="tip"><strong>Class goal:</strong> practice Unit 1–8 vocabulary and grammar from the class summaries while students play.</div>
 
     <section id="panel-anagram" class="panel">
       <h2>Anagram App</h2>
+      <h2>Unjumble App</h2>
       <p class="question">Unscramble this word:</p>
       <div id="anagramWord" class="anagramWord">-</div>
       <input id="anagramInput" class="anagramInput" placeholder="Type your answer" />
@@ -336,19 +383,15 @@ button:hover { background: #0288D1; color: white; }
       <div class="row">
         <button class="btn primary" id="anagramCheck">Check</button>
         <button class="btn soft" id="anagramNext">Next Anagram</button>
+        <button class="btn soft" id="anagramNext">Next Unjumble</button>
       </div>
     </section>
-    <section class="menu" id="menu"></section>
-    <section id="panel" class="panel active"></section>
   </main>
 
   <div class="fixed">
     <button onclick="location.href='../index.html'">Main Menu</button>
     <button id="pauseBtn">Pause/Resume Timer</button>
     <button id="resetBtn">Reset Score</button>
-    <button class="soft" onclick="location.href='../index.html'">Main Menu</button>
-    <button class="soft" id="pauseBtn">Pause/Resume</button>
-    <button class="soft" id="resetBtn">Reset</button>
   </div>
 
 <script>
@@ -361,124 +404,6 @@ function openScreen(id) {
     setTip("Complete the activity to earn points!");
     startTimer();
     setProgress(20);
-const state={score:0,stars:0,best:'-',seconds:0,paused:false,timerRef:null,active:'snakes'};
-const saved=JSON.parse(localStorage.getItem('gamesStationV1')||'{}');
-Object.assign(state,{score:saved.score||0,stars:saved.stars||0,best:saved.best||'-'});
-
-
-const score=document.getElementById('score');
-const stars=document.getElementById('stars');
-const timer=document.getElementById('timer');
-const best=document.getElementById('best');
-const menu=document.getElementById('menu');
-const panel=document.getElementById('panel');
-const pauseBtn=document.getElementById('pauseBtn');
-const resetBtn=document.getElementById('resetBtn');
-
-const UNIT_SUMMARY=[
-  {
-    unit:1,
-    grammar:'Past simple + there was/were',
-    vocabulary:['appear','disappear','container','safe','worried','excited','hide','include','inside','outside','items'],
-    sentenceOrder:['There','were','old','containers','inside','the','factory.']
-  },
-  {
-    unit:2,
-    grammar:'Past continuous + interrupted actions',
-    vocabulary:['bright','huge','strange','materials','artist','designer','illustrator','photographer','brilliant','enormous'],
-    sentenceOrder:['While','we','were','waiting,','the','photographer','was','taking','pictures.']
-  },
-  {
-    unit:3,
-    grammar:'First conditional',
-    vocabulary:['cycling','concert','festival','lake','picnic area','working out','jogging','outdoor gym','fun run'],
-    sentenceOrder:['If','we','train','twice','a','week,','we','will','improve','quickly.']
-  },
-  {
-    unit:4,
-    grammar:'Going to + will predictions',
-    vocabulary:['take part','volunteer','community','prediction','renewable','technology','environmentally friendly'],
-    sentenceOrder:['I','am','going','to','volunteer','at','the','community','centre.']
-  },
-  {
-    unit:5,
-    grammar:'Comparatives + superlatives + can/could',
-    vocabulary:['harder','faster','better','more exciting','most popular','the best','the most difficult'],
-    sentenceOrder:['Basketball','is','more','exciting','than','tennis.']
-  },
-  {
-    unit:6,
-    grammar:'Present perfect + since/for + ever/never',
-    vocabulary:['injury','train','warm up','energy','lifestyle','stretch','muscles','rest'],
-    sentenceOrder:['I','have','felt','more','energetic','since','I','started','training.']
-  },
-  {
-    unit:7,
-    grammar:'Must/should/have to',
-    vocabulary:['respect','rule','responsible','protect','uniform','attendance','behave'],
-    sentenceOrder:['Students','must','protect','their','passwords','online.']
-  },
-  {
-    unit:8,
-    grammar:'Reflexive + indefinite pronouns',
-    vocabulary:['somebody','nobody','everywhere','themselves','everybody','anyone','something','nothing'],
-    sentenceOrder:['Everybody','can','help','if','they','believe','in','themselves.']
-  }
-];
-
-const QUESTION_BANK={
-  grammar:[
-    {unit:1,q:'Unit 1: Choose the correct sentence.',o:['There was many containers.','There were many containers.','There were much container.'],c:1},
-    {unit:2,q:'Unit 2: Complete the interrupted action.',o:['While we waited, it started to rain.','While we wait, it starts rain.','While we are waiting, it started rain.'],c:0},
-    {unit:3,q:'Unit 3: First conditional',o:['If we train, we will improve.','If we will train, we improve.','If we trained, we improve.'],c:0},
-    {unit:4,q:'Unit 4: Future plan',o:['I going to volunteer.','I am going to volunteer.','I will going volunteer.'],c:1},
-    {unit:5,q:'Unit 5: Comparative form',o:['Basketball is exciting than tennis.','Basketball is more exciting than tennis.','Basketball is most exciting than tennis.'],c:1},
-    {unit:6,q:'Unit 6: Present perfect',o:['I have trained since January.','I trained since January.','I am training since January.'],c:0},
-    {unit:7,q:'Unit 7: Obligation',o:['Students should to protect passwords.','Students must protect passwords.','Students must protects passwords.'],c:1},
-    {unit:8,q:'Unit 8: Indefinite pronoun',o:['Everybody can help.','Everybody can helps.','Everybody helping can.'],c:0}
-  ],
-  vocab:[
-    {unit:1,q:'Unit 1 vocabulary: choose a word connected to storage.',o:['container','jogging','renewable'],c:0},
-    {unit:2,q:'Unit 2 vocabulary: who takes photos?',o:['designer','photographer','illustrator'],c:1},
-    {unit:3,q:'Unit 3 vocabulary: choose an outdoor activity.',o:['fun run','container','uniform'],c:0},
-    {unit:4,q:'Unit 4 vocabulary: choose the eco word.',o:['prediction','technology','environmentally friendly'],c:2},
-    {unit:5,q:'Unit 5 vocabulary: choose a superlative phrase.',o:['more better','the most difficult','faster than'],c:1},
-    {unit:6,q:'Unit 6 vocabulary: choose a healthy habit.',o:['stretch','disappear','concert'],c:0},
-    {unit:7,q:'Unit 7 vocabulary: choose school duty.',o:['attendance','picnic area','injury'],c:0},
-    {unit:8,q:'Unit 8 vocabulary: pronoun for all people.',o:['everybody','nobody','somebody'],c:0}
-  ]
-};
-
-const MATCH_PAIRS=UNIT_SUMMARY.flatMap(u=>{
-  const picked=u.vocabulary.slice(0,2);
-  return [
-    {left:`Unit ${u.unit}: ${picked[0]}`,right:u.grammar},
-    {left:picked[1]||picked[0],right:`U${u.unit} vocabulary`}
-  ];
-});
-
-const games={
-  snakes:{name:'🐍 Snakes & Ladders',render:renderSnakes},
-  matchup:{name:'🧩 Match Up',render:renderMatch},
-  comecocos:{name:'👻 Comecocos',render:renderComecocos},
-  invaders:{name:'🚀 Space Invaders',render:renderInvaders},
-  unjumble:{name:'🔀 Unjumble',render:renderUnjumble},
-  fishing:{name:'🎣 Fishing Bowl',render:renderFishing},
-  basketball:{name:'🏀 Basketball',render:renderBasketball},
-  speed:{name:'🏁 Speed Race',render:renderSpeedRace},
-  guacamole:{name:'🥑 Guacamole',render:renderGuacamole}
-};
-
-function persist(){localStorage.setItem('gamesStationV1',JSON.stringify({score:state.score,stars:state.stars,best:state.best}));}
-function hud(){score.textContent=state.score;stars.textContent=state.stars;best.textContent=state.best;persist();}
-function addScore(n,game){state.score+=n;state.best=games[game].name;hud();}
-function addStar(game){state.stars++;state.best=games[game].name;hud();}
-
-function startTimer(){if(state.timerRef)return;state.timerRef=setInterval(()=>{if(state.paused)return;state.seconds++;timer.textContent=`${String(Math.floor(state.seconds/60)).padStart(2,'0')}:${String(state.seconds%60).padStart(2,'0')}`;},1000)}
-
-function buildMenu(){
-  menu.innerHTML=Object.entries(games).map(([k,v])=>`<button class="gameBtn ${k===state.active?'active':''}" data-k="${k}">${v.name}</button>`).join('');
-  document.querySelectorAll('.gameBtn').forEach(b=>b.onclick=()=>{state.active=b.dataset.k;buildMenu();games[state.active].render();});
 }
 
 function goBack() {
@@ -488,10 +413,6 @@ function goBack() {
     stopTimer();
     setTip("Choose an activity to begin!");
     setProgress(0);
-function renderMCQ(game,prompt,options,correct,onDone){
-  panel.className='panel active';
-  panel.innerHTML=`<div class="prompt">${prompt}</div><div class="answers">${options.map((o,i)=>`<button data-i="${i}">${o}</button>`).join('')}</div><div id="fb" class="feedback"></div>${onDone?'<div class="row"><button class="primary" id="next">Next</button></div>':''}`;
-  panel.querySelectorAll('.answers button').forEach(btn=>btn.onclick=()=>{const ok=Number(btn.dataset.i)===correct;fb.textContent=ok?'✅ Correct! +10':'❌ Try again.';fb.className='feedback '+(ok?'ok':'bad');if(ok){addScore(10,game);panel.querySelectorAll('.answers button').forEach(b=>b.disabled=true);if(onDone)document.getElementById('next').onclick=onDone;}});
 }
 
 /* ========================= */
@@ -500,34 +421,12 @@ function renderMCQ(game,prompt,options,correct,onDone){
 
 function setProgress(percent) {
     document.getElementById("progress-bar").style.width = percent + "%";
-function randomFrom(list){return list[Math.floor(Math.random()*list.length)];}
-function shuffle(list){return [...list].sort(()=>Math.random()-0.5);}
-
-function renderSnakes(){
-  panel.className='panel active';
-  panel.innerHTML=`<div class="prompt">Roll dice and answer Unit Summary grammar questions to climb! You are on square <span id="sq">1</span>.</div><div class="row"><button class="primary" id="roll">Roll Dice</button></div><div id="play"></div>`;
-  let square=1;
-  roll.onclick=()=>{
-    square=Math.min(30,square+(Math.floor(Math.random()*6)+1));
-    sq.textContent=square;
-    const x=randomFrom(QUESTION_BANK.grammar);
-    renderMCQ('snakes',`[U${x.unit}] ${x.q}`,x.o,x.c,()=>{});
-    if(square===30)addStar('snakes');
-  };
 }
 
 let score = 0;
 function addScore(points) {
     score += points;
     document.getElementById("score").textContent = score;
-function renderMatch(){
-  let deck=[];
-  MATCH_PAIRS.forEach((p,i)=>deck.push({p:i,t:p.left,o:false,m:false},{p:i,t:p.right,o:false,m:false}));
-  deck=shuffle(deck);
-  let open=[];
-  const draw=()=>{panel.className='panel active';panel.innerHTML=`<div class="prompt">Find all matching pairs.</div><div class="board">${deck.map((c,i)=>`<button class="card ${c.m?'matched':''}" data-i="${i}">${c.o||c.m?c.t:'?'}</button>`).join('')}</div><div id="fb" class="feedback"></div>`;
-    panel.querySelectorAll('.card').forEach(btn=>btn.onclick=()=>{const i=Number(btn.dataset.i),c=deck[i];if(c.o||c.m||open.length===2)return;c.o=true;open.push(i);draw();if(open.length===2){const[a,b]=open.map(n=>deck[n]);if(a.p===b.p){a.m=b.m=true;addScore(8,'matchup');if(deck.every(x=>x.m)){fb.textContent='🏆 Star earned!';fb.className='feedback ok';addStar('matchup');}open=[];}else{setTimeout(()=>{a.o=b.o=false;open=[];draw();},500);}}});};
-  draw();
 }
 
 let time = 0;
@@ -542,36 +441,14 @@ function startTimer() {
         let seconds = String(time % 60).padStart(2, '0');
         document.getElementById("timer").textContent = `${minutes}:${seconds}`;
     }, 1000);
-function renderComecocos(){
-  const x=randomFrom(QUESTION_BANK.vocab);
-  renderMCQ('comecocos',`Comecocos [U${x.unit}] Eat the correct unit word!`,x.o,x.c,()=>{});
-}
-function renderInvaders(){
-  const x=randomFrom(QUESTION_BANK.grammar);
-  const wrong=x.o.findIndex((opt,n)=>n!==x.c && /\b(was|were|must|have|is|are|am)\b/i.test(opt));
-  renderMCQ('invaders',`Space Invaders [U${x.unit}] Shoot the WRONG sentence!`,x.o,wrong>=0?wrong:0,()=>{});
 }
 
 function stopTimer() {
     clearInterval(timerInterval);
-function renderUnjumble(){
-  const unit=randomFrom(UNIT_SUMMARY);
-  const target=unit.sentenceOrder;
-  let current=shuffle(target);
-  const draw=()=>{panel.className='panel active';panel.innerHTML=`<div class="prompt">Tap words in correct order.</div><div class="chips">${current.map((w,i)=>`<button class="chip" data-i="${i}">${w}</button>`).join('')}</div><div>Sentence: <span id="sent"></span></div><div id="fb" class="feedback"></div>`;
-    let built=[];panel.querySelectorAll('.chip').forEach(btn=>btn.onclick=()=>{built.push(current[Number(btn.dataset.i)]);btn.disabled=true;sent.textContent=built.join(' ');if(built.length===target.length){const ok=built.join(' ')==target.join(' ');fb.textContent=ok?'✅ Perfect word order! +12':'❌ Order is incorrect.';fb.className='feedback '+(ok?'ok':'bad');if(ok){addScore(12,'unjumble');addStar('unjumble');}}});};
-  draw();
 }
 
 function setTip(text) {
     document.getElementById("tip-text").textContent = text;
-function renderFishing(){
-  const x=randomFrom(QUESTION_BANK.vocab);
-  renderMCQ('fishing',`Fishing Bowl [U${x.unit}] Catch the vocabulary answer.`,x.o,x.c,()=>{});
-}
-function renderBasketball(){
-  const x=randomFrom(QUESTION_BANK.grammar);
-  renderMCQ('basketball',`Basketball [U${x.unit}] Score with grammar!`,x.o,x.c,()=>{});
 }
 
   const state = {
@@ -587,20 +464,13 @@ function renderBasketball(){
     pairsDeck: [],
     pairsOpen: [],
     anagramIndex: 0
-function renderSpeedRace(){
-  const qs=shuffle([...QUESTION_BANK.grammar,...QUESTION_BANK.vocab]).slice(0,3).map(x=>({q:`[U${x.unit}] ${x.q}`,o:x.o,c:x.c}));
-  let i=0,hits=0;
-  const next=()=>{if(i>=qs.length){panel.innerHTML+=`<div class="feedback ${hits>=2?'ok':'bad'}">${hits}/3 correct ${hits>=2?'🏆 Star!':''}</div>`;if(hits>=2){addStar('speed');addScore(20,'speed');}return;}const x=qs[i++];
-    panel.className='panel active';
-    panel.innerHTML=`<div class="prompt">Speed Round ${i}/3: ${x.q}</div><div class="answers">${x.o.map((o,n)=>`<button data-i="${n}">${o}</button>`).join('')}</div><div id="fb" class="feedback"></div><div class="row"><button class="primary" id="next">Next</button></div>`;
-    panel.querySelectorAll('.answers button').forEach(btn=>btn.onclick=()=>{const ok=Number(btn.dataset.i)===x.c;fb.textContent=ok?'✅ Correct!':'❌ Wrong';fb.className='feedback '+(ok?'ok':'bad');if(ok)hits++;panel.querySelectorAll('.answers button').forEach(b=>b.disabled=true);});
-    next.onclick=next;
-    if(i===1)setTimeout(()=>{if(state.active==='speed')next();},30000);
+    score: 0, stars: 0, best: '-', seconds: 0, paused: false, timerRef: null,
+    quizIndex: 0, quizCorrect: 0, quizAnswered: false,
+    pairsDeck: [], pairsOpen: [], anagramIndex: 0
   };
-  next();
-}
 
   const saved = JSON.parse(localStorage.getItem('pitGamesV4') || '{}');
+  const saved = JSON.parse(localStorage.getItem('pitGamesV5') || '{}');
   state.score = saved.score || 0;
   state.stars = saved.stars || 0;
   state.best = saved.best || '-';
@@ -609,9 +479,13 @@ function renderSpeedRace(){
     {q:'Choose the correct sentence.', options:['She go to school.','She goes to school.','She going school.','She gone school.'], correct:1},
     {q:'Past simple of "eat" is...', options:['eat','eaten','ate','eated'], correct:2},
     {q:'Best contrast connector is...', options:['because','although','and','so'], correct:1}
+    {q:'Choose the correct sentence order.', options:['Always I read at night.','I always read at night.','I read always at night.','Read I always at night.'], correct:1},
+    {q:'Best translation for "Ella estudia inglés" is...', options:['She study English.','She studies English.','She is study English.','She studying English.'], correct:1},
+    {q:'Choose the best connector for contrast.', options:['because','although','and','so'], correct:1}
   ];
 
   const pairBase = ['big|huge','small|tiny','start|begin','quick|fast'];
+  const pairBase = ['book|libro','teacher|profesor','fast|quick','happy|glad'];
 
   const wheelTasks = [
     'Say one sentence in present simple about your daily routine.',
@@ -619,6 +493,11 @@ function renderSpeedRace(){
     'Ask for directions politely in English.',
     'Give one prediction about tomorrow using will.',
     'Say 3 healthy habits using should.'
+    'Write one sentence in present simple about your daily routine.',
+    'Order these words to a correct sentence: always / she / on time / arrives.',
+    'Translate to English: "Nosotros jugamos después de clase."',
+    'Create one grammar rule with an example using because.',
+    'Say 3 school vocabulary words and use them in one sentence.'
   ];
 
   const anagrams = [
@@ -626,12 +505,17 @@ function renderSpeedRace(){
     {scrambled:'RYECCL', answer:'RECYCLE'},
     {scrambled:'MOREHOKW', answer:'HOMEWORK'},
     {scrambled:'TACOHB', answer:'CHATBOT'}
+    {scrambled:'ETRANSLATION', answer:'TRANSLATION'},
+    {scrambled:'YBULAROCAV', answer:'VOCABULARY'},
+    {scrambled:'MARRAG', answer:'GRAMMAR'},
+    {scrambled:'CEENTENES', answer:'SENTENCE'}
   ];
 
   function persist(){
     localStorage.setItem('pitGamesV4', JSON.stringify({score:state.score, stars:state.stars, best:state.best}));
   }
 
+  function persist(){ localStorage.setItem('pitGamesV5', JSON.stringify({score:state.score, stars:state.stars, best:state.best})); }
   function hud(){
     document.getElementById('score').textContent = state.score;
     document.getElementById('stars').textContent = state.stars;
@@ -655,6 +539,9 @@ function renderSpeedRace(){
     hud();
     persist();
   }
+  function tip(text){ document.getElementById('tip').textContent = text; }
+  function addScore(points, app){ state.score += points; if(app) state.best = app; hud(); persist(); }
+  function addStar(app){ state.stars += 1; state.best = app; hud(); persist(); }
 
   function startTimer(){
     if(state.timerRef) return;
@@ -687,6 +574,7 @@ function renderSpeedRace(){
     document.querySelectorAll('#quizAnswers button').forEach(btn=>{
       btn.addEventListener('click',()=>answerQuiz(Number(btn.dataset.i)));
     });
+    document.querySelectorAll('#quizAnswers button').forEach(btn=>btn.addEventListener('click',()=>answerQuiz(Number(btn.dataset.i))));
   }
 
   function answerQuiz(choice){
@@ -706,9 +594,12 @@ function renderSpeedRace(){
       addScore(10,'Quiz');
       fb.textContent = '✅ Correct! +10';
       fb.className = 'feedback ok';
+      state.quizCorrect++; addScore(10,'Quiz');
+      fb.textContent = '✅ Correct! +10'; fb.className = 'feedback ok';
     } else {
       fb.textContent = `❌ Wrong. Correct: ${q.options[q.correct]}`;
       fb.className = 'feedback bad';
+      fb.textContent = `❌ Wrong. Correct: ${q.options[q.correct]}`; fb.className = 'feedback bad';
     }
 
     document.getElementById('quizNext').disabled = false;
@@ -721,6 +612,7 @@ function renderSpeedRace(){
       return;
     }
 
+    if(state.quizIndex < quizData.length - 1){ state.quizIndex++; renderQuiz(); return; }
     const passed = state.quizCorrect >= 2;
     const fb = document.getElementById('quizFeedback');
     if(passed){
@@ -728,9 +620,12 @@ function renderSpeedRace(){
       addScore(20,'Quiz');
       fb.textContent = `🏆 Quiz cleared (${state.quizCorrect}/3). Star earned.`;
       fb.className = 'feedback ok';
+      addStar('Quiz'); addScore(20,'Quiz');
+      fb.textContent = `🏆 Quiz cleared (${state.quizCorrect}/3). Star earned.`; fb.className = 'feedback ok';
     } else {
       fb.textContent = `⚠️ Quiz result ${state.quizCorrect}/3. Need 2/3 for a star.`;
       fb.className = 'feedback bad';
+      fb.textContent = `⚠️ Quiz result ${state.quizCorrect}/3. Need 2/3 for a star.`; fb.className = 'feedback bad';
     }
     document.getElementById('quizNext').disabled = true;
   }
@@ -740,6 +635,7 @@ function renderSpeedRace(){
     state.quizCorrect = 0;
     renderQuiz();
   }
+  function restartQuiz(){ state.quizIndex = 0; state.quizCorrect = 0; renderQuiz(); }
 
   // Matching pairs app
   function setupPairs(){
@@ -748,6 +644,8 @@ function renderSpeedRace(){
       const [a,b] = pair.split('|');
       deck.push({id:`${idx}a`,pair:idx,text:a,open:false,matched:false});
       deck.push({id:`${idx}b`,pair:idx,text:b,open:false,matched:false});
+      deck.push({pair:idx,text:a,open:false,matched:false});
+      deck.push({pair:idx,text:b,open:false,matched:false});
     });
     state.pairsDeck = deck.sort(()=>Math.random()-0.5);
     state.pairsOpen = [];
@@ -776,10 +674,13 @@ function renderSpeedRace(){
         b.matched = true;
         state.pairsOpen = [];
         addScore(12,'Pairs');
+        a.matched = true; b.matched = true; state.pairsOpen = [];
+        addScore(12,'Matching');
         document.getElementById('pairsFeedback').textContent = '✅ Match! +12';
         document.getElementById('pairsFeedback').className = 'feedback ok';
         if(state.pairsDeck.every(x=>x.matched)){
           addStar('Pairs');
+          addStar('Matching');
           document.getElementById('pairsFeedback').textContent = '🏆 All pairs found. Star earned.';
         }
       } else {
@@ -791,6 +692,7 @@ function renderSpeedRace(){
           state.pairsOpen = [];
           drawPairs();
         },600);
+        setTimeout(()=>{ a.open = false; b.open = false; state.pairsOpen = []; drawPairs(); },600);
       }
     }
   }
@@ -824,14 +726,19 @@ function renderSpeedRace(){
       return;
     }
 
+    if(!input){ fb.textContent = 'Type an answer first.'; fb.className = 'feedback bad'; return; }
     if(input === item.answer){
       fb.textContent = '✅ Correct anagram! +10';
       fb.className = 'feedback ok';
       addScore(10,'Anagram');
       if(item.answer === 'CHATBOT') addStar('Anagram');
+      fb.textContent = '✅ Correct! +10'; fb.className = 'feedback ok';
+      addScore(10,'Unjumble');
+      if(item.answer === 'SENTENCE') addStar('Unjumble');
     } else {
       fb.textContent = `❌ Not correct. Try again.`;
       fb.className = 'feedback bad';
+      fb.textContent = '❌ Not correct. Try again.'; fb.className = 'feedback bad';
     }
   }
 
@@ -839,6 +746,7 @@ function renderSpeedRace(){
     state.anagramIndex = (state.anagramIndex + 1) % anagrams.length;
     renderAnagram();
   }
+  function nextAnagram(){ state.anagramIndex = (state.anagramIndex + 1) % anagrams.length; renderAnagram(); }
 
   function resetAll(){
     localStorage.removeItem('pitGamesV4');
@@ -852,9 +760,14 @@ function renderSpeedRace(){
     restartQuiz();
     setupPairs();
     renderAnagram();
+    localStorage.removeItem('pitGamesV5');
+    Object.assign(state,{score:0,stars:0,best:'-',quizIndex:0,quizCorrect:0,anagramIndex:0,seconds:0});
+    document.getElementById('timer').textContent = '00:00';
+    hud(); restartQuiz(); setupPairs(); renderAnagram();
     document.getElementById('wheelResult').textContent = 'Press SPIN to get a challenge.';
     document.getElementById('wheelFeedback').textContent = '';
     tip('Reset complete. Choose an app and play.');
+    persist();
   }
 
   // events
@@ -864,11 +777,8 @@ function renderSpeedRace(){
       tip(`Now using ${btn.textContent.split('\n')[0].trim()}.`);
     });
   });
-function renderGuacamole(){
-  const x=randomFrom(QUESTION_BANK.grammar);
-  renderMCQ('guacamole',`Guacamole [U${x.unit}] Whack the correct grammar mole!`,x.o,x.c,()=>{addStar('guacamole');});
-}
 
+  document.querySelectorAll('.gameBtn').forEach(btn=>btn.addEventListener('click',()=>{ activatePanel(btn.dataset.panel); tip(`Now using ${btn.textContent.split('\n')[0].trim()}.`); }));
   document.getElementById('quizNext').addEventListener('click', nextQuiz);
   document.getElementById('quizRestart').addEventListener('click', restartQuiz);
   document.getElementById('pairsRestart').addEventListener('click', setupPairs);
@@ -877,8 +787,6 @@ function renderGuacamole(){
   document.getElementById('anagramNext').addEventListener('click', nextAnagram);
   document.getElementById('pauseBtn').addEventListener('click', ()=>{ state.paused = !state.paused; tip(state.paused ? 'Timer paused.' : 'Timer resumed.'); });
   document.getElementById('resetBtn').addEventListener('click', resetAll);
-pauseBtn.onclick=()=>{state.paused=!state.paused;};
-resetBtn.onclick=()=>{localStorage.removeItem('gamesStationV1');state.score=0;state.stars=0;state.best='-';state.seconds=0;timer.textContent='00:00';hud();games[state.active].render();};
 
   // init
   hud();
@@ -886,7 +794,7 @@ resetBtn.onclick=()=>{localStorage.removeItem('gamesStationV1');state.score=0;st
   setupPairs();
   renderAnagram();
   startTimer();
-hud();buildMenu();games[state.active].render();startTimer();
+  hud(); restartQuiz(); setupPairs(); renderAnagram(); startTimer();
 </script>
 
 </body>
