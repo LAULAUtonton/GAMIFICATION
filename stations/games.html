@@ -1,1071 +1,538 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="es">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>THE PIT — Arcade</title>
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800&display=swap" rel="stylesheet">
-
-<style>
-  :root{
-    --bg1:#0ea5e9; --bg2:#1e3a8a; --bg3:#020617;
-    --panel:#0f172a;
-    --ink:#e5e7eb;
-    --muted:#94a3b8;
-    --cyan:#22d3ee;
-    --blue:#38bdf8;
-    --good:#22c55e;
-    --bad:#ef4444;
-    --gold:#fbbf24;
-  }
-  body{
-    margin:0;
-    font-family:'Orbitron',sans-serif;
-    background:radial-gradient(circle,var(--bg1) 0%,var(--bg2) 55%,var(--bg3) 100%);
-    color:var(--ink);
-  }
-  .wrap{
-    width:95%;
-    max-width:1200px;
-    margin:24px auto;
-    background:rgba(15,23,42,.92);
-    border:1px solid rgba(56,189,248,.25);
-    border-radius:22px;
-    box-shadow:0 30px 70px rgba(2,6,23,.6);
-    overflow:hidden;
-  }
-  .topbar{
-    display:flex;
-    justify-content:space-between;
-    gap:12px;
-    flex-wrap:wrap;
-    padding:14px 14px;
-    border-bottom:1px solid rgba(56,189,248,.2);
-    background:linear-gradient(180deg, rgba(2,6,23,.55), rgba(15,23,42,.45));
-    align-items:center;
-  }
-  .leftHUD{
-    display:flex;
-    gap:12px;
-    align-items:center;
-    flex-wrap:wrap;
-    font-size:13px;
-    color:var(--muted);
-  }
-  .pill{
-    padding:7px 10px;
-    border-radius:999px;
-    background:rgba(34,211,238,.08);
-    border:1px solid rgba(34,211,238,.22);
-    color:var(--ink);
-    font-weight:800;
-  }
-  .pill strong{ color:var(--cyan); }
-  .btnRow{
-    display:flex;
-    gap:10px;
-    flex-wrap:wrap;
-    align-items:center;
-  }
-  button{
-    font-family:'Orbitron',sans-serif;
-    font-weight:900;
-    border:none;
-    cursor:pointer;
-    border-radius:14px;
-    padding:10px 14px;
-    transition:transform .12s ease, filter .12s ease;
-  }
-  button:hover{ transform:translateY(-1px); filter:brightness(1.06); }
-  .btnBlue{ background:var(--blue); color:#02131f; }
-  .btnCyan{ background:rgba(34,211,238,.18); border:1px solid rgba(34,211,238,.35); color:var(--ink); }
-  .btnRed{ background:rgba(239,68,68,.92); color:white; }
-  .btnDark{ background:rgba(148,163,184,.12); border:1px solid rgba(148,163,184,.2); color:var(--ink); }
-  .select{
-    padding:10px 12px;
-    border-radius:14px;
-    background:rgba(148,163,184,.12);
-    border:1px solid rgba(148,163,184,.22);
-    color:var(--ink);
-    font-weight:900;
-    outline:none;
-  }
-
-  .main{
-    padding:16px;
-    display:grid;
-    grid-template-columns: 1fr;
-    gap:14px;
-  }
-
-  .panel{
-    background:rgba(2,6,23,.55);
-    border:1px solid rgba(56,189,248,.18);
-    border-radius:18px;
-    padding:14px;
-  }
-
-  .title{
-    font-size:18px;
-    letter-spacing:1px;
-    margin:0 0 6px 0;
-    color:var(--cyan);
-  }
-  .sub{
-    margin:0;
-    color:var(--muted);
-    font-size:12px;
-    line-height:1.4;
-  }
-
-  /* ARCADE MENU */
-  .arcadeGrid{
-    display:grid;
-    grid-template-columns:repeat(auto-fit, minmax(240px, 1fr));
-    gap:12px;
-    margin-top:12px;
-  }
-  .card{
-    border-radius:18px;
-    background:rgba(15,23,42,.75);
-    border:1px solid rgba(56,189,248,.22);
-    padding:14px;
-    box-shadow:0 12px 30px rgba(2,6,23,.45);
-  }
-  .card h3{
-    margin:0 0 8px 0;
-    color:var(--ink);
-    font-size:16px;
-  }
-  .tagRow{
-    display:flex;
-    gap:8px;
-    flex-wrap:wrap;
-    margin:8px 0 12px;
-  }
-  .tag{
-    font-size:11px;
-    padding:6px 8px;
-    border-radius:999px;
-    background:rgba(34,197,94,.12);
-    border:1px solid rgba(34,197,94,.22);
-    color:var(--ink);
-    font-weight:900;
-  }
-  .tag.blue{
-    background:rgba(56,189,248,.12);
-    border-color:rgba(56,189,248,.22);
-  }
-  .tag.gold{
-    background:rgba(251,191,36,.12);
-    border-color:rgba(251,191,36,.25);
-  }
-
-  .canvasWrap{
-    display:none;
-    padding:0;
-    overflow:hidden;
-  }
-  .canvasHolder{
-    width:100%;
-    border-radius:16px;
-    background:#020617;
-    border:1px solid rgba(34,211,238,.25);
-    box-shadow:0 0 28px rgba(34,211,238,.2);
-    overflow:hidden;
-  }
-  canvas{
-    display:block;
-    width:100%;
-    height:auto;
-  }
-
-  .hint{
-    color:var(--muted);
-    font-size:12px;
-    margin-top:10px;
-    line-height:1.4;
-  }
-
-  .toast{
-    margin-top:10px;
-    padding:12px 14px;
-    border-radius:14px;
-    background:rgba(34,211,238,.10);
-    border:1px solid rgba(34,211,238,.24);
-    color:var(--ink);
-    font-weight:900;
-    display:none;
-  }
-
-  @media (max-width:520px){
-    .leftHUD{ font-size:12px; }
-    button{ padding:10px 12px; }
-  }
-</style>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Word Invaders — Build the Sentence</title>
+  <style>
+    :root{
+      --bg:#050816;
+      --panel:rgba(255,255,255,.06);
+      --line:rgba(255,255,255,.14);
+      --ink:#eaf0ff;
+      --muted:#a8b4d8;
+      --ok:#2ee59d;
+      --bad:#ff5470;
+      --warn:#ffd166;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      background:radial-gradient(900px 520px at 20% -10%, rgba(123,92,255,.35), transparent 60%),
+                 radial-gradient(900px 520px at 90% 10%, rgba(46,229,157,.18), transparent 65%),
+                 var(--bg);
+      color:var(--ink);
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:14px;
+    }
+    .wrap{
+      width:min(1100px,100%);
+      display:grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap:12px;
+    }
+    @media(max-width:980px){.wrap{grid-template-columns:1fr}}
+    .card{
+      background:linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.03));
+      border:1px solid var(--line);
+      border-radius:18px;
+      box-shadow:0 18px 50px rgba(0,0,0,.45);
+      overflow:hidden;
+    }
+    .top{
+      padding:12px 14px;
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:10px;
+      background:rgba(0,0,0,.18);
+      border-bottom:1px solid var(--line);
+    }
+    h1{margin:0;font-size:16px;letter-spacing:.3px}
+    .sub{margin:4px 0 0;color:var(--muted);font-size:12px;line-height:1.3}
+    .pills{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+    .pill{
+      background:var(--panel);
+      border:1px solid var(--line);
+      border-radius:999px;
+      padding:7px 10px;
+      font-weight:900;
+      font-size:12px;
+      color:var(--ink);
+      white-space:nowrap;
+      user-select:none;
+    }
+    .pill b{color:var(--warn)}
+    canvas{display:block;width:100%;height:auto;background:#020413}
+    .side{padding:12px 14px}
+    .box{
+      background:var(--panel);
+      border:1px solid var(--line);
+      border-radius:14px;
+      padding:10px;
+      margin-bottom:10px;
+    }
+    .box h2{
+      margin:0 0 8px;
+      font-size:12px;
+      letter-spacing:.45px;
+      text-transform:uppercase;
+      color:var(--muted);
+    }
+    .slots{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      align-items:center;
+      min-height:44px;
+    }
+    .slot{
+      min-width:44px;
+      padding:10px 12px;
+      border-radius:12px;
+      border:1px dashed rgba(255,255,255,.22);
+      background:rgba(0,0,0,.18);
+      font-weight:1000;
+      text-align:center;
+      color:rgba(255,255,255,.7);
+    }
+    .slot.filled{
+      border-style:solid;
+      border-color:rgba(46,229,157,.55);
+      background:rgba(46,229,157,.12);
+      color:var(--ink);
+    }
+    .fb{
+      min-height:22px;
+      font-weight:900;
+      color:var(--muted);
+      line-height:1.25;
+      font-size:12px;
+    }
+    .fb.ok{color:var(--ok)}
+    .fb.bad{color:var(--bad)}
+    .row{display:flex;gap:8px;flex-wrap:wrap}
+    .btn{
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.08);
+      color:var(--ink);
+      padding:10px 12px;
+      border-radius:14px;
+      font-weight:1000;
+      cursor:pointer;
+      user-select:none;
+    }
+    .btn.primary{background:rgba(123,92,255,.25);border-color:rgba(123,92,255,.55)}
+    .hint{
+      margin:8px 0 0;
+      color:var(--muted);
+      font-size:12px;
+      line-height:1.35;
+    }
+    .kbd{
+      font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.08);
+      padding:2px 6px;
+      border-radius:8px;
+      font-weight:900;
+      color:var(--ink);
+    }
+  </style>
 </head>
-
 <body>
-<div class="wrap">
-
-  <div class="topbar">
-    <div class="leftHUD">
-      <div class="pill">MODE: <strong id="hudMode">ARCADE</strong></div>
-      <div class="pill">SCORE: <strong id="hudScore">0</strong></div>
-      <div class="pill">LIVES: <strong id="hudLives">3</strong></div>
-      <div class="pill">LEVEL: <strong id="hudLevel">EASY</strong></div>
-      <div class="pill">TARGET: <strong id="hudTarget">—</strong></div>
-    </div>
-
-    <div class="btnRow">
-      <select id="levelSel" class="select" title="Difficulty">
-        <option value="easy" selected>EASY</option>
-        <option value="hard">HARD</option>
-      </select>
-
-      <button class="btnBlue" id="startBtn">START</button>
-      <button class="btnCyan" id="pauseBtn">PAUSE</button>
-      <button class="btnDark" id="restartBtn">RESTART</button>
-      <button class="btnDark" id="menuBtn">MAIN MENU</button>
-      <button class="btnRed" id="backBtn">BACK TO THE PIT</button>
-    </div>
-  </div>
-
-  <div class="main">
-
-    <!-- ARCADE MENU PANEL -->
-    <div class="panel" id="menuPanel">
-      <h2 class="title">THE PIT — ARCADE</h2>
-      <p class="sub">Choose a game. Nothing starts automatically. Use START when you are ready.</p>
-
-      <div class="arcadeGrid">
-        <div class="card">
-          <h3>👾 Space Invaders — Vocabulary</h3>
-          <div class="tagRow">
-            <span class="tag blue">vocab</span>
-            <span class="tag gold">reaction</span>
-            <span class="tag">target word</span>
-          </div>
-          <p class="sub">
-            Shoot the correct “word-ship”. Wrong word = lose a life.
-          </p>
-          <div style="display:flex; gap:10px; margin-top:12px; flex-wrap:wrap;">
-            <button class="btnBlue" id="pickInvaders">PLAY</button>
-            <button class="btnCyan" id="demoInvaders">PREVIEW</button>
+  <div class="wrap">
+    <div class="card">
+      <div class="top">
+        <div>
+          <h1>Word Invaders — Build the Sentence</h1>
+          <div class="sub">
+            Instrucciones: mueve con <span class="kbd">← →</span> o <span class="kbd">A D</span>. Dispara con <span class="kbd">Espacio</span>.
+            No hay pistas de qué palabra es correcta.
           </div>
         </div>
-
-        <div class="card">
-          <h3>🟡 Pacman — Sentence Builder</h3>
-          <div class="tagRow">
-            <span class="tag blue">order</span>
-            <span class="tag gold">reading</span>
-            <span class="tag">grammar</span>
-          </div>
-          <p class="sub">
-            Collect words in the correct order to build the sentence.
-          </p>
-          <div style="display:flex; gap:10px; margin-top:12px; flex-wrap:wrap;">
-            <button class="btnBlue" id="pickPacman">PLAY</button>
-            <button class="btnCyan" id="demoPacman">PREVIEW</button>
-          </div>
+        <div class="pills">
+          <div class="pill">❤️ Lives: <b id="lives">3</b></div>
+          <div class="pill">❌ Strikes: <b id="strikes">0</b></div>
+          <div class="pill">🔥 Streak: <b id="streak">0</b></div>
+          <div class="pill">⭐ Score: <b id="score">0</b></div>
         </div>
       </div>
-
-      <div class="hint">
-        Controls:<br>
-        • Space Invaders: ← → to move, Space to shoot, P to pause.<br>
-        • Pacman: Arrow keys to move, P to pause.<br>
-        • ESC always returns to Main Menu.
-      </div>
-
-      <div class="toast" id="toast"></div>
+      <canvas id="cv" width="900" height="560"></canvas>
     </div>
 
-    <!-- CANVAS PANEL -->
-    <div class="panel canvasWrap" id="gamePanel">
-      <h2 class="title" id="gameTitle">Game</h2>
-      <p class="sub" id="gameSub">—</p>
-
-      <div class="canvasHolder" style="margin-top:12px;">
-        <canvas id="cv" width="1000" height="600"></canvas>
+    <div class="card side">
+      <div class="box">
+        <h2>Progreso</h2>
+        <div class="slots" id="slots"></div>
+        <div class="fb" id="fb">Pulsa “Start” para comenzar.</div>
       </div>
 
-      <div class="hint" id="gameHint"></div>
+      <div class="box">
+        <h2>Controles</h2>
+        <div class="row">
+          <button class="btn primary" id="startBtn">Start</button>
+          <button class="btn" id="nextBtn">Next sentence</button>
+          <button class="btn" id="restartBtn">Restart</button>
+          <button class="btn" onclick="location.href='games.html'">Back</button>
+        </div>
+        <p class="hint">
+          Ajuste clave: este juego mantiene <b>pocas palabras</b> en pantalla (6–10).<br>
+          El alumno debe disparar por comprensión (sin resaltar la palabra correcta).
+        </p>
+      </div>
     </div>
-
   </div>
-</div>
 
 <script>
-/* ===========================
-   NAV / UI
-=========================== */
-const hudMode = document.getElementById("hudMode");
-const hudScore = document.getElementById("hudScore");
-const hudLives = document.getElementById("hudLives");
-const hudLevel = document.getElementById("hudLevel");
-const hudTarget = document.getElementById("hudTarget");
-
-const levelSel = document.getElementById("levelSel");
-const startBtn = document.getElementById("startBtn");
-const pauseBtn = document.getElementById("pauseBtn");
-const restartBtn = document.getElementById("restartBtn");
-const menuBtn = document.getElementById("menuBtn");
-const backBtn = document.getElementById("backBtn");
-
-const menuPanel = document.getElementById("menuPanel");
-const gamePanel = document.getElementById("gamePanel");
-const toast = document.getElementById("toast");
-
-const pickInvaders = document.getElementById("pickInvaders");
-const demoInvaders = document.getElementById("demoInvaders");
-const pickPacman = document.getElementById("pickPacman");
-const demoPacman = document.getElementById("demoPacman");
-
-const gameTitle = document.getElementById("gameTitle");
-const gameSub = document.getElementById("gameSub");
-const gameHint = document.getElementById("gameHint");
-
-function goBackToPit(){
-  // ✅ stations/games.html -> ../index.html
-  window.location.href = "../index.html";
-}
-backBtn.addEventListener("click", goBackToPit);
-
-function showToast(msg){
-  toast.style.display = "block";
-  toast.textContent = msg;
-  setTimeout(()=>toast.style.display="none", 1800);
-}
-
-function showMenu(){
-  currentGame = "menu";
-  running = false;
-  paused = false;
-  cancelAnimationFrame(raf);
-  menuPanel.style.display = "block";
-  gamePanel.style.display = "none";
-  hudMode.textContent = "ARCADE";
-  hudTarget.textContent = "—";
-}
-menuBtn.addEventListener("click", showMenu);
-
-function showGamePanel(){
-  menuPanel.style.display = "none";
-  gamePanel.style.display = "block";
-}
-
-function levelSettings(){
-  const lvl = levelSel.value;
-  hudLevel.textContent = lvl.toUpperCase();
-  return lvl;
-}
-
-/* ===========================
-   CANVAS SETUP
-=========================== */
-const cv = document.getElementById("cv");
-const ctx = cv.getContext("2d");
-
-function clear(){
-  ctx.clearRect(0,0,cv.width,cv.height);
-}
-
-/* ===========================
-   GLOBAL GAME STATE
-=========================== */
-let currentGame = "menu"; // menu | invaders | pacman
-let running = false;
-let paused = false;
-let raf = 0;
-
-let score = 0;
-let lives = 3;
-
-function resetHUD(){
-  hudScore.textContent = String(score);
-  hudLives.textContent = String(lives);
-}
-function setMode(name){
-  hudMode.textContent = name;
-}
-
-/* ===========================
-   VOCAB (8 units style)
-   (You can replace/expand later)
-=========================== */
-const VOCAB = [
-  "appear","disappear","container","safe","worried","excited",
-  "designer","illustrator","photographer","brilliant","enormous",
-  "festival","volunteer","charity","recycle","renewable","community",
-  "responsible","protect","rules","attendance","uniform",
-  "somebody","nobody","everybody","anyone","something","nothing"
-];
-
-/* ===========================
-   SPACE INVADERS
-=========================== */
-const Invaders = {
-  player: { x: 500, y: 540, w: 60, h: 24, speed: 7 },
-  bullets: [],
-  enemyBullets: [],
-  enemies: [],
-  dir: 1,
-  baseSpeed: 1.15,
-  drop: 18,
-  cooldown: 0,
-  target: "—",
-  lastShot: 0
-};
-
-function invadersPickTarget(){
-  Invaders.target = VOCAB[Math.floor(Math.random()*VOCAB.length)];
-  hudTarget.textContent = Invaders.target;
-}
-
-function invadersCreateFleet(){
-  Invaders.enemies = [];
-  const lvl = levelSettings();
-  const rows = (lvl === "hard") ? 4 : 3;
-  const cols = (lvl === "hard") ? 8 : 7;
-
-  const startX = 120;
-  const startY = 120;
-  const gapX = 105;
-  const gapY = 70;
-
-  // Scale is smaller + cleaner than before
-  for(let r=0; r<rows; r++){
-    for(let c=0; c<cols; c++){
-      const word = VOCAB[(r*cols + c) % VOCAB.length];
-      Invaders.enemies.push({
-        word,
-        x: startX + c*gapX,
-        y: startY + r*gapY,
-        alive: true,
-        w: 70,
-        h: 34
-      });
-    }
-  }
-  Invaders.dir = 1;
-}
-
-function drawStarfield(){
-  // simple starfield
-  ctx.fillStyle = "#020617";
-  ctx.fillRect(0,0,cv.width,cv.height);
-
-  ctx.globalAlpha = 0.6;
-  for(let i=0;i<70;i++){
-    const x = (i*137) % cv.width;
-    const y = (i*271) % cv.height;
-    ctx.fillStyle = (i%7===0) ? "#38bdf8" : "#ffffff";
-    ctx.fillRect(x, y, (i%7===0)?2:1, (i%7===0)?2:1);
-  }
-  ctx.globalAlpha = 1;
-}
-
-function drawPlayerShip(){
-  const p = Invaders.player;
-
-  // ship body
-  ctx.save();
-  ctx.translate(p.x, p.y);
-
-  ctx.shadowBlur = 18;
-  ctx.shadowColor = "#22d3ee";
-
-  ctx.fillStyle = "#22d3ee";
-  ctx.beginPath();
-  ctx.moveTo(-26, 18);
-  ctx.lineTo(0, -8);
-  ctx.lineTo(26, 18);
-  ctx.closePath();
-  ctx.fill();
-
-  ctx.shadowBlur = 0;
-  ctx.fillStyle = "#38bdf8";
-  ctx.fillRect(-18, 18, 36, 8);
-
-  // cockpit
-  ctx.fillStyle = "#0f172a";
-  ctx.fillRect(-6, 6, 12, 8);
-
-  ctx.restore();
-}
-
-function drawEnemyShip(e){
-  // spaceship-like enemy + word label
-  ctx.save();
-  ctx.translate(e.x, e.y);
-
-  // hull
-  ctx.shadowBlur = 14;
-  ctx.shadowColor = "#38bdf8";
-  ctx.fillStyle = "#1e40af";
-  ctx.beginPath();
-  ctx.moveTo(-30, 10);
-  ctx.quadraticCurveTo(0, -14, 30, 10);
-  ctx.lineTo(18, 16);
-  ctx.lineTo(-18, 16);
-  ctx.closePath();
-  ctx.fill();
-
-  // wings
-  ctx.shadowBlur = 0;
-  ctx.fillStyle = "#0b2a6b";
-  ctx.fillRect(-34, 10, 12, 8);
-  ctx.fillRect(22, 10, 12, 8);
-
-  // word label (readable but not huge)
-  ctx.fillStyle = "#e5e7eb";
-  ctx.font = "800 18px Orbitron";
-  ctx.textAlign = "center";
-  ctx.fillText(e.word, 0, 42);
-
-  ctx.restore();
-}
-
-function invadersUpdate(){
-  const lvl = levelSettings();
-  const speed = (lvl === "hard") ? 1.9 : 1.35;
-
-  let minX = Infinity, maxX = -Infinity;
-  Invaders.enemies.forEach(e=>{
-    if(!e.alive) return;
-    e.x += speed * Invaders.dir;
-    minX = Math.min(minX, e.x - 34);
-    maxX = Math.max(maxX, e.x + 34);
-  });
-
-  if(minX < 60 || maxX > cv.width - 60){
-    Invaders.dir *= -1;
-    Invaders.enemies.forEach(e=>{
-      if(e.alive) e.y += Invaders.drop;
-    });
-  }
-
-  // enemy shooting (light)
-  if(Math.random() < (lvl==="hard" ? 0.03 : 0.015)){
-    const alive = Invaders.enemies.filter(e=>e.alive);
-    if(alive.length){
-      const shooter = alive[Math.floor(Math.random()*alive.length)];
-      Invaders.enemyBullets.push({ x: shooter.x, y: shooter.y+20, vy: (lvl==="hard"?4.8:4.0) });
-    }
-  }
-
-  // bullets update
-  Invaders.bullets.forEach(b=> b.y -= b.vy);
-  Invaders.bullets = Invaders.bullets.filter(b=> b.y > -20);
-
-  Invaders.enemyBullets.forEach(b=> b.y += b.vy);
-  Invaders.enemyBullets = Invaders.enemyBullets.filter(b=> b.y < cv.height+20);
-
-  // collisions: player bullets vs enemies
-  Invaders.bullets.forEach(b=>{
-    Invaders.enemies.forEach(e=>{
-      if(!e.alive) return;
-      const ex = e.x, ey = e.y;
-      // approx hitbox around enemy hull
-      if(b.x > ex-38 && b.x < ex+38 && b.y > ey-16 && b.y < ey+26){
-        e.alive = false;
-        b.hit = true;
-
-        if(e.word === Invaders.target){
-          score += 10;
-          invadersPickTarget();
-        }else{
-          lives -= 1;
-        }
-        resetHUD();
-      }
-    });
-  });
-  Invaders.bullets = Invaders.bullets.filter(b=> !b.hit);
-
-  // collisions: enemy bullets vs player
-  const p = Invaders.player;
-  Invaders.enemyBullets.forEach(b=>{
-    if(b.x > p.x-30 && b.x < p.x+30 && b.y > p.y-12 && b.y < p.y+26){
-      b.hit = true;
-      lives -= 1;
-      resetHUD();
-    }
-  });
-  Invaders.enemyBullets = Invaders.enemyBullets.filter(b=> !b.hit);
-
-  // lose if invaders reach player area
-  const lowest = Math.max(...Invaders.enemies.filter(e=>e.alive).map(e=>e.y), 0);
-  if(lowest > 470) lives = 0;
-
-  // win wave: if all dead, new fleet
-  if(Invaders.enemies.every(e=>!e.alive)){
-    invadersCreateFleet();
-    invadersPickTarget();
-  }
-}
-
-function invadersDraw(){
-  drawStarfield();
-
-  // title overlay
-  ctx.fillStyle = "rgba(34,211,238,.10)";
-  ctx.fillRect(0,0,cv.width,64);
-  ctx.fillStyle = "#e5e7eb";
-  ctx.font = "800 18px Orbitron";
-  ctx.textAlign = "left";
-  ctx.fillText("SPACE INVADERS — Shoot the TARGET word", 22, 40);
-
-  // enemies
-  Invaders.enemies.forEach(e=>{
-    if(e.alive) drawEnemyShip(e);
-  });
-
-  // bullets
-  // player bullets = cyan
-  Invaders.bullets.forEach(b=>{
-    ctx.save();
-    ctx.shadowBlur = 12;
-    ctx.shadowColor = "#22d3ee";
-    ctx.fillStyle = "#22d3ee";
-    ctx.beginPath();
-    ctx.arc(b.x, b.y, 5, 0, Math.PI*2);
-    ctx.fill();
-    ctx.restore();
-  });
-
-  // enemy bullets = orange
-  Invaders.enemyBullets.forEach(b=>{
-    ctx.save();
-    ctx.shadowBlur = 10;
-    ctx.shadowColor = "#fbbf24";
-    ctx.fillStyle = "#fbbf24";
-    ctx.beginPath();
-    ctx.arc(b.x, b.y, 4, 0, Math.PI*2);
-    ctx.fill();
-    ctx.restore();
-  });
-
-  drawPlayerShip();
-
-  // pause overlay
-  if(paused){
-    ctx.fillStyle = "rgba(2,6,23,.65)";
-    ctx.fillRect(0,0,cv.width,cv.height);
-    ctx.fillStyle = "#e5e7eb";
-    ctx.font = "800 48px Orbitron";
-    ctx.textAlign = "center";
-    ctx.fillText("PAUSED", cv.width/2, cv.height/2);
-    ctx.font = "800 16px Orbitron";
-    ctx.fillText("Press P to resume", cv.width/2, cv.height/2 + 34);
-  }
-
-  // game over overlay
-  if(lives <= 0){
-    ctx.fillStyle = "rgba(2,6,23,.75)";
-    ctx.fillRect(0,0,cv.width,cv.height);
-    ctx.fillStyle = "#ef4444";
-    ctx.font = "800 56px Orbitron";
-    ctx.textAlign = "center";
-    ctx.fillText("GAME OVER", cv.width/2, cv.height/2);
-    ctx.fillStyle = "#e5e7eb";
-    ctx.font = "800 16px Orbitron";
-    ctx.fillText("Press RESTART or go to MAIN MENU", cv.width/2, cv.height/2 + 38);
-  }
-}
-
-function invadersLoop(){
-  if(!running) return;
-  if(currentGame !== "invaders") return;
-
-  if(!paused && lives > 0){
-    invadersUpdate();
-  }
-  invadersDraw();
-  raf = requestAnimationFrame(invadersLoop);
-}
-
-function startInvaders(){
-  score = 0;
-  lives = 3;
-  resetHUD();
-  setMode("INVADERS");
-  showGamePanel();
-
-  gameTitle.textContent = "👾 Space Invaders — Vocabulary";
-  gameSub.textContent = "Shoot the TARGET word. Wrong word = lose a life.";
-  gameHint.textContent = "Controls: ← → move, Space shoot, P pause, ESC menu";
-
-  invadersCreateFleet();
-  invadersPickTarget();
-  Invaders.player.x = cv.width/2;
-  Invaders.bullets = [];
-  Invaders.enemyBullets = [];
-
-  currentGame = "invaders";
-  paused = false;
-  running = false; // wait for START button
-}
-
-function previewInvaders(){
-  startInvaders();
-  showToast("Preview loaded. Press START to play.");
-}
-
-/* ===========================
-   PACMAN — SENTENCE BUILDER
-   (Simple classic grid feel)
-=========================== */
-const Pac = {
-  gridW: 20, gridH: 12, cell: 48,
-  px: 2, py: 2,
-  dx: 0, dy: 0,
-  walls: new Set(),
-  words: [], // {w,x,y}
-  sentence: [],
-  targetSentence: []
-};
-
-function pacCellKey(x,y){ return `${x},${y}`; }
-
-function pacSetup(){
-  const lvl = levelSettings();
-  // grid size fixed to canvas; cell size adapted
-  Pac.gridW = 20;
-  Pac.gridH = 12;
-  Pac.cell = Math.floor(Math.min(cv.width/Pac.gridW, cv.height/Pac.gridH));
-  Pac.px = 1; Pac.py = 1;
-  Pac.dx = 0; Pac.dy = 0;
-  Pac.walls = new Set();
-
-  // simple maze walls (borders + some blocks)
-  for(let x=0;x<Pac.gridW;x++){
-    Pac.walls.add(pacCellKey(x,0));
-    Pac.walls.add(pacCellKey(x,Pac.gridH-1));
-  }
-  for(let y=0;y<Pac.gridH;y++){
-    Pac.walls.add(pacCellKey(0,y));
-    Pac.walls.add(pacCellKey(Pac.gridW-1,y));
-  }
-
-  // internal walls (slightly more in hard)
-  const blocks = (lvl==="hard") ? 26 : 18;
-  let tries=0;
-  while(Pac.walls.size < (Pac.gridW*2 + Pac.gridH*2) + blocks && tries<500){
-    tries++;
-    const x = 1 + Math.floor(Math.random()*(Pac.gridW-2));
-    const y = 1 + Math.floor(Math.random()*(Pac.gridH-2));
-    if((x===Pac.px && y===Pac.py) || (x===Pac.gridW-2 && y===Pac.gridH-2)) continue;
-    Pac.walls.add(pacCellKey(x,y));
-  }
-
-  // sentence bank
-  const sentences = [
-    ["We","volunteer","for","the","community","festival","."],
-    ["You","must","protect","your","password","online","."],
-    ["Renewable","energy","is","safer","for","our","future","."],
-    ["Somebody","found","a","container","in","the","park","."],
-    ["They","were","excited","because","the","artist","appeared","."],
+(() => {
+  // ========= EDIT BANK HERE =========
+  const SENTENCES = [
+    "I always do my homework at night.",
+    "She doesn’t like coffee.",
+    "Do they play football on Fridays?",
+    "We don’t watch TV in the morning.",
+    "I will call you tonight.",
+    "They are going to visit Madrid tomorrow.",
+    "If it rains, we will stay at home.",
+    "If you study, you will pass the test."
   ];
 
-  Pac.targetSentence = sentences[Math.floor(Math.random()*sentences.length)];
-  hudTarget.textContent = Pac.targetSentence.join(" ");
+  // ========= CONFIG =========
+  const MAX_WORDS_ON_SCREEN = 8;       // << FEWER WORDS
+  const FALL_SPEED_MIN = 0.35;
+  const FALL_SPEED_MAX = 0.65;
+  const SPAWN_MS = 900;
+  const SHOT_SPEED = 8;
 
-  // place words randomly
-  Pac.words = [];
-  const placed = new Set();
-  for(const w of Pac.targetSentence){
-    // do not place punctuation as collectible; auto-add at end
-    if(w === ".") continue;
+  const cv = document.getElementById("cv");
+  const ctx = cv.getContext("2d");
 
-    let placedOK=false;
-    for(let k=0;k<200 && !placedOK;k++){
-      const x = 1 + Math.floor(Math.random()*(Pac.gridW-2));
-      const y = 1 + Math.floor(Math.random()*(Pac.gridH-2));
-      const key = pacCellKey(x,y);
-      if(Pac.walls.has(key)) continue;
-      if(placed.has(key)) continue;
-      if(x===Pac.px && y===Pac.py) continue;
-      placed.add(key);
-      Pac.words.push({ w, x, y, eaten:false });
-      placedOK=true;
+  const UI = {
+    lives: document.getElementById("lives"),
+    strikes: document.getElementById("strikes"),
+    streak: document.getElementById("streak"),
+    score: document.getElementById("score"),
+    slots: document.getElementById("slots"),
+    fb: document.getElementById("fb"),
+    startBtn: document.getElementById("startBtn"),
+    nextBtn: document.getElementById("nextBtn"),
+    restartBtn: document.getElementById("restartBtn"),
+  };
+
+  const W = cv.width, H = cv.height;
+
+  const state = {
+    running:false,
+    sentence:"",
+    tokens:[],
+    expected:0,
+    lives:3,
+    strikes:0,
+    streak:0,
+    score:0,
+    lastSpawn:0,
+    words:[], // {text,x,y,vy,isCorrect,idx,w,h}
+    shots:[], // {x,y}
+    ship:{x:W/2, w:64, h:22, speed:6},
+    keys:{},
+    lastT:0
+  };
+
+  function padSlots(){
+    UI.slots.innerHTML = "";
+    state.tokens.forEach((_,i)=>{
+      const d = document.createElement("div");
+      d.className = "slot" + (i < state.expected ? " filled" : "");
+      d.textContent = (i < state.expected) ? "✓" : "_";
+      UI.slots.appendChild(d);
+    });
+  }
+
+  function setFB(msg, cls=""){
+    UI.fb.className = "fb" + (cls ? ` ${cls}` : "");
+    UI.fb.textContent = msg;
+  }
+
+  function updateHUD(){
+    UI.lives.textContent = state.lives;
+    UI.strikes.textContent = state.strikes;
+    UI.streak.textContent = state.streak;
+    UI.score.textContent = state.score;
+    padSlots();
+  }
+
+  function pickSentence(){
+    state.sentence = SENTENCES[Math.floor(Math.random()*SENTENCES.length)];
+    state.tokens = state.sentence.trim().split(/\s+/);
+    state.expected = 0;
+    state.words = [];
+    state.shots = [];
+    state.lastSpawn = 0;
+    updateHUD();
+    setFB("Juego iniciado. Construye la frase disparando palabras.", "");
+  }
+
+  function resetAll(){
+    state.running = false;
+    state.lives = 3;
+    state.strikes = 0;
+    state.streak = 0;
+    state.score = 0;
+    pickSentence();
+  }
+
+  function spawnWord(){
+    if (state.words.length >= MAX_WORDS_ON_SCREEN) return;
+
+    // create pool: correct tokens + distractors
+    const distractPool = new Set();
+    SENTENCES.forEach(s=>{
+      if (s === state.sentence) return;
+      s.trim().split(/\s+/).forEach(w=>distractPool.add(w));
+    });
+    const distract = [...distractPool];
+
+    // 60% chance to spawn a correct remaining token (random among remaining)
+    let isCorrect = Math.random() < 0.60 && state.expected < state.tokens.length;
+    let text, idx;
+
+    if (isCorrect) {
+      // spawn one of the remaining correct tokens (NOT necessarily the next one)
+      const remaining = [];
+      for (let i=state.expected; i<state.tokens.length; i++) remaining.push(i);
+      idx = remaining[Math.floor(Math.random()*remaining.length)];
+      text = state.tokens[idx];
+    } else {
+      text = distract.length ? distract[Math.floor(Math.random()*distract.length)] : "the";
+      idx = -1;
     }
+
+    const x = 40 + Math.random()*(W-80);
+    const y = -30;
+    const vy = FALL_SPEED_MIN + Math.random()*(FALL_SPEED_MAX-FALL_SPEED_MIN);
+
+    state.words.push({
+      text, x, y, vy, isCorrect: idx>=0, idx,
+      w: 0, h: 0
+    });
   }
 
-  Pac.sentence = [];
-}
+  function drawShip(){
+    const x = state.ship.x;
+    const y = H - 50;
+    // body
+    ctx.fillStyle = "rgba(255,255,255,.9)";
+    ctx.fillRect(x - state.ship.w/2, y, state.ship.w, state.ship.h);
+    // cannon
+    ctx.fillStyle = "rgba(123,92,255,.9)";
+    ctx.fillRect(x - 7, y - 16, 14, 16);
+    ctx.fillStyle = "rgba(0,0,0,.35)";
+    ctx.fillRect(x - state.ship.w/2, y + state.ship.h - 4, state.ship.w, 4);
+  }
 
-function pacTryMove(){
-  const nx = Pac.px + Pac.dx;
-  const ny = Pac.py + Pac.dy;
-  if(Pac.walls.has(pacCellKey(nx,ny))) return;
-  Pac.px = nx; Pac.py = ny;
-}
+  function measureWord(word, fontSize){
+    ctx.font = `1000 ${fontSize}px system-ui, -apple-system, Segoe UI, Roboto, Arial`;
+    const w = ctx.measureText(word).width;
+    return {w, h: fontSize + 10};
+  }
 
-function pacEat(){
-  const nextWord = Pac.targetSentence[Pac.sentence.length];
-  for(const item of Pac.words){
-    if(item.eaten) continue;
-    if(item.x===Pac.px && item.y===Pac.py){
-      // must eat correct next word
-      if(item.w === nextWord){
-        item.eaten = true;
-        Pac.sentence.push(item.w);
-        score += 2;
-      }else{
-        // wrong order
-        lives -= 1;
-      }
-      resetHUD();
-      break;
+  function drawWord(w){
+    // BIG font
+    let fontSize = 22;
+    let m = measureWord(w.text, fontSize);
+    while (m.w > 200 && fontSize > 14){
+      fontSize -= 1;
+      m = measureWord(w.text, fontSize);
     }
-  }
+    w.w = m.w + 24;
+    w.h = m.h;
 
-  // win condition: all words (except ".") eaten in order
-  const goalLen = Pac.targetSentence.filter(w=>w!==".").length;
-  if(Pac.sentence.length === goalLen){
-    score += 10;
-    resetHUD();
-    // new sentence round
-    pacSetup();
-  }
-}
+    const x = w.x - w.w/2;
+    const y = w.y - w.h/2;
 
-function pacDraw(){
-  // background
-  ctx.fillStyle = "#020617";
-  ctx.fillRect(0,0,cv.width,cv.height);
-
-  // grid
-  const cs = Pac.cell;
-  const offX = Math.floor((cv.width - cs*Pac.gridW)/2);
-  const offY = Math.floor((cv.height - cs*Pac.gridH)/2);
-
-  // walls
-  for(let y=0;y<Pac.gridH;y++){
-    for(let x=0;x<Pac.gridW;x++){
-      const key = pacCellKey(x,y);
-      if(Pac.walls.has(key)){
-        ctx.fillStyle = "rgba(56,189,248,.35)";
-        ctx.fillRect(offX + x*cs, offY + y*cs, cs, cs);
-      }else{
-        ctx.fillStyle = "rgba(148,163,184,.04)";
-        ctx.fillRect(offX + x*cs, offY + y*cs, cs, cs);
-      }
-    }
-  }
-
-  // words
-  ctx.font = "800 14px Orbitron";
-  ctx.textAlign = "center";
-  ctx.textBaseline = "middle";
-
-  Pac.words.forEach(item=>{
-    if(item.eaten) return;
-    const x = offX + item.x*cs + cs/2;
-    const y = offY + item.y*cs + cs/2;
-
-    ctx.fillStyle = "rgba(251,191,36,.18)";
-    ctx.strokeStyle = "rgba(251,191,36,.45)";
-    ctx.lineWidth = 2;
-    ctx.beginPath();
-    ctx.roundRect(x - cs*0.44, y - cs*0.30, cs*0.88, cs*0.60, 10);
+    ctx.fillStyle = "rgba(255,255,255,.10)";
+    ctx.strokeStyle = "rgba(255,255,255,.20)";
+    ctx.lineWidth = 1.2;
+    roundRect(x, y, w.w, w.h, 14);
     ctx.fill();
     ctx.stroke();
 
-    ctx.fillStyle = "#e5e7eb";
-    ctx.fillText(item.w, x, y);
+    ctx.fillStyle = "rgba(255,255,255,.95)";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.font = `1000 ${fontSize}px system-ui, -apple-system, Segoe UI, Roboto, Arial`;
+    ctx.fillText(w.text, w.x, w.y + 1);
+  }
+
+  function roundRect(x,y,w,h,r){
+    ctx.beginPath();
+    ctx.moveTo(x+r,y);
+    ctx.arcTo(x+w,y,x+w,y+h,r);
+    ctx.arcTo(x+w,y+h,x,y+h,r);
+    ctx.arcTo(x,y+h,x,y,r);
+    ctx.arcTo(x,y,x+w,y,r);
+    ctx.closePath();
+  }
+
+  function shoot(){
+    if (!state.running) return;
+    state.shots.push({x: state.ship.x, y: H - 70});
+  }
+
+  function handleHit(word){
+    // Only correct if it matches the NEXT required token (idx === expected)
+    const expectedText = state.tokens[state.expected];
+    const ok = word.isCorrect && word.idx === state.expected && word.text === expectedText;
+
+    if (ok){
+      state.expected++;
+      state.score += 10;
+      state.streak++;
+      setFB("✅ Correct!", "ok");
+
+      if (state.expected >= state.tokens.length){
+        state.running = false;
+        state.score += 30;
+        setFB("🏆 Sentence completed! Press Next sentence.", "ok");
+      }
+    } else {
+      state.strikes++;
+      state.streak = 0;
+      state.lives--;
+      setFB("❌ Wrong word.", "bad");
+      if (state.lives <= 0){
+        state.running = false;
+        setFB("💀 Game Over. Press Restart.", "bad");
+      }
+    }
+    updateHUD();
+  }
+
+  function update(dt, t){
+    // movement
+    if (state.keys["ArrowLeft"] || state.keys["a"]) state.ship.x -= state.ship.speed;
+    if (state.keys["ArrowRight"] || state.keys["d"]) state.ship.x += state.ship.speed;
+    state.ship.x = Math.max(40, Math.min(W-40, state.ship.x));
+
+    // spawn
+    if (state.running && t - state.lastSpawn > SPAWN_MS){
+      state.lastSpawn = t;
+      spawnWord();
+    }
+
+    // words fall
+    for (const w of state.words) w.y += w.vy * dt;
+
+    // shots
+    for (const s of state.shots) s.y -= SHOT_SPEED * dt;
+
+    // collisions
+    for (let si=state.shots.length-1; si>=0; si--){
+      const s = state.shots[si];
+      for (let wi=state.words.length-1; wi>=0; wi--){
+        const w = state.words[wi];
+        if (!w.w) continue;
+        const left = w.x - w.w/2, right = w.x + w.w/2;
+        const top = w.y - w.h/2, bottom = w.y + w.h/2;
+
+        if (s.x >= left && s.x <= right && s.y >= top && s.y <= bottom){
+          // remove both
+          state.shots.splice(si,1);
+          state.words.splice(wi,1);
+          handleHit(w);
+          break;
+        }
+      }
+    }
+
+    // cleanup
+    state.shots = state.shots.filter(s => s.y > -20);
+    // words that reach bottom => remove (no penalty)
+    state.words = state.words.filter(w => w.y < H + 80);
+  }
+
+  function render(){
+    ctx.clearRect(0,0,W,H);
+
+    // stars
+    ctx.fillStyle = "rgba(255,255,255,.03)";
+    for (let i=0;i<120;i++){
+      const x = (i*73)%W;
+      const y = (i*151)%H;
+      ctx.fillRect(x,y,2,2);
+    }
+
+    // shots
+    ctx.fillStyle = "rgba(255,209,102,.95)";
+    for (const s of state.shots){
+      ctx.beginPath();
+      ctx.arc(s.x, s.y, 5, 0, Math.PI*2);
+      ctx.fill();
+    }
+
+    // words
+    for (const w of state.words) drawWord(w);
+
+    // ship
+    drawShip();
+
+    // floor
+    ctx.strokeStyle = "rgba(255,255,255,.10)";
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(0, H-26);
+    ctx.lineTo(W, H-26);
+    ctx.stroke();
+  }
+
+  function loop(t){
+    const dt = Math.min(2.2, (t - state.lastT)/16.67);
+    state.lastT = t;
+
+    if (state.running) update(dt, t);
+    render();
+    requestAnimationFrame(loop);
+  }
+
+  // controls
+  window.addEventListener("keydown", (e)=>{
+    const k = e.key;
+    if (k === " ") { e.preventDefault(); shoot(); return; }
+    state.keys[k] = true;
+    state.keys[k.toLowerCase()] = true;
+  }, {passive:false});
+
+  window.addEventListener("keyup", (e)=>{
+    const k = e.key;
+    state.keys[k] = false;
+    state.keys[k.toLowerCase()] = false;
   });
 
-  // pacman
-  const px = offX + Pac.px*cs + cs/2;
-  const py = offY + Pac.py*cs + cs/2;
+  // buttons
+  UI.startBtn.addEventListener("click", ()=>{
+    if (!state.sentence) pickSentence();
+    state.running = true;
+    setFB("Go!", "ok");
+  });
+  UI.nextBtn.addEventListener("click", ()=>{
+    pickSentence();
+    state.running = true;
+  });
+  UI.restartBtn.addEventListener("click", ()=>{
+    resetAll();
+    state.running = true;
+  });
 
-  ctx.save();
-  ctx.shadowBlur = 18;
-  ctx.shadowColor = "#fbbf24";
-  ctx.fillStyle = "#fbbf24";
-  ctx.beginPath();
-  ctx.arc(px, py, cs*0.32, 0.25*Math.PI, 1.75*Math.PI);
-  ctx.lineTo(px, py);
-  ctx.closePath();
-  ctx.fill();
-  ctx.restore();
-
-  // sentence bar
-  ctx.fillStyle = "rgba(34,211,238,.10)";
-  ctx.fillRect(0,0,cv.width,64);
-  ctx.fillStyle = "#e5e7eb";
-  ctx.font = "800 16px Orbitron";
-  ctx.textAlign = "left";
-  ctx.fillText("PACMAN — Collect words in the correct order", 22, 26);
-
-  ctx.fillStyle = "#94a3b8";
-  ctx.font = "800 13px Orbitron";
-  ctx.fillText("Your sentence: " + (Pac.sentence.join(" ") || "—"), 22, 48);
-
-  if(paused){
-    ctx.fillStyle = "rgba(2,6,23,.65)";
-    ctx.fillRect(0,0,cv.width,cv.height);
-    ctx.fillStyle = "#e5e7eb";
-    ctx.font = "800 48px Orbitron";
-    ctx.textAlign = "center";
-    ctx.fillText("PAUSED", cv.width/2, cv.height/2);
-  }
-
-  if(lives<=0){
-    ctx.fillStyle = "rgba(2,6,23,.75)";
-    ctx.fillRect(0,0,cv.width,cv.height);
-    ctx.fillStyle = "#ef4444";
-    ctx.font = "800 56px Orbitron";
-    ctx.textAlign = "center";
-    ctx.fillText("GAME OVER", cv.width/2, cv.height/2);
-    ctx.fillStyle = "#e5e7eb";
-    ctx.font = "800 16px Orbitron";
-    ctx.fillText("Press RESTART or go to MAIN MENU", cv.width/2, cv.height/2 + 38);
-  }
-}
-
-let pacTick = 0;
-function pacLoop(){
-  if(!running) return;
-  if(currentGame !== "pacman") return;
-
-  if(!paused && lives>0){
-    pacTick++;
-    if(pacTick % 8 === 0){ // movement speed
-      pacTryMove();
-      pacEat();
-    }
-  }
-  pacDraw();
-  raf = requestAnimationFrame(pacLoop);
-}
-
-function startPacman(){
-  score = 0;
-  lives = 3;
-  resetHUD();
-  setMode("PACMAN");
-  showGamePanel();
-
-  gameTitle.textContent = "🟡 Pacman — Sentence Builder";
-  gameSub.textContent = "Collect words in the correct order to build the sentence.";
-  gameHint.textContent = "Controls: Arrow keys move, P pause, ESC menu";
-
-  pacSetup();
-  currentGame = "pacman";
-  paused = false;
-  running = false; // wait for START button
-}
-
-function previewPacman(){
-  startPacman();
-  showToast("Preview loaded. Press START to play.");
-}
-
-/* ===========================
-   BUTTONS — select game
-=========================== */
-pickInvaders.addEventListener("click", startInvaders);
-demoInvaders.addEventListener("click", previewInvaders);
-pickPacman.addEventListener("click", startPacman);
-demoPacman.addEventListener("click", previewPacman);
-
-/* ===========================
-   START / PAUSE / RESTART
-=========================== */
-startBtn.addEventListener("click", ()=>{
-  if(currentGame === "menu"){
-    showToast("Choose a game first.");
-    return;
-  }
-  running = true;
-  paused = false;
-
-  // start loop for chosen game
-  cancelAnimationFrame(raf);
-  if(currentGame === "invaders") invadersLoop();
-  if(currentGame === "pacman") pacLoop();
-});
-
-pauseBtn.addEventListener("click", ()=>{
-  if(currentGame === "menu") return;
-  paused = !paused;
-});
-
-restartBtn.addEventListener("click", ()=>{
-  if(currentGame === "invaders"){
-    startInvaders(); // resets state, waits for START
-    showToast("Restarted. Press START.");
-    return;
-  }
-  if(currentGame === "pacman"){
-    startPacman();
-    showToast("Restarted. Press START.");
-    return;
-  }
-  showToast("Choose a game first.");
-});
-
-levelSel.addEventListener("change", ()=>{
-  // update HUD label immediately
-  levelSettings();
-  // if already in a game, restart that game to apply level properly
-  if(currentGame === "invaders"){ startInvaders(); showToast("Level applied. Press START."); }
-  if(currentGame === "pacman"){ startPacman(); showToast("Level applied. Press START."); }
-});
-
-/* ===========================
-   KEYBOARD
-=========================== */
-window.addEventListener("keydown",(e)=>{
-  if(e.key === "Escape"){ showMenu(); return; }
-  if(e.key.toLowerCase() === "p"){ if(currentGame!=="menu") paused = !paused; return; }
-
-  if(currentGame === "invaders"){
-    if(e.key === "ArrowLeft") Invaders.player.x = Math.max(60, Invaders.player.x - Invaders.player.speed);
-    if(e.key === "ArrowRight") Invaders.player.x = Math.min(cv.width-60, Invaders.player.x + Invaders.player.speed);
-    if(e.code === "Space"){
-      if(!running || paused || lives<=0) return;
-      const now = performance.now();
-      if(now - Invaders.lastShot < (levelSel.value==="hard" ? 230 : 280)) return;
-      Invaders.lastShot = now;
-      Invaders.bullets.push({ x: Invaders.player.x, y: Invaders.player.y-6, vy: 8.5 });
-    }
-  }
-
-  if(currentGame === "pacman"){
-    if(e.key === "ArrowLeft"){ Pac.dx=-1; Pac.dy=0; }
-    if(e.key === "ArrowRight"){ Pac.dx=1; Pac.dy=0; }
-    if(e.key === "ArrowUp"){ Pac.dx=0; Pac.dy=-1; }
-    if(e.key === "ArrowDown"){ Pac.dx=0; Pac.dy=1; }
-  }
-});
-
-/* ===========================
-   INIT
-=========================== */
-resetHUD();
-levelSettings();
-showMenu();
-
-/* roundRect polyfill for older browsers */
-if(!CanvasRenderingContext2D.prototype.roundRect){
-  CanvasRenderingContext2D.prototype.roundRect = function(x,y,w,h,r){
-    r = Math.min(r, w/2, h/2);
-    this.beginPath();
-    this.moveTo(x+r,y);
-    this.arcTo(x+w,y,x+w,y+h,r);
-    this.arcTo(x+w,y+h,x,y+h,r);
-    this.arcTo(x,y+h,x,y,r);
-    this.arcTo(x,y,x+w,y,r);
-    this.closePath();
-    return this;
-  };
-}
+  // init
+  pickSentence();
+  updateHUD();
+  requestAnimationFrame(loop);
+})();
 </script>
 </body>
 </html>
