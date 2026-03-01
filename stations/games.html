@@ -294,25 +294,25 @@
 
     // ── SENTENCE DATA ─────────────────────────────────────────────────────
     var ORDER_SENTENCES = [
-      "Can you solve this puzzle before lunchtime",
-      "Do they study English after soccer practice",
-      "Will your team finish homework before dinner",
-      "Are we meeting classmates at the library",
-      "Does she always carry pencils in class",
-      "Can birds really fly above city buildings",
-      "Will they present projects during science class",
-      "Do you usually read novels after school"
+      "Can you solve this puzzle before lunchtime?",
+      "Do they study English after soccer practice?",
+      "Will your team finish homework before dinner?",
+      "Are we meeting classmates at the library?",
+      "Does she always carry pencils in class?",
+      "Can birds really fly above city buildings?",
+      "Will they present projects during science class?",
+      "Do you usually read novels after school?"
     ];
 
     var HARD_ORDER_SENTENCES = [
-      "Although it was raining we finished homework before dinner",
-      "If they study consistently they can solve harder grammar tasks",
-      "After she revised carefully she answered every question correctly",
-      "Because the timer was short we prioritized the key clues",
-      "When students collaborate effectively they build stronger sentence accuracy",
-      "Even if words look similar context usually reveals correct order",
-      "Before the bell rang our team completed the full challenge",
-      "While the ghosts moved faster we still stayed focused together"
+      "Although it was raining, we finished homework before dinner.",
+      "If they study consistently, they can solve harder grammar tasks.",
+      "After she revised carefully, she answered every question correctly.",
+      "Because the timer was short, we prioritized the key clues.",
+      "When students collaborate effectively, they build stronger sentence accuracy.",
+      "Even if words look similar, context usually reveals correct order.",
+      "Before the bell rang, our team completed the full challenge.",
+      "While the ghosts moved faster, we still stayed focused together."
     ];
 
     var CATEGORY_TASKS = [
@@ -628,6 +628,7 @@
         state.seconds++;
         updateHUD();
       }, 1000);
+      // Ghost tick: 600ms (hard = faster) vs 980ms (easy = slower)
       var ghostTick = state.level === "hard" ? 600 : 980;
       state.ghostRef = setInterval(function () {
         if (!state.running) return;
