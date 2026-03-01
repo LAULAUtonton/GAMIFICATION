@@ -3,326 +3,383 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>THE PIT – Reading Mode</title>
+
+<title>THE PIT – Reading Station</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800&display=swap" rel="stylesheet">
 
 <style>
+
 body{
-  margin:0;
-  font-family:'Orbitron',sans-serif;
-  background:radial-gradient(circle,#bbf7d0 0%,#16a34a 60%,#052e16 100%);
-  color:#111827;
+margin:0;
+font-family:'Orbitron',sans-serif;
+background:radial-gradient(circle,#bbf7d0 0%,#16a34a 60%,#052e16 100%);
 }
 
-.readingContainer{
-  width:90%;
-  max-width:950px;
-  margin:40px auto;
-  background:white;
-  padding:40px;
-  border-radius:25px;
-  box-shadow:0 25px 50px rgba(0,0,0,0.6);
+.container{
+max-width:900px;
+margin:40px auto;
+background:white;
+padding:30px;
+border-radius:20px;
+box-shadow:0 20px 50px rgba(0,0,0,.5);
 }
 
-.readingTitle{
-  text-align:center;
-  font-size:30px;
-  color:#14532d;
-  margin-bottom:14px;
-  letter-spacing:2px;
-}
-
-.subTitle{
-  text-align:center;
-  margin-bottom:18px;
-  font-size:14px;
-  color:#166534;
+.title{
+text-align:center;
+font-size:28px;
+margin-bottom:10px;
+color:#14532d;
 }
 
 .textBox{
-  background:#f0fdf4;
-  padding:22px;
-  border-radius:18px;
-  line-height:1.7;
-  margin-bottom:18px;
-  border:2px solid #22c55e;
-  max-height:350px;
-  overflow-y:auto;
+background:#f0fdf4;
+padding:20px;
+border-radius:15px;
+margin-bottom:20px;
+line-height:1.6;
+border:2px solid #22c55e;
+max-height:300px;
+overflow-y:auto;
 }
 
-.textBox p{
-  margin-bottom:14px;
+.btn{
+padding:12px 18px;
+border-radius:10px;
+border:none;
+background:#22c55e;
+color:white;
+font-weight:bold;
+cursor:pointer;
+margin:5px;
 }
 
-.topRow{
-  display:flex;
-  gap:12px;
-  justify-content:space-between;
-  flex-wrap:wrap;
-  margin-bottom:14px;
-}
-
-.pill{
-  padding:8px 12px;
-  border-radius:999px;
-  background:#dcfce7;
-  border:1px solid #22c55e;
-  font-weight:800;
-  font-size:13px;
-}
-
-.startBtn, .switchBtn{
-  padding:12px 18px;
-  border-radius:14px;
-  font-weight:900;
-  cursor:pointer;
-  transition:.2s;
-}
-
-.startBtn{
-  border:none;
-  background:#22c55e;
-  color:white;
-}
-
-.switchBtn{
-  border:2px solid #22c55e;
-  background:white;
-  color:#14532d;
-}
-
-.streakText{
-  text-align:center;
-  font-weight:900;
-  margin:16px 0 10px 0;
-  font-size:18px;
-}
-
-.streakContainer{
-  width:100%;
-  height:22px;
-  background:#e5e7eb;
-  border-radius:15px;
-  overflow:hidden;
-  margin-bottom:18px;
-}
-
-.streakFill{
-  height:100%;
-  width:0%;
-  background:linear-gradient(90deg,#22c55e,#4ade80);
-  transition:.3s;
+.btn:hover{
+background:#16a34a;
 }
 
 .questionCard{
-  background:#f0fdf4;
-  padding:22px;
-  border-radius:18px;
-  border:2px solid #22c55e;
-  margin-bottom:18px;
+background:#f0fdf4;
+padding:20px;
+border-radius:15px;
+border:2px solid #22c55e;
+margin-top:20px;
 }
 
-.questionText{
-  font-size:18px;
-  margin-bottom:12px;
-  font-weight:900;
+.option{
+display:block;
+width:100%;
+margin:8px 0;
+padding:10px;
+border-radius:10px;
+border:2px solid #22c55e;
+background:white;
+cursor:pointer;
+font-weight:bold;
+text-align:left;
 }
 
-.optionBtn{
-  display:block;
-  width:100%;
-  margin:10px 0;
-  padding:12px 14px;
-  border-radius:14px;
-  background:white;
-  border:2px solid #22c55e;
-  cursor:pointer;
-  font-weight:800;
-  text-align:left;
+.option.correct{
+background:#22c55e;
+color:white;
+border:none;
 }
 
-.optionBtn.correct{ background:#22c55e; color:white; border:none; }
-.optionBtn.wrong{ background:#ef4444; color:white; border:none; }
-
-.errorBox{
-  background:#fff1f2;
-  border:2px solid #ef4444;
-  padding:18px;
-  border-radius:16px;
-  font-weight:900;
+.option.wrong{
+background:#ef4444;
+color:white;
+border:none;
 }
+
+.streak{
+font-weight:bold;
+margin-bottom:10px;
+}
+
 </style>
 </head>
 
 <body>
 
-<div class="readingContainer" id="wrap">
+<div class="container">
 
-  <div class="readingTitle">READING STREAK MODE</div>
-  <div class="subTitle">Goal: 20 correct answers in a row</div>
+<div class="title">READING STATION</div>
 
-  <div class="topRow">
-    <div class="pill" id="textTitlePill">TEXT: —</div>
-    <div style="display:flex;gap:10px;flex-wrap:wrap;">
-      <button class="switchBtn" id="menuBtn">MAIN MENU</button>
-      <button class="switchBtn" id="switchTextBtn">NEW TEXT</button>
-      <button class="startBtn" id="startBtn">START</button>
-    </div>
-  </div>
+<div id="textTitle"></div>
 
-  <div class="textBox" id="textBox">Loading text…</div>
+<div class="textBox" id="textBox"></div>
 
-  <div id="gameArea" style="display:none;">
-    <div class="streakText">STREAK: <span id="streakCount">0</span> / 20</div>
-    <div class="streakContainer">
-      <div class="streakFill" id="streakFill"></div>
-    </div>
-    <div id="questionArea"></div>
-  </div>
+<button class="btn" onclick="start()">START</button>
+
+<div class="streak">
+Streak: <span id="streak">0</span>
+</div>
+
+<div id="questionArea"></div>
 
 </div>
 
-<script src="./reading-bank.js"></script>
-
 <script>
 
-/* SAFETY CHECK */
-if(typeof TEXT_BANK==="undefined" || typeof READING_BANK==="undefined"){
-  document.getElementById("wrap").innerHTML =
-  `<div class="errorBox">ERROR: reading-bank.js not loaded correctly.</div>`;
-  throw new Error("Bank missing");
+/* TEXT BANK */
+
+const TEXT_BANK=[
+
+{
+id:"text1",
+title:"Climate Action",
+
+content:
+
+`Many people are worried about climate change. It is causing higher temperatures and extreme weather.
+
+Some countries are reducing pollution by using renewable energy. Others are planting trees.
+
+Experts say everyone can help by recycling, saving energy, and using less plastic.`
+
+},
+
+{
+id:"text2",
+
+title:"Helping Others",
+
+content:
+
+`Volunteering is a great way to help your community. Some people help homeless people.
+
+Others help animals or clean parks.
+
+Helping others can make people feel happier and improve society.`
 }
 
-/* DOM */
-const textBox = document.getElementById("textBox");
-const textTitlePill = document.getElementById("textTitlePill");
-const startBtn = document.getElementById("startBtn");
-const switchTextBtn = document.getElementById("switchTextBtn");
-const menuBtn = document.getElementById("menuBtn");
-const gameArea = document.getElementById("gameArea");
-const questionArea = document.getElementById("questionArea");
-const streakCountEl = document.getElementById("streakCount");
-const streakFillEl = document.getElementById("streakFill");
+];
+
+
+/* QUESTIONS */
+
+const QUESTION_BANK=[
+
+{
+textId:"text1",
+question:"What is climate change causing?",
+options:[
+"Higher temperatures",
+"More schools",
+"Less food",
+"More holidays"
+],
+answer:"Higher temperatures"
+},
+
+{
+textId:"text1",
+question:"How are countries reducing pollution?",
+options:[
+"Using renewable energy",
+"Closing schools",
+"Driving more",
+"Building roads"
+],
+answer:"Using renewable energy"
+},
+
+{
+textId:"text1",
+question:"How can people help?",
+options:[
+"Recycling",
+"Wasting energy",
+"Using more plastic",
+"Driving more"
+],
+answer:"Recycling"
+},
+
+{
+textId:"text2",
+question:"What is volunteering?",
+options:[
+"Helping your community",
+"Watching TV",
+"Playing games",
+"Sleeping"
+],
+answer:"Helping your community"
+},
+
+{
+textId:"text2",
+question:"Who do volunteers help?",
+options:[
+"Homeless people",
+"Only teachers",
+"Only doctors",
+"Nobody"
+],
+answer:"Homeless people"
+},
+
+{
+textId:"text2",
+question:"How does helping others make people feel?",
+options:[
+"Happier",
+"Angry",
+"Bored",
+"Tired"
+],
+answer:"Happier"
+}
+
+];
+
 
 /* STATE */
-let currentText=null;
+
+let currentText;
+let questionPool=[];
 let streak=0;
-let correctCounter=0;
-let isRunning=false;
 
-/* DISPLAY TEXT */
-function displayText(text){
-  textBox.innerHTML="";
-  const parts=(text.content||"").trim().split("\n\n");
-  parts.forEach((p,i)=>{
-    const para=document.createElement("p");
-    para.innerHTML="<strong>P"+(i+1)+":</strong> "+p;
-    textBox.appendChild(para);
-  });
+
+/* LOAD TEXT */
+
+function loadText(){
+
+currentText=TEXT_BANK[
+Math.floor(Math.random()*TEXT_BANK.length)
+];
+
+document.getElementById("textTitle").innerHTML=
+"<strong>"+currentText.title+"</strong>";
+
+document.getElementById("textBox").innerText=
+currentText.content;
+
+buildPool();
+
 }
 
-/* PICK TEXT */
-function pickRandomText(){
-  currentText=TEXT_BANK[Math.floor(Math.random()*TEXT_BANK.length)];
-  textTitlePill.textContent="TEXT: "+currentText.title;
-  displayText(currentText);
+
+/* BUILD SAFE POOL */
+
+function buildPool(){
+
+questionPool=QUESTION_BANK
+.filter(q=>q.textId===currentText.id);
+
+shuffle(questionPool);
+
 }
 
-/* STREAK */
-function updateStreak(){
-  streakCountEl.textContent=streak;
-  streakFillEl.style.width=(streak/20*100)+"%";
-  if(streak===20){
-    alert("READING MASTER UNLOCKED!");
-    streak=0;
-    correctCounter=0;
-  }
+
+/* SHUFFLE */
+
+function shuffle(array){
+
+for(let i=array.length-1;i>0;i--){
+
+const j=Math.floor(Math.random()*(i+1));
+
+[array[i],array[j]]=[array[j],array[i]];
+
 }
 
-/* GET QUESTION */
+}
+
+
+/* GET SAFE QUESTION */
+
 function getQuestion(){
-  const pool=READING_BANK.filter(q=>q.textId===currentText.id);
-  if(pool.length===0){
-    return {
-      question:"No questions available for this text.",
-      options:["Continue"],
-      answer:"Continue"
-    };
-  }
-  return pool[Math.floor(Math.random()*pool.length)];
+
+if(questionPool.length===0){
+
+buildPool();
+
 }
+
+return questionPool.pop();
+
+}
+
 
 /* RENDER */
+
 function renderQuestion(){
-  if(!isRunning) return;
 
-  const q=getQuestion();
-  questionArea.innerHTML="";
+const q=getQuestion();
 
-  const card=document.createElement("div");
-  card.className="questionCard";
+const area=document.getElementById("questionArea");
 
-  const qt=document.createElement("div");
-  qt.className="questionText";
-  qt.textContent=q.question;
-  card.appendChild(qt);
+area.innerHTML="";
 
-  q.options.sort(()=>Math.random()-0.5).forEach(opt=>{
-    const btn=document.createElement("button");
-    btn.className="optionBtn";
-    btn.textContent=opt;
+const card=document.createElement("div");
 
-    btn.onclick=()=>{
-      card.querySelectorAll("button").forEach(b=>b.disabled=true);
+card.className="questionCard";
 
-      if(opt===q.answer){
-        btn.classList.add("correct");
-        streak++;
-        correctCounter++;
-      } else {
-        btn.classList.add("wrong");
-        streak=0;
-      }
+card.innerHTML="<strong>"+q.question+"</strong>";
 
-      updateStreak();
+q.options.forEach(opt=>{
 
-      if(correctCounter%4===0){
-        pickRandomText();
-      }
+const btn=document.createElement("button");
 
-      setTimeout(renderQuestion,700);
-    };
+btn.className="option";
 
-    card.appendChild(btn);
-  });
+btn.innerText=opt;
 
-  questionArea.appendChild(card);
+btn.onclick=()=>{
+
+card.querySelectorAll("button")
+.forEach(b=>b.disabled=true);
+
+if(opt===q.answer){
+
+btn.classList.add("correct");
+
+streak++;
+
+}else{
+
+btn.classList.add("wrong");
+
+streak=0;
+
 }
 
-/* EVENTS */
-switchTextBtn.onclick=()=>{
-  pickRandomText();
+document.getElementById("streak")
+.innerText=streak;
+
+setTimeout(renderQuestion,800);
+
 };
 
-startBtn.onclick=()=>{
-  startBtn.style.display="none";
-  gameArea.style.display="block";
-  isRunning=true;
-  streak=0;
-  correctCounter=0;
-  updateStreak();
-  renderQuestion();
-};
+card.appendChild(btn);
 
-/* 🔥 MAIN MENU FIX */
-menuBtn.onclick=()=>{
-  window.location.href="../index.html"; 
-};
+});
+
+area.appendChild(card);
+
+}
+
+
+/* START */
+
+function start(){
+
+streak=0;
+
+document.getElementById("streak").innerText=0;
+
+renderQuestion();
+
+}
+
 
 /* INIT */
-pickRandomText();
+
+loadText();
 
 </script>
+
 </body>
 </html>
