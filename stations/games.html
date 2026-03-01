@@ -11,70 +11,85 @@
 body{
   margin:0;
   font-family:'Orbitron',sans-serif;
-  background:radial-gradient(circle,#e9d5ff 0%,#7c3aed 60%,#1e1b4b 100%);
-  color:#111827;
+  background:radial-gradient(circle,#0ea5e9 0%,#1e3a8a 60%,#020617 100%);
+  color:white;
 }
 
 .container{
   width:90%;
   max-width:1100px;
   margin:40px auto;
-  background:white;
+  background:#0f172a;
   padding:40px;
   border-radius:25px;
-  box-shadow:0 25px 50px rgba(0,0,0,0.6);
+  box-shadow:0 0 40px rgba(14,165,233,0.4);
 }
 
 .title{
   text-align:center;
   font-size:32px;
-  color:#6d28d9;
   margin-bottom:10px;
+  color:#38bdf8;
 }
 
-.sub{
-  text-align:center;
-  margin-bottom:30px;
-  color:#7c3aed;
-  font-size:14px;
+.statsBar{
+  margin:15px 0;
+}
+
+.progressContainer{
+  width:100%;
+  height:20px;
+  background:#1e293b;
+  border-radius:12px;
+  overflow:hidden;
+}
+
+.progressFill{
+  height:100%;
+  width:0%;
+  background:linear-gradient(90deg,#22d3ee,#38bdf8);
+  transition:.3s;
 }
 
 .arcadeGrid{
   display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
   gap:20px;
 }
 
 .gameCard{
-  background:#faf5ff;
-  border:2px solid #a78bfa;
-  padding:30px 20px;
+  background:#1e293b;
+  border:2px solid #38bdf8;
+  padding:30px;
   border-radius:18px;
   text-align:center;
   cursor:pointer;
   transition:.2s;
   font-weight:900;
-  color:#5b21b6;
 }
 
 .gameCard:hover{
-  background:#ede9fe;
+  background:#0ea5e9;
   transform:scale(1.05);
-  box-shadow:0 10px 25px rgba(124,58,237,0.4);
 }
 
 .gameArea{
   margin-top:30px;
   padding:25px;
   border-radius:18px;
-  border:2px solid #7c3aed;
-  background:#f5f3ff;
+  border:2px solid #38bdf8;
+  background:#0f172a;
   display:none;
 }
 
-button{
-  padding:12px 18px;
+canvas{
+  background:#020617;
   border-radius:14px;
+}
+
+button{
+  padding:8px 14px;
+  border-radius:10px;
   font-weight:900;
   cursor:pointer;
   border:none;
@@ -82,18 +97,19 @@ button{
 }
 
 .menuBtn{
-  background:white;
-  border:2px solid #7c3aed;
-  color:#6d28d9;
+  background:#38bdf8;
+  color:#0f172a;
 }
 
 .backBtn{
-  background:#7c3aed;
-  color:white;
+  background:#1e293b;
+  color:#38bdf8;
+  border:2px solid #38bdf8;
 }
-canvas{
-  background:#1e1b4b;
-  border-radius:14px;
+
+select{
+  padding:6px;
+  font-weight:900;
 }
 </style>
 </head>
@@ -103,19 +119,20 @@ canvas{
 <div class="container">
 
   <div class="title">ARCADE MODE</div>
-  <div class="sub">Train vocabulary through interactive missions</div>
 
   <button class="menuBtn" onclick="goMenu()">MAIN MENU</button>
 
+  <div class="statsBar">
+    Level: <span id="level">1</span> |
+    XP: <span id="xp">0</span>/100
+    <div class="progressContainer">
+      <div class="progressFill" id="xpBar"></div>
+    </div>
+  </div>
+
   <div class="arcadeGrid" id="arcadeGrid">
     <div class="gameCard" onclick="loadGame('invaders')">👾 SPACE INVADERS</div>
-    <div class="gameCard">🥥 COCONUTS (Coming)</div>
-    <div class="gameCard">🧠 MATCH UP (Coming)</div>
-    <div class="gameCard">📦 SORTING (Coming)</div>
-    <div class="gameCard">🐟 FISHBOWL (Coming)</div>
-    <div class="gameCard">🪜 SNAKES & LADDERS (Coming)</div>
-    <div class="gameCard">🏀 BASKETBALL (Coming)</div>
-    <div class="gameCard">🏁 RACE MODE (Coming)</div>
+    <div class="gameCard" onclick="loadGame('pacman')">🟡 PAC-MAN</div>
   </div>
 
   <div class="gameArea" id="gameArea"></div>
@@ -124,177 +141,234 @@ canvas{
 
 <script>
 
-/* ================= NAVIGATION ================= */
+/* ========= GLOBAL XP SYSTEM ========= */
+
+let XP = 0;
+let LEVEL = 1;
+let difficulty = "easy";
+
+function addXP(amount){
+  XP += amount;
+  if(XP >= 100){
+    XP = 0;
+    LEVEL++;
+  }
+  document.getElementById("xp").textContent = XP;
+  document.getElementById("level").textContent = LEVEL;
+  document.getElementById("xpBar").style.width = XP + "%";
+}
+
+/* ========= NAV ========= */
 
 function goMenu(){
   window.location.href="../index.html";
 }
 
 function goBack(){
-  stopInvaders();
+  stopGame();
   document.getElementById("gameArea").style.display="none";
   document.getElementById("arcadeGrid").style.display="grid";
 }
 
-/* ================= GAME LOADER ================= */
+let animationFrame=null;
+let keyHandler=null;
+
+function stopGame(){
+  if(animationFrame) cancelAnimationFrame(animationFrame);
+  if(keyHandler) document.removeEventListener("keydown",keyHandler);
+}
+
+/* ========= GAME LOADER ========= */
 
 function loadGame(type){
-  const grid = document.getElementById("arcadeGrid");
-  const area = document.getElementById("gameArea");
+  stopGame();
+  const grid=document.getElementById("arcadeGrid");
+  const area=document.getElementById("gameArea");
 
   grid.style.display="none";
   area.style.display="block";
 
-  if(type==="invaders"){
-    area.innerHTML = `
-      <h3>👾 SPACE INVADERS – Vocabulary Mission</h3>
-      <canvas id="gameCanvas" width="800" height="500"></canvas>
-      <div id="hud" style="margin-top:10px;font-weight:900;"></div>
-      <button class="backBtn" onclick="goBack()">BACK</button>
-    `;
-    startInvaders();
-  }
+  area.innerHTML = `
+    Difficulty:
+    <select id="difficultySelect">
+      <option value="easy">Easy</option>
+      <option value="hard">Hard</option>
+    </select>
+    <canvas id="gameCanvas" width="800" height="500"></canvas>
+    <button class="backBtn" onclick="goBack()">BACK</button>
+  `;
+
+  document.getElementById("difficultySelect").onchange = (e)=>{
+    difficulty = e.target.value;
+  };
+
+  if(type==="invaders") startInvaders();
+  if(type==="pacman") startPacman();
 }
 
-/* ================= SPACE INVADERS ENGINE ================= */
+/* ========= VOCAB ========= */
 
-let invaderAnimation = null;
-let invaderKeyHandler = null;
+const vocab = [
+  {word:"festival", def:"A public celebration"},
+  {word:"recycle", def:"To use again"},
+  {word:"charity", def:"Helping organization"},
+  {word:"renewable", def:"Energy that doesn't run out"}
+];
+
+const sentences = [
+  {
+    prompt:"If it rains tomorrow,",
+    options:["we will stay home","we stayed home","we stay home"],
+    correct:"we will stay home"
+  }
+];
+
+/* ========= SPACE INVADERS PRO ========= */
 
 function startInvaders(){
 
-const canvas = document.getElementById("gameCanvas");
-const ctx = canvas.getContext("2d");
+const canvas=document.getElementById("gameCanvas");
+const ctx=canvas.getContext("2d");
 
-const vocab = [
-  {word:"festival", definition:"A public celebration event"},
-  {word:"container", definition:"A large box used to transport goods"},
-  {word:"brilliant", definition:"Very intelligent"},
-  {word:"recycle", definition:"To use again"}
-];
+let player={x:380};
+let bullets=[];
+let lives=3;
 
-let player = {x:370,y:450,width:60,height:20};
-let bullets = [];
-let enemies = [];
-let score = 0;
-let lives = 3;
-let running = true;
+let target=vocab[Math.floor(Math.random()*vocab.length)];
+let enemies=[];
 
-let currentTarget = vocab[Math.floor(Math.random()*vocab.length)];
-
-function spawnEnemies(){
-  enemies = [];
-  let options = shuffle([...vocab]).slice(0,4);
-  options.forEach((item,i)=>{
+function spawn(){
+  enemies=[];
+  vocab.sort(()=>Math.random()-0.5).forEach((v,i)=>{
     enemies.push({
-      text:item.word,
-      correct:item.word===currentTarget.word,
-      x:100 + i*150,
-      y:60,
-      speed:1.2
+      text:v.word,
+      correct:v.word===target.word,
+      x:100+i*150,
+      y:50
     });
   });
 }
 
-function shuffle(arr){
-  return arr.sort(()=>Math.random()-0.5);
-}
+function draw(){
+  ctx.clearRect(0,0,800,500);
 
-function drawPlayer(){
-  ctx.fillStyle="#a78bfa";
-  ctx.fillRect(player.x,player.y,player.width,player.height);
-}
-
-function drawEnemies(){
   ctx.fillStyle="white";
-  ctx.font="18px Orbitron";
+  ctx.fillText("Definition: "+target.def,20,25);
+  ctx.fillText("Lives: "+lives,650,25);
+
+  ctx.fillStyle="cyan";
+  ctx.fillRect(player.x,450,60,20);
+
   enemies.forEach(e=>{
+    ctx.fillStyle="white";
     ctx.fillText(e.text,e.x,e.y);
+    e.y += (difficulty==="hard"?2:1) + LEVEL*0.2;
   });
-}
 
-function drawBullets(){
-  ctx.fillStyle="yellow";
   bullets.forEach(b=>{
+    b.y-=5;
+    ctx.fillStyle="yellow";
     ctx.fillRect(b.x,b.y,4,10);
-  });
-}
 
-function update(){
-  if(!running) return;
-
-  ctx.clearRect(0,0,canvas.width,canvas.height);
-
-  drawPlayer();
-  drawEnemies();
-  drawBullets();
-
-  ctx.fillStyle="white";
-  ctx.fillText("Definition: "+currentTarget.definition,20,25);
-  ctx.fillText("Score: "+score,650,25);
-  ctx.fillText("Lives: "+lives,650,45);
-
-  enemies.forEach(e=>{
-    e.y += e.speed;
-    if(e.y>480){
-      lives--;
-      resetRound();
-    }
-  });
-
-  bullets.forEach(b=>{
-    b.y -= 6;
     enemies.forEach(e=>{
-      if(b.x>e.x-10 && b.x<e.x+90 && b.y<e.y && b.y>e.y-20){
-        if(e.correct){
-          score+=10;
-        }else{
-          lives--;
-        }
-        resetRound();
+      if(b.x>e.x && b.x<e.x+80 && b.y<e.y && b.y>e.y-20){
+        if(e.correct) addXP(difficulty==="hard"?20:10);
+        else lives--;
+        target=vocab[Math.floor(Math.random()*vocab.length)];
+        spawn();
       }
     });
   });
 
   if(lives<=0){
     ctx.fillStyle="red";
-    ctx.font="40px Orbitron";
-    ctx.fillText("GAME OVER",250,250);
-    running=false;
+    ctx.fillText("GAME OVER",300,250);
     return;
   }
 
-  invaderAnimation = requestAnimationFrame(update);
+  animationFrame=requestAnimationFrame(draw);
 }
 
-function resetRound(){
-  bullets=[];
-  currentTarget = vocab[Math.floor(Math.random()*vocab.length)];
-  spawnEnemies();
-}
-
-invaderKeyHandler = function(e){
-  if(e.key==="ArrowLeft" && player.x>0) player.x-=20;
-  if(e.key==="ArrowRight" && player.x<canvas.width-player.width) player.x+=20;
-  if(e.key===" ") bullets.push({x:player.x+30,y:player.y});
+keyHandler=function(e){
+  if(e.key==="ArrowLeft") player.x-=20;
+  if(e.key==="ArrowRight") player.x+=20;
+  if(e.key===" ") bullets.push({x:player.x+30,y:450});
 };
 
-document.addEventListener("keydown",invaderKeyHandler);
-
-spawnEnemies();
-update();
-
+document.addEventListener("keydown",keyHandler);
+spawn();
+draw();
 }
 
-/* ================= SAFE STOP ================= */
+/* ========= PACMAN PRO ========= */
 
-function stopInvaders(){
-  if(invaderAnimation){
-    cancelAnimationFrame(invaderAnimation);
+function startPacman(){
+
+const canvas=document.getElementById("gameCanvas");
+const ctx=canvas.getContext("2d");
+
+let pacman={x:400,y:250};
+let lives=3;
+
+let current=sentences[0];
+let fragments=[];
+
+function newRound(){
+  fragments=[];
+  current.options.sort(()=>Math.random()-0.5).forEach((opt,i)=>{
+    fragments.push({
+      text:opt,
+      x:150+i*200,
+      y:200
+    });
+  });
+}
+
+function draw(){
+  ctx.clearRect(0,0,800,500);
+
+  ctx.fillStyle="white";
+  ctx.fillText("Complete: "+current.prompt,20,40);
+  ctx.fillText("Lives: "+lives,650,40);
+
+  ctx.fillStyle="yellow";
+  ctx.beginPath();
+  ctx.arc(pacman.x,pacman.y,20,0,2*Math.PI);
+  ctx.fill();
+
+  ctx.fillStyle="white";
+  fragments.forEach(f=>{
+    ctx.fillText(f.text,f.x,f.y);
+  });
+
+  animationFrame=requestAnimationFrame(draw);
+}
+
+keyHandler=function(e){
+  if(e.key==="ArrowLeft") pacman.x-=20;
+  if(e.key==="ArrowRight") pacman.x+=20;
+
+  fragments.forEach((f,i)=>{
+    if(Math.abs(pacman.x-f.x)<40){
+      if(f.text===current.correct){
+        addXP(difficulty==="hard"?20:10);
+      }else{
+        lives--;
+      }
+      newRound();
+    }
+  });
+
+  if(lives<=0){
+    alert("GAME OVER");
+    stopGame();
+    goBack();
   }
-  if(invaderKeyHandler){
-    document.removeEventListener("keydown",invaderKeyHandler);
-  }
+};
+
+document.addEventListener("keydown",keyHandler);
+newRound();
+draw();
 }
 
 </script>
