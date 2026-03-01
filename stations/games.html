@@ -1,284 +1,1071 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>THE PIT – Space Invaders</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>THE PIT — Arcade</title>
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800&display=swap" rel="stylesheet">
 
 <style>
-body{
-  margin:0;
-  font-family:'Orbitron',sans-serif;
-  background:radial-gradient(circle,#0ea5e9 0%,#1e3a8a 60%,#020617 100%);
-  color:white;
-}
+  :root{
+    --bg1:#0ea5e9; --bg2:#1e3a8a; --bg3:#020617;
+    --panel:#0f172a;
+    --ink:#e5e7eb;
+    --muted:#94a3b8;
+    --cyan:#22d3ee;
+    --blue:#38bdf8;
+    --good:#22c55e;
+    --bad:#ef4444;
+    --gold:#fbbf24;
+  }
+  body{
+    margin:0;
+    font-family:'Orbitron',sans-serif;
+    background:radial-gradient(circle,var(--bg1) 0%,var(--bg2) 55%,var(--bg3) 100%);
+    color:var(--ink);
+  }
+  .wrap{
+    width:95%;
+    max-width:1200px;
+    margin:24px auto;
+    background:rgba(15,23,42,.92);
+    border:1px solid rgba(56,189,248,.25);
+    border-radius:22px;
+    box-shadow:0 30px 70px rgba(2,6,23,.6);
+    overflow:hidden;
+  }
+  .topbar{
+    display:flex;
+    justify-content:space-between;
+    gap:12px;
+    flex-wrap:wrap;
+    padding:14px 14px;
+    border-bottom:1px solid rgba(56,189,248,.2);
+    background:linear-gradient(180deg, rgba(2,6,23,.55), rgba(15,23,42,.45));
+    align-items:center;
+  }
+  .leftHUD{
+    display:flex;
+    gap:12px;
+    align-items:center;
+    flex-wrap:wrap;
+    font-size:13px;
+    color:var(--muted);
+  }
+  .pill{
+    padding:7px 10px;
+    border-radius:999px;
+    background:rgba(34,211,238,.08);
+    border:1px solid rgba(34,211,238,.22);
+    color:var(--ink);
+    font-weight:800;
+  }
+  .pill strong{ color:var(--cyan); }
+  .btnRow{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+    align-items:center;
+  }
+  button{
+    font-family:'Orbitron',sans-serif;
+    font-weight:900;
+    border:none;
+    cursor:pointer;
+    border-radius:14px;
+    padding:10px 14px;
+    transition:transform .12s ease, filter .12s ease;
+  }
+  button:hover{ transform:translateY(-1px); filter:brightness(1.06); }
+  .btnBlue{ background:var(--blue); color:#02131f; }
+  .btnCyan{ background:rgba(34,211,238,.18); border:1px solid rgba(34,211,238,.35); color:var(--ink); }
+  .btnRed{ background:rgba(239,68,68,.92); color:white; }
+  .btnDark{ background:rgba(148,163,184,.12); border:1px solid rgba(148,163,184,.2); color:var(--ink); }
+  .select{
+    padding:10px 12px;
+    border-radius:14px;
+    background:rgba(148,163,184,.12);
+    border:1px solid rgba(148,163,184,.22);
+    color:var(--ink);
+    font-weight:900;
+    outline:none;
+  }
 
-.container{
-  width:95%;
-  max-width:1200px;
-  margin:30px auto;
-  background:#0f172a;
-  padding:20px;
-  border-radius:20px;
-  box-shadow:0 0 40px rgba(14,165,233,.4);
-}
+  .main{
+    padding:16px;
+    display:grid;
+    grid-template-columns: 1fr;
+    gap:14px;
+  }
 
-.top{
-  display:flex;
-  justify-content:space-between;
-  flex-wrap:wrap;
-  gap:10px;
-  margin-bottom:10px;
-}
+  .panel{
+    background:rgba(2,6,23,.55);
+    border:1px solid rgba(56,189,248,.18);
+    border-radius:18px;
+    padding:14px;
+  }
 
-button{
-  padding:10px 16px;
-  border-radius:12px;
-  border:none;
-  font-weight:900;
-  cursor:pointer;
-  font-family:'Orbitron',sans-serif;
-}
+  .title{
+    font-size:18px;
+    letter-spacing:1px;
+    margin:0 0 6px 0;
+    color:var(--cyan);
+  }
+  .sub{
+    margin:0;
+    color:var(--muted);
+    font-size:12px;
+    line-height:1.4;
+  }
 
-.btnMain{
-  background:#ef4444;
-  color:white;
-}
+  /* ARCADE MENU */
+  .arcadeGrid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(240px, 1fr));
+    gap:12px;
+    margin-top:12px;
+  }
+  .card{
+    border-radius:18px;
+    background:rgba(15,23,42,.75);
+    border:1px solid rgba(56,189,248,.22);
+    padding:14px;
+    box-shadow:0 12px 30px rgba(2,6,23,.45);
+  }
+  .card h3{
+    margin:0 0 8px 0;
+    color:var(--ink);
+    font-size:16px;
+  }
+  .tagRow{
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
+    margin:8px 0 12px;
+  }
+  .tag{
+    font-size:11px;
+    padding:6px 8px;
+    border-radius:999px;
+    background:rgba(34,197,94,.12);
+    border:1px solid rgba(34,197,94,.22);
+    color:var(--ink);
+    font-weight:900;
+  }
+  .tag.blue{
+    background:rgba(56,189,248,.12);
+    border-color:rgba(56,189,248,.22);
+  }
+  .tag.gold{
+    background:rgba(251,191,36,.12);
+    border-color:rgba(251,191,36,.25);
+  }
 
-.btnControl{
-  background:#38bdf8;
-  color:#0f172a;
-}
+  .canvasWrap{
+    display:none;
+    padding:0;
+    overflow:hidden;
+  }
+  .canvasHolder{
+    width:100%;
+    border-radius:16px;
+    background:#020617;
+    border:1px solid rgba(34,211,238,.25);
+    box-shadow:0 0 28px rgba(34,211,238,.2);
+    overflow:hidden;
+  }
+  canvas{
+    display:block;
+    width:100%;
+    height:auto;
+  }
 
-canvas{
-  width:100%;
-  border-radius:14px;
-  background:#020617;
-  box-shadow:0 0 25px #22d3ee;
-}
+  .hint{
+    color:var(--muted);
+    font-size:12px;
+    margin-top:10px;
+    line-height:1.4;
+  }
+
+  .toast{
+    margin-top:10px;
+    padding:12px 14px;
+    border-radius:14px;
+    background:rgba(34,211,238,.10);
+    border:1px solid rgba(34,211,238,.24);
+    color:var(--ink);
+    font-weight:900;
+    display:none;
+  }
+
+  @media (max-width:520px){
+    .leftHUD{ font-size:12px; }
+    button{ padding:10px 12px; }
+  }
 </style>
 </head>
 
 <body>
+<div class="wrap">
 
-<div class="container">
+  <div class="topbar">
+    <div class="leftHUD">
+      <div class="pill">MODE: <strong id="hudMode">ARCADE</strong></div>
+      <div class="pill">SCORE: <strong id="hudScore">0</strong></div>
+      <div class="pill">LIVES: <strong id="hudLives">3</strong></div>
+      <div class="pill">LEVEL: <strong id="hudLevel">EASY</strong></div>
+      <div class="pill">TARGET: <strong id="hudTarget">—</strong></div>
+    </div>
 
-<div class="top">
-  <div>
-    Target: <span id="target">—</span> |
-    Score: <span id="score">0</span> |
-    Lives: <span id="lives">3</span>
+    <div class="btnRow">
+      <select id="levelSel" class="select" title="Difficulty">
+        <option value="easy" selected>EASY</option>
+        <option value="hard">HARD</option>
+      </select>
+
+      <button class="btnBlue" id="startBtn">START</button>
+      <button class="btnCyan" id="pauseBtn">PAUSE</button>
+      <button class="btnDark" id="restartBtn">RESTART</button>
+      <button class="btnDark" id="menuBtn">MAIN MENU</button>
+      <button class="btnRed" id="backBtn">BACK TO THE PIT</button>
+    </div>
   </div>
 
-  <div>
-    <button class="btnControl" id="startBtn">START</button>
-    <button class="btnControl" id="pauseBtn">PAUSE</button>
-    <button class="btnControl" id="restartBtn">RESTART</button>
-    <button class="btnMain" id="backBtn">BACK TO THE PIT</button>
+  <div class="main">
+
+    <!-- ARCADE MENU PANEL -->
+    <div class="panel" id="menuPanel">
+      <h2 class="title">THE PIT — ARCADE</h2>
+      <p class="sub">Choose a game. Nothing starts automatically. Use START when you are ready.</p>
+
+      <div class="arcadeGrid">
+        <div class="card">
+          <h3>👾 Space Invaders — Vocabulary</h3>
+          <div class="tagRow">
+            <span class="tag blue">vocab</span>
+            <span class="tag gold">reaction</span>
+            <span class="tag">target word</span>
+          </div>
+          <p class="sub">
+            Shoot the correct “word-ship”. Wrong word = lose a life.
+          </p>
+          <div style="display:flex; gap:10px; margin-top:12px; flex-wrap:wrap;">
+            <button class="btnBlue" id="pickInvaders">PLAY</button>
+            <button class="btnCyan" id="demoInvaders">PREVIEW</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>🟡 Pacman — Sentence Builder</h3>
+          <div class="tagRow">
+            <span class="tag blue">order</span>
+            <span class="tag gold">reading</span>
+            <span class="tag">grammar</span>
+          </div>
+          <p class="sub">
+            Collect words in the correct order to build the sentence.
+          </p>
+          <div style="display:flex; gap:10px; margin-top:12px; flex-wrap:wrap;">
+            <button class="btnBlue" id="pickPacman">PLAY</button>
+            <button class="btnCyan" id="demoPacman">PREVIEW</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="hint">
+        Controls:<br>
+        • Space Invaders: ← → to move, Space to shoot, P to pause.<br>
+        • Pacman: Arrow keys to move, P to pause.<br>
+        • ESC always returns to Main Menu.
+      </div>
+
+      <div class="toast" id="toast"></div>
+    </div>
+
+    <!-- CANVAS PANEL -->
+    <div class="panel canvasWrap" id="gamePanel">
+      <h2 class="title" id="gameTitle">Game</h2>
+      <p class="sub" id="gameSub">—</p>
+
+      <div class="canvasHolder" style="margin-top:12px;">
+        <canvas id="cv" width="1000" height="600"></canvas>
+      </div>
+
+      <div class="hint" id="gameHint"></div>
+    </div>
+
   </div>
-</div>
-
-<canvas id="game" width="1000" height="600"></canvas>
-
 </div>
 
 <script>
+/* ===========================
+   NAV / UI
+=========================== */
+const hudMode = document.getElementById("hudMode");
+const hudScore = document.getElementById("hudScore");
+const hudLives = document.getElementById("hudLives");
+const hudLevel = document.getElementById("hudLevel");
+const hudTarget = document.getElementById("hudTarget");
 
-const canvas = document.getElementById("game");
-const ctx = canvas.getContext("2d");
-
-const targetEl = document.getElementById("target");
-const scoreEl = document.getElementById("score");
-const livesEl = document.getElementById("lives");
-
+const levelSel = document.getElementById("levelSel");
 const startBtn = document.getElementById("startBtn");
 const pauseBtn = document.getElementById("pauseBtn");
 const restartBtn = document.getElementById("restartBtn");
+const menuBtn = document.getElementById("menuBtn");
 const backBtn = document.getElementById("backBtn");
 
-let running=false;
-let paused=false;
-let animation;
+const menuPanel = document.getElementById("menuPanel");
+const gamePanel = document.getElementById("gamePanel");
+const toast = document.getElementById("toast");
 
-let score=0;
-let lives=3;
-let direction=1;
-let speed=1.5;
+const pickInvaders = document.getElementById("pickInvaders");
+const demoInvaders = document.getElementById("demoInvaders");
+const pickPacman = document.getElementById("pickPacman");
+const demoPacman = document.getElementById("demoPacman");
 
-const words=["festival","recycle","charity","renewable","community","responsible"];
-let targetWord=words[Math.floor(Math.random()*words.length)];
+const gameTitle = document.getElementById("gameTitle");
+const gameSub = document.getElementById("gameSub");
+const gameHint = document.getElementById("gameHint");
 
-let invaders=[];
-let bullets=[];
+function goBackToPit(){
+  // ✅ stations/games.html -> ../index.html
+  window.location.href = "../index.html";
+}
+backBtn.addEventListener("click", goBackToPit);
 
-const player={
-  x:canvas.width/2,
-  y:canvas.height-60,
-  width:80
+function showToast(msg){
+  toast.style.display = "block";
+  toast.textContent = msg;
+  setTimeout(()=>toast.style.display="none", 1800);
+}
+
+function showMenu(){
+  currentGame = "menu";
+  running = false;
+  paused = false;
+  cancelAnimationFrame(raf);
+  menuPanel.style.display = "block";
+  gamePanel.style.display = "none";
+  hudMode.textContent = "ARCADE";
+  hudTarget.textContent = "—";
+}
+menuBtn.addEventListener("click", showMenu);
+
+function showGamePanel(){
+  menuPanel.style.display = "none";
+  gamePanel.style.display = "block";
+}
+
+function levelSettings(){
+  const lvl = levelSel.value;
+  hudLevel.textContent = lvl.toUpperCase();
+  return lvl;
+}
+
+/* ===========================
+   CANVAS SETUP
+=========================== */
+const cv = document.getElementById("cv");
+const ctx = cv.getContext("2d");
+
+function clear(){
+  ctx.clearRect(0,0,cv.width,cv.height);
+}
+
+/* ===========================
+   GLOBAL GAME STATE
+=========================== */
+let currentGame = "menu"; // menu | invaders | pacman
+let running = false;
+let paused = false;
+let raf = 0;
+
+let score = 0;
+let lives = 3;
+
+function resetHUD(){
+  hudScore.textContent = String(score);
+  hudLives.textContent = String(lives);
+}
+function setMode(name){
+  hudMode.textContent = name;
+}
+
+/* ===========================
+   VOCAB (8 units style)
+   (You can replace/expand later)
+=========================== */
+const VOCAB = [
+  "appear","disappear","container","safe","worried","excited",
+  "designer","illustrator","photographer","brilliant","enormous",
+  "festival","volunteer","charity","recycle","renewable","community",
+  "responsible","protect","rules","attendance","uniform",
+  "somebody","nobody","everybody","anyone","something","nothing"
+];
+
+/* ===========================
+   SPACE INVADERS
+=========================== */
+const Invaders = {
+  player: { x: 500, y: 540, w: 60, h: 24, speed: 7 },
+  bullets: [],
+  enemyBullets: [],
+  enemies: [],
+  dir: 1,
+  baseSpeed: 1.15,
+  drop: 18,
+  cooldown: 0,
+  target: "—",
+  lastShot: 0
 };
 
-function updateHUD(){
-  targetEl.textContent=targetWord;
-  scoreEl.textContent=score;
-  livesEl.textContent=lives;
+function invadersPickTarget(){
+  Invaders.target = VOCAB[Math.floor(Math.random()*VOCAB.length)];
+  hudTarget.textContent = Invaders.target;
 }
 
-function createInvaders(){
-  invaders=[];
-  let startX=150;
-  for(let i=0;i<words.length;i++){
-    invaders.push({
-      word:words[i],
-      x:startX+i*130,
-      y:120,
-      w:120,
-      h:60,
-      alive:true
-    });
+function invadersCreateFleet(){
+  Invaders.enemies = [];
+  const lvl = levelSettings();
+  const rows = (lvl === "hard") ? 4 : 3;
+  const cols = (lvl === "hard") ? 8 : 7;
+
+  const startX = 120;
+  const startY = 120;
+  const gapX = 105;
+  const gapY = 70;
+
+  // Scale is smaller + cleaner than before
+  for(let r=0; r<rows; r++){
+    for(let c=0; c<cols; c++){
+      const word = VOCAB[(r*cols + c) % VOCAB.length];
+      Invaders.enemies.push({
+        word,
+        x: startX + c*gapX,
+        y: startY + r*gapY,
+        alive: true,
+        w: 70,
+        h: 34
+      });
+    }
   }
+  Invaders.dir = 1;
 }
 
-function drawPlayer(){
-  ctx.shadowBlur=20;
-  ctx.shadowColor="#22d3ee";
-  ctx.fillStyle="#22d3ee";
-  ctx.fillRect(player.x-40,player.y,80,20);
-  ctx.shadowBlur=0;
+function drawStarfield(){
+  // simple starfield
+  ctx.fillStyle = "#020617";
+  ctx.fillRect(0,0,cv.width,cv.height);
+
+  ctx.globalAlpha = 0.6;
+  for(let i=0;i<70;i++){
+    const x = (i*137) % cv.width;
+    const y = (i*271) % cv.height;
+    ctx.fillStyle = (i%7===0) ? "#38bdf8" : "#ffffff";
+    ctx.fillRect(x, y, (i%7===0)?2:1, (i%7===0)?2:1);
+  }
+  ctx.globalAlpha = 1;
 }
 
-function drawInvaders(){
-  ctx.font="bold 26px Orbitron";
-  invaders.forEach(inv=>{
-    if(!inv.alive) return;
+function drawPlayerShip(){
+  const p = Invaders.player;
 
-    ctx.shadowBlur=20;
-    ctx.shadowColor="#38bdf8";
-    ctx.fillStyle="#1e40af";
-    ctx.fillRect(inv.x,inv.y,inv.w,inv.h);
+  // ship body
+  ctx.save();
+  ctx.translate(p.x, p.y);
 
-    ctx.strokeStyle="#38bdf8";
-    ctx.lineWidth=3;
-    ctx.strokeRect(inv.x,inv.y,inv.w,inv.h);
+  ctx.shadowBlur = 18;
+  ctx.shadowColor = "#22d3ee";
 
-    ctx.shadowBlur=0;
-    ctx.fillStyle="white";
-    ctx.fillText(inv.word,inv.x+15,inv.y+38);
+  ctx.fillStyle = "#22d3ee";
+  ctx.beginPath();
+  ctx.moveTo(-26, 18);
+  ctx.lineTo(0, -8);
+  ctx.lineTo(26, 18);
+  ctx.closePath();
+  ctx.fill();
 
-    inv.x+=speed*direction;
+  ctx.shadowBlur = 0;
+  ctx.fillStyle = "#38bdf8";
+  ctx.fillRect(-18, 18, 36, 8);
+
+  // cockpit
+  ctx.fillStyle = "#0f172a";
+  ctx.fillRect(-6, 6, 12, 8);
+
+  ctx.restore();
+}
+
+function drawEnemyShip(e){
+  // spaceship-like enemy + word label
+  ctx.save();
+  ctx.translate(e.x, e.y);
+
+  // hull
+  ctx.shadowBlur = 14;
+  ctx.shadowColor = "#38bdf8";
+  ctx.fillStyle = "#1e40af";
+  ctx.beginPath();
+  ctx.moveTo(-30, 10);
+  ctx.quadraticCurveTo(0, -14, 30, 10);
+  ctx.lineTo(18, 16);
+  ctx.lineTo(-18, 16);
+  ctx.closePath();
+  ctx.fill();
+
+  // wings
+  ctx.shadowBlur = 0;
+  ctx.fillStyle = "#0b2a6b";
+  ctx.fillRect(-34, 10, 12, 8);
+  ctx.fillRect(22, 10, 12, 8);
+
+  // word label (readable but not huge)
+  ctx.fillStyle = "#e5e7eb";
+  ctx.font = "800 18px Orbitron";
+  ctx.textAlign = "center";
+  ctx.fillText(e.word, 0, 42);
+
+  ctx.restore();
+}
+
+function invadersUpdate(){
+  const lvl = levelSettings();
+  const speed = (lvl === "hard") ? 1.9 : 1.35;
+
+  let minX = Infinity, maxX = -Infinity;
+  Invaders.enemies.forEach(e=>{
+    if(!e.alive) return;
+    e.x += speed * Invaders.dir;
+    minX = Math.min(minX, e.x - 34);
+    maxX = Math.max(maxX, e.x + 34);
   });
 
-  let left=invaders[0].x;
-  let right=invaders[invaders.length-1].x+invaders[0].w;
-
-  if(left<50 || right>canvas.width-50){
-    direction*=-1;
-    invaders.forEach(inv=>inv.y+=30);
+  if(minX < 60 || maxX > cv.width - 60){
+    Invaders.dir *= -1;
+    Invaders.enemies.forEach(e=>{
+      if(e.alive) e.y += Invaders.drop;
+    });
   }
-}
 
-function drawBullets(){
-  bullets.forEach(b=>{
-    b.y-=7;
+  // enemy shooting (light)
+  if(Math.random() < (lvl==="hard" ? 0.03 : 0.015)){
+    const alive = Invaders.enemies.filter(e=>e.alive);
+    if(alive.length){
+      const shooter = alive[Math.floor(Math.random()*alive.length)];
+      Invaders.enemyBullets.push({ x: shooter.x, y: shooter.y+20, vy: (lvl==="hard"?4.8:4.0) });
+    }
+  }
 
-    ctx.shadowBlur=15;
-    ctx.shadowColor="yellow";
-    ctx.fillStyle="yellow";
-    ctx.beginPath();
-    ctx.arc(b.x,b.y,6,0,Math.PI*2);
-    ctx.fill();
-    ctx.shadowBlur=0;
+  // bullets update
+  Invaders.bullets.forEach(b=> b.y -= b.vy);
+  Invaders.bullets = Invaders.bullets.filter(b=> b.y > -20);
 
-    invaders.forEach(inv=>{
-      if(!inv.alive) return;
+  Invaders.enemyBullets.forEach(b=> b.y += b.vy);
+  Invaders.enemyBullets = Invaders.enemyBullets.filter(b=> b.y < cv.height+20);
 
-      if(b.x>inv.x && b.x<inv.x+inv.w &&
-         b.y>inv.y && b.y<inv.y+inv.h){
+  // collisions: player bullets vs enemies
+  Invaders.bullets.forEach(b=>{
+    Invaders.enemies.forEach(e=>{
+      if(!e.alive) return;
+      const ex = e.x, ey = e.y;
+      // approx hitbox around enemy hull
+      if(b.x > ex-38 && b.x < ex+38 && b.y > ey-16 && b.y < ey+26){
+        e.alive = false;
+        b.hit = true;
 
-        inv.alive=false;
-
-        if(inv.word===targetWord){
-          score+=10;
+        if(e.word === Invaders.target){
+          score += 10;
+          invadersPickTarget();
         }else{
-          lives--;
+          lives -= 1;
         }
-
-        targetWord=words[Math.floor(Math.random()*words.length)];
-        updateHUD();
+        resetHUD();
       }
     });
   });
+  Invaders.bullets = Invaders.bullets.filter(b=> !b.hit);
 
-  bullets=bullets.filter(b=>b.y>0);
+  // collisions: enemy bullets vs player
+  const p = Invaders.player;
+  Invaders.enemyBullets.forEach(b=>{
+    if(b.x > p.x-30 && b.x < p.x+30 && b.y > p.y-12 && b.y < p.y+26){
+      b.hit = true;
+      lives -= 1;
+      resetHUD();
+    }
+  });
+  Invaders.enemyBullets = Invaders.enemyBullets.filter(b=> !b.hit);
+
+  // lose if invaders reach player area
+  const lowest = Math.max(...Invaders.enemies.filter(e=>e.alive).map(e=>e.y), 0);
+  if(lowest > 470) lives = 0;
+
+  // win wave: if all dead, new fleet
+  if(Invaders.enemies.every(e=>!e.alive)){
+    invadersCreateFleet();
+    invadersPickTarget();
+  }
 }
 
-function gameLoop(){
+function invadersDraw(){
+  drawStarfield();
+
+  // title overlay
+  ctx.fillStyle = "rgba(34,211,238,.10)";
+  ctx.fillRect(0,0,cv.width,64);
+  ctx.fillStyle = "#e5e7eb";
+  ctx.font = "800 18px Orbitron";
+  ctx.textAlign = "left";
+  ctx.fillText("SPACE INVADERS — Shoot the TARGET word", 22, 40);
+
+  // enemies
+  Invaders.enemies.forEach(e=>{
+    if(e.alive) drawEnemyShip(e);
+  });
+
+  // bullets
+  // player bullets = cyan
+  Invaders.bullets.forEach(b=>{
+    ctx.save();
+    ctx.shadowBlur = 12;
+    ctx.shadowColor = "#22d3ee";
+    ctx.fillStyle = "#22d3ee";
+    ctx.beginPath();
+    ctx.arc(b.x, b.y, 5, 0, Math.PI*2);
+    ctx.fill();
+    ctx.restore();
+  });
+
+  // enemy bullets = orange
+  Invaders.enemyBullets.forEach(b=>{
+    ctx.save();
+    ctx.shadowBlur = 10;
+    ctx.shadowColor = "#fbbf24";
+    ctx.fillStyle = "#fbbf24";
+    ctx.beginPath();
+    ctx.arc(b.x, b.y, 4, 0, Math.PI*2);
+    ctx.fill();
+    ctx.restore();
+  });
+
+  drawPlayerShip();
+
+  // pause overlay
+  if(paused){
+    ctx.fillStyle = "rgba(2,6,23,.65)";
+    ctx.fillRect(0,0,cv.width,cv.height);
+    ctx.fillStyle = "#e5e7eb";
+    ctx.font = "800 48px Orbitron";
+    ctx.textAlign = "center";
+    ctx.fillText("PAUSED", cv.width/2, cv.height/2);
+    ctx.font = "800 16px Orbitron";
+    ctx.fillText("Press P to resume", cv.width/2, cv.height/2 + 34);
+  }
+
+  // game over overlay
+  if(lives <= 0){
+    ctx.fillStyle = "rgba(2,6,23,.75)";
+    ctx.fillRect(0,0,cv.width,cv.height);
+    ctx.fillStyle = "#ef4444";
+    ctx.font = "800 56px Orbitron";
+    ctx.textAlign = "center";
+    ctx.fillText("GAME OVER", cv.width/2, cv.height/2);
+    ctx.fillStyle = "#e5e7eb";
+    ctx.font = "800 16px Orbitron";
+    ctx.fillText("Press RESTART or go to MAIN MENU", cv.width/2, cv.height/2 + 38);
+  }
+}
+
+function invadersLoop(){
   if(!running) return;
+  if(currentGame !== "invaders") return;
+
+  if(!paused && lives > 0){
+    invadersUpdate();
+  }
+  invadersDraw();
+  raf = requestAnimationFrame(invadersLoop);
+}
+
+function startInvaders(){
+  score = 0;
+  lives = 3;
+  resetHUD();
+  setMode("INVADERS");
+  showGamePanel();
+
+  gameTitle.textContent = "👾 Space Invaders — Vocabulary";
+  gameSub.textContent = "Shoot the TARGET word. Wrong word = lose a life.";
+  gameHint.textContent = "Controls: ← → move, Space shoot, P pause, ESC menu";
+
+  invadersCreateFleet();
+  invadersPickTarget();
+  Invaders.player.x = cv.width/2;
+  Invaders.bullets = [];
+  Invaders.enemyBullets = [];
+
+  currentGame = "invaders";
+  paused = false;
+  running = false; // wait for START button
+}
+
+function previewInvaders(){
+  startInvaders();
+  showToast("Preview loaded. Press START to play.");
+}
+
+/* ===========================
+   PACMAN — SENTENCE BUILDER
+   (Simple classic grid feel)
+=========================== */
+const Pac = {
+  gridW: 20, gridH: 12, cell: 48,
+  px: 2, py: 2,
+  dx: 0, dy: 0,
+  walls: new Set(),
+  words: [], // {w,x,y}
+  sentence: [],
+  targetSentence: []
+};
+
+function pacCellKey(x,y){ return `${x},${y}`; }
+
+function pacSetup(){
+  const lvl = levelSettings();
+  // grid size fixed to canvas; cell size adapted
+  Pac.gridW = 20;
+  Pac.gridH = 12;
+  Pac.cell = Math.floor(Math.min(cv.width/Pac.gridW, cv.height/Pac.gridH));
+  Pac.px = 1; Pac.py = 1;
+  Pac.dx = 0; Pac.dy = 0;
+  Pac.walls = new Set();
+
+  // simple maze walls (borders + some blocks)
+  for(let x=0;x<Pac.gridW;x++){
+    Pac.walls.add(pacCellKey(x,0));
+    Pac.walls.add(pacCellKey(x,Pac.gridH-1));
+  }
+  for(let y=0;y<Pac.gridH;y++){
+    Pac.walls.add(pacCellKey(0,y));
+    Pac.walls.add(pacCellKey(Pac.gridW-1,y));
+  }
+
+  // internal walls (slightly more in hard)
+  const blocks = (lvl==="hard") ? 26 : 18;
+  let tries=0;
+  while(Pac.walls.size < (Pac.gridW*2 + Pac.gridH*2) + blocks && tries<500){
+    tries++;
+    const x = 1 + Math.floor(Math.random()*(Pac.gridW-2));
+    const y = 1 + Math.floor(Math.random()*(Pac.gridH-2));
+    if((x===Pac.px && y===Pac.py) || (x===Pac.gridW-2 && y===Pac.gridH-2)) continue;
+    Pac.walls.add(pacCellKey(x,y));
+  }
+
+  // sentence bank
+  const sentences = [
+    ["We","volunteer","for","the","community","festival","."],
+    ["You","must","protect","your","password","online","."],
+    ["Renewable","energy","is","safer","for","our","future","."],
+    ["Somebody","found","a","container","in","the","park","."],
+    ["They","were","excited","because","the","artist","appeared","."],
+  ];
+
+  Pac.targetSentence = sentences[Math.floor(Math.random()*sentences.length)];
+  hudTarget.textContent = Pac.targetSentence.join(" ");
+
+  // place words randomly
+  Pac.words = [];
+  const placed = new Set();
+  for(const w of Pac.targetSentence){
+    // do not place punctuation as collectible; auto-add at end
+    if(w === ".") continue;
+
+    let placedOK=false;
+    for(let k=0;k<200 && !placedOK;k++){
+      const x = 1 + Math.floor(Math.random()*(Pac.gridW-2));
+      const y = 1 + Math.floor(Math.random()*(Pac.gridH-2));
+      const key = pacCellKey(x,y);
+      if(Pac.walls.has(key)) continue;
+      if(placed.has(key)) continue;
+      if(x===Pac.px && y===Pac.py) continue;
+      placed.add(key);
+      Pac.words.push({ w, x, y, eaten:false });
+      placedOK=true;
+    }
+  }
+
+  Pac.sentence = [];
+}
+
+function pacTryMove(){
+  const nx = Pac.px + Pac.dx;
+  const ny = Pac.py + Pac.dy;
+  if(Pac.walls.has(pacCellKey(nx,ny))) return;
+  Pac.px = nx; Pac.py = ny;
+}
+
+function pacEat(){
+  const nextWord = Pac.targetSentence[Pac.sentence.length];
+  for(const item of Pac.words){
+    if(item.eaten) continue;
+    if(item.x===Pac.px && item.y===Pac.py){
+      // must eat correct next word
+      if(item.w === nextWord){
+        item.eaten = true;
+        Pac.sentence.push(item.w);
+        score += 2;
+      }else{
+        // wrong order
+        lives -= 1;
+      }
+      resetHUD();
+      break;
+    }
+  }
+
+  // win condition: all words (except ".") eaten in order
+  const goalLen = Pac.targetSentence.filter(w=>w!==".").length;
+  if(Pac.sentence.length === goalLen){
+    score += 10;
+    resetHUD();
+    // new sentence round
+    pacSetup();
+  }
+}
+
+function pacDraw(){
+  // background
+  ctx.fillStyle = "#020617";
+  ctx.fillRect(0,0,cv.width,cv.height);
+
+  // grid
+  const cs = Pac.cell;
+  const offX = Math.floor((cv.width - cs*Pac.gridW)/2);
+  const offY = Math.floor((cv.height - cs*Pac.gridH)/2);
+
+  // walls
+  for(let y=0;y<Pac.gridH;y++){
+    for(let x=0;x<Pac.gridW;x++){
+      const key = pacCellKey(x,y);
+      if(Pac.walls.has(key)){
+        ctx.fillStyle = "rgba(56,189,248,.35)";
+        ctx.fillRect(offX + x*cs, offY + y*cs, cs, cs);
+      }else{
+        ctx.fillStyle = "rgba(148,163,184,.04)";
+        ctx.fillRect(offX + x*cs, offY + y*cs, cs, cs);
+      }
+    }
+  }
+
+  // words
+  ctx.font = "800 14px Orbitron";
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+
+  Pac.words.forEach(item=>{
+    if(item.eaten) return;
+    const x = offX + item.x*cs + cs/2;
+    const y = offY + item.y*cs + cs/2;
+
+    ctx.fillStyle = "rgba(251,191,36,.18)";
+    ctx.strokeStyle = "rgba(251,191,36,.45)";
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.roundRect(x - cs*0.44, y - cs*0.30, cs*0.88, cs*0.60, 10);
+    ctx.fill();
+    ctx.stroke();
+
+    ctx.fillStyle = "#e5e7eb";
+    ctx.fillText(item.w, x, y);
+  });
+
+  // pacman
+  const px = offX + Pac.px*cs + cs/2;
+  const py = offY + Pac.py*cs + cs/2;
+
+  ctx.save();
+  ctx.shadowBlur = 18;
+  ctx.shadowColor = "#fbbf24";
+  ctx.fillStyle = "#fbbf24";
+  ctx.beginPath();
+  ctx.arc(px, py, cs*0.32, 0.25*Math.PI, 1.75*Math.PI);
+  ctx.lineTo(px, py);
+  ctx.closePath();
+  ctx.fill();
+  ctx.restore();
+
+  // sentence bar
+  ctx.fillStyle = "rgba(34,211,238,.10)";
+  ctx.fillRect(0,0,cv.width,64);
+  ctx.fillStyle = "#e5e7eb";
+  ctx.font = "800 16px Orbitron";
+  ctx.textAlign = "left";
+  ctx.fillText("PACMAN — Collect words in the correct order", 22, 26);
+
+  ctx.fillStyle = "#94a3b8";
+  ctx.font = "800 13px Orbitron";
+  ctx.fillText("Your sentence: " + (Pac.sentence.join(" ") || "—"), 22, 48);
 
   if(paused){
-    ctx.fillStyle="white";
-    ctx.font="40px Orbitron";
-    ctx.fillText("PAUSED",canvas.width/2-100,canvas.height/2);
-    animation=requestAnimationFrame(gameLoop);
-    return;
+    ctx.fillStyle = "rgba(2,6,23,.65)";
+    ctx.fillRect(0,0,cv.width,cv.height);
+    ctx.fillStyle = "#e5e7eb";
+    ctx.font = "800 48px Orbitron";
+    ctx.textAlign = "center";
+    ctx.fillText("PAUSED", cv.width/2, cv.height/2);
   }
-
-  ctx.clearRect(0,0,canvas.width,canvas.height);
-
-  drawPlayer();
-  drawInvaders();
-  drawBullets();
 
   if(lives<=0){
-    ctx.fillStyle="red";
-    ctx.font="50px Orbitron";
-    ctx.fillText("GAME OVER",canvas.width/2-170,canvas.height/2);
-    running=false;
+    ctx.fillStyle = "rgba(2,6,23,.75)";
+    ctx.fillRect(0,0,cv.width,cv.height);
+    ctx.fillStyle = "#ef4444";
+    ctx.font = "800 56px Orbitron";
+    ctx.textAlign = "center";
+    ctx.fillText("GAME OVER", cv.width/2, cv.height/2);
+    ctx.fillStyle = "#e5e7eb";
+    ctx.font = "800 16px Orbitron";
+    ctx.fillText("Press RESTART or go to MAIN MENU", cv.width/2, cv.height/2 + 38);
+  }
+}
+
+let pacTick = 0;
+function pacLoop(){
+  if(!running) return;
+  if(currentGame !== "pacman") return;
+
+  if(!paused && lives>0){
+    pacTick++;
+    if(pacTick % 8 === 0){ // movement speed
+      pacTryMove();
+      pacEat();
+    }
+  }
+  pacDraw();
+  raf = requestAnimationFrame(pacLoop);
+}
+
+function startPacman(){
+  score = 0;
+  lives = 3;
+  resetHUD();
+  setMode("PACMAN");
+  showGamePanel();
+
+  gameTitle.textContent = "🟡 Pacman — Sentence Builder";
+  gameSub.textContent = "Collect words in the correct order to build the sentence.";
+  gameHint.textContent = "Controls: Arrow keys move, P pause, ESC menu";
+
+  pacSetup();
+  currentGame = "pacman";
+  paused = false;
+  running = false; // wait for START button
+}
+
+function previewPacman(){
+  startPacman();
+  showToast("Preview loaded. Press START to play.");
+}
+
+/* ===========================
+   BUTTONS — select game
+=========================== */
+pickInvaders.addEventListener("click", startInvaders);
+demoInvaders.addEventListener("click", previewInvaders);
+pickPacman.addEventListener("click", startPacman);
+demoPacman.addEventListener("click", previewPacman);
+
+/* ===========================
+   START / PAUSE / RESTART
+=========================== */
+startBtn.addEventListener("click", ()=>{
+  if(currentGame === "menu"){
+    showToast("Choose a game first.");
     return;
   }
+  running = true;
+  paused = false;
 
-  animation=requestAnimationFrame(gameLoop);
-}
-
-window.addEventListener("keydown",(e)=>{
-  if(e.key==="ArrowLeft") player.x-=20;
-  if(e.key==="ArrowRight") player.x+=20;
-  if(e.code==="Space") bullets.push({x:player.x,y:player.y});
-  if(e.key==="p") paused=!paused;
-  if(e.key==="r") restartGame();
-  if(e.key==="Escape") goBack();
+  // start loop for chosen game
+  cancelAnimationFrame(raf);
+  if(currentGame === "invaders") invadersLoop();
+  if(currentGame === "pacman") pacLoop();
 });
 
-function startGame(){
-  if(!running){
-    running=true;
-    gameLoop();
+pauseBtn.addEventListener("click", ()=>{
+  if(currentGame === "menu") return;
+  paused = !paused;
+});
+
+restartBtn.addEventListener("click", ()=>{
+  if(currentGame === "invaders"){
+    startInvaders(); // resets state, waits for START
+    showToast("Restarted. Press START.");
+    return;
   }
+  if(currentGame === "pacman"){
+    startPacman();
+    showToast("Restarted. Press START.");
+    return;
+  }
+  showToast("Choose a game first.");
+});
+
+levelSel.addEventListener("change", ()=>{
+  // update HUD label immediately
+  levelSettings();
+  // if already in a game, restart that game to apply level properly
+  if(currentGame === "invaders"){ startInvaders(); showToast("Level applied. Press START."); }
+  if(currentGame === "pacman"){ startPacman(); showToast("Level applied. Press START."); }
+});
+
+/* ===========================
+   KEYBOARD
+=========================== */
+window.addEventListener("keydown",(e)=>{
+  if(e.key === "Escape"){ showMenu(); return; }
+  if(e.key.toLowerCase() === "p"){ if(currentGame!=="menu") paused = !paused; return; }
+
+  if(currentGame === "invaders"){
+    if(e.key === "ArrowLeft") Invaders.player.x = Math.max(60, Invaders.player.x - Invaders.player.speed);
+    if(e.key === "ArrowRight") Invaders.player.x = Math.min(cv.width-60, Invaders.player.x + Invaders.player.speed);
+    if(e.code === "Space"){
+      if(!running || paused || lives<=0) return;
+      const now = performance.now();
+      if(now - Invaders.lastShot < (levelSel.value==="hard" ? 230 : 280)) return;
+      Invaders.lastShot = now;
+      Invaders.bullets.push({ x: Invaders.player.x, y: Invaders.player.y-6, vy: 8.5 });
+    }
+  }
+
+  if(currentGame === "pacman"){
+    if(e.key === "ArrowLeft"){ Pac.dx=-1; Pac.dy=0; }
+    if(e.key === "ArrowRight"){ Pac.dx=1; Pac.dy=0; }
+    if(e.key === "ArrowUp"){ Pac.dx=0; Pac.dy=-1; }
+    if(e.key === "ArrowDown"){ Pac.dx=0; Pac.dy=1; }
+  }
+});
+
+/* ===========================
+   INIT
+=========================== */
+resetHUD();
+levelSettings();
+showMenu();
+
+/* roundRect polyfill for older browsers */
+if(!CanvasRenderingContext2D.prototype.roundRect){
+  CanvasRenderingContext2D.prototype.roundRect = function(x,y,w,h,r){
+    r = Math.min(r, w/2, h/2);
+    this.beginPath();
+    this.moveTo(x+r,y);
+    this.arcTo(x+w,y,x+w,y+h,r);
+    this.arcTo(x+w,y+h,x,y+h,r);
+    this.arcTo(x,y+h,x,y,r);
+    this.arcTo(x,y,x+w,y,r);
+    this.closePath();
+    return this;
+  };
 }
-
-function restartGame(){
-  score=0;
-  lives=3;
-  targetWord=words[Math.floor(Math.random()*words.length)];
-  createInvaders();
-  updateHUD();
-  running=true;
-  paused=false;
-  gameLoop();
-}
-
-function goBack(){
-  window.location.href="../index.html";
-}
-
-startBtn.onclick=startGame;
-pauseBtn.onclick=()=>paused=!paused;
-restartBtn.onclick=restartGame;
-backBtn.onclick=goBack;
-
-createInvaders();
-updateHUD();
-
 </script>
 </body>
 </html>
