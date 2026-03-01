@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>THE PIT – Arcade Mode</title>
-
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800&display=swap" rel="stylesheet">
 
 <style>
@@ -16,35 +15,35 @@ body{
 }
 
 .container{
-  width:90%;
-  max-width:1100px;
-  margin:40px auto;
+  width:95%;
+  max-width:1200px;
+  margin:30px auto;
   background:#0f172a;
-  padding:40px;
+  padding:30px;
   border-radius:25px;
-  box-shadow:0 0 40px rgba(14,165,233,0.4);
+  box-shadow:0 0 40px rgba(14,165,233,0.5);
 }
 
 .title{
   text-align:center;
-  font-size:32px;
+  font-size:30px;
   margin-bottom:10px;
   color:#38bdf8;
 }
 
-.statsBar{
+.stats{
   margin:15px 0;
 }
 
-.progressContainer{
+.bar{
   width:100%;
-  height:20px;
+  height:18px;
   background:#1e293b;
   border-radius:12px;
   overflow:hidden;
 }
 
-.progressFill{
+.fill{
   height:100%;
   width:0%;
   background:linear-gradient(90deg,#22d3ee,#38bdf8);
@@ -57,34 +56,32 @@ body{
   gap:20px;
 }
 
-.gameCard{
+.card{
   background:#1e293b;
   border:2px solid #38bdf8;
-  padding:30px;
+  padding:25px;
   border-radius:18px;
   text-align:center;
   cursor:pointer;
-  transition:.2s;
   font-weight:900;
+  transition:.2s;
 }
 
-.gameCard:hover{
+.card:hover{
   background:#0ea5e9;
   transform:scale(1.05);
 }
 
 .gameArea{
-  margin-top:30px;
-  padding:25px;
-  border-radius:18px;
-  border:2px solid #38bdf8;
-  background:#0f172a;
+  margin-top:25px;
   display:none;
+  text-align:center;
 }
 
 canvas{
   background:#020617;
-  border-radius:14px;
+  border-radius:15px;
+  box-shadow:0 0 25px #22d3ee;
 }
 
 button{
@@ -92,24 +89,20 @@ button{
   border-radius:10px;
   font-weight:900;
   cursor:pointer;
+  margin:10px;
   border:none;
-  margin-top:10px;
 }
 
-.menuBtn{
-  background:#38bdf8;
-  color:#0f172a;
-}
-
-.backBtn{
-  background:#1e293b;
-  color:#38bdf8;
+.overlay{
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  background:#0f172a;
+  padding:30px;
   border:2px solid #38bdf8;
-}
-
-select{
-  padding:6px;
-  font-weight:900;
+  border-radius:15px;
+  display:none;
 }
 </style>
 </head>
@@ -118,256 +111,191 @@ select{
 
 <div class="container">
 
-  <div class="title">ARCADE MODE</div>
+<div class="title">ARCADE MODE</div>
 
-  <button class="menuBtn" onclick="goMenu()">MAIN MENU</button>
+<div class="stats">
+Level: <span id="level">1</span> |
+XP: <span id="xp">0</span>/100
+<div class="bar"><div class="fill" id="xpBar"></div></div>
+</div>
 
-  <div class="statsBar">
-    Level: <span id="level">1</span> |
-    XP: <span id="xp">0</span>/100
-    <div class="progressContainer">
-      <div class="progressFill" id="xpBar"></div>
-    </div>
-  </div>
+<div class="arcadeGrid" id="menu">
+<div class="card" onclick="loadGame('invaders')">👾 SPACE INVADERS</div>
+<div class="card" onclick="loadGame('pacman')">🟡 PAC-MAN REVIEW</div>
+</div>
 
-  <div class="arcadeGrid" id="arcadeGrid">
-    <div class="gameCard" onclick="loadGame('invaders')">👾 SPACE INVADERS</div>
-    <div class="gameCard" onclick="loadGame('pacman')">🟡 PAC-MAN</div>
-  </div>
-
-  <div class="gameArea" id="gameArea"></div>
+<div class="gameArea" id="gameArea"></div>
 
 </div>
 
 <script>
 
-/* ========= GLOBAL XP SYSTEM ========= */
+/* ================= XP SYSTEM ================= */
 
-let XP = 0;
-let LEVEL = 1;
-let difficulty = "easy";
+let XP=0, LEVEL=1;
 
 function addXP(amount){
-  XP += amount;
-  if(XP >= 100){
-    XP = 0;
+  XP+=amount;
+  if(XP>=100){
+    XP=0;
     LEVEL++;
   }
-  document.getElementById("xp").textContent = XP;
-  document.getElementById("level").textContent = LEVEL;
-  document.getElementById("xpBar").style.width = XP + "%";
+  document.getElementById("xp").textContent=XP;
+  document.getElementById("level").textContent=LEVEL;
+  document.getElementById("xpBar").style.width=XP+"%";
 }
 
-/* ========= NAV ========= */
+/* ================= GLOBAL ================= */
 
-function goMenu(){
-  window.location.href="../index.html";
-}
-
-function goBack(){
-  stopGame();
-  document.getElementById("gameArea").style.display="none";
-  document.getElementById("arcadeGrid").style.display="grid";
-}
-
-let animationFrame=null;
+let animation=null;
 let keyHandler=null;
 
 function stopGame(){
-  if(animationFrame) cancelAnimationFrame(animationFrame);
+  if(animation) cancelAnimationFrame(animation);
   if(keyHandler) document.removeEventListener("keydown",keyHandler);
 }
 
-/* ========= GAME LOADER ========= */
-
 function loadGame(type){
   stopGame();
-  const grid=document.getElementById("arcadeGrid");
+  document.getElementById("menu").style.display="none";
   const area=document.getElementById("gameArea");
-
-  grid.style.display="none";
   area.style.display="block";
-
-  area.innerHTML = `
-    Difficulty:
-    <select id="difficultySelect">
-      <option value="easy">Easy</option>
-      <option value="hard">Hard</option>
-    </select>
-    <canvas id="gameCanvas" width="800" height="500"></canvas>
-    <button class="backBtn" onclick="goBack()">BACK</button>
-  `;
-
-  document.getElementById("difficultySelect").onchange = (e)=>{
-    difficulty = e.target.value;
-  };
-
+  area.innerHTML='<canvas id="gameCanvas" width="900" height="550"></canvas>';
   if(type==="invaders") startInvaders();
   if(type==="pacman") startPacman();
 }
 
-/* ========= VOCAB ========= */
-
-const vocab = [
-  {word:"festival", def:"A public celebration"},
-  {word:"recycle", def:"To use again"},
-  {word:"charity", def:"Helping organization"},
-  {word:"renewable", def:"Energy that doesn't run out"}
-];
-
-const sentences = [
-  {
-    prompt:"If it rains tomorrow,",
-    options:["we will stay home","we stayed home","we stay home"],
-    correct:"we will stay home"
-  }
-];
-
-/* ========= SPACE INVADERS PRO ========= */
+/* ================= SPACE INVADERS ================= */
 
 function startInvaders(){
 
 const canvas=document.getElementById("gameCanvas");
 const ctx=canvas.getContext("2d");
 
-let player={x:380};
+let player={x:400};
 let bullets=[];
 let lives=3;
+let speed=1+LEVEL*0.3;
+let dir=1;
 
-let target=vocab[Math.floor(Math.random()*vocab.length)];
-let enemies=[];
-
-function spawn(){
-  enemies=[];
-  vocab.sort(()=>Math.random()-0.5).forEach((v,i)=>{
-    enemies.push({
-      text:v.word,
-      correct:v.word===target.word,
-      x:100+i*150,
-      y:50
-    });
-  });
-}
+const words=["festival","recycle","charity","renewable"];
+let target=words[Math.floor(Math.random()*words.length)];
+let enemies=words.map((w,i)=>({word:w,x:150+i*150,y:80}));
 
 function draw(){
-  ctx.clearRect(0,0,800,500);
+ctx.clearRect(0,0,900,550);
 
-  ctx.fillStyle="white";
-  ctx.fillText("Definition: "+target.def,20,25);
-  ctx.fillText("Lives: "+lives,650,25);
+ctx.fillStyle="white";
+ctx.fillText("Target: "+target,30,30);
+ctx.fillText("Lives: "+lives,750,30);
 
-  ctx.fillStyle="cyan";
-  ctx.fillRect(player.x,450,60,20);
+ctx.fillStyle="#22d3ee";
+ctx.shadowBlur=20;
+ctx.shadowColor="#22d3ee";
+ctx.fillRect(player.x,500,80,20);
 
-  enemies.forEach(e=>{
-    ctx.fillStyle="white";
-    ctx.fillText(e.text,e.x,e.y);
-    e.y += (difficulty==="hard"?2:1) + LEVEL*0.2;
-  });
+enemies.forEach(e=>{
+ctx.fillStyle="white";
+ctx.fillText(e.word,e.x,e.y);
+e.x+=speed*dir;
+});
 
-  bullets.forEach(b=>{
-    b.y-=5;
-    ctx.fillStyle="yellow";
-    ctx.fillRect(b.x,b.y,4,10);
-
-    enemies.forEach(e=>{
-      if(b.x>e.x && b.x<e.x+80 && b.y<e.y && b.y>e.y-20){
-        if(e.correct) addXP(difficulty==="hard"?20:10);
-        else lives--;
-        target=vocab[Math.floor(Math.random()*vocab.length)];
-        spawn();
-      }
-    });
-  });
-
-  if(lives<=0){
-    ctx.fillStyle="red";
-    ctx.fillText("GAME OVER",300,250);
-    return;
-  }
-
-  animationFrame=requestAnimationFrame(draw);
+if(enemies[0].x<50 || enemies[enemies.length-1].x>800){
+dir*=-1;
+enemies.forEach(e=>e.y+=30);
 }
 
-keyHandler=function(e){
-  if(e.key==="ArrowLeft") player.x-=20;
-  if(e.key==="ArrowRight") player.x+=20;
-  if(e.key===" ") bullets.push({x:player.x+30,y:450});
+bullets.forEach(b=>{
+b.y-=6;
+ctx.fillStyle="yellow";
+ctx.beginPath();
+ctx.arc(b.x,b.y,6,0,2*Math.PI);
+ctx.fill();
+
+enemies.forEach(e=>{
+if(Math.abs(b.x-e.x)<50 && Math.abs(b.y-e.y)<20){
+if(e.word===target) addXP(10);
+else lives--;
+target=words[Math.floor(Math.random()*words.length)];
+}
+});
+});
+
+if(lives<=0){
+ctx.fillStyle="red";
+ctx.fillText("GAME OVER",350,280);
+return;
+}
+
+animation=requestAnimationFrame(draw);
+}
+
+keyHandler=(e)=>{
+if(e.key==="ArrowLeft") player.x-=20;
+if(e.key==="ArrowRight") player.x+=20;
+if(e.key===" ") bullets.push({x:player.x+40,y:500});
 };
 
 document.addEventListener("keydown",keyHandler);
-spawn();
 draw();
 }
 
-/* ========= PACMAN PRO ========= */
+/* ================= PACMAN ================= */
 
 function startPacman(){
 
 const canvas=document.getElementById("gameCanvas");
 const ctx=canvas.getContext("2d");
 
-let pacman={x:400,y:250};
+let pac={x:100,y:100};
+let ghost={x:700,y:400};
 let lives=3;
+let grid=40;
+let questionWords=["festival","charity","recycle"];
 
-let current=sentences[0];
-let fragments=[];
-
-function newRound(){
-  fragments=[];
-  current.options.sort(()=>Math.random()-0.5).forEach((opt,i)=>{
-    fragments.push({
-      text:opt,
-      x:150+i*200,
-      y:200
-    });
-  });
+function drawMaze(){
+ctx.strokeStyle="#38bdf8";
+for(let i=0;i<900;i+=grid){
+for(let j=0;j<550;j+=grid){
+ctx.strokeRect(i,j,grid,grid);
+}
+}
 }
 
 function draw(){
-  ctx.clearRect(0,0,800,500);
+ctx.clearRect(0,0,900,550);
 
-  ctx.fillStyle="white";
-  ctx.fillText("Complete: "+current.prompt,20,40);
-  ctx.fillText("Lives: "+lives,650,40);
+drawMaze();
 
-  ctx.fillStyle="yellow";
-  ctx.beginPath();
-  ctx.arc(pacman.x,pacman.y,20,0,2*Math.PI);
-  ctx.fill();
+ctx.fillStyle="yellow";
+ctx.beginPath();
+ctx.arc(pac.x,pac.y,15,0,2*Math.PI);
+ctx.fill();
 
-  ctx.fillStyle="white";
-  fragments.forEach(f=>{
-    ctx.fillText(f.text,f.x,f.y);
-  });
+ctx.fillStyle="red";
+ctx.beginPath();
+ctx.arc(ghost.x,ghost.y,15,0,2*Math.PI);
+ctx.fill();
 
-  animationFrame=requestAnimationFrame(draw);
+ctx.fillStyle="white";
+ctx.fillText("Lives: "+lives,750,30);
+
+if(Math.abs(pac.x-ghost.x)<20 && Math.abs(pac.y-ghost.y)<20){
+lives--;
+pac.x=100; pac.y=100;
 }
 
-keyHandler=function(e){
-  if(e.key==="ArrowLeft") pacman.x-=20;
-  if(e.key==="ArrowRight") pacman.x+=20;
+animation=requestAnimationFrame(draw);
+}
 
-  fragments.forEach((f,i)=>{
-    if(Math.abs(pacman.x-f.x)<40){
-      if(f.text===current.correct){
-        addXP(difficulty==="hard"?20:10);
-      }else{
-        lives--;
-      }
-      newRound();
-    }
-  });
-
-  if(lives<=0){
-    alert("GAME OVER");
-    stopGame();
-    goBack();
-  }
+keyHandler=(e)=>{
+if(e.key==="ArrowLeft") pac.x-=grid;
+if(e.key==="ArrowRight") pac.x+=grid;
+if(e.key==="ArrowUp") pac.y-=grid;
+if(e.key==="ArrowDown") pac.y+=grid;
 };
 
 document.addEventListener("keydown",keyHandler);
-newRound();
 draw();
 }
 
