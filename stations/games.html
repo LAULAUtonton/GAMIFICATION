@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="es">
+<html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
@@ -173,13 +173,17 @@
 
     .board{
       background:#020617;
-      border:2px solid rgba(14,165,233,.9);
+      border:2px solid rgba(14,165,233,.95);
       border-radius:18px;
       padding:10px;
       display:grid;
-      gap:4px;
+      gap:3px;
       user-select:none;
-      box-shadow: inset 0 0 0 1px rgba(56,189,248,.25), 0 0 22px rgba(14,165,233,.22);
+      box-shadow: inset 0 0 0 1px rgba(56,189,248,.35), 0 0 22px rgba(14,165,233,.22);
+      background-image:
+        linear-gradient(rgba(56,189,248,.08) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(56,189,248,.08) 1px, transparent 1px);
+      background-size: 24px 24px;
     }
 
     .cell{
@@ -191,8 +195,8 @@
       line-height:1.05;
       font-weight:900;
       padding:4px;
-      border:1px solid rgba(255,255,255,.08);
-      background: rgba(14,165,233,.04);
+      border:1px solid rgba(125,211,252,.28);
+      background: rgba(14,165,233,.06);
       color: rgba(255,255,255,.92);
       position:relative;
       overflow:hidden;
@@ -356,31 +360,31 @@
     <header class="topbar">
       <h1>THE PIT — GAMES STATION</h1>
       <p class="sub">
-        Menú de juegos para estaciones. Empieza con <b>PacSentence</b> (come palabras y ordena frases).
-        Sin mostrar el orden por adelantado.
+        Games menu for stations. Start with <b>PacSentence</b> (eat words and arrange sentences).
+        Without showing the full order in advance.
       </p>
     </header>
 
     <section id="menuScreen" class="screen active">
       <div class="grid">
         <article class="card">
-          <h3>🟦 PacSentence (Ordena frases)</h3>
+          <h3>🟦 PacSentence (Arrange Sentences)</h3>
           <p>
-            Control con flechas o botones. Come palabras en el orden correcto.
-            Palabras grandes y visibles. Sin pista del orden (solo progreso).
+            Use arrow keys or buttons. Eat words in the correct order.
+            Large, readable words. No full-order hint (progress only).
           </p>
           <div class="row">
-            <button id="startPacBtn" class="btn primary">Abrir juego</button>
-            <button id="menuHomeBtn" class="btn soft" onclick="location.href='../index.html'">Menú principal</button>
+            <button id="startPacBtn" class="btn primary">Open game</button>
+            <button id="menuHomeBtn" class="btn soft" onclick="location.href='../index.html'">Main menu</button>
           </div>
         </article>
 
         <article class="card">
-          <h3>🚧 Próximamente</h3>
-          <p>Hueco para otros juegos (Quiz, Matching, Wheel…). Mantengo este archivo limpio y estable.</p>
+          <h3>🚧 Coming soon</h3>
+          <p>Space for other games (Quiz, Matching, Wheel…). Keeping this file clean and stable.</p>
           <div class="row">
-            <button class="btn soft disabled" disabled>Bloqueado</button>
-            <button class="btn soft disabled" disabled>Bloqueado</button>
+            <button class="btn soft disabled" disabled>Locked</button>
+            <button class="btn soft disabled" disabled>Locked</button>
           </div>
         </article>
       </div>
@@ -389,35 +393,38 @@
     <section id="pacScreen" class="screen">
       <div class="gameHeader">
         <div class="pillRow">
-          <div class="pill">Tiempo: <span id="timer">00:00</span></div>
-          <div class="pill">Vidas: <span id="lives">3</span></div>
-          <div class="pill">Siguiente: <span id="nextWord">-</span></div>
-          <div class="pill">Monstruo: <span id="ghostState">ON</span></div>
+          <div class="pill">Time: <span id="timer">00:00</span></div>
+          <div class="pill">Lives: <span id="lives">3</span></div>
+          <div class="pill">Objective: <span id="nextWord">-</span></div>
+          <div class="pill">Correct rounds: <span id="phrasesDone">0</span></div>
+          <div class="pill">Status: <span id="statusText">In play</span></div>
+          <div class="pill">Monster: <span id="ghostState">ON</span></div>
         </div>
         <div class="pillRow">
-          <button id="backToMenu" class="btn soft">Volver</button>
-          <button id="restartGame" class="btn soft">Reiniciar</button>
-          <button id="nextSentence" class="btn primary">Siguiente frase</button>
+          <button id="backToMenu" class="btn soft">Back</button>
+          <button id="restartGame" class="btn soft">Restart</button>
+          <button id="nextSentence" class="btn primary">Next round</button>
         </div>
       </div>
 
       <div class="info" id="assignInfo">
-        Juego: PacSentence · Habilidad asignada automáticamente: <b>Orden de palabras</b>
+        Game: PacSentence · Auto-assigned skill: <b>Word order</b>
       </div>
 
       <div class="gameWrap">
         <div>
           <div id="board" class="board" aria-label="PacSentence board"></div>
           <p class="small">
-            Teclado: <b>← ↑ → ↓</b> · También puedes usar los botones. Objetivo: comer la palabra <b>verde</b> (la siguiente correcta).
+            Instructions: move with <b>← ↑ → ↓</b> (or buttons), avoid the monster, and complete the round objective.
+            Possible rounds: arrange a sentence, select all past-tense verbs, all adjectives, or all nouns.
           </p>
         </div>
 
         <aside class="side">
-          <h4>Progreso (sin revelar la frase)</h4>
+          <h4>Progress (without revealing the sentence)</h4>
           <div id="progressRow" class="progressRow"></div>
 
-          <div id="feedback" class="feedback">Pulsa “Siguiente frase” para empezar.</div>
+          <div id="feedback" class="feedback">Press “Next round” to start.</div>
 
           <div class="controls" aria-label="Controls">
             <span></span>
@@ -429,14 +436,14 @@
           </div>
 
           <div class="miniRow">
-            <button id="toggleGhosts" class="btn soft">Fantasmas: ON</button>
-            <button id="toggleReveal" class="btn soft">Mostrar frase (docente): OFF</button>
+            <button id="toggleGhosts" class="btn soft">Ghosts: ON</button>
+            <button id="toggleReveal" class="btn soft">Show sentence (teacher): OFF</button>
           </div>
 
           <div class="small">
-            <b>Notas para docente:</b><br>
-            • “Mostrar frase (docente)” muestra la frase completa solo en feedback (OFF por defecto).<br>
-            • Edita el banco de frases dentro del código: <b>SENTENCES</b>.
+            <b>Teacher notes:</b><br>
+            • “Show sentence (teacher)” displays the full sentence only in feedback (OFF by default).<br>
+            • Edit the sentence bank in code: <b>ORDER_SENTENCES</b>.
           </div>
         </aside>
       </div>
@@ -445,15 +452,33 @@
 
 <script>
 (() => {
-  const SENTENCES = [
-    "I read books.",
-    "She likes music.",
-    "We play soccer.",
-    "They study English.",
-    "He drinks water.",
-    "Birds can fly.",
-    "Open the door.",
-    "Close your notebook."
+  const ORDER_SENTENCES = [
+    "I read books at home.",
+    "She likes music after class.",
+    "We play soccer every Friday.",
+    "They study English in teams.",
+    "He drinks water before lunch.",
+    "Birds can fly above trees.",
+    "Open the door for me.",
+    "Close your notebook right now."
+  ];
+
+  const CATEGORY_TASKS = [
+    {
+      prompt: "Select all past-tense verbs",
+      words: ["played", "teacher", "happy", "walked", "city", "was"],
+      targets: ["played", "walked", "was"]
+    },
+    {
+      prompt: "Select all adjectives",
+      words: ["beautiful", "table", "small", "ran", "blue", "dog"],
+      targets: ["beautiful", "small", "blue"]
+    },
+    {
+      prompt: "Select all nouns",
+      words: ["book", "quickly", "teacher", "green", "school", "jumped"],
+      targets: ["book", "teacher", "school"]
+    }
   ];
 
   const GRID = 10;
@@ -461,10 +486,7 @@
   const WALL_DENSITY = 0.12;
 
   const $ = (id) => document.getElementById(id);
-  const screens = {
-    menu: $("menuScreen"),
-    pac: $("pacScreen")
-  };
+  const screens = { menu: $("menuScreen"), pac: $("pacScreen") };
 
   const board = $("board");
   const feedback = $("feedback");
@@ -472,6 +494,8 @@
   const timerEl = $("timer");
   const livesEl = $("lives");
   const nextWordEl = $("nextWord");
+  const phrasesDoneEl = $("phrasesDone");
+  const statusTextEl = $("statusText");
   const ghostStateEl = $("ghostState");
   const assignInfo = $("assignInfo");
 
@@ -483,6 +507,10 @@
     words: [],
     tokens: [],
     expected: 0,
+    targetsSet: new Set(),
+    foundTargets: new Set(),
+    mode: "order",
+    prompt: "",
     pac: {x: 0, y: 0, dir: "right"},
     ghost: {x: GRID-1, y: GRID-1},
     lives: 3,
@@ -490,7 +518,9 @@
     timerRef: null,
     ghostRef: null,
     currentSentence: "",
-    lastMoveAt: 0
+    lastMoveAt: 0,
+    phrasesDone: 0,
+    statusText: "In play"
   };
 
   function shuffle(arr){
@@ -500,100 +530,89 @@
     }
     return arr;
   }
-
   function pad2(n){ return String(n).padStart(2,"0"); }
-
-  function setScreen(name){
-    Object.values(screens).forEach(s => s.classList.remove("active"));
-    screens[name].classList.add("active");
-  }
-
-  function setFB(msg, cls=""){
-    feedback.className = "feedback" + (cls ? ` ${cls}` : "");
-    feedback.textContent = msg;
-  }
+  function setScreen(name){ Object.values(screens).forEach(s => s.classList.remove("active")); screens[name].classList.add("active"); }
+  function setFB(msg, cls=""){ feedback.className = "feedback" + (cls ? ` ${cls}` : ""); feedback.textContent = msg; }
 
   function updateHUD(){
     timerEl.textContent = `${pad2(Math.floor(state.seconds/60))}:${pad2(state.seconds%60)}`;
     livesEl.textContent = String(state.lives);
-    nextWordEl.textContent = state.tokens[state.expected] || "¡Listo!";
+    nextWordEl.textContent = state.mode === "order" ? (state.tokens[state.expected] || "Done!") : state.prompt;
+    phrasesDoneEl.textContent = String(state.phrasesDone);
+    statusTextEl.textContent = state.statusText;
     ghostStateEl.textContent = state.ghosts ? "ON" : "OFF";
   }
 
   function updateAssign(){
-    const skills = ["Orden de palabras", "Precisión gramatical", "Construcción de oraciones"];
+    const skills = ["Word order", "Past-tense verbs", "Adjectives", "Nouns"];
     const pick = skills[Math.floor(Math.random()*skills.length)];
-    assignInfo.innerHTML = `Juego: PacSentence · Habilidad asignada automáticamente: <b>${pick}</b>`;
+    assignInfo.innerHTML = `Game: PacSentence · Auto-assigned skill: <b>${pick}</b>`;
   }
 
   function buildGrid(){
     const g = Array.from({length: GRID}, () => Array(GRID).fill(0));
     for (let x=0; x<GRID; x++){ g[0][x]=1; g[GRID-1][x]=1; }
     for (let y=0; y<GRID; y++){ g[y][0]=1; g[y][GRID-1]=1; }
-    for (let y=1; y<GRID-1; y++){
-      for (let x=1; x<GRID-1; x++){
-        if ((x===1 && y===1) || (x===GRID-2 && y===GRID-2)) continue;
-        if (Math.random() < WALL_DENSITY) g[y][x]=1;
-      }
+    for (let y=1; y<GRID-1; y++) for (let x=1; x<GRID-1; x++){
+      if ((x===1 && y===1) || (x===GRID-2 && y===GRID-2)) continue;
+      if (Math.random() < WALL_DENSITY) g[y][x]=1;
     }
-    for (let y=1; y<=2; y++){
-      for (let x=1; x<=2; x++) g[y][x]=0;
-    }
-    for (let y=GRID-3; y<=GRID-2; y++){
-      for (let x=GRID-3; x<=GRID-2; x++) g[y][x]=0;
-    }
+    for (let y=1; y<=2; y++) for (let x=1; x<=2; x++) g[y][x]=0;
+    for (let y=GRID-3; y<=GRID-2; y++) for (let x=GRID-3; x<=GRID-2; x++) g[y][x]=0;
     state.grid = g;
   }
 
   function emptyCells(){
     const cells = [];
-    for (let y=1; y<GRID-1; y++){
-      for (let x=1; x<GRID-1; x++){
-        if (state.grid[y][x] === 0) cells.push({x,y});
-      }
-    }
+    for (let y=1; y<GRID-1; y++) for (let x=1; x<GRID-1; x++) if (state.grid[y][x] === 0) cells.push({x,y});
     return cells;
   }
 
-  function placeWords(sentence){
+  function makeRound(){
+    const categoryMode = Math.random() < 0.45;
+    if (categoryMode){
+      const task = CATEGORY_TASKS[Math.floor(Math.random()*CATEGORY_TASKS.length)];
+      state.mode = "category";
+      state.prompt = task.prompt;
+      state.currentSentence = task.prompt;
+      state.tokens = [...task.words];
+      state.targetsSet = new Set(task.targets);
+      state.foundTargets = new Set();
+      state.expected = 0;
+
+      const items = shuffle(task.words.map(w => ({word:w, isTarget: state.targetsSet.has(w)})));
+      const cells = shuffle(emptyCells().filter(c => !(c.x===1 && c.y===1) && !(c.x===GRID-2 && c.y===GRID-2)));
+      state.words = items.slice(0, cells.length).map((it, i) => ({
+        word: it.word, idx: -1, isCorrect: it.isTarget, eaten: false, x: cells[i].x, y: cells[i].y
+      }));
+      return;
+    }
+
+    const sentence = ORDER_SENTENCES[Math.floor(Math.random()*ORDER_SENTENCES.length)];
+    state.mode = "order";
+    state.prompt = "";
     state.currentSentence = sentence;
     state.tokens = sentence.trim().split(/\s+/);
     state.expected = 0;
+    state.targetsSet = new Set();
+    state.foundTargets = new Set();
 
     const pool = new Set();
-    SENTENCES.forEach(s => {
-      if (s === sentence) return;
-      s.trim().split(/\s+/).forEach(w => pool.add(w));
-    });
-    const distractors = shuffle([...pool]).slice(0, 10);
-
-    const items = state.tokens.map((w,i)=>({word:w, idx:i, isCorrect:true}))
-      .concat(distractors.map(w=>({word:w, idx:-1, isCorrect:false})));
-
-    shuffle(items);
-    const cells = emptyCells().filter(c => !(c.x===1 && c.y===1) && !(c.x===GRID-2 && c.y===GRID-2));
-    shuffle(cells);
-
-    state.words = [];
-    const count = Math.min(items.length, cells.length);
-    for (let i=0; i<count; i++){
-      state.words.push({
-        word: items[i].word,
-        idx: items[i].idx,
-        isCorrect: items[i].isCorrect,
-        eaten: false,
-        x: cells[i].x,
-        y: cells[i].y
-      });
-    }
+    ORDER_SENTENCES.forEach(s => { if (s!==sentence) s.trim().split(/\s+/).forEach(w => pool.add(w)); });
+    const distractors = shuffle([...pool]).slice(0, 2);
+    const items = shuffle(state.tokens.map((w,i)=>({word:w, idx:i, isCorrect:true})).concat(distractors.map(w=>({word:w, idx:-1, isCorrect:false}))));
+    const cells = shuffle(emptyCells().filter(c => !(c.x===1 && c.y===1) && !(c.x===GRID-2 && c.y===GRID-2)));
+    state.words = items.slice(0, cells.length).map((it, i) => ({word:it.word, idx:it.idx, isCorrect:it.isCorrect, eaten:false, x:cells[i].x, y:cells[i].y}));
   }
 
   function buildProgress(){
     progressRow.innerHTML = "";
-    for (let i=0; i<state.tokens.length; i++){
-      const d = document.createElement("div");
-      d.className = "slot" + (i < state.expected ? " filled" : "");
-      d.textContent = (i < state.expected) ? "✓" : "_";
+    const total = state.mode === "order" ? state.tokens.length : state.targetsSet.size;
+    const done = state.mode === "order" ? state.expected : state.foundTargets.size;
+    for (let i=0; i<total; i++){
+      const d=document.createElement("div");
+      d.className = "slot" + (i < done ? " filled" : "");
+      d.textContent = i < done ? "✓" : "_";
       progressRow.appendChild(d);
     }
   }
@@ -602,250 +621,144 @@
     board.style.gridTemplateColumns = `repeat(${GRID}, 1fr)`;
     board.style.gridAutoRows = `${TILE_PX}px`;
     board.innerHTML = "";
-
-    for (let y=0; y<GRID; y++){
-      for (let x=0; x<GRID; x++){
-        const cell = document.createElement("div");
-        cell.className = "cell";
-
-        if (state.grid[y][x] === 1) cell.classList.add("wall");
-
-        const w = state.words.find(it => !it.eaten && it.x===x && it.y===y);
-        if (w){
-          cell.classList.add("word");
-          if (w.isCorrect && w.idx === state.expected) cell.classList.add("next");
-          const text = w.word;
-          cell.textContent = text.length > 12 ? text.slice(0,12) : text;
-          cell.style.fontSize = text.length <= 9 ? "19px" : "16px";
-        }
-
-        if (state.ghosts && state.ghost.x===x && state.ghost.y===y){
-          cell.classList.add("ghost");
-          cell.textContent = "";
-        }
-
-        if (state.pac.x===x && state.pac.y===y){
-          cell.classList.add("pac");
-          cell.textContent = "";
-          const rot = {right:"0deg",down:"90deg",left:"180deg",up:"270deg"}[state.pac.dir] || "0deg";
-          cell.style.setProperty("--rot", rot);
-        }
-
-        board.appendChild(cell);
+    for (let y=0; y<GRID; y++) for (let x=0; x<GRID; x++){
+      const cell = document.createElement("div");
+      cell.className = "cell";
+      if (state.grid[y][x] === 1) cell.classList.add("wall");
+      const w = state.words.find(it => !it.eaten && it.x===x && it.y===y);
+      if (w){
+        cell.classList.add("word");
+        if (state.mode === "order" && w.isCorrect && w.idx === state.expected) cell.classList.add("next");
+        if (state.mode === "category" && w.isCorrect) cell.classList.add("next");
+        const text = w.word;
+        cell.textContent = text.length > 12 ? text.slice(0,12) : text;
+        cell.style.fontSize = text.length <= 9 ? "19px" : "16px";
       }
+      if (state.ghosts && state.ghost.x===x && state.ghost.y===y){ cell.classList.add("ghost"); cell.textContent = ""; }
+      if (state.pac.x===x && state.pac.y===y){ cell.classList.add("pac"); cell.textContent = ""; }
+      board.appendChild(cell);
     }
   }
 
-  function stopLoops(){
-    clearInterval(state.timerRef);
-    clearInterval(state.ghostRef);
-    state.timerRef = null;
-    state.ghostRef = null;
-  }
-
+  function stopLoops(){ clearInterval(state.timerRef); clearInterval(state.ghostRef); state.timerRef=null; state.ghostRef=null; }
   function startLoops(){
     stopLoops();
-    state.timerRef = setInterval(() => {
-      if (!state.running) return;
-      state.seconds++;
-      updateHUD();
-    }, 1000);
-
-    state.ghostRef = setInterval(() => {
-      if (!state.running || !state.ghosts) return;
-      moveGhost();
-      checkCollision();
-      render();
-    }, 980);
+    state.timerRef = setInterval(() => { if(!state.running) return; state.seconds++; updateHUD(); }, 1000);
+    state.ghostRef = setInterval(() => { if(!state.running || !state.ghosts) return; moveGhost(); checkCollision(); render(); }, 980);
   }
 
-  function resetPositions(){
-    state.pac = {x:1, y:1, dir:"right"};
-    state.ghost = {x:GRID-2, y:GRID-2};
-  }
+  function resetPositions(){ state.pac = {x:1,y:1,dir:"right"}; state.ghost = {x:GRID-2,y:GRID-2}; }
 
   function startGame(){
-    updateAssign();
-    buildGrid();
-    resetPositions();
-    state.seconds = 0;
-    state.lives = 3;
-    state.running = true;
-
-    const s = SENTENCES[Math.floor(Math.random()*SENTENCES.length)];
-    placeWords(s);
-
-    buildProgress();
-    updateHUD();
-    render();
-    setFB("Empieza: come la palabra verde (la siguiente correcta).", "ok");
+    updateAssign(); buildGrid(); resetPositions();
+    state.seconds=0; state.lives=3; state.phrasesDone=0; state.statusText="In play"; state.running=true;
+    makeRound(); buildProgress(); updateHUD(); render();
+    setFB("Start: complete the round objective and avoid the monster.", "ok");
     startLoops();
   }
 
   function nextSentence(){
-    buildGrid();
-    resetPositions();
-    state.seconds = 0;
-    state.running = true;
-
-    const s = SENTENCES[Math.floor(Math.random()*SENTENCES.length)];
-    placeWords(s);
-
-    buildProgress();
-    updateHUD();
-    render();
-    setFB("Nueva frase: empieza de nuevo. (Sin mostrar el orden).", "ok");
+    buildGrid(); resetPositions(); state.seconds=0; state.statusText="In play"; state.running=true;
+    makeRound(); buildProgress(); updateHUD(); render();
+    setFB("New round started.", "ok");
   }
 
   function move(dir){
     if (!state.running) return;
-    const now = Date.now();
-    if (now - state.lastMoveAt < 85) return;
-    state.lastMoveAt = now;
-
-    const v = {up:[0,-1],down:[0,1],left:[-1,0],right:[1,0]}[dir];
-    if (!v) return;
-
+    const now = Date.now(); if (now - state.lastMoveAt < 85) return; state.lastMoveAt = now;
+    const v = {up:[0,-1],down:[0,1],left:[-1,0],right:[1,0]}[dir]; if (!v) return;
     state.pac.dir = dir;
-    const nx = state.pac.x + v[0];
-    const ny = state.pac.y + v[1];
-    if (state.grid[ny]?.[nx] === 1) {
-      render();
-      return;
-    }
+    const nx = state.pac.x + v[0], ny = state.pac.y + v[1];
+    if (state.grid[ny]?.[nx] === 1) { render(); return; }
+    state.pac.x = nx; state.pac.y = ny;
+    eatIfWord(); checkCollision(); render();
+  }
 
-    state.pac.x = nx;
-    state.pac.y = ny;
-    eatIfWord();
-    checkCollision();
-    render();
+  function finishRound(){
+    state.running=false; stopLoops(); state.phrasesDone++; state.statusText="Round completed"; updateHUD();
+    if (state.reveal) setFB(`🏆 Completed: ${state.currentSentence}`, "ok");
+    else setFB("🏆 Correct! Press “Next round”.", "ok");
   }
 
   function eatIfWord(){
-    const item = state.words.find(w => !w.eaten && w.x===state.pac.x && w.y===state.pac.y);
-    if (!item) return;
-    const expected = state.tokens[state.expected];
+    const item = state.words.find(w => !w.eaten && w.x===state.pac.x && w.y===state.pac.y); if (!item) return;
 
-    if (item.isCorrect && item.idx === state.expected && item.word === expected){
-      item.eaten = true;
-      state.expected++;
-      buildProgress();
-      updateHUD();
-
-      if (state.expected >= state.tokens.length){
-        state.running = false;
-        stopLoops();
-        if (state.reveal) setFB(`🏆 Completada: ${state.currentSentence}`, "ok");
-        else setFB("🏆 ¡Frase completada! Pulsa “Siguiente frase”.", "ok");
-        return;
-      }
-
-      setFB("✅ Correcto. Sigue con la palabra verde.", "ok");
-      if (state.reveal) setFB(`✅ Correcto. Frase: ${state.currentSentence}`, "warn");
-    } else {
-      item.eaten = true;
-      state.lives--;
-      updateHUD();
-
-      if (state.lives <= 0){
-        state.running = false;
-        stopLoops();
-        setFB("💀 Sin vidas. Pulsa Reiniciar.", "bad");
+    if (state.mode === "order"){
+      const expected = state.tokens[state.expected];
+      if (item.isCorrect && item.idx === state.expected && item.word === expected){
+        item.eaten = true; state.expected++; buildProgress(); updateHUD();
+        if (state.expected >= state.tokens.length) return finishRound();
+        setFB("✅ Correct. Continue with the highlighted word.", "ok");
       } else {
-        setFB(`❌ Incorrecto. Pierdes 1 vida. Next word sigue siendo: ${expected}`, "bad");
-        if (state.reveal) setFB(`❌ Incorrecto. Frase: ${state.currentSentence}`, "warn");
+        item.eaten = true; state.lives--; updateHUD();
+        if (state.lives <= 0){ state.running=false; stopLoops(); state.statusText="You lost"; updateHUD(); setFB("💀 No lives left. Press Restart.", "bad"); }
+        else setFB(`❌ Incorrect. You needed: ${expected}`, "bad");
       }
+      return;
+    }
+
+    if (item.isCorrect){
+      item.eaten = true;
+      state.foundTargets.add(item.word + '|' + state.pac.x + '|' + state.pac.y);
+      buildProgress();
+      if (state.foundTargets.size >= state.targetsSet.size) return finishRound();
+      setFB("✅ Correct. Keep finding target words.", "ok");
+    } else {
+      item.eaten = true; state.lives--; updateHUD();
+      if (state.lives <= 0){ state.running=false; stopLoops(); state.statusText="You lost"; updateHUD(); setFB("💀 No lives left. Press Restart.", "bad"); }
+      else setFB("❌ That word does not belong to the target category.", "bad");
     }
   }
 
   function moveGhost(){
-    const dx = state.pac.x - state.ghost.x;
-    const dy = state.pac.y - state.ghost.y;
-
-    let stepX = 0, stepY = 0;
-    if (Math.abs(dx) >= Math.abs(dy) && dx !== 0) stepX = Math.sign(dx);
-    else if (dy !== 0) stepY = Math.sign(dy);
-
+    const dx = state.pac.x - state.ghost.x, dy = state.pac.y - state.ghost.y;
+    let stepX=0, stepY=0;
+    if (Math.abs(dx) >= Math.abs(dy) && dx !== 0) stepX = Math.sign(dx); else if (dy !== 0) stepY = Math.sign(dy);
     const candidates = [
       {x: state.ghost.x + stepX, y: state.ghost.y + stepY},
       {x: state.ghost.x + Math.sign(dx), y: state.ghost.y},
       {x: state.ghost.x, y: state.ghost.y + Math.sign(dy)},
-      {x: state.ghost.x + 1, y: state.ghost.y},
-      {x: state.ghost.x - 1, y: state.ghost.y},
-      {x: state.ghost.x, y: state.ghost.y + 1},
-      {x: state.ghost.x, y: state.ghost.y - 1},
+      {x: state.ghost.x + 1, y: state.ghost.y}, {x: state.ghost.x - 1, y: state.ghost.y},
+      {x: state.ghost.x, y: state.ghost.y + 1}, {x: state.ghost.x, y: state.ghost.y - 1},
     ];
-
-    for (const c of candidates){
-      if (c.x<1 || c.y<1 || c.x>GRID-2 || c.y>GRID-2) continue;
-      if (state.grid[c.y][c.x] === 1) continue;
-      state.ghost.x = c.x;
-      state.ghost.y = c.y;
-      return;
-    }
+    for (const c of candidates){ if (c.x<1 || c.y<1 || c.x>GRID-2 || c.y>GRID-2) continue; if (state.grid[c.y][c.x] === 1) continue; state.ghost=c; return; }
   }
 
   function checkCollision(){
     if (!state.running || !state.ghosts) return;
-
     if (state.pac.x === state.ghost.x && state.pac.y === state.ghost.y){
-      state.lives--;
-      updateHUD();
-
-      if (state.lives <= 0){
-        state.running = false;
-        stopLoops();
-        setFB("👻 Te atrapó el fantasma. Game Over. Pulsa Reiniciar.", "bad");
-      } else {
-        state.pac.x = 1; state.pac.y = 1; state.pac.dir = "right";
-        setFB("👻 Fantasma: pierdes 1 vida. Vuelves al inicio.", "warn");
-      }
+      state.lives--; updateHUD();
+      if (state.lives <= 0){ state.running=false; stopLoops(); state.statusText="Monster caught you"; updateHUD(); setFB("👻 The monster caught you. Press Restart.", "bad"); }
+      else { state.pac={x:1,y:1,dir:"right"}; setFB("👻 The monster touched you. You lose 1 life.", "warn"); }
     }
   }
 
-  $("startPacBtn").addEventListener("click", () => {
-    setScreen("pac");
-    startGame();
-  });
-
-  $("backToMenu").addEventListener("click", () => {
-    state.running = false;
-    stopLoops();
-    setScreen("menu");
-  });
-
+  $("startPacBtn").addEventListener("click", () => { setScreen("pac"); startGame(); });
+  $("backToMenu").addEventListener("click", () => { state.running=false; stopLoops(); setScreen("menu"); });
   $("restartGame").addEventListener("click", () => startGame());
   $("nextSentence").addEventListener("click", () => nextSentence());
 
   $("toggleGhosts").addEventListener("click", () => {
     state.ghosts = !state.ghosts;
-    $("toggleGhosts").textContent = `Fantasmas: ${state.ghosts ? "ON" : "OFF"}`;
-    updateHUD();
-    render();
-    setFB(state.ghosts ? "Fantasmas activados." : "Fantasmas desactivados.", "warn");
+    $("toggleGhosts").textContent = `Ghosts: ${state.ghosts ? "ON" : "OFF"}`;
+    state.statusText = state.ghosts ? "In play" : "No monster";
+    updateHUD(); render();
+    setFB(state.ghosts ? "Ghosts enabled." : "Ghosts disabled.", "warn");
   });
 
   $("toggleReveal").addEventListener("click", () => {
     state.reveal = !state.reveal;
-    $("toggleReveal").textContent = `Mostrar frase (docente): ${state.reveal ? "ON" : "OFF"}`;
-    setFB(state.reveal ? "Mostrar frase ON (la frase aparece en feedback)." : "Mostrar frase OFF.", "warn");
+    $("toggleReveal").textContent = `Show sentence (teacher): ${state.reveal ? "ON" : "OFF"}`;
+    setFB(state.reveal ? "Show sentence ON (sentence appears in feedback)." : "Show sentence OFF.", "warn");
   });
 
-  document.querySelectorAll("[data-dir]").forEach(btn => {
-    btn.addEventListener("click", () => move(btn.dataset.dir));
-  });
-
+  document.querySelectorAll("[data-dir]").forEach(btn => btn.addEventListener("click", () => move(btn.dataset.dir)));
   window.addEventListener("keydown", (e) => {
-    const map = {
-      ArrowUp:"up", ArrowDown:"down", ArrowLeft:"left", ArrowRight:"right",
-      w:"up", W:"up", s:"down", S:"down", a:"left", A:"left", d:"right", D:"right"
-    };
-    if (!map[e.key]) return;
-    e.preventDefault();
-    move(map[e.key]);
+    const map = {ArrowUp:"up", ArrowDown:"down", ArrowLeft:"left", ArrowRight:"right", w:"up", W:"up", s:"down", S:"down", a:"left", A:"left", d:"right", D:"right"};
+    if (!map[e.key]) return; e.preventDefault(); move(map[e.key]);
   });
 
-  setFB("Abre PacSentence desde el menú para jugar.", "");
+  setFB("Open PacSentence from the menu to play.", "");
   updateHUD();
 })();
 </script>
