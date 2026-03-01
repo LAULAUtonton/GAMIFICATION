@@ -1,65 +1,303 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Games Station</title>
-    <style>
-        body { font-family: Arial, sans-serif; }
-        .tabs { display: flex; cursor: pointer; background-color: #f1f1f1; padding: 10px; }
-        .tab { flex: 1; padding: 10px; text-align: center; border: 1px solid #ccc; }
-        .tab:hover { background-color: #ddd; }
-        .tabcontent { display: none; padding: 20px; border: 1px solid #ccc; border-top: none; }
-        .active { display: block; }
-        .active-tab { background-color: #fff; }
-    </style>
-    <script>
-        function openTab(evt, tabName) {
-            var i, tabcontent, tablinks;
-            tabcontent = document.getElementsByClassName("tabcontent");
-            for (i = 0; i < tabcontent.length; i++) {
-                tabcontent[i].style.display = "none";  
-            }
-            tablinks = document.getElementsByClassName("tab");
-            for (i = 0; i < tablinks.length; i++) {
-                tablinks[i].className = tablinks[i].className.replace(" active-tab", "");
-            }
-            document.getElementById(tabName).style.display = "block";  
-            evt.currentTarget.className += " active-tab";
-        }
-    </script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>THE PIT – Arcade Mode</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800&display=swap" rel="stylesheet">
+
+<style>
+body{
+  margin:0;
+  font-family:'Orbitron',sans-serif;
+  background:radial-gradient(circle,#e9d5ff 0%,#7c3aed 60%,#1e1b4b 100%);
+  color:#111827;
+}
+
+.container{
+  width:90%;
+  max-width:1100px;
+  margin:40px auto;
+  background:white;
+  padding:40px;
+  border-radius:25px;
+  box-shadow:0 25px 50px rgba(0,0,0,0.6);
+}
+
+.title{
+  text-align:center;
+  font-size:32px;
+  color:#6d28d9;
+  margin-bottom:10px;
+}
+
+.sub{
+  text-align:center;
+  margin-bottom:30px;
+  color:#7c3aed;
+  font-size:14px;
+}
+
+.arcadeGrid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+  gap:20px;
+}
+
+.gameCard{
+  background:#faf5ff;
+  border:2px solid #a78bfa;
+  padding:30px 20px;
+  border-radius:18px;
+  text-align:center;
+  cursor:pointer;
+  transition:.2s;
+  font-weight:900;
+  color:#5b21b6;
+}
+
+.gameCard:hover{
+  background:#ede9fe;
+  transform:scale(1.05);
+  box-shadow:0 10px 25px rgba(124,58,237,0.4);
+}
+
+.gameArea{
+  margin-top:30px;
+  padding:25px;
+  border-radius:18px;
+  border:2px solid #7c3aed;
+  background:#f5f3ff;
+  display:none;
+}
+
+button{
+  padding:12px 18px;
+  border-radius:14px;
+  font-weight:900;
+  cursor:pointer;
+  border:none;
+  margin-top:10px;
+}
+
+.menuBtn{
+  background:white;
+  border:2px solid #7c3aed;
+  color:#6d28d9;
+}
+
+.backBtn{
+  background:#7c3aed;
+  color:white;
+}
+canvas{
+  background:#1e1b4b;
+  border-radius:14px;
+}
+</style>
 </head>
+
 <body>
-    <h1>Welcome to the Games Station</h1>
-    <div class="tabs">
-        <div class="tab" onclick="openTab(event, 'Pacman')">Pacman</div>
-        <div class="tab" onclick="openTab(event, 'SpaceInvaders')">Space Invaders</div>
-        <div class="tab" onclick="openTab(event, 'MatchingPairs')">Matching Pairs</div>
-        <div class="tab" onclick="openTab(event, 'SpinWheel')">Spin Wheel</div>
-        <div class="tab" onclick="openTab(event, 'Anagram')">Anagram</div>
-    </div>
-    <div id="Pacman" class="tabcontent">
-        <h2>Pacman</h2>
-        <p>Content for Pacman game goes here.</p>
-    </div>
-    <div id="SpaceInvaders" class="tabcontent">
-        <h2>Space Invaders</h2>
-        <p>Content for Space Invaders game goes here.</p>
-    </div>
-    <div id="MatchingPairs" class="tabcontent">
-        <h2>Matching Pairs</h2>
-        <p>Content for Matching Pairs game goes here.</p>
-    </div>
-    <div id="SpinWheel" class="tabcontent">
-        <h2>Spin Wheel</h2>
-        <p>Content for Spin Wheel game goes here.</p>
-    </div>
-    <div id="Anagram" class="tabcontent">
-        <h2>Anagram</h2>
-        <p>Content for Anagram game goes here.</p>
-    </div>
-    <script>
-        document.getElementsByClassName('tab')[0].click();
-    </script>
+
+<div class="container">
+
+  <div class="title">ARCADE MODE</div>
+  <div class="sub">Train vocabulary through interactive missions</div>
+
+  <button class="menuBtn" onclick="goMenu()">MAIN MENU</button>
+
+  <div class="arcadeGrid" id="arcadeGrid">
+    <div class="gameCard" onclick="loadGame('invaders')">👾 SPACE INVADERS</div>
+    <div class="gameCard">🥥 COCONUTS (Coming)</div>
+    <div class="gameCard">🧠 MATCH UP (Coming)</div>
+    <div class="gameCard">📦 SORTING (Coming)</div>
+    <div class="gameCard">🐟 FISHBOWL (Coming)</div>
+    <div class="gameCard">🪜 SNAKES & LADDERS (Coming)</div>
+    <div class="gameCard">🏀 BASKETBALL (Coming)</div>
+    <div class="gameCard">🏁 RACE MODE (Coming)</div>
+  </div>
+
+  <div class="gameArea" id="gameArea"></div>
+
+</div>
+
+<script>
+
+/* ================= NAVIGATION ================= */
+
+function goMenu(){
+  window.location.href="../index.html";
+}
+
+function goBack(){
+  stopInvaders();
+  document.getElementById("gameArea").style.display="none";
+  document.getElementById("arcadeGrid").style.display="grid";
+}
+
+/* ================= GAME LOADER ================= */
+
+function loadGame(type){
+  const grid = document.getElementById("arcadeGrid");
+  const area = document.getElementById("gameArea");
+
+  grid.style.display="none";
+  area.style.display="block";
+
+  if(type==="invaders"){
+    area.innerHTML = `
+      <h3>👾 SPACE INVADERS – Vocabulary Mission</h3>
+      <canvas id="gameCanvas" width="800" height="500"></canvas>
+      <div id="hud" style="margin-top:10px;font-weight:900;"></div>
+      <button class="backBtn" onclick="goBack()">BACK</button>
+    `;
+    startInvaders();
+  }
+}
+
+/* ================= SPACE INVADERS ENGINE ================= */
+
+let invaderAnimation = null;
+let invaderKeyHandler = null;
+
+function startInvaders(){
+
+const canvas = document.getElementById("gameCanvas");
+const ctx = canvas.getContext("2d");
+
+const vocab = [
+  {word:"festival", definition:"A public celebration event"},
+  {word:"container", definition:"A large box used to transport goods"},
+  {word:"brilliant", definition:"Very intelligent"},
+  {word:"recycle", definition:"To use again"}
+];
+
+let player = {x:370,y:450,width:60,height:20};
+let bullets = [];
+let enemies = [];
+let score = 0;
+let lives = 3;
+let running = true;
+
+let currentTarget = vocab[Math.floor(Math.random()*vocab.length)];
+
+function spawnEnemies(){
+  enemies = [];
+  let options = shuffle([...vocab]).slice(0,4);
+  options.forEach((item,i)=>{
+    enemies.push({
+      text:item.word,
+      correct:item.word===currentTarget.word,
+      x:100 + i*150,
+      y:60,
+      speed:1.2
+    });
+  });
+}
+
+function shuffle(arr){
+  return arr.sort(()=>Math.random()-0.5);
+}
+
+function drawPlayer(){
+  ctx.fillStyle="#a78bfa";
+  ctx.fillRect(player.x,player.y,player.width,player.height);
+}
+
+function drawEnemies(){
+  ctx.fillStyle="white";
+  ctx.font="18px Orbitron";
+  enemies.forEach(e=>{
+    ctx.fillText(e.text,e.x,e.y);
+  });
+}
+
+function drawBullets(){
+  ctx.fillStyle="yellow";
+  bullets.forEach(b=>{
+    ctx.fillRect(b.x,b.y,4,10);
+  });
+}
+
+function update(){
+  if(!running) return;
+
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+
+  drawPlayer();
+  drawEnemies();
+  drawBullets();
+
+  ctx.fillStyle="white";
+  ctx.fillText("Definition: "+currentTarget.definition,20,25);
+  ctx.fillText("Score: "+score,650,25);
+  ctx.fillText("Lives: "+lives,650,45);
+
+  enemies.forEach(e=>{
+    e.y += e.speed;
+    if(e.y>480){
+      lives--;
+      resetRound();
+    }
+  });
+
+  bullets.forEach(b=>{
+    b.y -= 6;
+    enemies.forEach(e=>{
+      if(b.x>e.x-10 && b.x<e.x+90 && b.y<e.y && b.y>e.y-20){
+        if(e.correct){
+          score+=10;
+        }else{
+          lives--;
+        }
+        resetRound();
+      }
+    });
+  });
+
+  if(lives<=0){
+    ctx.fillStyle="red";
+    ctx.font="40px Orbitron";
+    ctx.fillText("GAME OVER",250,250);
+    running=false;
+    return;
+  }
+
+  invaderAnimation = requestAnimationFrame(update);
+}
+
+function resetRound(){
+  bullets=[];
+  currentTarget = vocab[Math.floor(Math.random()*vocab.length)];
+  spawnEnemies();
+}
+
+invaderKeyHandler = function(e){
+  if(e.key==="ArrowLeft" && player.x>0) player.x-=20;
+  if(e.key==="ArrowRight" && player.x<canvas.width-player.width) player.x+=20;
+  if(e.key===" ") bullets.push({x:player.x+30,y:player.y});
+};
+
+document.addEventListener("keydown",invaderKeyHandler);
+
+spawnEnemies();
+update();
+
+}
+
+/* ================= SAFE STOP ================= */
+
+function stopInvaders(){
+  if(invaderAnimation){
+    cancelAnimationFrame(invaderAnimation);
+  }
+  if(invaderKeyHandler){
+    document.removeEventListener("keydown",invaderKeyHandler);
+  }
+}
+
+</script>
+
 </body>
 </html>
