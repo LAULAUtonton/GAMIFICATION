@@ -14,48 +14,33 @@ body{
 margin:0;
 font-family:'Orbitron',sans-serif;
 background:radial-gradient(circle,#bbf7d0 0%,#16a34a 60%,#052e16 100%);
-color:#111827;
 }
 
-/* MAIN LAYOUT */
-
 .app{
-
 display:grid;
 grid-template-columns: 1fr 280px;
 gap:20px;
-
 max-width:1300px;
 margin:20px auto;
 padding:20px;
-
 }
 
 /* READING AREA */
 
 .readArea{
-
 background:white;
 border-radius:20px;
 padding:30px;
 box-shadow:0 25px 60px rgba(0,0,0,.5);
-
 }
-
-/* TITLE */
 
 .title{
-
 font-size:28px;
-margin-bottom:10px;
+margin-bottom:15px;
 color:#14532d;
-
 }
 
-/* TEXT */
-
 .textBox{
-
 background:#f0fdf4;
 padding:25px;
 border-radius:15px;
@@ -63,24 +48,17 @@ border:2px solid #22c55e;
 line-height:1.8;
 font-size:17px;
 margin-bottom:20px;
-
 max-height:420px;
 overflow-y:auto;
-
 }
 
-/* QUESTION */
-
 .question{
-
 font-size:18px;
 font-weight:900;
 margin-bottom:15px;
-
 }
 
 .option{
-
 display:block;
 width:100%;
 padding:12px;
@@ -91,111 +69,83 @@ background:white;
 cursor:pointer;
 font-weight:bold;
 text-align:left;
-
 }
 
 .option.correct{
-
-background:#22c55e;
+background:#16a34a;
 color:white;
 border:none;
-
 }
 
 .option.wrong{
-
-background:#ef4444;
+background:#dc2626;
 color:white;
 border:none;
-
 }
 
-/* SIDE CONSOLE */
+/* CONSOLE */
 
 .console{
-
 background:white;
 border-radius:20px;
 padding:20px;
 box-shadow:0 25px 60px rgba(0,0,0,.5);
-
 position:sticky;
 top:20px;
 height:fit-content;
-
 }
 
-/* HUD BOX */
-
 .box{
-
 background:#dcfce7;
 border:2px solid #22c55e;
 padding:10px;
 border-radius:10px;
 margin-bottom:10px;
 font-weight:bold;
-
 }
 
-/* PROGRESS BAR */
-
 .progress{
-
 height:18px;
 background:#e5e7eb;
 border-radius:10px;
 overflow:hidden;
 margin-bottom:15px;
-
 }
 
 .progressFill{
-
 height:100%;
 width:0%;
 background:#22c55e;
-
 }
 
-/* BUTTONS */
+/* BUTTON COLORS */
 
 button{
-
 width:100%;
 padding:10px;
 margin:4px 0;
 border:none;
 border-radius:10px;
-background:#22c55e;
-color:white;
 font-weight:bold;
 cursor:pointer;
-
+color:white;
 }
 
-button:hover{
+.startBtn{background:#16a34a;}
+.pauseBtn{background:#f59e0b;}
+.resetBtn{background:#dc2626;}
+.newBtn{background:#2563eb;}
+.menuBtn{background:#374151;}
 
-background:#15803d;
+.easyBtn{background:#22c55e;}
+.mediumBtn{background:#3b82f6;}
+.hardBtn{background:#ef4444;}
+.supportBtn{background:#a855f7;}
 
-}
+button:hover{filter:brightness(1.15);}
 
-button.secondary{
-
-background:#166534;
-
-}
-
-button.level{
-
-background:#14532d;
-
-}
-
-button.active{
-
-background:#f59e0b;
-
+.activeLevel{
+outline:3px solid black;
 }
 
 </style>
@@ -203,8 +153,6 @@ background:#f59e0b;
 <body>
 
 <div class="app">
-
-<!-- READING AREA -->
 
 <div class="readArea">
 
@@ -217,52 +165,38 @@ background:#f59e0b;
 </div>
 
 
-<!-- SIDE CONSOLE -->
-
 <div class="console">
 
 <div class="box">Score: <span id="score">0</span></div>
-
 <div class="box">Streak: <span id="streak">0</span> / 25</div>
-
 <div class="box">Time: <span id="timer">00:00</span></div>
 
 <div class="progress">
 <div class="progressFill" id="progressFill"></div>
 </div>
 
-<button onclick="start()">START</button>
-
-<button onclick="pause()">PAUSE</button>
-
-<button onclick="resetGame()">RESET</button>
-
-<button onclick="newText()">NEW TEXT</button>
-
-<button onclick="goMenu()" class="secondary">MAIN MENU</button>
+<button class="startBtn" onclick="start()">START</button>
+<button class="pauseBtn" onclick="pause()">PAUSE</button>
+<button class="resetBtn" onclick="resetGame()">RESET</button>
+<button class="newBtn" onclick="newText()">NEW TEXT</button>
+<button class="menuBtn" onclick="goMenu()">MAIN MENU</button>
 
 <hr>
 
-<button onclick="setLevel('easy',this)" class="level active">EASY</button>
-
-<button onclick="setLevel('medium',this)" class="level">MEDIUM</button>
-
-<button onclick="setLevel('hard',this)" class="level">HARD</button>
-
-<button onclick="setLevel('support',this)" class="level">SUPPORT</button>
+<button class="easyBtn activeLevel" onclick="setLevel('easy',this)">EASY</button>
+<button class="mediumBtn" onclick="setLevel('medium',this)">MEDIUM</button>
+<button class="hardBtn" onclick="setLevel('hard',this)">HARD</button>
+<button class="supportBtn" onclick="setLevel('support',this)">SUPPORT</button>
 
 </div>
 
 </div>
-
 
 <script>
 
 /* CONFIG */
 
 const TARGET=25;
-
-/* STATE */
 
 let score=0;
 let streak=0;
@@ -276,51 +210,45 @@ let questionPool=[];
 /* TEXT BANK */
 
 const TEXTS={
-
-easy:[{
+easy:[
+{
 id:"t1",
-content:`Climate change is affecting the entire planet. Scientists have observed rising temperatures over many years. This increase is causing glaciers to melt and sea levels to rise.
-
-Many countries are taking action by using renewable energy such as solar and wind power. These energy sources do not produce harmful gases.
-
-Individuals can also help by recycling, saving electricity, and using public transport.`
-}],
-
-medium:[{
+content:`Climate change is affecting the world. Scientists observe rising temperatures, melting ice, and stronger storms. Countries use renewable energy to reduce pollution. Individuals can recycle, save electricity, and protect the environment.`
+}
+],
+medium:[
+{
 id:"t2",
-content:`Volunteering is an activity where people help others without payment. Many volunteers work in hospitals, schools, and animal shelters.
-
-Volunteering helps communities become stronger. It also helps volunteers learn new skills and meet new people.
-
-Research shows volunteering improves mental health and confidence.`
-}]
-
+content:`Volunteering helps communities grow stronger. Volunteers support hospitals, schools, and environmental projects. Research shows volunteering improves confidence, skills, and mental health.`
+}
+],
+hard:[
+{
+id:"t3",
+content:`Global warming results from greenhouse gas emissions. Governments implement environmental policies. Collective action is necessary to protect ecosystems and reduce environmental damage.`
+}
+],
+support:[
+{
+id:"t4",
+content:`Helping others improves society. People help animals, friends, and family. Helping creates happiness and positive relationships.`
+}
+]
 };
 
 /* QUESTIONS */
 
 const QUESTIONS=[
 
-{
-textId:"t1",
-question:"What is happening to glaciers?",
-options:["They are melting","They are growing","They are moving","They disappear"],
-answer:"They are melting"
-},
+{ textId:"t1", question:"What are scientists observing?", options:["Rising temperatures","More schools","More cars","More roads"], answer:"Rising temperatures" },
 
-{
-textId:"t1",
-question:"What energy reduces pollution?",
-options:["Solar energy","Coal","Gas","Oil"],
-answer:"Solar energy"
-},
+{ textId:"t1", question:"What helps reduce pollution?", options:["Renewable energy","Plastic","Smoke","Coal"], answer:"Renewable energy" },
 
-{
-textId:"t2",
-question:"Where do volunteers work?",
-options:["Hospitals","Airports","Banks","Factories"],
-answer:"Hospitals"
-}
+{ textId:"t2", question:"What does volunteering improve?", options:["Confidence","Pollution","Weather","Traffic"], answer:"Confidence" },
+
+{ textId:"t3", question:"What causes global warming?", options:["Greenhouse gases","Rain","Wind","Clouds"], answer:"Greenhouse gases" },
+
+{ textId:"t4", question:"Helping creates?", options:["Happiness","Problems","Noise","Danger"], answer:"Happiness" }
 
 ];
 
@@ -337,7 +265,6 @@ if(paused)return;
 timer++;
 
 let m=Math.floor(timer/60).toString().padStart(2,"0");
-
 let s=(timer%60).toString().padStart(2,"0");
 
 document.getElementById("timer").innerText=m+":"+s;
@@ -346,19 +273,22 @@ document.getElementById("timer").innerText=m+":"+s;
 
 }
 
-/* FUNCTIONS */
+/* LEVEL */
 
 function setLevel(l,btn){
 
 level=l;
 
-document.querySelectorAll(".level").forEach(b=>b.classList.remove("active"));
+document.querySelectorAll(".easyBtn,.mediumBtn,.hardBtn,.supportBtn")
+.forEach(b=>b.classList.remove("activeLevel"));
 
-btn.classList.add("active");
+btn.classList.add("activeLevel");
 
 newText();
 
 }
+
+/* NEW TEXT */
 
 function newText(){
 
@@ -368,39 +298,52 @@ currentText=texts[Math.floor(Math.random()*texts.length)];
 
 document.getElementById("textBox").innerText=currentText.content;
 
-questionPool=QUESTIONS.filter(q=>q.textId===currentText.id);
-
-shuffle(questionPool);
+buildPool();
 
 renderQuestion();
 
 }
 
+/* BUILD POOL */
+
+function buildPool(){
+
+questionPool=QUESTIONS.filter(q=>q.textId===currentText.id);
+
+shuffle(questionPool);
+
+}
+
+/* SHUFFLE */
+
 function shuffle(a){
-
 for(let i=a.length-1;i>0;i--){
-
 let j=Math.floor(Math.random()*(i+1));
-
 [a[i],a[j]]=[a[j],a[i]];
+}
+}
+
+/* GET QUESTION */
+
+function getQuestion(){
+
+if(questionPool.length===0){
+buildPool();
+}
+
+return questionPool.pop();
 
 }
 
-}
+/* RENDER */
 
 function renderQuestion(){
 
 if(paused)return;
 
-let q=questionPool.pop();
+let q=getQuestion();
 
-if(!q){
-
-newText();
-
-return;
-
-}
+if(!q)return;
 
 let area=document.getElementById("questionArea");
 
@@ -409,6 +352,8 @@ area.innerHTML="";
 let div=document.createElement("div");
 
 div.innerHTML="<div class='question'>"+q.question+"</div>";
+
+shuffle(q.options);
 
 q.options.forEach(opt=>{
 
@@ -420,18 +365,17 @@ btn.innerText=opt;
 
 btn.onclick=()=>{
 
+div.querySelectorAll("button").forEach(b=>b.disabled=true);
+
 if(opt===q.answer){
 
 btn.classList.add("correct");
-
 score+=10;
-
 streak++;
 
 }else{
 
 btn.classList.add("wrong");
-
 streak=0;
 
 }
@@ -450,22 +394,22 @@ area.appendChild(div);
 
 }
 
+/* HUD */
+
 function updateHUD(){
 
 document.getElementById("score").innerText=score;
-
 document.getElementById("streak").innerText=streak;
-
 document.getElementById("progressFill").style.width=(streak/TARGET*100)+"%";
 
 }
 
+/* CONTROLS */
+
 function start(){
 
 paused=false;
-
 startTimer();
-
 renderQuestion();
 
 }
@@ -479,9 +423,7 @@ paused=!paused;
 function resetGame(){
 
 score=0;
-
 streak=0;
-
 timer=0;
 
 updateHUD();
@@ -497,7 +439,6 @@ window.location.href="../index.html";
 /* INIT */
 
 newText();
-
 updateHUD();
 
 </script>
