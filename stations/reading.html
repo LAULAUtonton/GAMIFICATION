@@ -14,86 +14,177 @@ body{
 margin:0;
 font-family:'Orbitron',sans-serif;
 background:radial-gradient(circle,#bbf7d0 0%,#16a34a 60%,#052e16 100%);
+color:#111827;
 }
+
+/* MAIN CONTAINER */
 
 .container{
-max-width:900px;
-margin:40px auto;
+
+max-width:1000px;
+margin:30px auto;
 background:white;
 padding:30px;
-border-radius:20px;
-box-shadow:0 20px 50px rgba(0,0,0,.5);
+border-radius:25px;
+box-shadow:0 25px 60px rgba(0,0,0,.6);
+
 }
+
+/* HEADER */
 
 .title{
+
 text-align:center;
-font-size:28px;
-margin-bottom:10px;
+font-size:32px;
 color:#14532d;
+margin-bottom:5px;
+
 }
+
+.subtitle{
+
+text-align:center;
+font-size:14px;
+color:#166534;
+margin-bottom:20px;
+
+}
+
+/* HUD */
+
+.hud{
+
+display:flex;
+justify-content:space-between;
+flex-wrap:wrap;
+gap:10px;
+margin-bottom:20px;
+
+}
+
+.box{
+
+background:#dcfce7;
+border:2px solid #22c55e;
+padding:10px 15px;
+border-radius:15px;
+font-weight:900;
+
+}
+
+/* PROGRESS BAR */
+
+.progressContainer{
+
+width:100%;
+height:25px;
+background:#e5e7eb;
+border-radius:15px;
+overflow:hidden;
+margin-bottom:25px;
+
+}
+
+.progressFill{
+
+height:100%;
+width:0%;
+background:linear-gradient(90deg,#22c55e,#4ade80);
+transition:.3s;
+
+}
+
+/* TEXT */
 
 .textBox{
+
 background:#f0fdf4;
-padding:20px;
-border-radius:15px;
-margin-bottom:20px;
-line-height:1.6;
+padding:25px;
+border-radius:20px;
 border:2px solid #22c55e;
-max-height:300px;
+line-height:1.8;
+margin-bottom:20px;
+max-height:350px;
 overflow-y:auto;
+
 }
 
-.btn{
-padding:12px 18px;
-border-radius:10px;
-border:none;
-background:#22c55e;
-color:white;
-font-weight:bold;
-cursor:pointer;
-margin:5px;
-}
-
-.btn:hover{
-background:#16a34a;
-}
+/* QUESTION */
 
 .questionCard{
+
 background:#f0fdf4;
-padding:20px;
-border-radius:15px;
+padding:25px;
+border-radius:20px;
 border:2px solid #22c55e;
-margin-top:20px;
+
+}
+
+.question{
+
+font-weight:900;
+font-size:18px;
+margin-bottom:15px;
+
 }
 
 .option{
+
 display:block;
 width:100%;
+padding:12px;
 margin:8px 0;
-padding:10px;
-border-radius:10px;
+border-radius:12px;
 border:2px solid #22c55e;
 background:white;
 cursor:pointer;
-font-weight:bold;
+font-weight:800;
 text-align:left;
+
 }
 
 .option.correct{
+
 background:#22c55e;
 color:white;
 border:none;
+
 }
 
 .option.wrong{
+
 background:#ef4444;
 color:white;
 border:none;
+
 }
 
-.streak{
-font-weight:bold;
-margin-bottom:10px;
+/* BUTTONS */
+
+.btn{
+
+padding:12px 20px;
+border-radius:15px;
+border:none;
+background:#22c55e;
+color:white;
+font-weight:900;
+cursor:pointer;
+margin:5px;
+
+}
+
+.btn:hover{
+
+background:#16a34a;
+
+}
+
+.center{
+
+text-align:center;
+margin-bottom:15px;
+
 }
 
 </style>
@@ -105,15 +196,33 @@ margin-bottom:10px;
 
 <div class="title">READING STATION</div>
 
-<div id="textTitle"></div>
+<div class="subtitle">Goal: 25 correct answers in a row</div>
 
-<div class="textBox" id="textBox"></div>
+<div class="hud">
+
+<div class="box">Score: <span id="score">0</span></div>
+
+<div class="box">Streak: <span id="streak">0</span> / 25</div>
+
+<div class="box">Text: <span id="textTitle">—</span></div>
+
+</div>
+
+<div class="progressContainer">
+
+<div class="progressFill" id="progressFill"></div>
+
+</div>
+
+<div class="center">
 
 <button class="btn" onclick="start()">START</button>
 
-<div class="streak">
-Streak: <span id="streak">0</span>
+<button class="btn" onclick="newText()">NEW TEXT</button>
+
 </div>
+
+<div class="textBox" id="textBox"></div>
 
 <div id="questionArea"></div>
 
@@ -121,115 +230,91 @@ Streak: <span id="streak">0</span>
 
 <script>
 
+/* CONFIG */
+
+const TARGET = 25;
+
 /* TEXT BANK */
 
-const TEXT_BANK=[
+const TEXT_BANK = [
 
 {
-id:"text1",
-title:"Climate Action",
+id:"climate",
+
+title:"Climate Change and Daily Life",
 
 content:
 
-`Many people are worried about climate change. It is causing higher temperatures and extreme weather.
+`Climate change is one of the biggest problems in the world today. Scientists have observed that global temperatures are increasing every year. This change is affecting weather patterns, causing stronger storms, longer droughts, and rising sea levels.
 
-Some countries are reducing pollution by using renewable energy. Others are planting trees.
+Many countries are trying to reduce pollution by using renewable energy such as solar and wind power. These energy sources do not produce harmful gases. Governments are also encouraging people to use public transport and recycle more.
 
-Experts say everyone can help by recycling, saving energy, and using less plastic.`
+Individuals can also make a difference. Simple actions like turning off lights, saving water, and using less plastic can help protect the environment. Experts believe that if people work together, the situation can improve in the future.`
 
 },
 
 {
-id:"text2",
+id:"volunteering",
 
-title:"Helping Others",
+title:"The Importance of Volunteering",
 
 content:
 
-`Volunteering is a great way to help your community. Some people help homeless people.
+`Volunteering is an activity where people help others without receiving money. Many volunteers work in hospitals, schools, or community centers. Others help protect animals or the environment.
 
-Others help animals or clean parks.
+Volunteering has many benefits. It helps communities become stronger and safer. It also helps volunteers develop new skills and meet new people.
 
-Helping others can make people feel happier and improve society.`
+Studies show that volunteering can improve mental health. People who volunteer often feel happier and more confident. Because of these benefits, many schools encourage students to participate in volunteer activities.`
+
 }
 
 ];
 
 
-/* QUESTIONS */
+/* QUESTION BANK */
 
-const QUESTION_BANK=[
+const QUESTIONS = [
 
 {
-textId:"text1",
-question:"What is climate change causing?",
-options:[
-"Higher temperatures",
-"More schools",
-"Less food",
-"More holidays"
-],
-answer:"Higher temperatures"
+textId:"climate",
+question:"What is happening to global temperatures?",
+options:["They are increasing","They are decreasing","They stay the same","They disappear"],
+answer:"They are increasing"
 },
 
 {
-textId:"text1",
-question:"How are countries reducing pollution?",
-options:[
-"Using renewable energy",
-"Closing schools",
-"Driving more",
-"Building roads"
-],
-answer:"Using renewable energy"
+textId:"climate",
+question:"What energy helps reduce pollution?",
+options:["Solar energy","Coal","Oil","Gas"],
+answer:"Solar energy"
 },
 
 {
-textId:"text1",
-question:"How can people help?",
-options:[
-"Recycling",
-"Wasting energy",
-"Using more plastic",
-"Driving more"
-],
-answer:"Recycling"
+textId:"climate",
+question:"What can individuals do?",
+options:["Use less plastic","Pollute more","Drive more","Waste water"],
+answer:"Use less plastic"
 },
 
 {
-textId:"text2",
+textId:"volunteering",
 question:"What is volunteering?",
-options:[
-"Helping your community",
-"Watching TV",
-"Playing games",
-"Sleeping"
-],
-answer:"Helping your community"
+options:["Helping without money","Working for money","Studying","Traveling"],
+answer:"Helping without money"
 },
 
 {
-textId:"text2",
-question:"Who do volunteers help?",
-options:[
-"Homeless people",
-"Only teachers",
-"Only doctors",
-"Nobody"
-],
-answer:"Homeless people"
+textId:"volunteering",
+question:"What does volunteering improve?",
+options:["Mental health","Pollution","Weather","Traffic"],
+answer:"Mental health"
 },
 
 {
-textId:"text2",
-question:"How does helping others make people feel?",
-options:[
-"Happier",
-"Angry",
-"Bored",
-"Tired"
-],
-answer:"Happier"
+textId:"volunteering",
+question:"Where do volunteers work?",
+options:["Hospitals","Only banks","Only airports","Only factories"],
+answer:"Hospitals"
 }
 
 ];
@@ -238,72 +323,76 @@ answer:"Happier"
 /* STATE */
 
 let currentText;
-let questionPool=[];
+let pool=[];
+let score=0;
 let streak=0;
 
 
 /* LOAD TEXT */
 
-function loadText(){
+function newText(){
 
-currentText=TEXT_BANK[
-Math.floor(Math.random()*TEXT_BANK.length)
-];
+currentText=TEXT_BANK[Math.floor(Math.random()*TEXT_BANK.length)];
 
-document.getElementById("textTitle").innerHTML=
-"<strong>"+currentText.title+"</strong>";
+document.getElementById("textTitle").innerText=currentText.title;
 
-document.getElementById("textBox").innerText=
-currentText.content;
+document.getElementById("textBox").innerText=currentText.content;
 
-buildPool();
+pool = QUESTIONS.filter(q=>q.textId===currentText.id);
 
-}
-
-
-/* BUILD SAFE POOL */
-
-function buildPool(){
-
-questionPool=QUESTION_BANK
-.filter(q=>q.textId===currentText.id);
-
-shuffle(questionPool);
+shuffle(pool);
 
 }
 
 
 /* SHUFFLE */
 
-function shuffle(array){
+function shuffle(a){
 
-for(let i=array.length-1;i>0;i--){
+for(let i=a.length-1;i>0;i--){
 
 const j=Math.floor(Math.random()*(i+1));
 
-[array[i],array[j]]=[array[j],array[i]];
+[a[i],a[j]]=[a[j],a[i]];
 
 }
 
 }
 
 
-/* GET SAFE QUESTION */
+/* GET QUESTION */
 
 function getQuestion(){
 
-if(questionPool.length===0){
+if(pool.length===0){
 
-buildPool();
+pool = QUESTIONS.filter(q=>q.textId===currentText.id);
 
-}
-
-return questionPool.pop();
+shuffle(pool);
 
 }
 
+return pool.pop();
 
-/* RENDER */
+}
+
+
+/* UPDATE HUD */
+
+function updateHUD(){
+
+document.getElementById("score").innerText=score;
+
+document.getElementById("streak").innerText=streak;
+
+document.getElementById("progressFill").style.width=
+
+(streak/TARGET*100)+"%";
+
+}
+
+
+/* RENDER QUESTION */
 
 function renderQuestion(){
 
@@ -317,7 +406,7 @@ const card=document.createElement("div");
 
 card.className="questionCard";
 
-card.innerHTML="<strong>"+q.question+"</strong>";
+card.innerHTML="<div class='question'>"+q.question+"</div>";
 
 q.options.forEach(opt=>{
 
@@ -329,14 +418,15 @@ btn.innerText=opt;
 
 btn.onclick=()=>{
 
-card.querySelectorAll("button")
-.forEach(b=>b.disabled=true);
+card.querySelectorAll("button").forEach(b=>b.disabled=true);
 
 if(opt===q.answer){
 
 btn.classList.add("correct");
 
 streak++;
+
+score+=10;
 
 }else{
 
@@ -346,10 +436,17 @@ streak=0;
 
 }
 
-document.getElementById("streak")
-.innerText=streak;
+updateHUD();
 
-setTimeout(renderQuestion,800);
+if(streak===TARGET){
+
+alert("Reading Master Achieved!");
+
+streak=0;
+
+}
+
+setTimeout(renderQuestion,700);
 
 };
 
@@ -366,9 +463,11 @@ area.appendChild(card);
 
 function start(){
 
+score=0;
+
 streak=0;
 
-document.getElementById("streak").innerText=0;
+updateHUD();
 
 renderQuestion();
 
@@ -377,7 +476,7 @@ renderQuestion();
 
 /* INIT */
 
-loadText();
+newText();
 
 </script>
 
