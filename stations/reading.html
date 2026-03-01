@@ -14,189 +14,130 @@ body{
 margin:0;
 font-family:'Orbitron',sans-serif;
 background:radial-gradient(circle,#bbf7d0 0%,#16a34a 60%,#052e16 100%);
-color:#111827;
 }
 
-/* MAIN CONTAINER */
-
 .container{
-
 max-width:1000px;
 margin:30px auto;
 background:white;
-padding:30px;
-border-radius:25px;
+padding:25px;
+border-radius:20px;
 box-shadow:0 25px 60px rgba(0,0,0,.6);
-
 }
-
-/* HEADER */
 
 .title{
-
 text-align:center;
-font-size:32px;
+font-size:30px;
 color:#14532d;
-margin-bottom:5px;
-
 }
-
-.subtitle{
-
-text-align:center;
-font-size:14px;
-color:#166534;
-margin-bottom:20px;
-
-}
-
-/* HUD */
 
 .hud{
-
 display:flex;
 justify-content:space-between;
 flex-wrap:wrap;
 gap:10px;
-margin-bottom:20px;
-
+margin:15px 0;
 }
 
 .box{
-
 background:#dcfce7;
 border:2px solid #22c55e;
-padding:10px 15px;
-border-radius:15px;
-font-weight:900;
-
+padding:10px;
+border-radius:12px;
+font-weight:bold;
 }
 
-/* PROGRESS BAR */
-
-.progressContainer{
-
-width:100%;
-height:25px;
+.progress{
+height:20px;
 background:#e5e7eb;
-border-radius:15px;
+border-radius:10px;
 overflow:hidden;
-margin-bottom:25px;
-
+margin-bottom:15px;
 }
 
 .progressFill{
-
 height:100%;
 width:0%;
 background:linear-gradient(90deg,#22c55e,#4ade80);
-transition:.3s;
-
 }
-
-/* TEXT */
 
 .textBox{
-
 background:#f0fdf4;
-padding:25px;
-border-radius:20px;
+padding:20px;
+border-radius:15px;
 border:2px solid #22c55e;
-line-height:1.8;
-margin-bottom:20px;
-max-height:350px;
-overflow-y:auto;
-
+margin-bottom:15px;
+max-height:300px;
+overflow:auto;
 }
-
-/* QUESTION */
 
 .questionCard{
-
 background:#f0fdf4;
-padding:25px;
-border-radius:20px;
+padding:20px;
+border-radius:15px;
 border:2px solid #22c55e;
-
-}
-
-.question{
-
-font-weight:900;
-font-size:18px;
-margin-bottom:15px;
-
 }
 
 .option{
-
 display:block;
 width:100%;
-padding:12px;
 margin:8px 0;
-border-radius:12px;
+padding:10px;
+border-radius:10px;
 border:2px solid #22c55e;
-background:white;
 cursor:pointer;
-font-weight:800;
+background:white;
 text-align:left;
-
+font-weight:bold;
 }
 
 .option.correct{
-
 background:#22c55e;
 color:white;
 border:none;
-
 }
 
 .option.wrong{
-
 background:#ef4444;
 color:white;
 border:none;
-
 }
 
-/* BUTTONS */
+.controls{
+margin:10px 0;
+text-align:center;
+}
 
-.btn{
-
-padding:12px 20px;
-border-radius:15px;
+button{
+padding:10px 15px;
+margin:4px;
+border-radius:10px;
 border:none;
 background:#22c55e;
 color:white;
-font-weight:900;
+font-weight:bold;
 cursor:pointer;
-margin:5px;
-
 }
 
-.btn:hover{
-
-background:#16a34a;
-
+button.secondary{
+background:#166534;
 }
 
-.center{
+button.difficulty{
+background:#14532d;
+}
 
-text-align:center;
-margin-bottom:15px;
-
+button.active{
+background:#f59e0b;
 }
 
 </style>
 </head>
-
 <body>
 
 <div class="container">
 
 <div class="title">READING STATION</div>
-
-<div class="subtitle">Goal: 25 correct answers in a row</div>
 
 <div class="hud">
 
@@ -204,21 +145,39 @@ margin-bottom:15px;
 
 <div class="box">Streak: <span id="streak">0</span> / 25</div>
 
-<div class="box">Text: <span id="textTitle">—</span></div>
+<div class="box">Level: <span id="levelLabel">Easy</span></div>
 
 </div>
 
-<div class="progressContainer">
+<div class="progress">
 
 <div class="progressFill" id="progressFill"></div>
 
 </div>
 
-<div class="center">
+<div class="controls">
 
-<button class="btn" onclick="start()">START</button>
+<button onclick="start()">START</button>
 
-<button class="btn" onclick="newText()">NEW TEXT</button>
+<button onclick="pause()">PAUSE</button>
+
+<button onclick="resetGame()">RESET</button>
+
+<button onclick="newText()">NEW TEXT</button>
+
+<button onclick="goMenu()" class="secondary">MAIN MENU</button>
+
+</div>
+
+<div class="controls">
+
+<button class="difficulty active" onclick="setLevel('easy',this)">EASY</button>
+
+<button class="difficulty" onclick="setLevel('medium',this)">MEDIUM</button>
+
+<button class="difficulty" onclick="setLevel('hard',this)">HARD</button>
+
+<button class="difficulty" onclick="setLevel('support',this)">SUPPORT</button>
 
 </div>
 
@@ -232,126 +191,100 @@ margin-bottom:15px;
 
 /* CONFIG */
 
-const TARGET = 25;
-
-/* TEXT BANK */
-
-const TEXT_BANK = [
-
-{
-id:"climate",
-
-title:"Climate Change and Daily Life",
-
-content:
-
-`Climate change is one of the biggest problems in the world today. Scientists have observed that global temperatures are increasing every year. This change is affecting weather patterns, causing stronger storms, longer droughts, and rising sea levels.
-
-Many countries are trying to reduce pollution by using renewable energy such as solar and wind power. These energy sources do not produce harmful gases. Governments are also encouraging people to use public transport and recycle more.
-
-Individuals can also make a difference. Simple actions like turning off lights, saving water, and using less plastic can help protect the environment. Experts believe that if people work together, the situation can improve in the future.`
-
-},
-
-{
-id:"volunteering",
-
-title:"The Importance of Volunteering",
-
-content:
-
-`Volunteering is an activity where people help others without receiving money. Many volunteers work in hospitals, schools, or community centers. Others help protect animals or the environment.
-
-Volunteering has many benefits. It helps communities become stronger and safer. It also helps volunteers develop new skills and meet new people.
-
-Studies show that volunteering can improve mental health. People who volunteer often feel happier and more confident. Because of these benefits, many schools encourage students to participate in volunteer activities.`
-
-}
-
-];
-
-
-/* QUESTION BANK */
-
-const QUESTIONS = [
-
-{
-textId:"climate",
-question:"What is happening to global temperatures?",
-options:["They are increasing","They are decreasing","They stay the same","They disappear"],
-answer:"They are increasing"
-},
-
-{
-textId:"climate",
-question:"What energy helps reduce pollution?",
-options:["Solar energy","Coal","Oil","Gas"],
-answer:"Solar energy"
-},
-
-{
-textId:"climate",
-question:"What can individuals do?",
-options:["Use less plastic","Pollute more","Drive more","Waste water"],
-answer:"Use less plastic"
-},
-
-{
-textId:"volunteering",
-question:"What is volunteering?",
-options:["Helping without money","Working for money","Studying","Traveling"],
-answer:"Helping without money"
-},
-
-{
-textId:"volunteering",
-question:"What does volunteering improve?",
-options:["Mental health","Pollution","Weather","Traffic"],
-answer:"Mental health"
-},
-
-{
-textId:"volunteering",
-question:"Where do volunteers work?",
-options:["Hospitals","Only banks","Only airports","Only factories"],
-answer:"Hospitals"
-}
-
-];
-
+const TARGET=25;
 
 /* STATE */
 
-let currentText;
-let pool=[];
 let score=0;
 let streak=0;
+let paused=false;
+let level="easy";
+let currentText;
+let pool=[];
 
+/* TEXT BANK WITH LEVELS */
 
-/* LOAD TEXT */
+const TEXTS={
+
+easy:[
+{
+id:"t1",
+content:`Volunteering helps people and communities. Many volunteers help animals, clean parks, or support people. Volunteering helps volunteers feel happier and develop skills.`
+}
+],
+
+medium:[
+{
+id:"t2",
+content:`Climate change affects weather patterns. Many countries use renewable energy to reduce pollution. Individuals can recycle and save energy to help protect the environment.`
+}
+],
+
+hard:[
+{
+id:"t3",
+content:`Climate change is accelerating due to human activity. Governments implement policies to reduce emissions. Experts emphasize collective responsibility to mitigate environmental degradation.`
+}
+],
+
+support:[
+{
+id:"t4",
+content:`Helping others is important. People can help animals, friends, and family. Helping makes people happy.`
+}
+]
+
+};
+
+/* QUESTIONS */
+
+const QUESTIONS=[
+
+{ textId:"t1", question:"What does volunteering help?", options:["Communities","Cars","Roads","Computers"], answer:"Communities" },
+
+{ textId:"t2", question:"What reduces pollution?", options:["Renewable energy","Plastic","Cars","Smoke"], answer:"Renewable energy" },
+
+{ textId:"t3", question:"What accelerates climate change?", options:["Human activity","Animals","Rain","Wind"], answer:"Human activity" },
+
+{ textId:"t4", question:"Helping makes people feel?", options:["Happy","Sad","Angry","Tired"], answer:"Happy" }
+
+];
+
+/* FUNCTIONS */
+
+function setLevel(l,btn){
+
+level=l;
+
+document.getElementById("levelLabel").innerText=l.toUpperCase();
+
+document.querySelectorAll(".difficulty").forEach(b=>b.classList.remove("active"));
+
+btn.classList.add("active");
+
+newText();
+
+}
 
 function newText(){
 
-currentText=TEXT_BANK[Math.floor(Math.random()*TEXT_BANK.length)];
+const texts=TEXTS[level];
 
-document.getElementById("textTitle").innerText=currentText.title;
+currentText=texts[Math.floor(Math.random()*texts.length)];
 
 document.getElementById("textBox").innerText=currentText.content;
 
-pool = QUESTIONS.filter(q=>q.textId===currentText.id);
+pool=QUESTIONS.filter(q=>q.textId===currentText.id);
 
 shuffle(pool);
 
 }
 
-
-/* SHUFFLE */
-
 function shuffle(a){
 
 for(let i=a.length-1;i>0;i--){
 
-const j=Math.floor(Math.random()*(i+1));
+let j=Math.floor(Math.random()*(i+1));
 
 [a[i],a[j]]=[a[j],a[i]];
 
@@ -359,14 +292,11 @@ const j=Math.floor(Math.random()*(i+1));
 
 }
 
-
-/* GET QUESTION */
-
 function getQuestion(){
 
 if(pool.length===0){
 
-pool = QUESTIONS.filter(q=>q.textId===currentText.id);
+pool=QUESTIONS.filter(q=>q.textId===currentText.id);
 
 shuffle(pool);
 
@@ -376,41 +306,35 @@ return pool.pop();
 
 }
 
-
-/* UPDATE HUD */
-
 function updateHUD(){
 
 document.getElementById("score").innerText=score;
 
 document.getElementById("streak").innerText=streak;
 
-document.getElementById("progressFill").style.width=
-
-(streak/TARGET*100)+"%";
+document.getElementById("progressFill").style.width=(streak/TARGET*100)+"%";
 
 }
 
-
-/* RENDER QUESTION */
-
 function renderQuestion(){
 
-const q=getQuestion();
+if(paused)return;
 
-const area=document.getElementById("questionArea");
+let q=getQuestion();
+
+let area=document.getElementById("questionArea");
 
 area.innerHTML="";
 
-const card=document.createElement("div");
+let card=document.createElement("div");
 
 card.className="questionCard";
 
-card.innerHTML="<div class='question'>"+q.question+"</div>";
+card.innerHTML="<b>"+q.question+"</b>";
 
 q.options.forEach(opt=>{
 
-const btn=document.createElement("button");
+let btn=document.createElement("button");
 
 btn.className="option";
 
@@ -424,9 +348,9 @@ if(opt===q.answer){
 
 btn.classList.add("correct");
 
-streak++;
-
 score+=10;
+
+streak++;
 
 }else{
 
@@ -438,11 +362,9 @@ streak=0;
 
 updateHUD();
 
-if(streak===TARGET){
+if(streak>=TARGET){
 
-alert("Reading Master Achieved!");
-
-streak=0;
+alert("MASTER ACHIEVED");
 
 }
 
@@ -458,10 +380,21 @@ area.appendChild(card);
 
 }
 
-
-/* START */
-
 function start(){
+
+paused=false;
+
+renderQuestion();
+
+}
+
+function pause(){
+
+paused=!paused;
+
+}
+
+function resetGame(){
 
 score=0;
 
@@ -469,14 +402,19 @@ streak=0;
 
 updateHUD();
 
-renderQuestion();
-
 }
 
+function goMenu(){
+
+window.location.href="../index.html";
+
+}
 
 /* INIT */
 
 newText();
+
+updateHUD();
 
 </script>
 
