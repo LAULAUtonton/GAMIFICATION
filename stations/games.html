@@ -3,28 +3,63 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="styles.css">
-    <title>Games</title>
+    <title>Games Station</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        .tabs { display: flex; cursor: pointer; background-color: #f1f1f1; padding: 10px; }
+        .tab { flex: 1; padding: 10px; text-align: center; border: 1px solid #ccc; }
+        .tab:hover { background-color: #ddd; }
+        .tabcontent { display: none; padding: 20px; border: 1px solid #ccc; border-top: none; }
+        .active { display: block; }
+        .active-tab { background-color: #fff; }
+    </style>
+    <script>
+        function openTab(evt, tabName) {
+            var i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("tabcontent");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";  
+            }
+            tablinks = document.getElementsByClassName("tab");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active-tab", "");
+            }
+            document.getElementById(tabName).style.display = "block";  
+            evt.currentTarget.className += " active-tab";
+        }
+    </script>
 </head>
 <body>
-    <header>
-        <h1>Welcome to the Games</h1>
-    </header>
-    <main>
-        <section>
-            <h2>Game List</h2>
-            <ul>
-                <li>Game 1</li>
-                <li>Game 2</li>
-                <li>Game 3</li>
-            </ul>
-        </section>
-    </main>
+    <h1>Welcome to the Games Station</h1>
+    <div class="tabs">
+        <div class="tab" onclick="openTab(event, 'Pacman')">Pacman</div>
+        <div class="tab" onclick="openTab(event, 'SpaceInvaders')">Space Invaders</div>
+        <div class="tab" onclick="openTab(event, 'MatchingPairs')">Matching Pairs</div>
+        <div class="tab" onclick="openTab(event, 'SpinWheel')">Spin Wheel</div>
+        <div class="tab" onclick="openTab(event, 'Anagram')">Anagram</div>
+    </div>
+    <div id="Pacman" class="tabcontent">
+        <h2>Pacman</h2>
+        <p>Content for Pacman game goes here.</p>
+    </div>
+    <div id="SpaceInvaders" class="tabcontent">
+        <h2>Space Invaders</h2>
+        <p>Content for Space Invaders game goes here.</p>
+    </div>
+    <div id="MatchingPairs" class="tabcontent">
+        <h2>Matching Pairs</h2>
+        <p>Content for Matching Pairs game goes here.</p>
+    </div>
+    <div id="SpinWheel" class="tabcontent">
+        <h2>Spin Wheel</h2>
+        <p>Content for Spin Wheel game goes here.</p>
+    </div>
+    <div id="Anagram" class="tabcontent">
+        <h2>Anagram</h2>
+        <p>Content for Anagram game goes here.</p>
+    </div>
     <script>
-        function initializeGames() {
-            console.log('Initializing games...');
-        }
-        window.onload = initializeGames;
+        document.getElementsByClassName('tab')[0].click();
     </script>
 </body>
 </html>
