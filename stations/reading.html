@@ -16,11 +16,13 @@ font-family:'Orbitron',sans-serif;
 background:radial-gradient(circle,#bbf7d0 0%,#16a34a 60%,#052e16 100%);
 }
 
+/* LAYOUT */
+
 .app{
 display:grid;
-grid-template-columns: 1fr 280px;
+grid-template-columns: 1fr 300px;
 gap:20px;
-max-width:1300px;
+max-width:1400px;
 margin:20px auto;
 padding:20px;
 }
@@ -30,43 +32,55 @@ padding:20px;
 .readArea{
 background:white;
 border-radius:20px;
-padding:30px;
+padding:40px;
 box-shadow:0 25px 60px rgba(0,0,0,.5);
 }
 
+/* TITLE */
+
 .title{
-font-size:28px;
-margin-bottom:15px;
+font-size:36px;
+margin-bottom:20px;
 color:#14532d;
 }
 
+/* VERY LARGE TEXT */
+
 .textBox{
 background:#f0fdf4;
-padding:25px;
+padding:30px;
 border-radius:15px;
-border:2px solid #22c55e;
-line-height:1.8;
-font-size:17px;
-margin-bottom:20px;
-max-height:420px;
+border:3px solid #22c55e;
+
+font-size:24px;
+line-height:2;
+
+margin-bottom:30px;
+
+max-height:500px;
 overflow-y:auto;
 }
 
+/* QUESTION */
+
 .question{
-font-size:18px;
+font-size:26px;
 font-weight:900;
-margin-bottom:15px;
+margin-bottom:20px;
 }
+
+/* LARGE ANSWERS */
 
 .option{
 display:block;
 width:100%;
-padding:12px;
-margin:8px 0;
-border-radius:10px;
-border:2px solid #22c55e;
+padding:18px;
+margin:12px 0;
+border-radius:12px;
+border:3px solid #22c55e;
 background:white;
 cursor:pointer;
+font-size:22px;
 font-weight:bold;
 text-align:left;
 }
@@ -95,21 +109,26 @@ top:20px;
 height:fit-content;
 }
 
+/* HUD */
+
 .box{
 background:#dcfce7;
 border:2px solid #22c55e;
-padding:10px;
+padding:14px;
 border-radius:10px;
-margin-bottom:10px;
+margin-bottom:12px;
+font-size:18px;
 font-weight:bold;
 }
 
+/* PROGRESS */
+
 .progress{
-height:18px;
+height:22px;
 background:#e5e7eb;
 border-radius:10px;
 overflow:hidden;
-margin-bottom:15px;
+margin-bottom:20px;
 }
 
 .progressFill{
@@ -118,17 +137,18 @@ width:0%;
 background:#22c55e;
 }
 
-/* BUTTON COLORS */
+/* BUTTONS */
 
 button{
 width:100%;
-padding:10px;
-margin:4px 0;
+padding:14px;
+margin:6px 0;
 border:none;
 border-radius:10px;
+font-size:16px;
 font-weight:bold;
-cursor:pointer;
 color:white;
+cursor:pointer;
 }
 
 .startBtn{background:#16a34a;}
@@ -138,14 +158,14 @@ color:white;
 .menuBtn{background:#374151;}
 
 .easyBtn{background:#22c55e;}
-.mediumBtn{background:#3b82f6;}
 .hardBtn{background:#ef4444;}
-.supportBtn{background:#a855f7;}
-
-button:hover{filter:brightness(1.15);}
 
 .activeLevel{
-outline:3px solid black;
+outline:4px solid black;
+}
+
+button:hover{
+filter:brightness(1.2);
 }
 
 </style>
@@ -164,11 +184,12 @@ outline:3px solid black;
 
 </div>
 
-
 <div class="console">
 
 <div class="box">Score: <span id="score">0</span></div>
+
 <div class="box">Streak: <span id="streak">0</span> / 25</div>
+
 <div class="box">Time: <span id="timer">00:00</span></div>
 
 <div class="progress">
@@ -176,17 +197,20 @@ outline:3px solid black;
 </div>
 
 <button class="startBtn" onclick="start()">START</button>
+
 <button class="pauseBtn" onclick="pause()">PAUSE</button>
+
 <button class="resetBtn" onclick="resetGame()">RESET</button>
+
 <button class="newBtn" onclick="newText()">NEW TEXT</button>
+
 <button class="menuBtn" onclick="goMenu()">MAIN MENU</button>
 
 <hr>
 
 <button class="easyBtn activeLevel" onclick="setLevel('easy',this)">EASY</button>
-<button class="mediumBtn" onclick="setLevel('medium',this)">MEDIUM</button>
+
 <button class="hardBtn" onclick="setLevel('hard',this)">HARD</button>
-<button class="supportBtn" onclick="setLevel('support',this)">SUPPORT</button>
 
 </div>
 
@@ -210,45 +234,40 @@ let questionPool=[];
 /* TEXT BANK */
 
 const TEXTS={
+
 easy:[
 {
-id:"t1",
-content:`Climate change is affecting the world. Scientists observe rising temperatures, melting ice, and stronger storms. Countries use renewable energy to reduce pollution. Individuals can recycle, save electricity, and protect the environment.`
+id:"e1",
+content:`Climate change is affecting the planet. Scientists observe rising temperatures and melting ice. Many countries are using renewable energy like solar power. Individuals can help by recycling and saving electricity.`
 }
 ],
-medium:[
-{
-id:"t2",
-content:`Volunteering helps communities grow stronger. Volunteers support hospitals, schools, and environmental projects. Research shows volunteering improves confidence, skills, and mental health.`
-}
-],
+
 hard:[
 {
-id:"t3",
-content:`Global warming results from greenhouse gas emissions. Governments implement environmental policies. Collective action is necessary to protect ecosystems and reduce environmental damage.`
-}
-],
-support:[
-{
-id:"t4",
-content:`Helping others improves society. People help animals, friends, and family. Helping creates happiness and positive relationships.`
+id:"h1",
+content:`Climate change represents a significant global challenge. Rising greenhouse gas emissions contribute to increasing temperatures, melting glaciers, and extreme weather events. Governments implement environmental policies, and individuals must adopt sustainable behaviors to reduce environmental damage and protect ecosystems.`
 }
 ]
+
 };
 
 /* QUESTIONS */
 
 const QUESTIONS=[
 
-{ textId:"t1", question:"What are scientists observing?", options:["Rising temperatures","More schools","More cars","More roads"], answer:"Rising temperatures" },
+{
+textId:"e1",
+question:"What are scientists observing?",
+options:["Rising temperatures","More schools","More cars","More roads"],
+answer:"Rising temperatures"
+},
 
-{ textId:"t1", question:"What helps reduce pollution?", options:["Renewable energy","Plastic","Smoke","Coal"], answer:"Renewable energy" },
-
-{ textId:"t2", question:"What does volunteering improve?", options:["Confidence","Pollution","Weather","Traffic"], answer:"Confidence" },
-
-{ textId:"t3", question:"What causes global warming?", options:["Greenhouse gases","Rain","Wind","Clouds"], answer:"Greenhouse gases" },
-
-{ textId:"t4", question:"Helping creates?", options:["Happiness","Problems","Noise","Danger"], answer:"Happiness" }
+{
+textId:"h1",
+question:"What contributes to climate change?",
+options:["Greenhouse gases","Books","Cars only","Water"],
+answer:"Greenhouse gases"
+}
 
 ];
 
@@ -279,7 +298,7 @@ function setLevel(l,btn){
 
 level=l;
 
-document.querySelectorAll(".easyBtn,.mediumBtn,.hardBtn,.supportBtn")
+document.querySelectorAll(".easyBtn,.hardBtn")
 .forEach(b=>b.classList.remove("activeLevel"));
 
 btn.classList.add("activeLevel");
@@ -304,7 +323,7 @@ renderQuestion();
 
 }
 
-/* BUILD POOL */
+/* POOL */
 
 function buildPool(){
 
@@ -314,22 +333,21 @@ shuffle(questionPool);
 
 }
 
-/* SHUFFLE */
-
 function shuffle(a){
+
 for(let i=a.length-1;i>0;i--){
+
 let j=Math.floor(Math.random()*(i+1));
+
 [a[i],a[j]]=[a[j],a[i]];
-}
+
 }
 
-/* GET QUESTION */
+}
 
 function getQuestion(){
 
-if(questionPool.length===0){
-buildPool();
-}
+if(questionPool.length===0) buildPool();
 
 return questionPool.pop();
 
@@ -343,15 +361,9 @@ if(paused)return;
 
 let q=getQuestion();
 
-if(!q)return;
-
 let area=document.getElementById("questionArea");
 
-area.innerHTML="";
-
-let div=document.createElement("div");
-
-div.innerHTML="<div class='question'>"+q.question+"</div>";
+area.innerHTML="<div class='question'>"+q.question+"</div>";
 
 shuffle(q.options);
 
@@ -364,8 +376,6 @@ btn.className="option";
 btn.innerText=opt;
 
 btn.onclick=()=>{
-
-div.querySelectorAll("button").forEach(b=>b.disabled=true);
 
 if(opt===q.answer){
 
@@ -382,15 +392,13 @@ streak=0;
 
 updateHUD();
 
-setTimeout(renderQuestion,800);
+setTimeout(renderQuestion,1000);
 
 };
 
-div.appendChild(btn);
+area.appendChild(btn);
 
 });
-
-area.appendChild(div);
 
 }
 
@@ -399,7 +407,9 @@ area.appendChild(div);
 function updateHUD(){
 
 document.getElementById("score").innerText=score;
+
 document.getElementById("streak").innerText=streak;
+
 document.getElementById("progressFill").style.width=(streak/TARGET*100)+"%";
 
 }
@@ -425,7 +435,6 @@ function resetGame(){
 score=0;
 streak=0;
 timer=0;
-
 updateHUD();
 
 }
