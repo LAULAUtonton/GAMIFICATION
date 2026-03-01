@@ -6,7 +6,7 @@
 
 <title>THE PIT – Reading Station</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
 
 <style>
 
@@ -14,148 +14,222 @@ body{
 margin:0;
 font-family:'Orbitron',sans-serif;
 background:radial-gradient(circle,#bbf7d0 0%,#16a34a 60%,#052e16 100%);
+color:#111827;
 }
 
-.container{
-max-width:1000px;
-margin:30px auto;
-background:white;
-padding:25px;
-border-radius:20px;
-box-shadow:0 25px 60px rgba(0,0,0,.6);
+/* MAIN LAYOUT */
+
+.app{
+
+display:grid;
+grid-template-columns: 1fr 280px;
+gap:20px;
+
+max-width:1300px;
+margin:20px auto;
+padding:20px;
+
 }
+
+/* READING AREA */
+
+.readArea{
+
+background:white;
+border-radius:20px;
+padding:30px;
+box-shadow:0 25px 60px rgba(0,0,0,.5);
+
+}
+
+/* TITLE */
 
 .title{
-text-align:center;
-font-size:30px;
+
+font-size:28px;
+margin-bottom:10px;
 color:#14532d;
+
 }
 
-.hud{
-display:flex;
-justify-content:space-between;
-flex-wrap:wrap;
-gap:10px;
-margin:15px 0;
+/* TEXT */
+
+.textBox{
+
+background:#f0fdf4;
+padding:25px;
+border-radius:15px;
+border:2px solid #22c55e;
+line-height:1.8;
+font-size:17px;
+margin-bottom:20px;
+
+max-height:420px;
+overflow-y:auto;
+
 }
+
+/* QUESTION */
+
+.question{
+
+font-size:18px;
+font-weight:900;
+margin-bottom:15px;
+
+}
+
+.option{
+
+display:block;
+width:100%;
+padding:12px;
+margin:8px 0;
+border-radius:10px;
+border:2px solid #22c55e;
+background:white;
+cursor:pointer;
+font-weight:bold;
+text-align:left;
+
+}
+
+.option.correct{
+
+background:#22c55e;
+color:white;
+border:none;
+
+}
+
+.option.wrong{
+
+background:#ef4444;
+color:white;
+border:none;
+
+}
+
+/* SIDE CONSOLE */
+
+.console{
+
+background:white;
+border-radius:20px;
+padding:20px;
+box-shadow:0 25px 60px rgba(0,0,0,.5);
+
+position:sticky;
+top:20px;
+height:fit-content;
+
+}
+
+/* HUD BOX */
 
 .box{
+
 background:#dcfce7;
 border:2px solid #22c55e;
 padding:10px;
-border-radius:12px;
+border-radius:10px;
+margin-bottom:10px;
 font-weight:bold;
+
 }
 
+/* PROGRESS BAR */
+
 .progress{
-height:20px;
+
+height:18px;
 background:#e5e7eb;
 border-radius:10px;
 overflow:hidden;
 margin-bottom:15px;
+
 }
 
 .progressFill{
+
 height:100%;
 width:0%;
-background:linear-gradient(90deg,#22c55e,#4ade80);
-}
-
-.textBox{
-background:#f0fdf4;
-padding:20px;
-border-radius:15px;
-border:2px solid #22c55e;
-margin-bottom:15px;
-max-height:300px;
-overflow:auto;
-}
-
-.questionCard{
-background:#f0fdf4;
-padding:20px;
-border-radius:15px;
-border:2px solid #22c55e;
-}
-
-.option{
-display:block;
-width:100%;
-margin:8px 0;
-padding:10px;
-border-radius:10px;
-border:2px solid #22c55e;
-cursor:pointer;
-background:white;
-text-align:left;
-font-weight:bold;
-}
-
-.option.correct{
 background:#22c55e;
-color:white;
-border:none;
+
 }
 
-.option.wrong{
-background:#ef4444;
-color:white;
-border:none;
-}
-
-.controls{
-margin:10px 0;
-text-align:center;
-}
+/* BUTTONS */
 
 button{
-padding:10px 15px;
-margin:4px;
-border-radius:10px;
+
+width:100%;
+padding:10px;
+margin:4px 0;
 border:none;
+border-radius:10px;
 background:#22c55e;
 color:white;
 font-weight:bold;
 cursor:pointer;
+
+}
+
+button:hover{
+
+background:#15803d;
+
 }
 
 button.secondary{
+
 background:#166534;
+
 }
 
-button.difficulty{
+button.level{
+
 background:#14532d;
+
 }
 
 button.active{
+
 background:#f59e0b;
+
 }
 
 </style>
 </head>
 <body>
 
-<div class="container">
+<div class="app">
 
-<div class="title">READING STATION</div>
+<!-- READING AREA -->
 
-<div class="hud">
+<div class="readArea">
+
+<div class="title">Reading Station</div>
+
+<div id="textBox" class="textBox"></div>
+
+<div id="questionArea"></div>
+
+</div>
+
+
+<!-- SIDE CONSOLE -->
+
+<div class="console">
 
 <div class="box">Score: <span id="score">0</span></div>
 
 <div class="box">Streak: <span id="streak">0</span> / 25</div>
 
-<div class="box">Level: <span id="levelLabel">Easy</span></div>
-
-</div>
+<div class="box">Time: <span id="timer">00:00</span></div>
 
 <div class="progress">
-
 <div class="progressFill" id="progressFill"></div>
-
 </div>
-
-<div class="controls">
 
 <button onclick="start()">START</button>
 
@@ -167,25 +241,20 @@ background:#f59e0b;
 
 <button onclick="goMenu()" class="secondary">MAIN MENU</button>
 
-</div>
+<hr>
 
-<div class="controls">
+<button onclick="setLevel('easy',this)" class="level active">EASY</button>
 
-<button class="difficulty active" onclick="setLevel('easy',this)">EASY</button>
+<button onclick="setLevel('medium',this)" class="level">MEDIUM</button>
 
-<button class="difficulty" onclick="setLevel('medium',this)">MEDIUM</button>
+<button onclick="setLevel('hard',this)" class="level">HARD</button>
 
-<button class="difficulty" onclick="setLevel('hard',this)">HARD</button>
-
-<button class="difficulty" onclick="setLevel('support',this)">SUPPORT</button>
+<button onclick="setLevel('support',this)" class="level">SUPPORT</button>
 
 </div>
 
-<div class="textBox" id="textBox"></div>
-
-<div id="questionArea"></div>
-
 </div>
+
 
 <script>
 
@@ -197,42 +266,34 @@ const TARGET=25;
 
 let score=0;
 let streak=0;
+let timer=0;
+let timerInterval;
 let paused=false;
 let level="easy";
 let currentText;
-let pool=[];
+let questionPool=[];
 
-/* TEXT BANK WITH LEVELS */
+/* TEXT BANK */
 
 const TEXTS={
 
-easy:[
-{
+easy:[{
 id:"t1",
-content:`Volunteering helps people and communities. Many volunteers help animals, clean parks, or support people. Volunteering helps volunteers feel happier and develop skills.`
-}
-],
+content:`Climate change is affecting the entire planet. Scientists have observed rising temperatures over many years. This increase is causing glaciers to melt and sea levels to rise.
 
-medium:[
-{
+Many countries are taking action by using renewable energy such as solar and wind power. These energy sources do not produce harmful gases.
+
+Individuals can also help by recycling, saving electricity, and using public transport.`
+}],
+
+medium:[{
 id:"t2",
-content:`Climate change affects weather patterns. Many countries use renewable energy to reduce pollution. Individuals can recycle and save energy to help protect the environment.`
-}
-],
+content:`Volunteering is an activity where people help others without payment. Many volunteers work in hospitals, schools, and animal shelters.
 
-hard:[
-{
-id:"t3",
-content:`Climate change is accelerating due to human activity. Governments implement policies to reduce emissions. Experts emphasize collective responsibility to mitigate environmental degradation.`
-}
-],
+Volunteering helps communities become stronger. It also helps volunteers learn new skills and meet new people.
 
-support:[
-{
-id:"t4",
-content:`Helping others is important. People can help animals, friends, and family. Helping makes people happy.`
-}
-]
+Research shows volunteering improves mental health and confidence.`
+}]
 
 };
 
@@ -240,15 +301,50 @@ content:`Helping others is important. People can help animals, friends, and fami
 
 const QUESTIONS=[
 
-{ textId:"t1", question:"What does volunteering help?", options:["Communities","Cars","Roads","Computers"], answer:"Communities" },
+{
+textId:"t1",
+question:"What is happening to glaciers?",
+options:["They are melting","They are growing","They are moving","They disappear"],
+answer:"They are melting"
+},
 
-{ textId:"t2", question:"What reduces pollution?", options:["Renewable energy","Plastic","Cars","Smoke"], answer:"Renewable energy" },
+{
+textId:"t1",
+question:"What energy reduces pollution?",
+options:["Solar energy","Coal","Gas","Oil"],
+answer:"Solar energy"
+},
 
-{ textId:"t3", question:"What accelerates climate change?", options:["Human activity","Animals","Rain","Wind"], answer:"Human activity" },
-
-{ textId:"t4", question:"Helping makes people feel?", options:["Happy","Sad","Angry","Tired"], answer:"Happy" }
+{
+textId:"t2",
+question:"Where do volunteers work?",
+options:["Hospitals","Airports","Banks","Factories"],
+answer:"Hospitals"
+}
 
 ];
+
+/* TIMER */
+
+function startTimer(){
+
+clearInterval(timerInterval);
+
+timerInterval=setInterval(()=>{
+
+if(paused)return;
+
+timer++;
+
+let m=Math.floor(timer/60).toString().padStart(2,"0");
+
+let s=(timer%60).toString().padStart(2,"0");
+
+document.getElementById("timer").innerText=m+":"+s;
+
+},1000);
+
+}
 
 /* FUNCTIONS */
 
@@ -256,9 +352,7 @@ function setLevel(l,btn){
 
 level=l;
 
-document.getElementById("levelLabel").innerText=l.toUpperCase();
-
-document.querySelectorAll(".difficulty").forEach(b=>b.classList.remove("active"));
+document.querySelectorAll(".level").forEach(b=>b.classList.remove("active"));
 
 btn.classList.add("active");
 
@@ -274,9 +368,11 @@ currentText=texts[Math.floor(Math.random()*texts.length)];
 
 document.getElementById("textBox").innerText=currentText.content;
 
-pool=QUESTIONS.filter(q=>q.textId===currentText.id);
+questionPool=QUESTIONS.filter(q=>q.textId===currentText.id);
 
-shuffle(pool);
+shuffle(questionPool);
+
+renderQuestion();
 
 }
 
@@ -292,45 +388,27 @@ let j=Math.floor(Math.random()*(i+1));
 
 }
 
-function getQuestion(){
-
-if(pool.length===0){
-
-pool=QUESTIONS.filter(q=>q.textId===currentText.id);
-
-shuffle(pool);
-
-}
-
-return pool.pop();
-
-}
-
-function updateHUD(){
-
-document.getElementById("score").innerText=score;
-
-document.getElementById("streak").innerText=streak;
-
-document.getElementById("progressFill").style.width=(streak/TARGET*100)+"%";
-
-}
-
 function renderQuestion(){
 
 if(paused)return;
 
-let q=getQuestion();
+let q=questionPool.pop();
+
+if(!q){
+
+newText();
+
+return;
+
+}
 
 let area=document.getElementById("questionArea");
 
 area.innerHTML="";
 
-let card=document.createElement("div");
+let div=document.createElement("div");
 
-card.className="questionCard";
-
-card.innerHTML="<b>"+q.question+"</b>";
+div.innerHTML="<div class='question'>"+q.question+"</div>";
 
 q.options.forEach(opt=>{
 
@@ -341,8 +419,6 @@ btn.className="option";
 btn.innerText=opt;
 
 btn.onclick=()=>{
-
-card.querySelectorAll("button").forEach(b=>b.disabled=true);
 
 if(opt===q.answer){
 
@@ -362,27 +438,33 @@ streak=0;
 
 updateHUD();
 
-if(streak>=TARGET){
-
-alert("MASTER ACHIEVED");
-
-}
-
-setTimeout(renderQuestion,700);
+setTimeout(renderQuestion,800);
 
 };
 
-card.appendChild(btn);
+div.appendChild(btn);
 
 });
 
-area.appendChild(card);
+area.appendChild(div);
+
+}
+
+function updateHUD(){
+
+document.getElementById("score").innerText=score;
+
+document.getElementById("streak").innerText=streak;
+
+document.getElementById("progressFill").style.width=(streak/TARGET*100)+"%";
 
 }
 
 function start(){
 
 paused=false;
+
+startTimer();
 
 renderQuestion();
 
@@ -399,6 +481,8 @@ function resetGame(){
 score=0;
 
 streak=0;
+
+timer=0;
 
 updateHUD();
 
