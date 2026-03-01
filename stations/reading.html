@@ -4,272 +4,236 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>THE PIT – Reading Station</title>
+<title>THE PIT — Reading Station</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
 
 <style>
+
+:root{
+--bg1:#052e16;
+--bg2:#166534;
+--bg3:#bbf7d0;
+
+--panel:#ffffff;
+--accent:#22c55e;
+--accent2:#4ade80;
+
+--easy:#2563eb;
+--hard:#dc2626;
+
+--btn1:#2563eb;
+--btn2:#16a34a;
+--btn3:#ea580c;
+--btn4:#9333ea;
+
+--shadow:0 25px 60px rgba(0,0,0,.6);
+}
 
 body{
 margin:0;
 font-family:'Orbitron',sans-serif;
-background:radial-gradient(circle,#bbf7d0 0%,#16a34a 60%,#052e16 100%);
+background:radial-gradient(circle,var(--bg3),var(--bg2),var(--bg1));
+color:#111;
 }
-
-/* LAYOUT */
 
 .app{
-display:grid;
-grid-template-columns: 1fr 300px;
-gap:20px;
-max-width:1400px;
+width:95%;
+max-width:1300px;
 margin:20px auto;
+background:var(--panel);
+border-radius:20px;
+box-shadow:var(--shadow);
+display:grid;
+grid-template-columns: 1fr 340px;
+gap:20px;
 padding:20px;
 }
 
-/* READING AREA */
-
-.readArea{
-background:white;
-border-radius:20px;
-padding:40px;
-box-shadow:0 25px 60px rgba(0,0,0,.5);
-}
-
-/* TITLE */
-
-.title{
-font-size:36px;
-margin-bottom:20px;
-color:#14532d;
-}
-
-/* VERY LARGE TEXT */
+/* LEFT */
 
 .textBox{
+font-size:18px;
+line-height:1.7;
 background:#f0fdf4;
-padding:30px;
-border-radius:15px;
-border:3px solid #22c55e;
-
-font-size:24px;
-line-height:2;
-
-margin-bottom:30px;
-
-max-height:500px;
-overflow-y:auto;
+padding:24px;
+border-radius:16px;
+border:3px solid var(--accent);
+height:520px;
+overflow:auto;
 }
 
-/* QUESTION */
-
-.question{
-font-size:26px;
-font-weight:900;
-margin-bottom:20px;
-}
-
-/* LARGE ANSWERS */
-
-.option{
-display:block;
-width:100%;
-padding:18px;
-margin:12px 0;
-border-radius:12px;
-border:3px solid #22c55e;
-background:white;
-cursor:pointer;
-font-size:22px;
-font-weight:bold;
-text-align:left;
-}
-
-.option.correct{
-background:#16a34a;
-color:white;
-border:none;
-}
-
-.option.wrong{
-background:#dc2626;
-color:white;
-border:none;
-}
-
-/* CONSOLE */
+/* RIGHT CONSOLE */
 
 .console{
-background:white;
-border-radius:20px;
-padding:20px;
-box-shadow:0 25px 60px rgba(0,0,0,.5);
-position:sticky;
-top:20px;
-height:fit-content;
+background:#ecfdf5;
+border-radius:16px;
+padding:16px;
+border:3px solid var(--accent);
+display:flex;
+flex-direction:column;
+gap:12px;
 }
 
-/* HUD */
+/* STATS */
 
-.box{
-background:#dcfce7;
-border:2px solid #22c55e;
-padding:14px;
-border-radius:10px;
-margin-bottom:12px;
-font-size:18px;
-font-weight:bold;
-}
-
-/* PROGRESS */
-
-.progress{
-height:22px;
-background:#e5e7eb;
-border-radius:10px;
-overflow:hidden;
-margin-bottom:20px;
-}
-
-.progressFill{
-height:100%;
-width:0%;
-background:#22c55e;
+.stat{
+font-weight:900;
+font-size:16px;
 }
 
 /* BUTTONS */
 
 button{
-width:100%;
-padding:14px;
-margin:6px 0;
+font-family:inherit;
+font-weight:900;
 border:none;
-border-radius:10px;
-font-size:16px;
-font-weight:bold;
-color:white;
+padding:12px;
+border-radius:12px;
 cursor:pointer;
+color:white;
 }
 
-.startBtn{background:#16a34a;}
-.pauseBtn{background:#f59e0b;}
-.resetBtn{background:#dc2626;}
-.newBtn{background:#2563eb;}
-.menuBtn{background:#374151;}
+.easyBtn{background:var(--easy);}
+.hardBtn{background:var(--hard);}
+.startBtn{background:var(--btn2);}
+.pauseBtn{background:var(--btn3);}
+.resetBtn{background:var(--btn4);}
+.menuBtn{background:#111;}
 
-.easyBtn{background:#22c55e;}
-.hardBtn{background:#ef4444;}
+button:hover{filter:brightness(1.15);}
 
-.activeLevel{
-outline:4px solid black;
+/* QUESTION */
+
+.question{
+margin-top:10px;
+font-size:18px;
+font-weight:900;
 }
 
-button:hover{
-filter:brightness(1.2);
+.option{
+display:block;
+width:100%;
+margin-top:10px;
+padding:14px;
+background:white;
+border:2px solid var(--accent);
+border-radius:10px;
+cursor:pointer;
+font-weight:800;
+text-align:left;
+}
+
+.option.correct{
+background:#22c55e;
+color:white;
+}
+
+.option.wrong{
+background:#dc2626;
+color:white;
+}
+
+.progressBar{
+height:20px;
+background:#ddd;
+border-radius:10px;
+overflow:hidden;
+}
+
+.progressFill{
+height:100%;
+background:linear-gradient(90deg,#22c55e,#4ade80);
+width:0%;
 }
 
 </style>
 </head>
+
 <body>
 
 <div class="app">
 
-<div class="readArea">
+<div>
 
-<div class="title">Reading Station</div>
+<div class="textBox" id="textBox">
+Select level and press START
+</div>
 
-<div id="textBox" class="textBox"></div>
+<div class="question" id="question"></div>
 
-<div id="questionArea"></div>
+<div id="options"></div>
 
 </div>
 
 <div class="console">
 
-<div class="box">Score: <span id="score">0</span></div>
+<div class="stat">Level:</div>
 
-<div class="box">Streak: <span id="streak">0</span> / 25</div>
+<button class="easyBtn" onclick="setLevel('easy')">EASY</button>
+<button class="hardBtn" onclick="setLevel('hard')">HARD</button>
 
-<div class="box">Time: <span id="timer">00:00</span></div>
+<button class="startBtn" onclick="startGame()">START</button>
 
-<div class="progress">
-<div class="progressFill" id="progressFill"></div>
-</div>
-
-<button class="startBtn" onclick="start()">START</button>
-
-<button class="pauseBtn" onclick="pause()">PAUSE</button>
+<button class="pauseBtn" onclick="pauseGame()">PAUSE</button>
 
 <button class="resetBtn" onclick="resetGame()">RESET</button>
 
-<button class="newBtn" onclick="newText()">NEW TEXT</button>
-
-<button class="menuBtn" onclick="goMenu()">MAIN MENU</button>
+<button class="menuBtn" onclick="location.href='../index.html'">
+MAIN MENU
+</button>
 
 <hr>
 
-<button class="easyBtn activeLevel" onclick="setLevel('easy',this)">EASY</button>
+<div class="stat">Score: <span id="score">0</span></div>
 
-<button class="hardBtn" onclick="setLevel('hard',this)">HARD</button>
+<div class="stat">Streak: <span id="streak">0</span> / 25</div>
+
+<div class="progressBar">
+<div class="progressFill" id="progressFill"></div>
+</div>
+
+<div class="stat">Timer: <span id="timer">00:00</span></div>
 
 </div>
 
 </div>
+
+<script src="reading-bank.js"></script>
 
 <script>
 
-/* CONFIG */
-
-const TARGET=25;
-
-let score=0;
-let streak=0;
-let timer=0;
-let timerInterval;
-let paused=false;
 let level="easy";
-let currentText;
+let currentText=null;
 let questionPool=[];
+let streak=0;
+let score=0;
+let timer=0;
+let timerInterval=null;
+let running=false;
 
-/* TEXT BANK */
+/* LEVEL */
 
-const TEXTS={
-
-easy:[
-{
-id:"e1",
-content:`Climate change is affecting the planet. Scientists observe rising temperatures and melting ice. Many countries are using renewable energy like solar power. Individuals can help by recycling and saving electricity.`
-}
-],
-
-hard:[
-{
-id:"h1",
-content:`Climate change represents a significant global challenge. Rising greenhouse gas emissions contribute to increasing temperatures, melting glaciers, and extreme weather events. Governments implement environmental policies, and individuals must adopt sustainable behaviors to reduce environmental damage and protect ecosystems.`
-}
-]
-
-};
-
-/* QUESTIONS */
-
-const QUESTIONS=[
-
-{
-textId:"e1",
-question:"What are scientists observing?",
-options:["Rising temperatures","More schools","More cars","More roads"],
-answer:"Rising temperatures"
-},
-
-{
-textId:"h1",
-question:"What contributes to climate change?",
-options:["Greenhouse gases","Books","Cars only","Water"],
-answer:"Greenhouse gases"
+function setLevel(l){
+level=l;
 }
 
-];
+/* START */
+
+function startGame(){
+
+running=true;
+
+pickText();
+
+buildPool();
+
+showText();
+
+nextQuestion();
+
+startTimer();
+}
 
 /* TIMER */
 
@@ -277,178 +241,162 @@ function startTimer(){
 
 clearInterval(timerInterval);
 
+timer=0;
+
 timerInterval=setInterval(()=>{
 
-if(paused)return;
+if(!running) return;
 
 timer++;
 
-let m=Math.floor(timer/60).toString().padStart(2,"0");
-let s=(timer%60).toString().padStart(2,"0");
+let m=Math.floor(timer/60);
+let s=timer%60;
 
-document.getElementById("timer").innerText=m+":"+s;
+document.getElementById("timer").textContent=
+String(m).padStart(2,"0")+":"+
+String(s).padStart(2,"0");
 
 },1000);
-
 }
 
-/* LEVEL */
+/* PICK TEXT */
 
-function setLevel(l,btn){
+function pickText(){
 
-level=l;
+const filtered=TEXT_BANK.filter(t=>t.level===level);
 
-document.querySelectorAll(".easyBtn,.hardBtn")
-.forEach(b=>b.classList.remove("activeLevel"));
-
-btn.classList.add("activeLevel");
-
-newText();
-
+currentText=filtered[Math.floor(Math.random()*filtered.length)];
 }
 
-/* NEW TEXT */
+/* SHOW TEXT */
 
-function newText(){
+function showText(){
 
-const texts=TEXTS[level];
-
-currentText=texts[Math.floor(Math.random()*texts.length)];
-
-document.getElementById("textBox").innerText=currentText.content;
-
-buildPool();
-
-renderQuestion();
-
+document.getElementById("textBox").innerHTML=
+"<b>"+currentText.title+"</b><br><br>"+currentText.content;
 }
 
-/* POOL */
+/* BUILD QUESTION POOL */
 
 function buildPool(){
 
-questionPool=QUESTIONS.filter(q=>q.textId===currentText.id);
+questionPool=READING_BANK
+.filter(q=>q.textId===currentText.id);
 
 shuffle(questionPool);
-
 }
+
+/* NEXT QUESTION */
+
+function nextQuestion(){
+
+if(questionPool.length===0){
+
+pickText();
+buildPool();
+showText();
+}
+
+const q=questionPool.pop();
+
+document.getElementById("question").textContent=q.question;
+
+const optionsDiv=document.getElementById("options");
+
+optionsDiv.innerHTML="";
+
+q.options.forEach(opt=>{
+
+const btn=document.createElement("div");
+
+btn.className="option";
+
+btn.textContent=opt;
+
+btn.onclick=()=>answer(btn,opt,q.answer);
+
+optionsDiv.appendChild(btn);
+
+});
+}
+
+/* ANSWER */
+
+function answer(btn,opt,correct){
+
+document.querySelectorAll(".option").forEach(b=>b.onclick=null);
+
+if(opt===correct){
+
+btn.classList.add("correct");
+
+streak++;
+score+=10;
+
+}else{
+
+btn.classList.add("wrong");
+
+streak=0;
+}
+
+updateStats();
+
+setTimeout(nextQuestion,600);
+}
+
+/* UPDATE */
+
+function updateStats(){
+
+document.getElementById("score").textContent=score;
+
+document.getElementById("streak").textContent=streak;
+
+document.getElementById("progressFill").style.width=
+(streak/25*100)+"%";
+
+if(streak===25){
+
+alert("Reading Master!");
+streak=0;
+}
+}
+
+/* PAUSE */
+
+function pauseGame(){
+running=!running;
+}
+
+/* RESET */
+
+function resetGame(){
+
+running=false;
+
+streak=0;
+score=0;
+
+updateStats();
+
+clearInterval(timerInterval);
+
+document.getElementById("timer").textContent="00:00";
+}
+
+/* SHUFFLE */
 
 function shuffle(a){
 
 for(let i=a.length-1;i>0;i--){
 
-let j=Math.floor(Math.random()*(i+1));
+const j=Math.floor(Math.random()*(i+1));
 
 [a[i],a[j]]=[a[j],a[i]];
-
 }
 
 }
-
-function getQuestion(){
-
-if(questionPool.length===0) buildPool();
-
-return questionPool.pop();
-
-}
-
-/* RENDER */
-
-function renderQuestion(){
-
-if(paused)return;
-
-let q=getQuestion();
-
-let area=document.getElementById("questionArea");
-
-area.innerHTML="<div class='question'>"+q.question+"</div>";
-
-shuffle(q.options);
-
-q.options.forEach(opt=>{
-
-let btn=document.createElement("button");
-
-btn.className="option";
-
-btn.innerText=opt;
-
-btn.onclick=()=>{
-
-if(opt===q.answer){
-
-btn.classList.add("correct");
-score+=10;
-streak++;
-
-}else{
-
-btn.classList.add("wrong");
-streak=0;
-
-}
-
-updateHUD();
-
-setTimeout(renderQuestion,1000);
-
-};
-
-area.appendChild(btn);
-
-});
-
-}
-
-/* HUD */
-
-function updateHUD(){
-
-document.getElementById("score").innerText=score;
-
-document.getElementById("streak").innerText=streak;
-
-document.getElementById("progressFill").style.width=(streak/TARGET*100)+"%";
-
-}
-
-/* CONTROLS */
-
-function start(){
-
-paused=false;
-startTimer();
-renderQuestion();
-
-}
-
-function pause(){
-
-paused=!paused;
-
-}
-
-function resetGame(){
-
-score=0;
-streak=0;
-timer=0;
-updateHUD();
-
-}
-
-function goMenu(){
-
-window.location.href="../index.html";
-
-}
-
-/* INIT */
-
-newText();
-updateHUD();
 
 </script>
 
