@@ -6,37 +6,36 @@
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"/>
   <meta http-equiv="Pragma" content="no-cache"/>
   <meta http-equiv="Expires" content="0"/>
-  <title>THE PIT — Cyan Blue Arcade</title>
+  <title>THE PIT — Arcade</title>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
 
   <style>
     :root{
-      /* Blue arcade background */
-      --bg0:#03102a;
-      --bg1:#062b63;
+      --bg0:#020a1f;
+      --bg1:#061f4a;
       --bg2:#0b4aa5;
-      --bg3:#38bdf8;
 
-      /* UI */
+      --ink:#eef6ff;
+      --muted:#c9ddff;
+
       --panel: rgba(255,255,255,.10);
       --line: rgba(255,255,255,.18);
-      --ink:#eaf2ff;
-      --muted:#b8cff8;
 
-      /* Feedback */
       --ok:#34d399;
       --bad:#fb7185;
       --warn:#fbbf24;
 
-      /* Arcade accents (distinct!) */
+      /* Accents per game */
       --cyan:#22d3ee;
-      --pac:#fbbf24;      /* yellow */
-      --inv:#34d399;      /* green */
-      --match:#a78bfa;    /* purple */
+      --pink:#fb7185;
+      --purple:#a78bfa;
+      --lime:#34d399;
+      --yellow:#fbbf24;
 
-      --shadow: 0 24px 95px rgba(0,0,0,.58);
+      --shadow: 0 24px 95px rgba(0,0,0,.60);
       --r: 28px;
     }
+
     *{box-sizing:border-box}
     body{
       margin:0;
@@ -48,13 +47,13 @@
       align-items:center;
       justify-content:center;
       background:
-        radial-gradient(1300px 820px at 15% -10%, rgba(34,211,238,.35), transparent 60%),
-        radial-gradient(1200px 760px at 90% 5%, rgba(56,189,248,.28), transparent 65%),
-        radial-gradient(900px 600px at 50% 110%, rgba(29,78,216,.22), transparent 60%),
-        linear-gradient(180deg, var(--bg0), var(--bg1) 45%, var(--bg0));
+        radial-gradient(1400px 900px at 15% -12%, rgba(34,211,238,.30), transparent 60%),
+        radial-gradient(1200px 760px at 88% 8%, rgba(167,139,250,.22), transparent 62%),
+        radial-gradient(900px 650px at 50% 110%, rgba(52,211,153,.14), transparent 60%),
+        linear-gradient(180deg, var(--bg0), var(--bg1) 48%, var(--bg0));
     }
 
-    /* BIG container */
+    /* Bigger container */
     .app{
       width:min(1820px, calc(100vw - 28px));
       background: linear-gradient(180deg, rgba(255,255,255,.12), rgba(255,255,255,.04));
@@ -65,156 +64,159 @@
       position:relative;
     }
 
+    /* Header */
     .top{
-      padding:20px 22px 16px;
-      display:flex;
-      align-items:flex-start;
-      justify-content:space-between;
-      gap:12px;
+      padding:22px 22px 18px;
       background: rgba(0,0,0,.18);
       border-bottom:1px solid var(--line);
       backdrop-filter: blur(8px);
+      position:relative;
+      overflow:hidden;
     }
+    .top::before{
+      content:"";
+      position:absolute; inset:-80px;
+      background:
+        radial-gradient(360px 200px at 12% 30%, rgba(34,211,238,.20), transparent 60%),
+        radial-gradient(360px 200px at 88% 45%, rgba(167,139,250,.16), transparent 60%),
+        radial-gradient(460px 240px at 50% 120%, rgba(56,189,248,.10), transparent 65%);
+      pointer-events:none;
+    }
+    .titleBlock{position:relative}
     .titleBlock h1{
       margin:0;
-      font-size:clamp(26px, 3.2vw, 44px); /* BIGGER */
-      letter-spacing:1.4px;
-      color: var(--cyan); /* CYAN */
-      text-shadow: 0 0 22px rgba(34,211,238,.25);
+      font-size:clamp(30px, 3.5vw, 52px);
+      letter-spacing:1.8px;
+      color: var(--cyan);
+      text-shadow: 0 0 26px rgba(34,211,238,.35);
     }
     .titleBlock .sub{
-      margin:8px 0 0;
+      margin:10px 0 0;
       color:var(--muted);
-      font-size:15px; /* bigger */
+      font-size:18px; /* BIG */
       line-height:1.35;
       font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
-      max-width:980px;
-    }
-    .pillRow{display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end}
-    .pill{
-      background: rgba(255,255,255,.10);
-      border:1px solid rgba(255,255,255,.18);
-      border-radius:999px;
-      padding:10px 12px;
-      font-weight:1000;
-      font-size:13px;
-      font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
-      white-space:nowrap;
+      max-width:1100px;
     }
 
     .screens{padding:18px 18px 20px}
     .screen{display:none}
     .screen.active{display:block}
 
-    /* ARCADE BANNER */
+    /* Arcade banner */
     .arcadeBanner{
       display:flex;
       align-items:center;
       justify-content:space-between;
-      gap:12px;
-      padding:16px 16px 14px;
+      gap:14px;
+      padding:18px 18px 16px;
       border:1px solid rgba(255,255,255,.18);
-      background: linear-gradient(90deg, rgba(34,211,238,.18), rgba(29,78,216,.14));
+      background: linear-gradient(90deg, rgba(34,211,238,.20), rgba(29,78,216,.14));
       border-radius:22px;
       margin-bottom:16px;
-    }
-    .arcadeBanner .big{
-      font-size:18px;
-      letter-spacing:1.2px;
-      margin:0;
-      color: rgba(234,242,255,.98);
-    }
-    .arcadeBanner .small{
-      margin:6px 0 0;
-      color:var(--muted);
-      font-size:13px;
-      font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
-    }
-
-    /* ARCADE CARDS */
-    .grid{
-      display:grid;
-      grid-template-columns:repeat(auto-fit,minmax(360px,1fr));
-      gap:16px;
-    }
-    .card{
-      background: rgba(255,255,255,.10);
-      border:1px solid rgba(255,255,255,.18);
-      border-radius:24px;
-      padding:18px;
-      display:flex;
-      flex-direction:column;
-      gap:12px;
-      min-height:240px;
       position:relative;
       overflow:hidden;
     }
+    .arcadeBanner::after{
+      content:"";
+      position:absolute; inset:-120px;
+      background:
+        radial-gradient(400px 260px at 30% 35%, rgba(34,211,238,.16), transparent 65%),
+        radial-gradient(380px 240px at 70% 55%, rgba(251,113,133,.10), transparent 65%);
+      pointer-events:none;
+    }
+    .arcadeBanner .left{position:relative}
+    .arcadeBanner .big{
+      font-size:22px;
+      letter-spacing:1.6px;
+      margin:0;
+      color: rgba(238,246,255,.98);
+      text-shadow: 0 0 18px rgba(34,211,238,.20);
+    }
+    .arcadeBanner .small{
+      margin:8px 0 0;
+      color:var(--muted);
+      font-size:16px; /* BIG */
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      line-height:1.3;
+    }
+
+    /* Buttons */
+    .btn{
+      border:1px solid rgba(255,255,255,.20);
+      background: rgba(255,255,255,.10);
+      color:var(--ink);
+      padding:14px 16px;
+      border-radius:18px;
+      font-weight:1000;
+      cursor:pointer;
+      user-select:none;
+      font-size:15px; /* bigger */
+      transition: transform .08s ease, filter .12s ease, box-shadow .12s ease;
+    }
+    .btn:hover{filter:brightness(1.08)}
+    .btn:active{transform:translateY(1px)}
+    .btn.primary{
+      background: linear-gradient(180deg, rgba(34,211,238,.28), rgba(29,78,216,.18));
+      border-color: rgba(34,211,238,.60);
+      box-shadow: 0 0 0 6px rgba(34,211,238,.08);
+    }
+    .btn.ghost{
+      background: rgba(0,0,0,.18);
+    }
+
+    /* Arcade cards */
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(380px,1fr));
+      gap:18px;
+    }
+    .card{
+      border-radius:26px;
+      padding:18px;
+      min-height:260px;
+      border:1px solid rgba(255,255,255,.18);
+      background: rgba(255,255,255,.10);
+      position:relative;
+      overflow:hidden;
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+    }
     .card::before{
       content:"";
-      position:absolute;
-      inset:-60px;
+      position:absolute; inset:-90px;
       background:
-        radial-gradient(320px 180px at 15% 18%, rgba(34,211,238,.20), transparent 62%),
-        radial-gradient(320px 180px at 85% 28%, rgba(29,78,216,.18), transparent 62%),
-        radial-gradient(380px 240px at 50% 100%, rgba(147,197,253,.12), transparent 65%);
+        radial-gradient(420px 240px at 20% 25%, rgba(34,211,238,.18), transparent 60%),
+        radial-gradient(420px 240px at 85% 35%, rgba(167,139,250,.15), transparent 60%),
+        radial-gradient(520px 300px at 50% 115%, rgba(147,197,253,.10), transparent 65%);
       pointer-events:none;
     }
     .card > *{position:relative}
 
-    .gameTag{
-      display:inline-flex;
-      align-items:center;
-      gap:10px;
+    .tagline{
+      display:flex; align-items:center; gap:10px;
       font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
-      font-weight:900;
-      font-size:13px;
-      color: rgba(234,242,255,.95);
+      font-size:14px;
+      font-weight:1000;
       opacity:.95;
     }
-    .dot{
-      width:12px;height:12px;border-radius:999px;display:inline-block;
-      box-shadow: 0 0 0 4px rgba(255,255,255,.06);
-    }
-
-    .card h3{margin:0;font-size:20px;letter-spacing:.5px}
+    .dot{width:14px;height:14px;border-radius:999px; box-shadow: 0 0 0 6px rgba(255,255,255,.05);}
+    .card h3{margin:0;font-size:22px;letter-spacing:.6px}
     .card p{
       margin:0;
       color:var(--muted);
-      font-size:14px;
+      font-size:16px; /* BIG instructions */
       line-height:1.45;
       font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
     }
+    .row{display:flex; gap:12px; flex-wrap:wrap; margin-top:auto}
 
-    .row{display:flex;gap:10px;flex-wrap:wrap;margin-top:auto}
-
-    .btn{
-      border:1px solid rgba(255,255,255,.18);
-      background: rgba(255,255,255,.10);
-      color:var(--ink);
-      padding:12px 14px;
-      border-radius:16px;
-      font-weight:1000;
-      cursor:pointer;
-      user-select:none;
-      font-size:13px;
-      transition: transform .08s ease, filter .12s ease;
-    }
-    .btn:hover{filter:brightness(1.07)}
-    .btn:active{transform:translateY(1px)}
-    .btn.primary{
-      background: linear-gradient(180deg, rgba(34,211,238,.26), rgba(29,78,216,.18));
-      border-color: rgba(34,211,238,.55);
-    }
-    .btn.ghost{
-      background: rgba(0,0,0,.16);
-      border-color: rgba(255,255,255,.18);
-    }
-
-    /* GAME LAYOUT */
+    /* Game layout */
     .gameLayout{
       display:grid;
       grid-template-columns: 1.25fr .75fr;
-      gap:14px;
+      gap:16px;
       align-items:start;
     }
     @media(max-width:1200px){ .gameLayout{grid-template-columns:1fr} }
@@ -224,71 +226,88 @@
       width:100%;
       height:auto;
       background:#000;
-      border:1px solid rgba(255,255,255,.18);
-      border-radius:22px;
+      border:1px solid rgba(255,255,255,.20);
+      border-radius:24px;
     }
 
     .side{
       background: rgba(255,255,255,.10);
       border:1px solid rgba(255,255,255,.18);
-      border-radius:22px;
-      padding:14px;
+      border-radius:24px;
+      padding:16px;
       font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      position:relative;
+      overflow:hidden;
     }
+    .side::before{
+      content:"";
+      position:absolute; inset:-90px;
+      background:
+        radial-gradient(420px 240px at 25% 20%, rgba(34,211,238,.16), transparent 60%),
+        radial-gradient(380px 220px at 80% 35%, rgba(251,191,36,.10), transparent 60%);
+      pointer-events:none;
+    }
+    .side > *{position:relative}
+
     .side h4{
       margin:0 0 10px;
-      font-size:13px;
-      letter-spacing:.4px;
+      font-size:15px; /* bigger */
+      letter-spacing:.7px;
       text-transform:uppercase;
       color:var(--muted);
       font-family:'Orbitron',system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
     }
 
     .fb{
-      min-height:30px;
-      font-weight:900;
+      min-height:36px;
+      font-weight:1000;
       color:var(--muted);
       line-height:1.25;
-      font-size:14px;
+      font-size:18px; /* BIG */
     }
     .fb.ok{color:var(--ok)}
     .fb.bad{color:var(--bad)}
     .fb.warn{color:var(--warn)}
 
+    .note{
+      color:var(--muted);
+      font-size:16px; /* BIG */
+      line-height:1.35;
+      margin-top:12px;
+    }
     .kbd{
       font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;
-      border:1px solid rgba(255,255,255,.18);
-      background:rgba(255,255,255,.08);
-      padding:2px 7px;
-      border-radius:10px;
-      font-weight:900;
+      border:1px solid rgba(255,255,255,.20);
+      background:rgba(0,0,0,.18);
+      padding:3px 9px;
+      border-radius:12px;
+      font-weight:1000;
       color:var(--ink);
+      font-size:14px;
     }
-    .note{color:var(--muted);font-size:13px;line-height:1.35;margin-top:10px}
-    .controlsRow{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+    .controlsRow{display:flex; gap:12px; flex-wrap:wrap; margin-top:14px}
 
+    /* HUD pills (bigger + colorful) */
     .hudLine{
       display:flex;
-      gap:8px;
+      gap:10px;
       flex-wrap:wrap;
-      margin:8px 0 0;
+      margin:10px 0 0;
       font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
     }
     .hudPill{
       background:rgba(0,0,0,.18);
-      border:1px solid rgba(255,255,255,.14);
+      border:1px solid rgba(255,255,255,.16);
       border-radius:999px;
-      padding:7px 10px;
-      font-weight:900;
-      font-size:12px;
+      padding:10px 12px;
+      font-weight:1000;
+      font-size:14px; /* bigger */
     }
 
-    /* =======================
-       MATCHING MEMORY GAME
-       ======================= */
+    /* Matching Memory Board */
     .matchHeader{
       display:flex;
-      gap:10px;
+      gap:12px;
       flex-wrap:wrap;
       align-items:center;
       justify-content:space-between;
@@ -296,94 +315,97 @@
     }
     .select{
       appearance:none;
-      border:1px solid rgba(255,255,255,.20);
+      border:1px solid rgba(255,255,255,.22);
       background: rgba(0,0,0,.18);
       color: var(--ink);
-      border-radius:16px;
-      padding:12px 12px;
-      font-weight:900;
+      border-radius:18px;
+      padding:14px 14px;
+      font-weight:1000;
       cursor:pointer;
       font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
-      font-size:14px;
-      min-width:210px;
+      font-size:16px; /* BIG */
+      min-width:230px;
     }
 
     .memoryBoard{
       display:grid;
-      gap:14px;
+      gap:16px;
       grid-template-columns: repeat(4, minmax(0, 1fr));
-      margin-top:12px;
+      margin-top:14px;
     }
     @media(max-width:1200px){ .memoryBoard{grid-template-columns: repeat(3, minmax(0, 1fr));} }
     @media(max-width:820px){ .memoryBoard{grid-template-columns: repeat(2, minmax(0, 1fr));} }
 
     .memCard{
       position:relative;
-      height:150px; /* BIG cards */
+      height:170px; /* BIGGER */
       perspective: 1000px;
-      border-radius:20px;
+      border-radius:24px;
     }
     .memInner{
       position:absolute; inset:0;
-      border-radius:20px;
+      border-radius:24px;
       transform-style: preserve-3d;
       transition: transform .34s ease;
     }
     .memCard.flipped .memInner{ transform: rotateY(180deg); }
+
     .memFace{
       position:absolute; inset:0;
-      border-radius:20px;
+      border-radius:24px;
       backface-visibility: hidden;
       display:flex;
       align-items:center;
       justify-content:center;
-      padding:14px;
+      padding:16px;
       text-align:center;
       font-weight:1000;
       line-height:1.12;
-      border:1px solid rgba(255,255,255,.18);
-      box-shadow: 0 12px 30px rgba(0,0,0,.28);
-    }
-    .memBack{
-      background: linear-gradient(180deg, rgba(34,211,238,.26), rgba(29,78,216,.20));
-      color: rgba(234,242,255,.98);
-      letter-spacing:.8px;
-      font-size:18px;
-      position:relative;
+      border:1px solid rgba(255,255,255,.20);
+      box-shadow: 0 14px 38px rgba(0,0,0,.30);
       overflow:hidden;
     }
-    .memBack::before{
-      content:"";
-      position:absolute; inset:-80px;
+
+    .memBack{
       background:
-        radial-gradient(240px 180px at 30% 20%, rgba(34,211,238,.28), transparent 60%),
-        radial-gradient(240px 180px at 70% 40%, rgba(56,189,248,.18), transparent 60%);
-      pointer-events:none;
+        radial-gradient(320px 220px at 30% 25%, rgba(34,211,238,.28), transparent 60%),
+        radial-gradient(320px 220px at 75% 45%, rgba(167,139,250,.22), transparent 60%),
+        linear-gradient(180deg, rgba(29,78,216,.30), rgba(0,0,0,.18));
+      color: rgba(238,246,255,.98);
+      letter-spacing:1.2px;
+      font-size:20px;
     }
-    .memBack span{ position:relative; display:inline-flex; align-items:center; gap:10px; }
     .memBack .badge{
-      width:34px; height:34px; border-radius:12px;
+      width:42px; height:42px; border-radius:14px;
       display:inline-flex; align-items:center; justify-content:center;
       background: rgba(0,0,0,.18);
       border:1px solid rgba(255,255,255,.18);
-      font-size:18px;
+      font-size:20px;
+      margin-right:10px;
+      box-shadow: 0 0 0 6px rgba(34,211,238,.08);
     }
+    .memBack span{display:flex; align-items:center; justify-content:center; gap:10px}
 
     .memFront{
       transform: rotateY(180deg);
-      background: rgba(0,0,0,.20);
-      color: rgba(234,242,255,.98);
-      font-size:22px; /* BIG text */
+      background:
+        radial-gradient(360px 260px at 40% 20%, rgba(251,191,36,.10), transparent 60%),
+        radial-gradient(360px 260px at 75% 65%, rgba(34,211,238,.10), transparent 60%),
+        rgba(0,0,0,.22);
+      color: rgba(238,246,255,.98);
+      font-size:24px; /* BIG */
     }
-    .memFront.small{ font-size:18px; }
-    .memFront.tiny{ font-size:16px; }
+    .memFront.small{ font-size:20px; }
+    .memFront.tiny{ font-size:18px; }
 
     .memCard.matched .memFront{
-      border-color: rgba(52,211,153,.55);
-      background: rgba(52,211,153,.12);
+      border-color: rgba(52,211,153,.60);
+      background:
+        radial-gradient(380px 260px at 50% 40%, rgba(52,211,153,.14), transparent 60%),
+        rgba(52,211,153,.12);
       color: var(--ok);
     }
-    .memCard.locked{ pointer-events:none; opacity:.85; }
+    .memCard.locked{ pointer-events:none; opacity:.90; }
   </style>
 </head>
 
@@ -391,15 +413,8 @@
   <main class="app">
     <header class="top">
       <div class="titleBlock">
-        <h1>CYAN BLUE ARCADE</h1>
-        <p class="sub">
-          Arcade con contraste real: cada juego tiene su color propio. El Matching es ahora un <b>Memory Game</b> con cartas que se giran.
-        </p>
-      </div>
-      <div class="pillRow">
-        <div class="pill">🟦 Blue Theme</div>
-        <div class="pill">🧩 Memory Matching</div>
-        <div class="pill">✅ Kid-Friendly</div>
+        <h1>CYAN ARCADE</h1>
+        <p class="sub">Big instructions, fun colors, and a real Memory Matching game with flip cards.</p>
       </div>
     </header>
 
@@ -407,40 +422,40 @@
       <!-- ARCADE -->
       <div id="arcade" class="screen active">
         <div class="arcadeBanner">
-          <div>
-            <p class="big">ARCADE</p>
-            <p class="small">Choose a game. Big buttons. Bright cyan + deep blues.</p>
+          <div class="left">
+            <p class="big">CHOOSE YOUR GAME</p>
+            <p class="small">Big buttons • Big instructions • Bright colors • Kid-friendly</p>
           </div>
-          <div class="row" style="margin:0">
+          <div class="row" style="margin:0; position:relative">
             <button class="btn ghost" onclick="location.href='../index.html'">Main Menu</button>
           </div>
         </div>
 
         <div class="grid">
           <article class="card">
-            <div class="gameTag"><span class="dot" style="background:var(--pac)"></span>Classic Maze</div>
+            <div class="tagline"><span class="dot" style="background:var(--yellow)"></span>Maze + sentences</div>
             <h3>🟨 PacSentence (Pac-Man)</h3>
-            <p>Blue maze + yellow Pac-Man. Big word tiles. Works with your sentence bank.</p>
+            <p>Move Pac-Man in a blue maze. Practice sentence words (big tiles).</p>
             <div class="row">
-              <button class="btn primary" id="goPac">Play</button>
+              <button class="btn primary" id="goPac">PLAY</button>
             </div>
           </article>
 
           <article class="card">
-            <div class="gameTag"><span class="dot" style="background:var(--inv)"></span>Classic Shooter</div>
+            <div class="tagline"><span class="dot" style="background:var(--lime)"></span>Shoot synonyms</div>
             <h3>🚀 Synonym Invaders</h3>
-            <p>More classic look. Shooter is fast. Shoot a synonym of the target.</p>
+            <p>Classic shooter feel. Move fast. Shoot a synonym of the target word.</p>
             <div class="row">
-              <button class="btn primary" id="goInv">Play</button>
+              <button class="btn primary" id="goInv">PLAY</button>
             </div>
           </article>
 
           <article class="card">
-            <div class="gameTag"><span class="dot" style="background:var(--match)"></span>Memory Cards</div>
+            <div class="tagline"><span class="dot" style="background:var(--purple)"></span>Flip cards</div>
             <h3>🧩 Matching Memory</h3>
-            <p>Flip 2 cards. If they match, they stay open. Modes: synonyms / definitions / Spanish–English.</p>
+            <p>Flip 2 cards. If they match, they stay open. Synonyms / Definitions / Spanish–English.</p>
             <div class="row">
-              <button class="btn primary" id="goMatch">Play</button>
+              <button class="btn primary" id="goMatch">PLAY</button>
             </div>
           </article>
         </div>
@@ -452,15 +467,15 @@
           <div><canvas id="pacCv" width="1500" height="900"></canvas></div>
           <aside class="side">
             <h4>PacSentence</h4>
-            <div class="fb" id="pacFb">Press Start.</div>
+            <div class="fb warn" id="pacFb">Press START. Then move with arrows / WASD.</div>
             <div class="controlsRow">
-              <button class="btn primary" id="pacStart">Start</button>
-              <button class="btn" id="pacNext">Next</button>
-              <button class="btn" id="pacGhosts">Ghosts: ON</button>
-              <button class="btn" id="pacBack">Back</button>
+              <button class="btn primary" id="pacStart">START</button>
+              <button class="btn" id="pacNext">NEXT</button>
+              <button class="btn" id="pacGhosts">GHOSTS: ON</button>
+              <button class="btn" id="pacBack">BACK</button>
             </div>
             <p class="note">
-              Move: <span class="kbd">← ↑ → ↓</span> / <span class="kbd">WASD</span>
+              Controls: <span class="kbd">← ↑ → ↓</span> or <span class="kbd">WASD</span>
             </p>
           </aside>
         </div>
@@ -477,29 +492,29 @@
               <div class="hudPill">❌ Mistakes: <span id="invMist">0</span></div>
               <div class="hudPill">⭐ Score: <span id="invScore">0</span></div>
             </div>
-            <div class="fb" id="invFb">Press Start.</div>
+            <div class="fb warn" id="invFb">Press START. Move fast and shoot synonyms.</div>
             <div class="controlsRow">
-              <button class="btn primary" id="invStart">Start</button>
-              <button class="btn" id="invNext">Next</button>
-              <button class="btn" id="invBack">Back</button>
+              <button class="btn primary" id="invStart">START</button>
+              <button class="btn" id="invNext">NEXT</button>
+              <button class="btn" id="invBack">BACK</button>
             </div>
             <p class="note">
-              Move: <span class="kbd">← →</span>/<span class="kbd">A D</span> · Shoot: <span class="kbd">Space</span>
+              Move: <span class="kbd">← →</span>/<span class="kbd">A D</span> • Shoot: <span class="kbd">Space</span>
             </p>
           </aside>
         </div>
       </div>
 
-      <!-- MATCHING MEMORY -->
+      <!-- MATCH -->
       <div id="match" class="screen">
         <div class="gameLayout">
           <div class="side">
             <div class="matchHeader">
               <div>
                 <h4 style="margin:0">Matching Memory</h4>
-                <div class="fb warn" id="matchFb" style="margin-top:8px">Choose mode and press Start.</div>
+                <div class="fb warn" id="matchFb" style="margin-top:8px">Choose mode and press START.</div>
               </div>
-              <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end">
+              <div style="display:flex;gap:12px;flex-wrap:wrap;justify-content:flex-end">
                 <select id="matchMode" class="select">
                   <option value="synonyms">Synonyms</option>
                   <option value="definitions">Word ↔ Definition</option>
@@ -511,8 +526,8 @@
                   <option value="10">10 pairs</option>
                   <option value="12">12 pairs</option>
                 </select>
-                <button class="btn primary" id="matchStart">Start</button>
-                <button class="btn" id="matchBack">Back</button>
+                <button class="btn primary" id="matchStart">START</button>
+                <button class="btn" id="matchBack">BACK</button>
               </div>
             </div>
 
@@ -526,13 +541,12 @@
           </div>
 
           <aside class="side">
-            <h4>Unit Banks (editable)</h4>
+            <h4>Teacher</h4>
             <p class="note" style="margin-top:0">
-              Edit these arrays in the code:<br>
-              <b>UNIT_SYNONYMS</b>, <b>UNIT_DEFINITIONS</b>, <b>UNIT_ES_EN</b><br><br>
-              The memory game picks N pairs from the selected mode and builds 2×N cards.
+              Edit banks in the code:<br>
+              <b>UNIT_SYNONYMS</b>, <b>UNIT_DEFINITIONS</b>, <b>UNIT_ES_EN</b>
             </p>
-            <div class="fb warn">Tip: start with 6–8 pairs for kids.</div>
+            <div class="fb warn">Tip: use 6–8 pairs for younger kids.</div>
           </aside>
         </div>
       </div>
@@ -585,7 +599,7 @@
     ["terminar", "finish"],
   ];
 
-  // Pac sentences (simple placeholder)
+  // Pac sentences (placeholder)
   const SENTENCES = [
     "I always do my homework at night.",
     "She doesn’t like coffee.",
@@ -597,7 +611,7 @@
     "If you study, you will pass the test."
   ];
 
-  // Invaders synonyms (target -> accepted synonyms)
+  // Invaders target bank
   const SYNONYMS = [
     { target: "big", answers: ["large", "huge", "giant"] },
     { target: "fast", answers: ["quick", "rapid", "speedy"] },
@@ -636,7 +650,7 @@
   $("goMatch").addEventListener("click", ()=>{ show("match"); memory.start(true); });
 
   // =============================
-  // PAC (simple, stable — kept functional)
+  // PAC (functional, stable)
   // =============================
   const pac = (() => {
     const cv = $("pacCv");
@@ -668,15 +682,10 @@
     const st = {
       running:false,
       ghostsOn:true,
-      sentence:"",
-      tokens:[],
-      expected:0,
       words:[],
       pac:{x:1,y:1,dir:"right"},
       ghost:{x:COLS-2,y:ROWS-2,dir:"left"},
-      t:0,
-      ghostEveryMs: 520,
-      lastGhostMs: 0
+      t:0
     };
 
     function isWall(x,y){
@@ -702,11 +711,9 @@
     }
 
     function pickSentence(){
-      st.sentence = SENTENCES[Math.floor(Math.random()*SENTENCES.length)];
-      st.tokens = st.sentence.trim().split(/\s+/);
-      st.expected = 0;
+      const s = SENTENCES[Math.floor(Math.random()*SENTENCES.length)];
+      const tokens = s.trim().split(/\s+/);
 
-      // place some word tiles (big)
       const cells=[];
       for(let y=1;y<ROWS-1;y++){
         for(let x=1;x<COLS-1;x++){
@@ -714,11 +721,10 @@
         }
       }
       shuffle(cells);
-      st.words = st.tokens.slice(0, Math.min(st.tokens.length, 10)).map((w,i)=>({
+      st.words = tokens.slice(0, Math.min(tokens.length, 12)).map((w,i)=>({
         word:w, x:cells[i].x, y:cells[i].y, eaten:false
       }));
-
-      setFB(fb, "Eat the words (practice).", "warn");
+      setFB(fb, "START → Move Pac-Man and read the words!", "warn");
     }
 
     function stepPac(dir){
@@ -729,38 +735,28 @@
       const nx = st.pac.x + v[0], ny = st.pac.y + v[1];
       if(isWall(nx,ny)) return;
       st.pac.x=nx; st.pac.y=ny;
+
+      // eat word
+      const w = st.words.find(x=>!x.eaten && x.x===st.pac.x && x.y===st.pac.y);
+      if(w){ w.eaten = true; setFB(fb, "✅ Nice! Keep going!", "ok"); }
     }
 
     function ghostStep(){
       if(!st.running || !st.ghostsOn) return;
-      const dirVec = {up:[0,-1],down:[0,1],left:[-1,0],right:[1,0]};
-      const opposite = {up:"down",down:"up",left:"right",right:"left"};
-
-      const dirs = ["up","down","left","right"].filter(d=>{
-        const [dx,dy]=dirVec[d];
-        return !isWall(st.ghost.x+dx, st.ghost.y+dy);
-      });
-
-      let candidates = dirs.filter(d => d !== opposite[st.ghost.dir]);
-      if(candidates.length===0) candidates = dirs;
-
-      // keep direction if possible
-      if(candidates.includes(st.ghost.dir)){
-        const [dx,dy]=dirVec[st.ghost.dir];
-        st.ghost.x += dx; st.ghost.y += dy;
-        return;
-      }
-      const pick = candidates[Math.floor(Math.random()*candidates.length)];
-      st.ghost.dir = pick;
-      const [dx,dy]=dirVec[pick];
-      st.ghost.x += dx; st.ghost.y += dy;
+      const dirs = [
+        {d:"up",dx:0,dy:-1},{d:"down",dx:0,dy:1},{d:"left",dx:-1,dy:0},{d:"right",dx:1,dy:0}
+      ].filter(m => !isWall(st.ghost.x+m.dx, st.ghost.y+m.dy));
+      if(dirs.length===0) return;
+      const pick = dirs[Math.floor(Math.random()*dirs.length)];
+      st.ghost.dir = pick.d;
+      st.ghost.x += pick.dx; st.ghost.y += pick.dy;
     }
 
     function draw(){
       ctx.fillStyle="#000";
       ctx.fillRect(0,0,cv.width,cv.height);
 
-      // maze (blue)
+      // maze blue
       for(let y=0;y<ROWS;y++){
         for(let x=0;x<COLS;x++){
           if(MAZE[y][x]!==1) continue;
@@ -775,26 +771,26 @@
         }
       }
 
-      // word tiles (big)
+      // words
       for(const w of st.words){
         if(w.eaten) continue;
         const px = OFFX + w.x*TILE;
         const py = OFFY + w.y*TILE;
         ctx.fillStyle="rgba(255,255,255,.10)";
-        ctx.strokeStyle="rgba(255,255,255,.22)";
+        ctx.strokeStyle="rgba(34,211,238,.30)";
         ctx.lineWidth=2;
         roundRect(px+5, py+5, TILE-10, TILE-10, 14);
         ctx.fill(); ctx.stroke();
 
         let fs = Math.max(28, Math.floor(TILE*0.52));
-        ctx.textAlign="center";
-        ctx.textBaseline="middle";
         while(fs>18){
           ctx.font = `1000 ${fs}px system-ui,-apple-system,Segoe UI,Roboto,Arial`;
           if(ctx.measureText(w.word).width <= (TILE - 16)) break;
           fs--;
         }
-        ctx.fillStyle="rgba(255,255,255,.98)";
+        ctx.fillStyle="rgba(238,246,255,.98)";
+        ctx.textAlign="center";
+        ctx.textBaseline="middle";
         ctx.fillText(w.word, px+TILE/2, py+TILE/2+1);
       }
 
@@ -802,7 +798,7 @@
       if(st.ghostsOn){
         const gx = OFFX + st.ghost.x*TILE + TILE/2;
         const gy = OFFY + st.ghost.y*TILE + TILE/2;
-        ctx.fillStyle="#ff2d55";
+        ctx.fillStyle="#fb7185";
         ctx.beginPath();
         ctx.arc(gx,gy,TILE*0.28,0,Math.PI*2);
         ctx.fill();
@@ -814,7 +810,7 @@
       const r = TILE*0.34;
       const base = dirAngle(st.pac.dir);
       const open = 0.20 + 0.20*Math.abs(Math.sin(st.t*7.0));
-      ctx.fillStyle="#ffd400";
+      ctx.fillStyle="#fbbf24";
       ctx.beginPath();
       ctx.moveTo(cx,cy);
       ctx.arc(cx,cy,r, base+open, base+(Math.PI*2-open));
@@ -829,7 +825,7 @@
     $("pacNext").onclick = ()=> start(true);
     $("pacGhosts").onclick = ()=>{
       st.ghostsOn = !st.ghostsOn;
-      $("pacGhosts").textContent = `Ghosts: ${st.ghostsOn ? "ON":"OFF"}`;
+      $("pacGhosts").textContent = `GHOSTS: ${st.ghostsOn ? "ON":"OFF"}`;
     };
     $("pacBack").onclick = ()=> show("arcade");
 
@@ -848,9 +844,9 @@
       st.pac = {x:1,y:1,dir:"right"};
       st.ghost = {x:COLS-2,y:ROWS-2,dir:"left"};
       if(reset) pickSentence();
+      setFB(fb, "STARTED! Move and read!", "ok");
     }
 
-    // ghost timer
     setInterval(()=>{ if(screens.pac.classList.contains("active") && st.running) ghostStep(); }, 520);
 
     start(true);
@@ -859,7 +855,7 @@
   })();
 
   // =============================
-  // INVADERS (classic-ish + fast ship)
+  // INVADERS (fast, classic-ish)
   // =============================
   const inv = (() => {
     const cv = $("invCv");
@@ -876,11 +872,11 @@
     const WHITE = "rgba(255,255,255,.92)";
 
     const MAX_WORDS = 8;
-    const SPAWN_MS = 850;
+    const SPAWN_MS = 820;
     const BULLET_SPEED = 1100;
-    const SHIP_SPEED = 760;
+    const SHIP_SPEED = 820;
     const WORD_FALL_MIN = 120;
-    const WORD_FALL_MAX = 190;
+    const WORD_FALL_MAX = 200;
 
     const st = {
       running:false,
@@ -910,7 +906,7 @@
       st.words = [];
       st.bullets = [];
       st.lastSpawn = 0;
-      setFB(fb, `Shoot a synonym of: ${st.target.toUpperCase()}`, "warn");
+      setFB(fb, `TARGET: ${st.target.toUpperCase()} — shoot a synonym!`, "warn");
     }
 
     function spawn(now){
@@ -950,10 +946,10 @@
       return ctx.measureText(word).width;
     }
     function layoutWord(w){
-      let fs = 36;
-      while(fs > 20 && measure(w.text, fs) > 420) fs--;
+      let fs = 38;
+      while(fs > 22 && measure(w.text, fs) > 460) fs--;
       w.font = fs;
-      w.w = measure(w.text, fs) + 34;
+      w.w = measure(w.text, fs) + 40;
       w.h = fs + 18;
     }
     function roundRect(x,y,w,h,r){
@@ -965,18 +961,19 @@
       ctx.arcTo(x,y,x+w,y,r);
       ctx.closePath();
     }
+
     function drawShip(){
       const x = st.ship.x;
       const y = H - 125;
       ctx.fillStyle = GREEN;
-      ctx.fillRect(x - 36, y, 72, 14);
-      ctx.fillRect(x - 10, y - 10, 20, 10);
-      ctx.fillRect(x - 52, y + 4, 16, 6);
-      ctx.fillRect(x + 36, y + 4, 16, 6);
+      ctx.fillRect(x - 40, y, 80, 16);
+      ctx.fillRect(x - 12, y - 12, 24, 12);
+      ctx.fillRect(x - 60, y + 5, 18, 7);
+      ctx.fillRect(x + 42, y + 5, 18, 7);
     }
     function drawBullet(b){
       ctx.fillStyle = WHITE;
-      ctx.fillRect(b.x - 2, b.y - 10, 4, 14);
+      ctx.fillRect(b.x - 2, b.y - 12, 4, 16);
     }
     function drawWordAlien(w){
       layoutWord(w);
@@ -985,7 +982,7 @@
 
       ctx.strokeStyle = DIM_GREEN;
       ctx.lineWidth = 2;
-      roundRect(x, y, w.w, w.h, 10);
+      roundRect(x, y, w.w, w.h, 12);
       ctx.stroke();
 
       ctx.fillStyle = WHITE;
@@ -998,14 +995,14 @@
     function hit(w){
       if(w.isCorrect){
         st.score += 10;
-        setFB(fb, "✅ Correct!", "ok");
+        setFB(fb, "✅ Correct synonym!", "ok");
       } else {
         st.mistakes++;
         st.lives--;
-        setFB(fb, "❌ Wrong!", "bad");
+        setFB(fb, "❌ Wrong word!", "bad");
         if(st.lives <= 0){
           st.running = false;
-          setFB(fb, "💀 Game Over. Press Start.", "bad");
+          setFB(fb, "💀 Game Over. Press START.", "bad");
         }
       }
       setHud();
@@ -1046,17 +1043,17 @@
       ctx.fillRect(0,0,W,H);
 
       ctx.fillStyle="rgba(255,255,255,.05)";
-      for(let i=0;i<320;i++){
+      for(let i=0;i<360;i++){
         const x = (i*97)%W;
         const y = (i*163)%H;
         ctx.fillRect(x,y,2,2);
       }
 
       ctx.fillStyle = GREEN;
-      ctx.font = "1000 30px system-ui,-apple-system,Segoe UI,Roboto,Arial";
+      ctx.font = "1000 34px system-ui,-apple-system,Segoe UI,Roboto,Arial";
       ctx.textAlign="left";
       ctx.textBaseline="top";
-      ctx.fillText(`SHOOT A SYNONYM OF: ${st.target.toUpperCase()}`, 18, 14);
+      ctx.fillText(`TARGET: ${st.target.toUpperCase()} (shoot a synonym)`, 18, 14);
 
       for(const b of st.bullets) drawBullet(b);
       for(const w of st.words) drawWordAlien(w);
@@ -1090,7 +1087,7 @@
         pickQ();
       }
       st.running = true;
-      setFB(fb, `Shoot a synonym of: ${st.target.toUpperCase()}`, "warn");
+      setFB(fb, "STARTED! Shoot synonyms!", "ok");
       const t = performance.now();
       spawn(t); spawn(t+1); spawn(t+2);
       setHud();
@@ -1118,7 +1115,7 @@
   })();
 
   // =============================
-  // MEMORY MATCHING GAME (flip cards)
+  // MEMORY MATCHING (flip cards)
   // =============================
   const memory = (() => {
     const board = $("memoryBoard");
@@ -1142,7 +1139,7 @@
       lock:false,
       first:null,
       second:null,
-      cards:[] // {id,pairId,text}
+      cards:[]
     };
 
     function setTime(){
@@ -1154,7 +1151,6 @@
       movesEl.textContent = st.moves;
       setTime();
     }
-
     function stopTimer(){
       if(st.timer) clearInterval(st.timer);
       st.timer = null;
@@ -1172,16 +1168,21 @@
 
     function getPairs(){
       const mode = modeSel.value;
-      let base = [];
-      if(mode === "synonyms") base = UNIT_SYNONYMS.slice();
-      if(mode === "definitions") base = UNIT_DEFINITIONS.slice();
-      if(mode === "es-en") base = UNIT_ES_EN.slice();
-      return base;
+      if(mode === "synonyms") return UNIT_SYNONYMS.slice();
+      if(mode === "definitions") return UNIT_DEFINITIONS.slice();
+      return UNIT_ES_EN.slice();
+    }
+
+    function textClass(txt){
+      if(txt.length > 70) return "tiny";
+      if(txt.length > 40) return "small";
+      return "";
     }
 
     function buildDeck(){
       const wantPairs = Math.max(2, Math.min(12, Number(pairsSel.value)));
       const base = shuffle(getPairs()).slice(0, Math.min(wantPairs, getPairs().length));
+
       st.total = base.length;
       st.done = 0;
       st.moves = 0;
@@ -1189,7 +1190,6 @@
       st.second = null;
       st.lock = false;
 
-      // Build two cards per pair
       const deck = [];
       base.forEach((p, idx)=>{
         const pairId = `P${idx}`;
@@ -1200,20 +1200,12 @@
       st.cards = shuffle(deck);
       renderBoard();
       hud();
-
-      setFB(fb, "Flip 2 cards. If they match, they stay open.", "warn");
-    }
-
-    function textClass(txt){
-      // adjust font size for long definitions
-      if(txt.length > 60) return "tiny";
-      if(txt.length > 35) return "small";
-      return "";
+      setFB(fb, "Flip 2 cards. Find all matches!", "warn");
     }
 
     function renderBoard(){
       board.innerHTML = "";
-      st.cards.forEach((c, idx)=>{
+      st.cards.forEach((c)=>{
         const card = document.createElement("div");
         card.className = "memCard";
         card.dataset.id = c.id;
@@ -1224,7 +1216,7 @@
 
         const back = document.createElement("div");
         back.className = "memFace memBack";
-        back.innerHTML = `<span><span class="badge">★</span> ARCADE CARD</span>`;
+        back.innerHTML = `<span><span class="badge">★</span>FLIP</span>`;
 
         const front = document.createElement("div");
         front.className = `memFace memFront ${textClass(c.text)}`;
@@ -1251,32 +1243,30 @@
         st.first = cardEl;
         return;
       }
+
       st.second = cardEl;
       st.moves++;
       hud();
 
-      // check match
       const a = st.first.dataset.pair;
       const b = st.second.dataset.pair;
 
       if(a === b){
-        st.first.classList.add("matched");
-        st.second.classList.add("matched");
-        st.first.classList.add("locked");
-        st.second.classList.add("locked");
+        st.first.classList.add("matched","locked");
+        st.second.classList.add("matched","locked");
         st.done++;
         hud();
-        setFB(fb, "✅ Match!", "ok");
+        setFB(fb, "✅ MATCH!", "ok");
         st.first = null;
         st.second = null;
 
         if(st.done >= st.total){
           st.running = false;
           stopTimer();
-          setFB(fb, "🏆 Completed! Change mode or press Start again.", "ok");
+          setFB(fb, "🏆 YOU WON! Press START again.", "ok");
         }
       } else {
-        setFB(fb, "❌ Not a match.", "bad");
+        setFB(fb, "❌ NOT A MATCH!", "bad");
         st.lock = true;
         setTimeout(()=>{
           st.first.classList.remove("flipped");
@@ -1284,8 +1274,8 @@
           st.first = null;
           st.second = null;
           st.lock = false;
-          setFB(fb, "Try again.", "warn");
-        }, 650);
+          setFB(fb, "Try again!", "warn");
+        }, 700);
       }
     }
 
@@ -1293,6 +1283,7 @@
       st.running = true;
       startTimer();
       buildDeck();
+      setFB(fb, "GO! Flip cards!", "ok");
     }
 
     startBtn.addEventListener("click", ()=> start());
@@ -1302,26 +1293,24 @@
       show("arcade");
     });
 
-    // Rebuild suggestion when mode changes
     modeSel.addEventListener("change", ()=>{
       st.running = false;
       stopTimer();
       buildDeck();
-      setFB(fb, "Mode changed. Press Start.", "warn");
+      setFB(fb, "Mode changed. Press START.", "warn");
     });
     pairsSel.addEventListener("change", ()=>{
       st.running = false;
       stopTimer();
       buildDeck();
-      setFB(fb, "Pairs changed. Press Start.", "warn");
+      setFB(fb, "Pairs changed. Press START.", "warn");
     });
 
-    // initial board preview
     buildDeck();
     return { start };
   })();
 
-  // Back buttons already wired in each screen
+  // Back buttons
   $("pacBack").addEventListener("click", ()=> show("arcade"));
   $("invBack").addEventListener("click", ()=> show("arcade"));
   $("matchBack").addEventListener("click", ()=> show("arcade"));
