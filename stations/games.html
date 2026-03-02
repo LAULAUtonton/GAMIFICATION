@@ -6,58 +6,71 @@
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"/>
   <meta http-equiv="Pragma" content="no-cache"/>
   <meta http-equiv="Expires" content="0"/>
-  <title>THE PIT — Game Arcade</title>
+  <title>THE PIT — Blue Arcade</title>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
 
   <style>
     :root{
-      --bg:#050816;
-      --panel:rgba(255,255,255,.08);
-      --line:rgba(255,255,255,.15);
-      --ink:#eaf0ff;
-      --muted:#a8b4d8;
+      --bg0:#071a3a;
+      --bg1:#0b2f6b;
+      --bg2:#1d4ed8;
+      --bg3:#38bdf8;
+
+      --panel: rgba(255,255,255,.09);
+      --line: rgba(255,255,255,.16);
+
+      --ink:#eaf2ff;
+      --muted:#b8cff8;
+
       --ok:#2ee59d;
       --bad:#ff5470;
       --warn:#ffd166;
-      --brand:#7b5cff;
-      --shadow: 0 22px 80px rgba(0,0,0,.60);
+
+      --shadow: 0 22px 90px rgba(0,0,0,.55);
+      --r: 26px;
     }
     *{box-sizing:border-box}
     body{
       margin:0;
       font-family:'Orbitron',system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
-      background:
-        radial-gradient(1400px 820px at 18% -12%, rgba(123,92,255,.40), transparent 60%),
-        radial-gradient(1200px 700px at 88% 6%, rgba(46,229,157,.18), transparent 65%),
-        var(--bg);
       color:var(--ink);
       min-height:100vh;
       padding:14px;
       display:flex;
       align-items:center;
       justify-content:center;
+      background:
+        radial-gradient(1400px 820px at 15% -10%, rgba(56,189,248,.35), transparent 62%),
+        radial-gradient(1200px 760px at 90% 5%, rgba(29,78,216,.40), transparent 65%),
+        radial-gradient(900px 600px at 40% 110%, rgba(147,197,253,.18), transparent 60%),
+        linear-gradient(180deg, var(--bg0), var(--bg1) 45%, var(--bg0));
     }
+
+    /* BIG BLUE ARCADE CONTAINER */
     .app{
-      width:min(1750px, calc(100vw - 28px));
-      background:linear-gradient(180deg, rgba(255,255,255,.11), rgba(255,255,255,.03));
+      width:min(1800px, calc(100vw - 28px));
+      background: linear-gradient(180deg, rgba(255,255,255,.12), rgba(255,255,255,.04));
       border:1px solid var(--line);
       border-radius:28px;
       box-shadow:var(--shadow);
       overflow:hidden;
+      position:relative;
     }
+
     .top{
       padding:18px 20px;
       display:flex;
       align-items:flex-start;
       justify-content:space-between;
       gap:12px;
-      background:rgba(0,0,0,.18);
+      background: rgba(0,0,0,.18);
       border-bottom:1px solid var(--line);
+      backdrop-filter: blur(8px);
     }
     h1{
       margin:0;
       font-size:clamp(18px, 2.7vw, 30px);
-      letter-spacing:.9px;
+      letter-spacing:1.0px;
     }
     .sub{
       margin:7px 0 0;
@@ -68,8 +81,8 @@
     }
     .pillRow{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
     .pill{
-      background:var(--panel);
-      border:1px solid var(--line);
+      background: rgba(255,255,255,.10);
+      border:1px solid rgba(255,255,255,.18);
       border-radius:999px;
       padding:8px 11px;
       font-weight:1000;
@@ -83,21 +96,58 @@
     .screen.active{display:block}
 
     /* ARCADE MENU */
+    .arcadeBanner{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      padding:14px 14px 12px;
+      border:1px solid rgba(255,255,255,.16);
+      background: linear-gradient(90deg, rgba(56,189,248,.16), rgba(29,78,216,.14));
+      border-radius:22px;
+      margin-bottom:14px;
+    }
+    .arcadeBanner .big{
+      font-size:16px;
+      letter-spacing:1.2px;
+      margin:0;
+    }
+    .arcadeBanner .small{
+      margin:4px 0 0;
+      color:var(--muted);
+      font-size:12px;
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+    }
+
     .grid{
       display:grid;
-      grid-template-columns:repeat(auto-fit,minmax(330px,1fr));
+      grid-template-columns:repeat(auto-fit,minmax(340px,1fr));
       gap:14px;
     }
     .card{
-      background:rgba(255,255,255,.08);
-      border:1px solid var(--line);
-      border-radius:22px;
+      background: rgba(255,255,255,.09);
+      border:1px solid rgba(255,255,255,.18);
+      border-radius:24px;
       padding:16px;
       display:flex;
       flex-direction:column;
       gap:10px;
-      min-height:210px;
+      min-height:220px;
+      position:relative;
+      overflow:hidden;
     }
+    .card::before{
+      content:"";
+      position:absolute;
+      inset:-60px;
+      background:
+        radial-gradient(260px 160px at 15% 20%, rgba(56,189,248,.22), transparent 60%),
+        radial-gradient(260px 160px at 85% 30%, rgba(29,78,216,.22), transparent 60%),
+        radial-gradient(320px 220px at 50% 95%, rgba(147,197,253,.15), transparent 60%);
+      pointer-events:none;
+    }
+    .card > *{position:relative}
+
     .card h3{margin:0;font-size:18px}
     .card p{
       margin:0;
@@ -109,8 +159,8 @@
     .row{display:flex;gap:10px;flex-wrap:wrap;margin-top:auto}
 
     .btn{
-      border:1px solid var(--line);
-      background:rgba(255,255,255,.09);
+      border:1px solid rgba(255,255,255,.18);
+      background: rgba(255,255,255,.10);
       color:var(--ink);
       padding:12px 14px;
       border-radius:16px;
@@ -118,12 +168,18 @@
       cursor:pointer;
       user-select:none;
       font-size:13px;
+      transition: transform .08s ease, filter .12s ease;
     }
-    .btn.primary{
-      background:rgba(123,92,255,.24);
-      border-color:rgba(123,92,255,.62);
-    }
+    .btn:hover{filter:brightness(1.07)}
     .btn:active{transform:translateY(1px)}
+    .btn.primary{
+      background: linear-gradient(180deg, rgba(56,189,248,.30), rgba(29,78,216,.24));
+      border-color: rgba(56,189,248,.55);
+    }
+    .btn.ghost{
+      background: rgba(0,0,0,.16);
+      border-color: rgba(255,255,255,.18);
+    }
 
     /* GAME LAYOUT */
     .gameLayout{
@@ -139,13 +195,13 @@
       width:100%;
       height:auto;
       background:#000;
-      border:1px solid var(--line);
+      border:1px solid rgba(255,255,255,.18);
       border-radius:22px;
     }
 
     .side{
-      background:var(--panel);
-      border:1px solid var(--line);
+      background: rgba(255,255,255,.09);
+      border:1px solid rgba(255,255,255,.18);
       border-radius:22px;
       padding:14px;
       font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
@@ -171,7 +227,7 @@
       background:rgba(0,0,0,.18);
       font-weight:1000;
       text-align:center;
-      color:rgba(255,255,255,.80);
+      color:rgba(255,255,255,.82);
       font-size:15px;
     }
     .slot.filled{
@@ -194,7 +250,7 @@
 
     .kbd{
       font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;
-      border:1px solid var(--line);
+      border:1px solid rgba(255,255,255,.18);
       background:rgba(255,255,255,.08);
       padding:2px 7px;
       border-radius:10px;
@@ -212,12 +268,89 @@
       font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
     }
     .hudPill{
-      background:rgba(0,0,0,.20);
+      background:rgba(0,0,0,.18);
       border:1px solid rgba(255,255,255,.14);
       border-radius:999px;
       padding:7px 10px;
       font-weight:900;
       font-size:12px;
+    }
+
+    /* MATCHING GAME UI */
+    .matchWrap{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:12px;
+      margin-top:10px;
+    }
+    @media(max-width:1200px){ .matchWrap{grid-template-columns:1fr} }
+
+    .matchCol{
+      background: rgba(0,0,0,.14);
+      border:1px solid rgba(255,255,255,.16);
+      border-radius:18px;
+      padding:10px;
+      min-height:420px;
+    }
+    .matchCol h5{
+      margin:0 0 10px;
+      font-size:12px;
+      letter-spacing:.5px;
+      text-transform:uppercase;
+      color:var(--muted);
+    }
+    .matchList{
+      display:grid;
+      gap:10px;
+    }
+    .matchBtn{
+      width:100%;
+      text-align:left;
+      border:1px solid rgba(255,255,255,.18);
+      background: rgba(255,255,255,.10);
+      color:var(--ink);
+      padding:14px 14px;
+      border-radius:16px;
+      font-weight:1000;
+      cursor:pointer;
+      font-size:14px;
+      line-height:1.2;
+      transition: transform .08s ease, filter .12s ease;
+    }
+    .matchBtn:hover{filter:brightness(1.06)}
+    .matchBtn:active{transform:translateY(1px)}
+    .matchBtn.selected{
+      outline:2px solid rgba(56,189,248,.70);
+      box-shadow: 0 0 0 4px rgba(56,189,248,.18);
+    }
+    .matchBtn.correct{
+      border-color: rgba(46,229,157,.55);
+      background: rgba(46,229,157,.12);
+      color: var(--ok);
+      cursor:default;
+    }
+    .matchBtn.wrongFlash{
+      border-color: rgba(255,84,112,.55);
+      background: rgba(255,84,112,.12);
+    }
+
+    .modeRow{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      margin:10px 0 6px;
+    }
+    .select{
+      appearance:none;
+      border:1px solid rgba(255,255,255,.18);
+      background: rgba(0,0,0,.18);
+      color: var(--ink);
+      border-radius:14px;
+      padding:10px 12px;
+      font-weight:900;
+      cursor:pointer;
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      font-size:13px;
     }
   </style>
 </head>
@@ -226,35 +359,54 @@
   <main class="app">
     <header class="top">
       <div>
-        <h1>THE PIT — GAME ARCADE</h1>
-        <p class="sub">Arcade → eliges juego. Pac-Man (frases) + Invaders (sinónimos) — arreglado “for good”.</p>
+        <h1>THE PIT — BLUE ARCADE</h1>
+        <p class="sub">Arcade + juegos (azules). Pac-Man (frases), Space Invaders (sinónimos), Matching (sinónimos/definiciones/ES-EN).</p>
       </div>
       <div class="pillRow">
-        <div class="pill">✅ Arcade access fixed</div>
-        <div class="pill">✅ Invaders spawns words</div>
-        <div class="pill">✅ Pac ghost stable</div>
+        <div class="pill">🟦 Blue Theme</div>
+        <div class="pill">🧠 Vocabulary</div>
+        <div class="pill">🎮 Arcade First</div>
       </div>
     </header>
 
     <section class="screens">
       <!-- ARCADE -->
       <div id="arcade" class="screen active">
+        <div class="arcadeBanner">
+          <div>
+            <p class="big" style="margin:0">ARCADE MODE</p>
+            <p class="small">Elige un juego. Todo en tonos azules y letras grandes.</p>
+          </div>
+          <div class="row" style="margin:0">
+            <button class="btn ghost" onclick="location.href='../index.html'">Main Menu</button>
+          </div>
+        </div>
+
         <div class="grid">
           <article class="card">
             <h3>🟨 PacSentence (Pac-Man)</h3>
-            <p>Laberinto azul. Comecocos amarillo. Fantasma se mueve sin glitches. Palabras grandes.</p>
+            <p>Comecocos clásico + laberinto azul + palabras grandes. Fantasma estable (sin glitch).</p>
             <div class="row">
               <button class="btn primary" id="goPac">Play Pac-Man</button>
-              <button class="btn" onclick="location.href='../index.html'">Main Menu</button>
+              <button class="btn" id="pacQuick">Restart</button>
             </div>
           </article>
 
           <article class="card">
             <h3>🚀 Synonym Invaders</h3>
-            <p>Dispara a un sinónimo del objetivo. Palabras grandes. Siempre aparecen palabras. Sin ayudas.</p>
+            <p>Clásico estilo Space Invaders. Dispara un sinónimo del objetivo. Shooter rápido.</p>
             <div class="row">
               <button class="btn primary" id="goInv">Play Invaders</button>
-              <button class="btn" id="resetAll">Reset</button>
+              <button class="btn" id="invQuick">Restart</button>
+            </div>
+          </article>
+
+          <article class="card">
+            <h3>🧩 Matching Master</h3>
+            <p>Empareja: (1) sinónimos, (2) palabra–definición, (3) español–inglés. Basado en el banco de tu unidad (editable).</p>
+            <div class="row">
+              <button class="btn primary" id="goMatch">Play Matching</button>
+              <button class="btn" id="matchQuick">Restart</button>
             </div>
           </article>
         </div>
@@ -279,7 +431,7 @@
 
             <p class="note">
               Controles: <span class="kbd">← ↑ → ↓</span> o <span class="kbd">WASD</span><br>
-              Objetivo: come palabras en orden. No mostramos la frase completa.
+              Objetivo: come palabras en orden (no mostramos la frase completa).
             </p>
           </aside>
         </div>
@@ -316,14 +468,116 @@
           </aside>
         </div>
       </div>
+
+      <!-- MATCHING -->
+      <div id="match" class="screen">
+        <div class="gameLayout">
+          <div class="side" style="border-radius:22px">
+            <h4>Matching Master</h4>
+
+            <div class="modeRow">
+              <select id="matchMode" class="select">
+                <option value="synonyms">Synonyms</option>
+                <option value="definitions">Word ↔ Definition</option>
+                <option value="es-en">Spanish ↔ English</option>
+              </select>
+
+              <select id="matchSet" class="select">
+                <option value="unit">Unit bank</option>
+                <option value="mixed">Mixed bank</option>
+              </select>
+
+              <button class="btn primary" id="matchStart">Start</button>
+              <button class="btn" id="matchRestart">Restart</button>
+              <button class="btn" id="matchBack">Back to Arcade</button>
+            </div>
+
+            <div class="hudLine" style="margin-top:6px">
+              <div class="hudPill">⏱ Time: <span id="matchTime">00:00</span></div>
+              <div class="hudPill">🧠 Matches: <span id="matchDone">0</span>/<span id="matchTotal">0</span></div>
+              <div class="hudPill">❌ Mistakes: <span id="matchMist">0</span></div>
+            </div>
+
+            <div class="fb" id="matchFb" style="margin-top:10px">Choose mode and press Start.</div>
+
+            <div class="matchWrap">
+              <div class="matchCol">
+                <h5 id="leftTitle">Left</h5>
+                <div class="matchList" id="leftList"></div>
+              </div>
+              <div class="matchCol">
+                <h5 id="rightTitle">Right</h5>
+                <div class="matchList" id="rightList"></div>
+              </div>
+            </div>
+
+            <p class="note">
+              Cómo jugar: toca una tarjeta de la izquierda + una de la derecha. Si es pareja, se queda marcada.
+            </p>
+          </div>
+
+          <aside class="side">
+            <h4>Teacher Setup</h4>
+            <p class="note" style="margin-top:0">
+              Edita los bancos dentro del código:<br>
+              • <b>UNIT_SYNONYMS</b><br>
+              • <b>UNIT_DEFINITIONS</b><br>
+              • <b>UNIT_ES_EN</b><br>
+              Puedes ajustar número de parejas con <b>PAIRS_PER_ROUND</b>.
+            </p>
+            <div class="slots" id="matchSlots"></div>
+            <div class="fb warn">Tip: usa 6–10 parejas para niños (rápido y divertido).</div>
+          </aside>
+        </div>
+      </div>
     </section>
   </main>
 
 <script>
 (() => {
-  // =========================
-  // DATA (edit here)
-  // =========================
+  // =========================================================
+  // EDIT YOUR UNIT BANKS HERE (based on your unit contents)
+  // =========================================================
+
+  // 1) Synonyms pairs (A <-> B)
+  const UNIT_SYNONYMS = [
+    ["big", "large"],
+    ["fast", "quick"],
+    ["happy", "glad"],
+    ["start", "begin"],
+    ["finish", "end"],
+    ["difficult", "hard"],
+    ["safe", "secure"],
+    ["important", "essential"],
+    ["smart", "clever"],
+    ["tired", "exhausted"],
+  ];
+
+  // 2) Word <-> Definition pairs
+  const UNIT_DEFINITIONS = [
+    ["recycle", "to use something again"],
+    ["pollution", "dirty air, water, or land"],
+    ["invent", "to create something new"],
+    ["improve", "to make something better"],
+    ["prevent", "to stop something from happening"],
+    ["solution", "an answer to a problem"],
+    ["energy", "power to do work"],
+    ["healthy", "good for your body"],
+  ];
+
+  // 3) Spanish <-> English pairs
+  const UNIT_ES_EN = [
+    ["cuidar el planeta", "take care of the planet"],
+    ["reciclar", "recycle"],
+    ["contaminación", "pollution"],
+    ["ahorrar agua", "save water"],
+    ["energía", "energy"],
+    ["saludable", "healthy"],
+    ["difícil", "difficult"],
+    ["rápido", "fast"],
+  ];
+
+  // Sentences for PacSentence
   const SENTENCES = [
     "I always do my homework at night.",
     "She doesn’t like coffee.",
@@ -335,6 +589,7 @@
     "If you study, you will pass the test."
   ];
 
+  // Invaders synonyms bank: target -> answers
   const SYNONYMS = [
     { target: "big", answers: ["large", "huge", "giant"] },
     { target: "small", answers: ["tiny", "little", "mini"] },
@@ -348,22 +603,23 @@
     { target: "difficult", answers: ["hard", "tough", "challenging"] },
   ];
 
-  // =========================
+  // Matching settings
+  const PAIRS_PER_ROUND = 8;  // adjust: 6–10 good for kids
+
+  // =========================================================
   // Helpers
-  // =========================
+  // =========================================================
   const $ = (id) => document.getElementById(id);
-  const screens = { arcade: $("arcade"), pac: $("pac"), inv: $("inv") };
+  const screens = { arcade: $("arcade"), pac: $("pac"), inv: $("inv"), match: $("match") };
 
   function show(name){
     Object.values(screens).forEach(s => s.classList.remove("active"));
     screens[name].classList.add("active");
   }
-
   function setFB(el, msg, cls=""){
     el.className = "fb" + (cls ? ` ${cls}` : "");
     el.textContent = msg;
   }
-
   function makeSlots(container, total, filled){
     container.innerHTML = "";
     for (let i=0;i<total;i++){
@@ -373,7 +629,6 @@
       container.appendChild(d);
     }
   }
-
   function shuffle(arr){
     for(let i=arr.length-1;i>0;i--){
       const j = Math.floor(Math.random()*(i+1));
@@ -381,13 +636,19 @@
     }
     return arr;
   }
+  function pad2(n){ return String(n).padStart(2,"0"); }
 
-  $("goPac").addEventListener("click", () => { show("pac"); pac.start(true); });
-  $("goInv").addEventListener("click", () => { show("inv"); inv.start(true); });
-  $("resetAll").addEventListener("click", () => { pac.start(true); inv.start(true); });
+  // Arcade nav
+  $("goPac").addEventListener("click", ()=>{ show("pac"); pac.start(true); });
+  $("goInv").addEventListener("click", ()=>{ show("inv"); inv.start(true); });
+  $("goMatch").addEventListener("click", ()=>{ show("match"); matching.start(true); });
+
+  $("pacQuick").addEventListener("click", ()=>{ pac.start(true); });
+  $("invQuick").addEventListener("click", ()=>{ inv.start(true); });
+  $("matchQuick").addEventListener("click", ()=>{ matching.start(true); });
 
   // ============================================================
-  // PAC-MAN (stable ghost movement)
+  // PAC-MAN (stable ghost; classic look; big words)
   // ============================================================
   const pac = (() => {
     const cv = $("pacCv");
@@ -403,7 +664,6 @@
       back: $("pacBack"),
     };
 
-    // 21x13 maze
     const MAZE = [
       "111111111111111111111",
       "100000000100000000001",
@@ -422,7 +682,6 @@
 
     const ROWS = MAZE.length;
     const COLS = MAZE[0].length;
-
     const TILE = Math.floor(Math.min(cv.width/COLS, cv.height/ROWS));
     const OFFX = Math.floor((cv.width - COLS*TILE)/2);
     const OFFY = Math.floor((cv.height - ROWS*TILE)/2);
@@ -435,7 +694,7 @@
       expected:0,
       words:[],
       pac:{x:1,y:1,dir:"right"},
-      ghost:{x:COLS-2,y:ROWS-2, dir:"left"},
+      ghost:{x:COLS-2,y:ROWS-2,dir:"left"},
       t:0,
       ghostEveryMs: 520,
       lastGhostMs: 0
@@ -514,70 +773,63 @@
       st.pac.x=nx; st.pac.y=ny;
       eatIfWord();
 
-      // instant collision check
       if(st.ghostsOn && st.ghost.x===st.pac.x && st.ghost.y===st.pac.y){
         st.running=false;
         setFB(UI.fb, "👻 Ghost caught you. Restart.", "bad");
       }
     }
 
-    // Stable ghost: keeps direction, only changes when blocked; slight “chase bias” at junctions
+    // stable ghost: keep dir unless blocked; chase bias without jitter
     function ghostStep(){
       if(!st.running || !st.ghostsOn) return;
 
       const dirVec = {up:[0,-1],down:[0,1],left:[-1,0],right:[1,0]};
       const opposite = {up:"down",down:"up",left:"right",right:"left"};
 
-      // candidates (excluding walls, prefer not reversing unless forced)
       const dirs = ["up","down","left","right"].filter(d=>{
         const [dx,dy]=dirVec[d];
         return !isWall(st.ghost.x+dx, st.ghost.y+dy);
       });
-
       if(dirs.length===0) return;
 
       let candidates = dirs.filter(d => d !== opposite[st.ghost.dir]);
-      if(candidates.length===0) candidates = dirs; // forced reverse
+      if(candidates.length===0) candidates = dirs;
 
-      // chase bias: pick candidate that reduces manhattan distance, but keep direction if it’s good
       const distNow = Math.abs(st.ghost.x - st.pac.x) + Math.abs(st.ghost.y - st.pac.y);
 
-      // if current dir still available and not worse, keep it (reduces jitter)
       if(candidates.includes(st.ghost.dir)){
         const [dx,dy]=dirVec[st.ghost.dir];
         const nx = st.ghost.x+dx, ny=st.ghost.y+dy;
         const distNext = Math.abs(nx-st.pac.x)+Math.abs(ny-st.pac.y);
-        if(distNext <= distNow + 1){ // allow equal/slightly worse to keep stable
-          st.ghost.x = nx; st.ghost.y = ny;
-          return collisionAfterGhostMove();
+        if(distNext <= distNow + 1){
+          st.ghost.x=nx; st.ghost.y=ny;
+          return collisionAfterGhost();
         }
       }
 
-      // otherwise choose best distance; random among ties
-      let best = [];
-      let bestD = Infinity;
+      let best=[], bestD=Infinity;
       for(const d of candidates){
         const [dx,dy]=dirVec[d];
-        const nx = st.ghost.x+dx, ny=st.ghost.y+dy;
+        const nx=st.ghost.x+dx, ny=st.ghost.y+dy;
         const dd = Math.abs(nx-st.pac.x)+Math.abs(ny-st.pac.y);
-        if(dd < bestD){ bestD = dd; best=[d]; }
-        else if(dd === bestD){ best.push(d); }
+        if(dd < bestD){ bestD=dd; best=[d]; }
+        else if(dd===bestD){ best.push(d); }
       }
       const pick = best[Math.floor(Math.random()*best.length)];
       st.ghost.dir = pick;
       const [dx,dy]=dirVec[pick];
-      st.ghost.x += dx; st.ghost.y += dy;
-      collisionAfterGhostMove();
+      st.ghost.x+=dx; st.ghost.y+=dy;
+      collisionAfterGhost();
     }
 
-    function collisionAfterGhostMove(){
+    function collisionAfterGhost(){
       if(st.ghost.x===st.pac.x && st.ghost.y===st.pac.y){
         st.running=false;
         setFB(UI.fb, "👻 Ghost caught you. Restart.", "bad");
       }
     }
 
-    // draw helpers
+    // draw
     function roundRect(x,y,w,h,r){
       ctx.beginPath();
       ctx.moveTo(x+r,y);
@@ -604,11 +856,11 @@
           const px = OFFX + x*TILE;
           const py = OFFY + y*TILE;
 
-          ctx.fillStyle="rgba(30,64,175,.95)";
+          ctx.fillStyle="rgba(29,78,216,.95)";     // blue wall
           roundRect(px+2, py+2, TILE-4, TILE-4, 10);
           ctx.fill();
 
-          ctx.fillStyle="#000";
+          ctx.fillStyle="#000";                    // hollow
           roundRect(px+7, py+7, TILE-14, TILE-14, 8);
           ctx.fill();
         }
@@ -627,7 +879,7 @@
         roundRect(px+5, py+5, TILE-10, TILE-10, 14);
         ctx.fill(); ctx.stroke();
 
-        // very big text
+        // big text
         let fs = Math.max(28, Math.floor(TILE*0.55));
         const minFs = 18;
         ctx.textAlign="center";
@@ -699,13 +951,12 @@
       ctx.fill();
     }
 
-    let lastFrame = 0;
+    let lastFrame=0;
     function loop(t){
-      const dt = Math.min(33, t - lastFrame);
+      const dt = Math.min(33, t-lastFrame);
       lastFrame = t;
       st.t += dt/1000;
 
-      // ghost step timer
       if(screens.pac.classList.contains("active") && st.running && st.ghostsOn){
         if(t - st.lastGhostMs > st.ghostEveryMs){
           st.lastGhostMs = t;
@@ -717,15 +968,14 @@
       drawWords();
       drawGhost();
       drawPacman(dt);
-
       requestAnimationFrame(loop);
     }
 
     function start(reset){
-      st.running = true;
-      st.pac = {x:1,y:1,dir:"right"};
-      st.ghost = {x:COLS-2,y:ROWS-2,dir:"left"};
-      st.lastGhostMs = 0;
+      st.running=true;
+      st.pac={x:1,y:1,dir:"right"};
+      st.ghost={x:COLS-2,y:ROWS-2,dir:"left"};
+      st.lastGhostMs=0;
       if(reset) pickSentence();
     }
 
@@ -751,12 +1001,11 @@
 
     pickSentence();
     requestAnimationFrame(loop);
-
     return { start };
   })();
 
   // ============================================================
-  // INVADERS (words always spawn; arcade access fixed)
+  // INVADERS (classic-ish + faster ship, stable spawn)
   // ============================================================
   const inv = (() => {
     const cv = $("invCv");
@@ -776,10 +1025,16 @@
       back: $("invBack"),
     };
 
-    const MAX_WORDS_ON_SCREEN = 7;
-    const SPAWN_MS = 950;
-    const SHOT_SPEED = 16;
-    const SHIP_SPEED = 12;
+    const MAX_WORDS_ON_SCREEN = 8;
+    const SPAWN_MS = 800;
+    const BULLET_SPEED = 1100;     // px/sec
+    const SHIP_SPEED = 720;        // px/sec (fast)
+    const WORD_FALL_MIN = 120;     // px/sec
+    const WORD_FALL_MAX = 190;
+
+    const GREEN = "rgba(74,222,128,.95)";
+    const DIM_GREEN = "rgba(74,222,128,.55)";
+    const WHITE = "rgba(255,255,255,.92)";
 
     const st = {
       running:false,
@@ -787,16 +1042,14 @@
       correctSet:new Set(),
       need:3,
       got:0,
-
       lives:3,
       strikes:0,
       streak:0,
       score:0,
-
-      ship:{x:W/2, w:100, h:24},
+      ship:{x:W/2, w:92, h:18},
       keys:{},
       words:[],
-      shots:[],
+      bullets:[],
       lastSpawn:0,
       lastT:0
     };
@@ -815,11 +1068,9 @@
       st.correctSet = new Set(q.answers.map(x=>x.toLowerCase()));
       st.need = 3;
       st.got = 0;
-
       st.words = [];
-      st.shots = [];
+      st.bullets = [];
       st.lastSpawn = 0;
-
       setFB(UI.fb, `Shoot a synonym of: ${st.target.toUpperCase()}`, "warn");
       hud();
     }
@@ -847,7 +1098,6 @@
       }
       shuffle(distractPool);
 
-      // pick correct about half the time
       const isCorrect = Math.random() < 0.55 && correct.length > 0;
       const text = isCorrect
         ? correct[Math.floor(Math.random()*correct.length)]
@@ -856,49 +1106,29 @@
       st.words.push({
         text,
         isCorrect: st.correctSet.has(text.toLowerCase()),
-        x: 140 + Math.random()*(W-280),
+        x: 160 + Math.random()*(W-320),
         y: -60,
-        vy: 140 + Math.random()*80, // px per sec
+        vy: WORD_FALL_MIN + Math.random()*(WORD_FALL_MAX - WORD_FALL_MIN),
         w:0,h:0,font:0
       });
-
       st.lastSpawn = now;
     }
 
     function shoot(){
       if(!st.running) return;
-      st.shots.push({x: st.ship.x, y: H - 140, vy: 900}); // px per sec
+      st.bullets.push({ x: st.ship.x, y: H - 150, vy: BULLET_SPEED });
     }
 
     function measure(word, size){
       ctx.font = `1000 ${size}px system-ui,-apple-system,Segoe UI,Roboto,Arial`;
       return ctx.measureText(word).width;
     }
-
     function layoutWord(w){
-      let fs = 38;
+      let fs = 36;
       while(fs > 20 && measure(w.text, fs) > 420) fs--;
       w.font = fs;
       w.w = measure(w.text, fs) + 34;
       w.h = fs + 18;
-    }
-
-    function drawWord(w){
-      layoutWord(w);
-      const x = w.x - w.w/2;
-      const y = w.y - w.h/2;
-
-      ctx.fillStyle = "rgba(255,255,255,.10)";
-      ctx.strokeStyle = "rgba(255,255,255,.18)";
-      ctx.lineWidth = 2;
-      roundRect(x,y,w.w,w.h,18);
-      ctx.fill(); ctx.stroke();
-
-      ctx.fillStyle = "rgba(255,255,255,.96)";
-      ctx.textAlign="center";
-      ctx.textBaseline="middle";
-      ctx.font = `1000 ${w.font}px system-ui,-apple-system,Segoe UI,Roboto,Arial`;
-      ctx.fillText(w.text, w.x, w.y+1);
     }
 
     function roundRect(x,y,w,h,r){
@@ -909,6 +1139,56 @@
       ctx.arcTo(x,y+h,x,y,r);
       ctx.arcTo(x,y,x+w,y,r);
       ctx.closePath();
+    }
+
+    function drawShip(){
+      const x = st.ship.x;
+      const y = H - 125;
+      ctx.fillStyle = GREEN;
+      ctx.fillRect(x - 36, y, 72, 14);
+      ctx.fillRect(x - 10, y - 10, 20, 10);
+      ctx.fillRect(x - 52, y + 4, 16, 6);
+      ctx.fillRect(x + 36, y + 4, 16, 6);
+    }
+
+    function drawBullet(b){
+      ctx.fillStyle = WHITE;
+      ctx.fillRect(b.x - 2, b.y - 10, 4, 14);
+    }
+
+    function drawWordAlien(w){
+      layoutWord(w);
+      const x = w.x - w.w/2;
+      const y = w.y - w.h/2;
+
+      ctx.strokeStyle = DIM_GREEN;
+      ctx.lineWidth = 2;
+      roundRect(x, y, w.w, w.h, 10);
+      ctx.stroke();
+
+      // tiny invader above word
+      ctx.fillStyle = GREEN;
+      const cx = w.x;
+      const top = y - 14;
+      const px = 4;
+      const pattern = [
+        [0,1,1,1,0],
+        [1,1,1,1,1],
+        [1,0,1,0,1],
+      ];
+      for(let r=0;r<pattern.length;r++){
+        for(let c=0;c<pattern[0].length;c++){
+          if(pattern[r][c]){
+            ctx.fillRect(cx - (pattern[0].length*px)/2 + c*px, top + r*px, px, px);
+          }
+        }
+      }
+
+      ctx.fillStyle = WHITE;
+      ctx.textAlign="center";
+      ctx.textBaseline="middle";
+      ctx.font = `1000 ${w.font}px system-ui,-apple-system,Segoe UI,Roboto,Arial`;
+      ctx.fillText(w.text, w.x, w.y+1);
     }
 
     function handleHit(w){
@@ -938,30 +1218,24 @@
     }
 
     function update(dt, now){
-      // ship
-      if(st.keys["arrowleft"] || st.keys["a"]) st.ship.x -= SHIP_SPEED*dt;
-      if(st.keys["arrowright"] || st.keys["d"]) st.ship.x += SHIP_SPEED*dt;
-      st.ship.x = Math.max(110, Math.min(W-110, st.ship.x));
+      if(st.keys["arrowleft"] || st.keys["a"]) st.ship.x -= SHIP_SPEED * dt;
+      if(st.keys["arrowright"] || st.keys["d"]) st.ship.x += SHIP_SPEED * dt;
+      st.ship.x = Math.max(90, Math.min(W-90, st.ship.x));
 
-      // spawn ALWAYS when running
       if(now - st.lastSpawn >= SPAWN_MS) spawnWord(now);
 
-      // move words
       for(const w of st.words) w.y += w.vy * dt;
+      for(const b of st.bullets) b.y -= b.vy * dt;
 
-      // move shots
-      for(const s of st.shots) s.y -= s.vy * dt;
-
-      // collisions
-      for(let si=st.shots.length-1; si>=0; si--){
-        const s = st.shots[si];
+      for(let bi=st.bullets.length-1; bi>=0; bi--){
+        const b = st.bullets[bi];
         for(let wi=st.words.length-1; wi>=0; wi--){
           const w = st.words[wi];
           if(!w.w) layoutWord(w);
           const left = w.x - w.w/2, right = w.x + w.w/2;
           const top = w.y - w.h/2, bottom = w.y + w.h/2;
-          if(s.x>=left && s.x<=right && s.y>=top && s.y<=bottom){
-            st.shots.splice(si,1);
+          if(b.x>=left && b.x<=right && b.y>=top && b.y<=bottom){
+            st.bullets.splice(bi,1);
             st.words.splice(wi,1);
             handleHit(w);
             break;
@@ -969,67 +1243,43 @@
         }
       }
 
-      // cleanup
-      st.shots = st.shots.filter(s => s.y > -80);
-      st.words = st.words.filter(w => w.y < H + 120);
-    }
-
-    function drawShip(){
-      const x = st.ship.x;
-      const y = H - 120;
-      ctx.fillStyle = "rgba(255,255,255,.92)";
-      ctx.fillRect(x - st.ship.w/2, y, st.ship.w, st.ship.h);
-      ctx.fillStyle = "rgba(255,209,102,.95)";
-      ctx.fillRect(x - 10, y - 30, 20, 30);
-      ctx.fillStyle = "rgba(0,0,0,.35)";
-      ctx.fillRect(x - st.ship.w/2, y + st.ship.h - 4, st.ship.w, 4);
+      st.bullets = st.bullets.filter(b => b.y > -60);
+      st.words = st.words.filter(w => w.y < H + 140);
     }
 
     function render(){
       ctx.clearRect(0,0,W,H);
+      ctx.fillStyle = "#000";
+      ctx.fillRect(0,0,W,H);
 
-      // starfield
-      ctx.fillStyle = "rgba(255,255,255,.03)";
-      for(let i=0;i<260;i++){
-        const x = (i*73)%W;
-        const y = (i*151)%H;
+      ctx.fillStyle = "rgba(255,255,255,.05)";
+      for(let i=0;i<320;i++){
+        const x = (i*97)%W;
+        const y = (i*163)%H;
         ctx.fillRect(x,y,2,2);
       }
 
-      // goal text only
-      ctx.fillStyle = "rgba(255,255,255,.88)";
+      ctx.fillStyle = GREEN;
       ctx.font = "1000 30px system-ui,-apple-system,Segoe UI,Roboto,Arial";
       ctx.textAlign="left";
       ctx.textBaseline="top";
-      ctx.fillText(`Shoot a synonym of: ${st.target.toUpperCase()}`, 18, 16);
+      ctx.fillText(`SHOOT A SYNONYM OF: ${st.target.toUpperCase()}`, 18, 14);
 
-      // shots
-      ctx.fillStyle = "rgba(255,209,102,.95)";
-      for(const s of st.shots){
-        ctx.beginPath();
-        ctx.arc(s.x, s.y, 8, 0, Math.PI*2);
-        ctx.fill();
-      }
-
-      // words
-      for(const w of st.words) drawWord(w);
-
-      // ship
+      for(const b of st.bullets) drawBullet(b);
+      for(const w of st.words) drawWordAlien(w);
       drawShip();
 
-      // floor
-      ctx.strokeStyle = "rgba(255,255,255,.10)";
+      ctx.strokeStyle = DIM_GREEN;
       ctx.lineWidth = 3;
       ctx.beginPath();
-      ctx.moveTo(0, H-90);
-      ctx.lineTo(W, H-90);
+      ctx.moveTo(0, H-95);
+      ctx.lineTo(W, H-95);
       ctx.stroke();
     }
 
     function loop(now){
       const dt = Math.min(0.05, (now - st.lastT)/1000 || 0.016);
       st.lastT = now;
-
       if(screens.inv.classList.contains("active") && st.running){
         update(dt, now);
       }
@@ -1037,15 +1287,13 @@
       requestAnimationFrame(loop);
     }
 
-    function start(resetAll){
-      if(resetAll) reset(true);
+    function start(fullReset){
+      if(fullReset) reset(true);
       st.running = true;
       setFB(UI.fb, `Shoot a synonym of: ${st.target.toUpperCase()}`, "warn");
       hud();
-      // force immediate spawn so you ALWAYS see words
-      spawnWord(performance.now());
-      spawnWord(performance.now()+1);
-      spawnWord(performance.now()+2);
+      const t = performance.now();
+      spawnWord(t); spawnWord(t+1); spawnWord(t+2);
     }
 
     UI.start.onclick = ()=> start(true);
@@ -1068,10 +1316,260 @@
       st.keys[k] = false;
     });
 
-    // init
     reset(true);
     requestAnimationFrame(loop);
+    return { start };
+  })();
 
+  // ============================================================
+  // MATCHING MASTER (synonyms/definitions/es-en)
+  // ============================================================
+  const matching = (() => {
+    const UI = {
+      mode: $("matchMode"),
+      set: $("matchSet"),
+      start: $("matchStart"),
+      restart: $("matchRestart"),
+      back: $("matchBack"),
+      fb: $("matchFb"),
+      leftTitle: $("leftTitle"),
+      rightTitle: $("rightTitle"),
+      leftList: $("leftList"),
+      rightList: $("rightList"),
+      time: $("matchTime"),
+      done: $("matchDone"),
+      total: $("matchTotal"),
+      mist: $("matchMist"),
+      slots: $("matchSlots"),
+    };
+
+    const st = {
+      running:false,
+      sec:0,
+      timer:null,
+      mistakes:0,
+      total:0,
+      done:0,
+      left:null,     // selected left id
+      right:null,    // selected right id
+      pairs:new Map(), // leftId -> rightId
+      leftItems:[],
+      rightItems:[],
+      matched:new Set()
+    };
+
+    function setTime(){
+      UI.time.textContent = `${pad2(Math.floor(st.sec/60))}:${pad2(st.sec%60)}`;
+    }
+    function hud(){
+      UI.done.textContent = st.done;
+      UI.total.textContent = st.total;
+      UI.mist.textContent = st.mistakes;
+      makeSlots(UI.slots, st.total, st.done);
+      setTime();
+    }
+
+    function pickBank(){
+      const mode = UI.mode.value;
+      const setName = UI.set.value;
+
+      // base “unit” bank
+      let basePairs = [];
+      if(mode === "synonyms") basePairs = UNIT_SYNONYMS.slice();
+      if(mode === "definitions") basePairs = UNIT_DEFINITIONS.slice();
+      if(mode === "es-en") basePairs = UNIT_ES_EN.slice();
+
+      // “mixed” adds extra pairs from other lists (still unit-related)
+      if(setName === "mixed"){
+        const extra = []
+          .concat(UNIT_SYNONYMS.map(p => p))
+          .concat(UNIT_DEFINITIONS.map(p => p))
+          .concat(UNIT_ES_EN.map(p => p));
+        basePairs = shuffle(extra).slice(0, Math.max(PAIRS_PER_ROUND, 10));
+      }
+
+      return basePairs;
+    }
+
+    function buildRound(){
+      const mode = UI.mode.value;
+
+      const allPairs = pickBank();
+      const pairs = shuffle(allPairs).slice(0, Math.min(PAIRS_PER_ROUND, allPairs.length));
+
+      // labels
+      if(mode === "synonyms"){ UI.leftTitle.textContent="Word"; UI.rightTitle.textContent="Synonym"; }
+      if(mode === "definitions"){ UI.leftTitle.textContent="Word"; UI.rightTitle.textContent="Definition"; }
+      if(mode === "es-en"){ UI.leftTitle.textContent="Español"; UI.rightTitle.textContent="English"; }
+
+      // build IDs
+      st.pairs.clear();
+      st.matched.clear();
+      st.left = null;
+      st.right = null;
+
+      st.leftItems = pairs.map((p,i)=>({ id:`L${i}`, text:p[0] }));
+      st.rightItems = pairs.map((p,i)=>({ id:`R${i}`, text:p[1] }));
+
+      // mapping by index
+      pairs.forEach((_,i)=> st.pairs.set(`L${i}`, `R${i}`));
+
+      // shuffle display order
+      shuffle(st.leftItems);
+      shuffle(st.rightItems);
+
+      st.total = pairs.length;
+      st.done = 0;
+      st.mistakes = 0;
+
+      renderLists();
+      hud();
+
+      setFB(UI.fb, "Match pairs: left + right.", "warn");
+    }
+
+    function renderLists(){
+      UI.leftList.innerHTML = "";
+      UI.rightList.innerHTML = "";
+
+      st.leftItems.forEach(item => UI.leftList.appendChild(makeCard("left", item)));
+      st.rightItems.forEach(item => UI.rightList.appendChild(makeCard("right", item)));
+    }
+
+    function makeCard(side, item){
+      const btn = document.createElement("button");
+      btn.className = "matchBtn";
+      btn.textContent = item.text;
+      btn.dataset.side = side;
+      btn.dataset.id = item.id;
+
+      if(st.matched.has(item.id)) btn.classList.add("correct");
+
+      btn.addEventListener("click", () => onPick(btn));
+      return btn;
+    }
+
+    function clearSelections(){
+      st.left = null;
+      st.right = null;
+      document.querySelectorAll(".matchBtn.selected").forEach(b=>b.classList.remove("selected"));
+    }
+
+    function onPick(btn){
+      if(!st.running) return;
+      if(btn.classList.contains("correct")) return;
+
+      const side = btn.dataset.side;
+      const id = btn.dataset.id;
+
+      // toggle selection
+      if(btn.classList.contains("selected")){
+        btn.classList.remove("selected");
+        if(side==="left") st.left = null;
+        else st.right = null;
+        return;
+      }
+
+      // only one selected per side
+      if(side==="left"){
+        document.querySelectorAll('.matchBtn[data-side="left"].selected').forEach(b=>b.classList.remove("selected"));
+        st.left = id;
+      } else {
+        document.querySelectorAll('.matchBtn[data-side="right"].selected').forEach(b=>b.classList.remove("selected"));
+        st.right = id;
+      }
+      btn.classList.add("selected");
+
+      // if both selected, check
+      if(st.left && st.right){
+        const correctRight = st.pairs.get(st.left);
+        if(correctRight === st.right){
+          // mark matched (both ids)
+          st.matched.add(st.left);
+          st.matched.add(st.right);
+          st.done++;
+          hud();
+          setFB(UI.fb, "✅ Correct match!", "ok");
+
+          // update buttons to correct
+          document.querySelectorAll(`.matchBtn[data-id="${st.left}"], .matchBtn[data-id="${st.right}"]`)
+            .forEach(b=>{
+              b.classList.remove("selected");
+              b.classList.add("correct");
+            });
+
+          st.left = null; st.right = null;
+
+          if(st.done >= st.total){
+            stopTimer();
+            st.running = false;
+            setFB(UI.fb, "🏆 Completed! Press Restart or change mode.", "ok");
+          }
+        } else {
+          st.mistakes++;
+          hud();
+          setFB(UI.fb, "❌ Not a match.", "bad");
+
+          // flash wrong
+          const a = document.querySelector(`.matchBtn[data-id="${st.left}"]`);
+          const b = document.querySelector(`.matchBtn[data-id="${st.right}"]`);
+          [a,b].forEach(x=>{
+            if(!x) return;
+            x.classList.add("wrongFlash");
+            setTimeout(()=>x.classList.remove("wrongFlash"), 250);
+          });
+
+          // clear selections
+          setTimeout(clearSelections, 220);
+        }
+      }
+    }
+
+    function startTimer(){
+      stopTimer();
+      st.sec = 0;
+      setTime();
+      st.timer = setInterval(()=>{
+        if(!st.running) return;
+        st.sec++;
+        setTime();
+      },1000);
+    }
+    function stopTimer(){
+      if(st.timer) clearInterval(st.timer);
+      st.timer = null;
+    }
+
+    function start(reset){
+      if(reset) buildRound();
+      st.running = true;
+      startTimer();
+      setFB(UI.fb, "Go! Match pairs.", "warn");
+    }
+
+    UI.start.addEventListener("click", ()=> start(true));
+    UI.restart.addEventListener("click", ()=> start(true));
+    UI.back.addEventListener("click", ()=>{
+      st.running = false;
+      stopTimer();
+      show("arcade");
+    });
+
+    // rebuild when mode changes (but don’t auto-start)
+    UI.mode.addEventListener("change", ()=>{
+      st.running = false;
+      stopTimer();
+      buildRound();
+      setFB(UI.fb, "Mode changed. Press Start.", "warn");
+    });
+    UI.set.addEventListener("change", ()=>{
+      st.running = false;
+      stopTimer();
+      buildRound();
+      setFB(UI.fb, "Set changed. Press Start.", "warn");
+    });
+
+    buildRound();
     return { start };
   })();
 
