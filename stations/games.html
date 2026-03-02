@@ -1,25 +1,533 @@
-No, there wasn't. There wasn't a TV in the room, but there was a lamp.
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>PacSentence — Clear Maze</title>
+  <style>
+    :root{
+      --bg:#050816;
+      --panel:rgba(255,255,255,.06);
+      --line:rgba(255,255,255,.14);
+      --ink:#eaf0ff;
+      --muted:#a8b4d8;
+      --ok:#2ee59d;
+      --bad:#ff5470;
+      --warn:#ffd166;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      background:radial-gradient(900px 520px at 20% -10%, rgba(123,92,255,.35), transparent 60%),
+                 radial-gradient(900px 520px at 90% 10%, rgba(46,229,157,.18), transparent 65%),
+                 var(--bg);
+      color:var(--ink);
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:14px;
+    }
+    .wrap{
+      width:min(1100px,100%);
+      display:grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap:12px;
+    }
+    @media(max-width:980px){.wrap{grid-template-columns:1fr}}
+    .card{
+      background:linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.03));
+      border:1px solid var(--line);
+      border-radius:18px;
+      box-shadow:0 18px 50px rgba(0,0,0,.45);
+      overflow:hidden;
+    }
+    .top{
+      padding:12px 14px;
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:10px;
+      background:rgba(0,0,0,.18);
+      border-bottom:1px solid var(--line);
+    }
+    h1{margin:0;font-size:16px;letter-spacing:.3px}
+    .sub{margin:4px 0 0;color:var(--muted);font-size:12px;line-height:1.3}
+    .pills{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+    .pill{
+      background:var(--panel);
+      border:1px solid var(--line);
+      border-radius:999px;
+      padding:7px 10px;
+      font-weight:900;
+      font-size:12px;
+      white-space:nowrap;
+      user-select:none;
+    }
+    canvas{display:block;width:100%;height:auto;background:#020413}
+    .side{padding:12px 14px}
+    .box{
+      background:var(--panel);
+      border:1px solid var(--line);
+      border-radius:14px;
+      padding:10px;
+      margin-bottom:10px;
+    }
+    .box h2{
+      margin:0 0 8px;
+      font-size:12px;
+      letter-spacing:.45px;
+      text-transform:uppercase;
+      color:var(--muted);
+    }
+    .slots{
+      display:flex;flex-wrap:wrap;gap:8px;align-items:center;min-height:44px;
+    }
+    .slot{
+      min-width:44px;
+      padding:10px 12px;
+      border-radius:12px;
+      border:1px dashed rgba(255,255,255,.22);
+      background:rgba(0,0,0,.18);
+      font-weight:1000;
+      text-align:center;
+      color:rgba(255,255,255,.7);
+    }
+    .slot.filled{
+      border-style:solid;
+      border-color:rgba(46,229,157,.55);
+      background:rgba(46,229,157,.12);
+      color:var(--ink);
+    }
+    .fb{
+      min-height:22px;
+      font-weight:900;
+      color:var(--muted);
+      line-height:1.25;
+      font-size:12px;
+    }
+    .fb.ok{color:var(--ok)}
+    .fb.bad{color:var(--bad)}
+    .fb.warn{color:var(--warn)}
+    .row{display:flex;gap:8px;flex-wrap:wrap}
+    .btn{
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.08);
+      color:var(--ink);
+      padding:10px 12px;
+      border-radius:14px;
+      font-weight:1000;
+      cursor:pointer;
+      user-select:none;
+    }
+    .btn.primary{background:rgba(123,92,255,.25);border-color:rgba(123,92,255,.55)}
+    .kbd{
+      font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.08);
+      padding:2px 6px;
+      border-radius:8px;
+      font-weight:900;
+      color:var(--ink);
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card">
+      <div class="top">
+        <div>
+          <h1>PacSentence — Clear Labyrinth</h1>
+          <div class="sub">
+            Flechas o WASD. Come palabras en orden correcto (no se muestra la frase).
+          </div>
+        </div>
+        <div class="pills">
+          <div class="pill">❤️ Lives: <b id="lives">3</b></div>
+          <div class="pill">⏱ Time: <b id="time">00:00</b></div>
+          <div class="pill">👻 Ghosts: <b id="ghosts">ON</b></div>
+        </div>
+      </div>
+      <canvas id="cv" width="900" height="560"></canvas>
+    </div>
 
-(voice: Emma)
+    <div class="card side">
+      <div class="box">
+        <h2>Progreso (sin revelar)</h2>
+        <div class="slots" id="slots"></div>
+        <div class="fb" id="fb">Pulsa “Start”.</div>
+      </div>
+      <div class="box">
+        <h2>Controles</h2>
+        <div class="row">
+          <button class="btn primary" id="startBtn">Start</button>
+          <button class="btn" id="nextBtn">Next sentence</button>
+          <button class="btn" id="restartBtn">Restart</button>
+          <button class="btn" id="ghostBtn">Ghosts: ON</button>
+          <button class="btn" id="revealBtn">Teacher reveal: OFF</button>
+          <button class="btn" onclick="location.href='games.html'">Back</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
-And the bathroom?
+<script>
+(() => {
+  // ======= BANK =======
+  const SENTENCES = [
+    "I always do my homework at night.",
+    "She doesn’t like coffee.",
+    "Do they play football on Fridays?",
+    "We don’t watch TV in the morning.",
+    "I will call you tonight.",
+    "They are going to visit Madrid tomorrow.",
+    "If it rains, we will stay at home.",
+    "If you study, you will pass the test."
+  ];
 
-(voice: James)
+  // ======= CLEAR MAZE (1=wall, 0=path) =======
+  // 21 cols x 13 rows (classic corridors)
+  const MAZE = [
+    "111111111111111111111",
+    "100000000100000000001",
+    "101111110101111110101",
+    "100000010000000010001",
+    "101111010111111010101",
+    "100001010000001010001",
+    "111101011111101011111",
+    "100001000100001000001",
+    "101111110101111110101",
+    "100000000000000000001",
+    "101111111011111111101",
+    "100000000100000000001",
+    "111111111111111111111",
+  ].map(r => r.split("").map(ch => ch==="1"?1:0));
 
-The bathroom was clean. There weren't any dirty towels.
+  const cv = document.getElementById("cv");
+  const ctx = cv.getContext("2d");
+  const W = cv.width, H = cv.height;
 
-(voice: Emma)
+  const UI = {
+    lives: document.getElementById("lives"),
+    time: document.getElementById("time"),
+    ghosts: document.getElementById("ghosts"),
+    slots: document.getElementById("slots"),
+    fb: document.getElementById("fb"),
+    startBtn: document.getElementById("startBtn"),
+    nextBtn: document.getElementById("nextBtn"),
+    restartBtn: document.getElementById("restartBtn"),
+    ghostBtn: document.getElementById("ghostBtn"),
+    revealBtn: document.getElementById("revealBtn"),
+  };
 
-Breakfast? Were you happy?
+  const ROWS = MAZE.length;
+  const COLS = MAZE[0].length;
 
-(voice: James)
+  // BIG tiles for readability
+  const TILE = Math.floor(Math.min(W/COLS, H/ROWS));
+  const OFFX = Math.floor((W - COLS*TILE)/2);
+  const OFFY = Math.floor((H - ROWS*TILE)/2);
 
-Yes. At breakfast, there were two families. There was fruit and there were eggs.
+  const state = {
+    running:false,
+    reveal:false,
+    ghostsOn:true,
+    lives:3,
+    sec:0,
+    timerRef:null,
 
-(voice: Emma)
+    sentence:"",
+    tokens:[],
+    expected:0,
 
-So you were surprised?
+    pac:{x:1,y:1,dir:"right"},
+    ghost:{x:COLS-2,y:ROWS-2},
+    words:[], // {word, idx, x,y, eaten, isCorrect}
+    keys:{}
+  };
 
-(voice: James)
+  function setFB(msg, cls=""){
+    UI.fb.className = "fb" + (cls ? ` ${cls}` : "");
+    UI.fb.textContent = msg;
+  }
 
-Yes, we were surprised… and we were happy.
+  function padSlots(){
+    UI.slots.innerHTML = "";
+    state.tokens.forEach((_,i)=>{
+      const d = document.createElement("div");
+      d.className = "slot" + (i<state.expected ? " filled" : "");
+      d.textContent = (i<state.expected) ? "✓" : "_";
+      UI.slots.appendChild(d);
+    });
+  }
+
+  function updateHUD(){
+    UI.lives.textContent = state.lives;
+    UI.ghosts.textContent = state.ghostsOn ? "ON" : "OFF";
+    const m = String(Math.floor(state.sec/60)).padStart(2,"0");
+    const s = String(state.sec%60).padStart(2,"0");
+    UI.time.textContent = `${m}:${s}`;
+    padSlots();
+  }
+
+  function isWall(x,y){
+    if (x<0||y<0||x>=COLS||y>=ROWS) return true;
+    return MAZE[y][x]===1;
+  }
+
+  function pickSentence(){
+    state.sentence = SENTENCES[Math.floor(Math.random()*SENTENCES.length)];
+    state.tokens = state.sentence.trim().split(/\s+/);
+    state.expected = 0;
+    state.words = [];
+    placeWords();
+    updateHUD();
+    setFB("Empieza: come la palabra verde (siguiente correcta).", "ok");
+  }
+
+  function emptyCells(){
+    const cells=[];
+    for(let y=1;y<ROWS-1;y++){
+      for(let x=1;x<COLS-1;x++){
+        if(!isWall(x,y) && !(x===1&&y===1) && !(x===COLS-2&&y===ROWS-2)) cells.push({x,y});
+      }
+    }
+    return cells;
+  }
+
+  function placeWords(){
+    // fewer words: only correct tokens + up to 6 distractors
+    const pool = new Set();
+    SENTENCES.forEach(s=>{
+      if(s===state.sentence) return;
+      s.trim().split(/\s+/).forEach(w=>pool.add(w));
+    });
+    const distract = [...pool].sort(()=>Math.random()-0.5).slice(0,6);
+
+    const items = state.tokens.map((w,i)=>({word:w, idx:i, isCorrect:true}))
+      .concat(distract.map(w=>({word:w, idx:-1, isCorrect:false})))
+      .sort(()=>Math.random()-0.5);
+
+    const cells = emptyCells().sort(()=>Math.random()-0.5);
+
+    state.words = items.slice(0, Math.min(items.length, cells.length)).map((it, i)=>({
+      ...it, eaten:false, x:cells[i].x, y:cells[i].y
+    }));
+  }
+
+  function start(){
+    state.running = true;
+    state.lives = 3;
+    state.sec = 0;
+    state.pac = {x:1,y:1,dir:"right"};
+    state.ghost = {x:COLS-2,y:ROWS-2};
+    pickSentence();
+
+    clearInterval(state.timerRef);
+    state.timerRef = setInterval(()=>{
+      if(!state.running) return;
+      state.sec++;
+      updateHUD();
+    },1000);
+  }
+
+  function next(){
+    state.running = true;
+    state.sec = 0;
+    state.pac = {x:1,y:1,dir:"right"};
+    state.ghost = {x:COLS-2,y:ROWS-2};
+    pickSentence();
+  }
+
+  function eatIfWord(){
+    const w = state.words.find(it=>!it.eaten && it.x===state.pac.x && it.y===state.pac.y);
+    if(!w) return;
+
+    const expectedWord = state.tokens[state.expected];
+    const ok = w.isCorrect && w.idx===state.expected && w.word===expectedWord;
+
+    w.eaten = true;
+
+    if(ok){
+      state.expected++;
+      updateHUD();
+
+      if(state.expected >= state.tokens.length){
+        state.running = false;
+        setFB(state.reveal ? `🏆 Completada: ${state.sentence}` : "🏆 ¡Frase completada! Pulsa Next sentence.", "ok");
+        return;
+      }
+
+      setFB(state.reveal ? `✅ Correcto. Frase: ${state.sentence}` : "✅ Correcto.", "ok");
+    } else {
+      state.lives--;
+      updateHUD();
+      if(state.lives<=0){
+        state.running=false;
+        setFB("💀 Sin vidas. Pulsa Restart.", "bad");
+      } else {
+        setFB(state.reveal ? `❌ Incorrecto. Frase: ${state.sentence}` : "❌ Incorrecto.", "bad");
+      }
+    }
+  }
+
+  function moveGhost(){
+    if(!state.ghostsOn || !state.running) return;
+
+    const dirs = [
+      {dx:1,dy:0},{dx:-1,dy:0},{dx:0,dy:1},{dx:0,dy:-1}
+    ];
+
+    // chase but respect walls
+    let best = null;
+    for(const d of dirs){
+      const nx = state.ghost.x + d.dx;
+      const ny = state.ghost.y + d.dy;
+      if(isWall(nx,ny)) continue;
+      const dist = Math.abs(nx - state.pac.x) + Math.abs(ny - state.pac.y);
+      if(!best || dist < best.dist) best = {nx,ny,dist};
+    }
+    if(best){ state.ghost.x = best.nx; state.ghost.y = best.ny; }
+
+    if(state.ghost.x===state.pac.x && state.ghost.y===state.pac.y){
+      state.lives--;
+      updateHUD();
+      if(state.lives<=0){
+        state.running=false;
+        setFB("👻 Te atrapó el fantasma. Restart.", "bad");
+      } else {
+        state.pac.x=1; state.pac.y=1;
+        setFB("👻 Fantasma: pierdes 1 vida.", "warn");
+      }
+    }
+  }
+
+  function step(dir){
+    if(!state.running) return;
+    const v = {up:[0,-1],down:[0,1],left:[-1,0],right:[1,0]}[dir];
+    if(!v) return;
+    state.pac.dir = dir;
+
+    const nx = state.pac.x + v[0];
+    const ny = state.pac.y + v[1];
+    if(isWall(nx,ny)) return;
+
+    state.pac.x = nx; state.pac.y = ny;
+    eatIfWord();
+    moveGhost();
+  }
+
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+
+    // maze
+    for(let y=0;y<ROWS;y++){
+      for(let x=0;x<COLS;x++){
+        const px = OFFX + x*TILE;
+        const py = OFFY + y*TILE;
+
+        if(MAZE[y][x]===1){
+          ctx.fillStyle = "rgba(59,130,246,.25)";
+          ctx.fillRect(px,py,TILE,TILE);
+          ctx.strokeStyle = "rgba(59,130,246,.35)";
+          ctx.strokeRect(px+1,py+1,TILE-2,TILE-2);
+        } else {
+          ctx.fillStyle = "rgba(255,255,255,.03)";
+          ctx.fillRect(px,py,TILE,TILE);
+        }
+      }
+    }
+
+    // words
+    for(const w of state.words){
+      if(w.eaten) continue;
+      const px = OFFX + w.x*TILE;
+      const py = OFFY + w.y*TILE;
+
+      const isNext = w.isCorrect && w.idx === state.expected;
+      ctx.fillStyle = isNext ? "rgba(46,229,157,.18)" : "rgba(255,255,255,.08)";
+      ctx.strokeStyle = isNext ? "rgba(46,229,157,.55)" : "rgba(255,255,255,.18)";
+      round(px+4,py+4,TILE-8,TILE-8,12);
+      ctx.fill();
+      ctx.stroke();
+
+      // BIG text fit
+      let fs = 18;
+      ctx.textAlign="center";
+      ctx.textBaseline="middle";
+      while(fs>12){
+        ctx.font = `1000 ${fs}px system-ui,-apple-system,Segoe UI,Roboto,Arial`;
+        if(ctx.measureText(w.word).width <= (TILE-18)) break;
+        fs--;
+      }
+      ctx.fillStyle = "rgba(255,255,255,.96)";
+      ctx.fillText(w.word, px+TILE/2, py+TILE/2+1);
+    }
+
+    // ghost
+    if(state.ghostsOn){
+      const gx = OFFX + state.ghost.x*TILE + TILE/2;
+      const gy = OFFY + state.ghost.y*TILE + TILE/2;
+      ctx.fillStyle = "rgba(250,204,21,.95)";
+      ctx.beginPath();
+      ctx.arc(gx,gy,TILE*0.28,0,Math.PI*2);
+      ctx.fill();
+    }
+
+    // pac
+    const px = OFFX + state.pac.x*TILE + TILE/2;
+    const py = OFFY + state.pac.y*TILE + TILE/2;
+    ctx.fillStyle = "rgba(37,99,235,.95)";
+    ctx.beginPath();
+    ctx.arc(px,py,TILE*0.30,0,Math.PI*2);
+    ctx.fill();
+
+    requestAnimationFrame(draw);
+  }
+
+  function round(x,y,w,h,r){
+    ctx.beginPath();
+    ctx.moveTo(x+r,y);
+    ctx.arcTo(x+w,y,x+w,y+h,r);
+    ctx.arcTo(x+w,y+h,x,y+h,r);
+    ctx.arcTo(x,y+h,x,y,r);
+    ctx.arcTo(x,y,x+w,y,r);
+    ctx.closePath();
+  }
+
+  // events
+  window.addEventListener("keydown",(e)=>{
+    const k = e.key.toLowerCase();
+    const map = {
+      arrowup:"up", w:"up",
+      arrowdown:"down", s:"down",
+      arrowleft:"left", a:"left",
+      arrowright:"right", d:"right"
+    };
+    if(map[k]){ e.preventDefault(); step(map[k]); }
+  }, {passive:false});
+
+  UI.startBtn.addEventListener("click", ()=>{ start(); });
+  UI.nextBtn.addEventListener("click", ()=>{ next(); });
+  UI.restartBtn.addEventListener("click", ()=>{ start(); });
+
+  UI.ghostBtn.addEventListener("click", ()=>{
+    state.ghostsOn = !state.ghostsOn;
+    UI.ghostBtn.textContent = `Ghosts: ${state.ghostsOn ? "ON" : "OFF"}`;
+    updateHUD();
+    setFB(state.ghostsOn ? "Fantasmas activados." : "Fantasmas desactivados.", "warn");
+  });
+
+  UI.revealBtn.addEventListener("click", ()=>{
+    state.reveal = !state.reveal;
+    UI.revealBtn.textContent = `Teacher reveal: ${state.reveal ? "ON" : "OFF"}`;
+    setFB(state.reveal ? "Teacher reveal ON (la frase solo aparece en feedback)." : "Teacher reveal OFF.", "warn");
+  });
+
+  updateHUD();
+  requestAnimationFrame(draw);
+})();
+</script>
+</body>
+</html>
