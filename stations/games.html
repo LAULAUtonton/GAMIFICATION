@@ -3,32 +3,33 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
-  <meta http-equiv="Pragma" content="no-cache" />
-  <meta http-equiv="Expires" content="0" />
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"/>
+  <meta http-equiv="Pragma" content="no-cache"/>
+  <meta http-equiv="Expires" content="0"/>
   <title>THE PIT — Game Arcade</title>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
+
   <style>
     :root{
       --bg:#050816;
-      --panel:rgba(255,255,255,.07);
-      --line:rgba(255,255,255,.14);
+      --panel:rgba(255,255,255,.08);
+      --line:rgba(255,255,255,.15);
       --ink:#eaf0ff;
       --muted:#a8b4d8;
       --ok:#2ee59d;
       --bad:#ff5470;
       --warn:#ffd166;
       --brand:#7b5cff;
-      --shadow: 0 18px 60px rgba(0,0,0,.55);
-      --r: 22px;
+      --shadow: 0 22px 80px rgba(0,0,0,.60);
+      --r: 26px;
     }
     *{box-sizing:border-box}
     body{
       margin:0;
       font-family:'Orbitron',system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
       background:
-        radial-gradient(1100px 650px at 20% -10%, rgba(123,92,255,.36), transparent 60%),
-        radial-gradient(900px 520px at 90% 10%, rgba(46,229,157,.18), transparent 65%),
+        radial-gradient(1400px 820px at 18% -12%, rgba(123,92,255,.40), transparent 60%),
+        radial-gradient(1200px 700px at 88% 6%, rgba(46,229,157,.18), transparent 65%),
         var(--bg);
       color:var(--ink);
       min-height:100vh;
@@ -40,15 +41,15 @@
 
     /* BIGGER CONTAINER */
     .app{
-      width:min(1400px, calc(100vw - 28px));
-      background:linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.03));
+      width:min(1650px, calc(100vw - 28px));
+      background:linear-gradient(180deg, rgba(255,255,255,.11), rgba(255,255,255,.03));
       border:1px solid var(--line);
-      border-radius:26px;
+      border-radius:28px;
       box-shadow:var(--shadow);
       overflow:hidden;
     }
     .top{
-      padding:16px 18px;
+      padding:18px 20px;
       display:flex;
       align-items:flex-start;
       justify-content:space-between;
@@ -58,11 +59,11 @@
     }
     h1{
       margin:0;
-      font-size:clamp(18px, 3.2vw, 30px);
-      letter-spacing:.8px;
+      font-size:clamp(18px, 2.8vw, 30px);
+      letter-spacing:.9px;
     }
     .sub{
-      margin:6px 0 0;
+      margin:7px 0 0;
       color:var(--muted);
       font-size:13px;
       line-height:1.35;
@@ -80,25 +81,25 @@
       white-space:nowrap;
     }
 
-    .screens{padding:16px}
+    .screens{padding:16px 16px 18px}
     .screen{display:none}
     .screen.active{display:block}
 
     /* ARCADE MENU */
     .grid{
       display:grid;
-      grid-template-columns:repeat(auto-fit,minmax(290px,1fr));
+      grid-template-columns:repeat(auto-fit,minmax(310px,1fr));
       gap:14px;
     }
     .card{
-      background:rgba(255,255,255,.07);
+      background:rgba(255,255,255,.08);
       border:1px solid var(--line);
-      border-radius:20px;
+      border-radius:22px;
       padding:16px;
       display:flex;
       flex-direction:column;
       gap:10px;
-      min-height:190px;
+      min-height:200px;
     }
     .card h3{margin:0;font-size:18px}
     .card p{
@@ -112,7 +113,7 @@
 
     .btn{
       border:1px solid var(--line);
-      background:rgba(255,255,255,.08);
+      background:rgba(255,255,255,.09);
       color:var(--ink);
       padding:12px 14px;
       border-radius:16px;
@@ -123,31 +124,33 @@
     }
     .btn.primary{
       background:rgba(123,92,255,.24);
-      border-color:rgba(123,92,255,.58);
+      border-color:rgba(123,92,255,.62);
     }
     .btn:active{transform:translateY(1px)}
 
     /* GAME LAYOUT */
     .gameLayout{
       display:grid;
-      grid-template-columns: 1.2fr .8fr;
+      grid-template-columns: 1.25fr .75fr;
       gap:14px;
       align-items:start;
     }
-    @media(max-width:1100px){ .gameLayout{grid-template-columns:1fr} }
+    @media(max-width:1200px){ .gameLayout{grid-template-columns:1fr} }
 
+    /* BIG CANVAS */
     canvas{
       display:block;
       width:100%;
       height:auto;
-      background:#020413;
+      background:#000;
       border:1px solid var(--line);
-      border-radius:20px;
+      border-radius:22px;
     }
+
     .side{
       background:var(--panel);
       border:1px solid var(--line);
-      border-radius:20px;
+      border-radius:22px;
       padding:14px;
       font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
     }
@@ -161,18 +164,18 @@
     }
     .slots{
       display:flex;flex-wrap:wrap;gap:8px;align-items:center;
-      min-height:50px;margin-bottom:10px
+      min-height:54px;margin-bottom:10px
     }
     .slot{
-      min-width:46px;
-      padding:12px 13px;
+      min-width:52px;
+      padding:13px 14px;
       border-radius:14px;
       border:1px dashed rgba(255,255,255,.22);
       background:rgba(0,0,0,.18);
       font-weight:1000;
       text-align:center;
-      color:rgba(255,255,255,.78);
-      font-size:14px;
+      color:rgba(255,255,255,.80);
+      font-size:15px;
     }
     .slot.filled{
       border-style:solid;
@@ -181,11 +184,11 @@
       color:var(--ink);
     }
     .fb{
-      min-height:28px;
+      min-height:30px;
       font-weight:900;
       color:var(--muted);
       line-height:1.25;
-      font-size:13px;
+      font-size:14px;
     }
     .fb.ok{color:var(--ok)}
     .fb.bad{color:var(--bad)}
@@ -200,7 +203,6 @@
       color:var(--ink);
     }
     .note{color:var(--muted);font-size:13px;line-height:1.35;margin-top:10px}
-
     .controlsRow{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
   </style>
 </head>
@@ -210,12 +212,12 @@
     <header class="top">
       <div>
         <h1>THE PIT — GAME ARCADE</h1>
-        <p class="sub">Primero entras al Arcade. Luego eliges el juego (Pac-Man / Space Invaders).</p>
+        <p class="sub">Primero entras al Arcade. Luego eliges Pac-Man. (Look clásico + palabras grandes).</p>
       </div>
       <div class="pillRow">
         <div class="pill">✅ Arcade first</div>
-        <div class="pill">✅ Bigger container</div>
-        <div class="pill">✅ Bigger word fonts</div>
+        <div class="pill">✅ Classic Pac-Man look</div>
+        <div class="pill">✅ Bigger words</div>
       </div>
     </header>
 
@@ -224,8 +226,8 @@
       <div id="arcade" class="screen active">
         <div class="grid">
           <article class="card">
-            <h3>🟦 PacSentence (Pac-Man)</h3>
-            <p>Labyrinth claro (corredores). Palabras grandes. Progreso con casillas.</p>
+            <h3>🟨 PacSentence (Pac-Man)</h3>
+            <p>Laberinto azul estilo Pac-Man. Comecocos amarillo con boca animada. Palabras MUY grandes.</p>
             <div class="row">
               <button class="btn primary" id="goPac">Play Pac-Man</button>
               <button class="btn" onclick="location.href='../index.html'">Main Menu</button>
@@ -233,11 +235,10 @@
           </article>
 
           <article class="card">
-            <h3>🚀 Word Invaders (Space Invaders)</h3>
-            <p>Pocas palabras en pantalla. Instrucciones claras. Sin pista de qué palabra disparar.</p>
+            <h3>🚧 Otros juegos</h3>
+            <p>Ahora priorizamos que Pac-Man esté perfecto. Luego integramos Space Invaders otra vez.</p>
             <div class="row">
-              <button class="btn primary" id="goInv">Play Space Invaders</button>
-              <button class="btn" id="resetAll">Reset</button>
+              <button class="btn" disabled style="opacity:.55;cursor:not-allowed">Locked</button>
             </div>
           </article>
         </div>
@@ -247,7 +248,7 @@
       <div id="pac" class="screen">
         <div class="gameLayout">
           <!-- BIGGER CANVAS -->
-          <div><canvas id="pacCv" width="1200" height="720"></canvas></div>
+          <div><canvas id="pacCv" width="1400" height="860"></canvas></div>
 
           <aside class="side">
             <h4>PacSentence</h4>
@@ -265,29 +266,6 @@
             <p class="note">
               Controles: <span class="kbd">← ↑ → ↓</span> o <span class="kbd">WASD</span><br>
               Objetivo: come palabras en orden. No mostramos la frase completa.
-            </p>
-          </aside>
-        </div>
-      </div>
-
-      <!-- INV SCREEN (kept as placeholder; you already liked Pac-Man more) -->
-      <div id="inv" class="screen">
-        <div class="gameLayout">
-          <div><canvas id="invCv" width="1200" height="720"></canvas></div>
-          <aside class="side">
-            <h4>Word Invaders</h4>
-            <div class="slots" id="invSlots"></div>
-            <div class="fb" id="invFb">Pulsa Start.</div>
-
-            <div class="controlsRow">
-              <button class="btn primary" id="invStart">Start</button>
-              <button class="btn" id="invNext">Next sentence</button>
-              <button class="btn" id="invRestart">Restart</button>
-              <button class="btn" id="invBack">Back to Arcade</button>
-            </div>
-
-            <p class="note">
-              Controles: mover <span class="kbd">← →</span>/<span class="kbd">A D</span> · disparar <span class="kbd">Espacio</span>
             </p>
           </aside>
         </div>
@@ -312,18 +290,13 @@
   ];
 
   const $ = (id) => document.getElementById(id);
-  const screens = { arcade: $("arcade"), pac: $("pac"), inv: $("inv") };
+  const screens = { arcade: $("arcade"), pac: $("pac") };
   function show(name){
     Object.values(screens).forEach(s => s.classList.remove("active"));
     screens[name].classList.add("active");
   }
-
-  // Arcade navigation
   $("goPac").onclick = () => { show("pac"); pac.start(true); };
-  $("goInv").onclick = () => { show("inv"); inv.start(true); };
-  $("resetAll").onclick = () => { pac.start(true); inv.start(true); };
 
-  // Slots + feedback helpers
   function makeSlots(container, total, filled){
     container.innerHTML = "";
     for (let i=0;i<total;i++){
@@ -339,7 +312,7 @@
   }
 
   // ============================================================
-  // PACSENTENCE — fixed clear maze + BIGGER word fonts
+  // PACSENTENCE — Classic look + BIG words + bigger container
   // ============================================================
   const pac = (() => {
     const cv = $("pacCv");
@@ -355,7 +328,7 @@
       back: $("pacBack"),
     };
 
-    // Fixed maze: 21 x 13 (clear corridors)
+    // Fixed maze: 21 x 13 (corridors)
     const MAZE = [
       "111111111111111111111",
       "100000000100000000001",
@@ -375,7 +348,7 @@
     const ROWS = MAZE.length;
     const COLS = MAZE[0].length;
 
-    // BIGGER TILES (scale to the bigger canvas)
+    // Make tiles BIG (this is what makes words big)
     const TILE = Math.floor(Math.min(cv.width / COLS, cv.height / ROWS));
     const OFFX = Math.floor((cv.width - COLS*TILE)/2);
     const OFFY = Math.floor((cv.height - ROWS*TILE)/2);
@@ -389,7 +362,8 @@
       expected:0,
       words:[],
       pac:{x:1,y:1,dir:"right"},
-      ghost:{x:COLS-2,y:ROWS-2}
+      ghost:{x:COLS-2,y:ROWS-2},
+      t:0, // for animation
     };
 
     function isWall(x,y){
@@ -418,7 +392,7 @@
     }
 
     function placeWords(){
-      // fewer distractors = cleaner maze
+      // Clean maze: fewer distractors
       const pool = new Set();
       SENTENCES.forEach(s=>{
         if(s===st.sentence) return;
@@ -489,73 +463,145 @@
       if(!st.running) return;
       const v = {up:[0,-1],down:[0,1],left:[-1,0],right:[1,0]}[dir];
       if(!v) return;
+
       st.pac.dir = dir;
       const nx = st.pac.x + v[0], ny = st.pac.y + v[1];
       if(isWall(nx,ny)) return;
-      st.pac.x=nx; st.pac.y=ny;
 
+      st.pac.x=nx; st.pac.y=ny;
       eatIfWord();
       moveGhost();
-      draw();
     }
 
-    function draw(){
-      ctx.clearRect(0,0,cv.width,cv.height);
+    // ======= CLASSIC DRAWING =======
+    function drawMaze(){
+      ctx.fillStyle = "#000";
+      ctx.fillRect(0,0,cv.width,cv.height);
 
-      // maze
+      // Draw walls as thick blue outlines, like classic pacman
       for(let y=0;y<ROWS;y++){
         for(let x=0;x<COLS;x++){
-          const px = OFFX + x*TILE, py = OFFY + y*TILE;
-          if(MAZE[y][x]===1){
-            ctx.fillStyle = "rgba(59,130,246,.25)";
-            ctx.fillRect(px,py,TILE,TILE);
-            ctx.strokeStyle = "rgba(59,130,246,.38)";
-            ctx.strokeRect(px+1,py+1,TILE-2,TILE-2);
-          } else {
-            ctx.fillStyle = "rgba(255,255,255,.03)";
-            ctx.fillRect(px,py,TILE,TILE);
-          }
+          if(MAZE[y][x] !== 1) continue;
+          const px = OFFX + x*TILE;
+          const py = OFFY + y*TILE;
+
+          ctx.fillStyle = "rgba(0,0,0,1)";
+          ctx.fillRect(px,py,TILE,TILE);
+
+          // blue wall block with inner cut to feel like lines
+          ctx.fillStyle = "rgba(30,64,175,.95)"; // strong blue
+          roundRect(px+2, py+2, TILE-4, TILE-4, 10);
+          ctx.fill();
+
+          ctx.fillStyle = "#000";
+          roundRect(px+7, py+7, TILE-14, TILE-14, 8);
+          ctx.fill();
         }
       }
-
-      // words (BIGGER FONTS)
-      for(const w of st.words){
-        if(w.eaten) continue;
-        const px = OFFX + w.x*TILE, py = OFFY + w.y*TILE;
-
-        ctx.fillStyle = "rgba(255,255,255,.09)";
-        ctx.strokeStyle = "rgba(255,255,255,.20)";
-        rr(px+5,py+5,TILE-10,TILE-10,14); ctx.fill(); ctx.stroke();
-
-        // Start bigger and only shrink if needed
-        let fs = Math.max(18, Math.floor(TILE * 0.42));
-        const minFs = 14;
-        ctx.textAlign="center"; ctx.textBaseline="middle";
-        while(fs > minFs){
-          ctx.font = `1000 ${fs}px system-ui,-apple-system,Segoe UI,Roboto,Arial`;
-          if(ctx.measureText(w.word).width <= (TILE-22)) break;
-          fs--;
-        }
-        ctx.fillStyle = "rgba(255,255,255,.97)";
-        ctx.fillText(w.word, px+TILE/2, py+TILE/2+1);
-      }
-
-      // ghost
-      if(st.ghostsOn){
-        const gx = OFFX + st.ghost.x*TILE + TILE/2;
-        const gy = OFFY + st.ghost.y*TILE + TILE/2;
-        ctx.fillStyle = "rgba(250,204,21,.95)";
-        ctx.beginPath(); ctx.arc(gx,gy,TILE*0.28,0,Math.PI*2); ctx.fill();
-      }
-
-      // pac
-      const cx = OFFX + st.pac.x*TILE + TILE/2;
-      const cy = OFFY + st.pac.y*TILE + TILE/2;
-      ctx.fillStyle = "rgba(37,99,235,.96)";
-      ctx.beginPath(); ctx.arc(cx,cy,TILE*0.30,0,Math.PI*2); ctx.fill();
     }
 
-    function rr(x,y,w,h,r){
+    function drawWords(){
+      for(const w of st.words){
+        if(w.eaten) continue;
+        const px = OFFX + w.x*TILE;
+        const py = OFFY + w.y*TILE;
+
+        // word tile (bigger)
+        ctx.fillStyle = "rgba(255,255,255,.10)";
+        ctx.strokeStyle = "rgba(255,255,255,.22)";
+        ctx.lineWidth = 2;
+        roundRect(px+5, py+5, TILE-10, TILE-10, 14);
+        ctx.fill();
+        ctx.stroke();
+
+        // BIG text: start very large
+        let fs = Math.max(22, Math.floor(TILE * 0.48)); // bigger than before
+        const minFs = 16;
+        ctx.textAlign="center";
+        ctx.textBaseline="middle";
+        while(fs > minFs){
+          ctx.font = `1000 ${fs}px system-ui,-apple-system,Segoe UI,Roboto,Arial`;
+          if(ctx.measureText(w.word).width <= (TILE - 18)) break;
+          fs--;
+        }
+        ctx.fillStyle = "rgba(255,255,255,.98)";
+        ctx.fillText(w.word, px+TILE/2, py+TILE/2+1);
+      }
+    }
+
+    function drawPacman(){
+      const cx = OFFX + st.pac.x*TILE + TILE/2;
+      const cy = OFFY + st.pac.y*TILE + TILE/2;
+      const r = TILE*0.34;
+
+      // mouth animation (open/close)
+      const open = 0.20 + 0.20*Math.abs(Math.sin(st.t*6.2)); // 0.2..0.4
+      const base = directionAngle(st.pac.dir);
+
+      ctx.fillStyle = "#ffd400"; // classic yellow
+      ctx.beginPath();
+      ctx.moveTo(cx,cy);
+      ctx.arc(cx,cy,r, base+open, base+(Math.PI*2-open));
+      ctx.closePath();
+      ctx.fill();
+
+      // eye
+      ctx.fillStyle = "rgba(0,0,0,.55)";
+      const ex = cx + Math.cos(base - Math.PI/2)*r*0.35;
+      const ey = cy + Math.sin(base - Math.PI/2)*r*0.35;
+      ctx.beginPath();
+      ctx.arc(ex,ey,r*0.12,0,Math.PI*2);
+      ctx.fill();
+    }
+
+    function drawGhost(){
+      if(!st.ghostsOn) return;
+
+      const x = OFFX + st.ghost.x*TILE + TILE/2;
+      const y = OFFY + st.ghost.y*TILE + TILE/2;
+      const w = TILE*0.62;
+      const h = TILE*0.70;
+
+      // body
+      ctx.fillStyle = "#ff2d55"; // classic-ish red
+      ctx.beginPath();
+      // top semicircle
+      ctx.arc(x, y - h*0.12, w*0.50, Math.PI, 0);
+      // sides down
+      ctx.lineTo(x + w*0.50, y + h*0.32);
+      // scallops
+      const left = x - w*0.50;
+      const baseY = y + h*0.32;
+      const step = w/3;
+      for(let i=0;i<3;i++){
+        ctx.quadraticCurveTo(left + step*i + step/2, baseY + h*0.18, left + step*(i+1), baseY);
+      }
+      ctx.closePath();
+      ctx.fill();
+
+      // eyes
+      ctx.fillStyle = "#fff";
+      ctx.beginPath();
+      ctx.arc(x - w*0.18, y - h*0.06, w*0.13, 0, Math.PI*2);
+      ctx.arc(x + w*0.18, y - h*0.06, w*0.13, 0, Math.PI*2);
+      ctx.fill();
+
+      // pupils
+      ctx.fillStyle = "#111827";
+      ctx.beginPath();
+      ctx.arc(x - w*0.14, y - h*0.06, w*0.06, 0, Math.PI*2);
+      ctx.arc(x + w*0.22, y - h*0.06, w*0.06, 0, Math.PI*2);
+      ctx.fill();
+    }
+
+    function directionAngle(dir){
+      if(dir==="right") return 0;
+      if(dir==="down") return Math.PI/2;
+      if(dir==="left") return Math.PI;
+      return -Math.PI/2; // up
+    }
+
+    function roundRect(x,y,w,h,r){
       ctx.beginPath();
       ctx.moveTo(x+r,y);
       ctx.arcTo(x+w,y,x+w,y+h,r);
@@ -565,82 +611,51 @@
       ctx.closePath();
     }
 
+    function render(){
+      // animate even when standing
+      st.t += 1/60;
+
+      drawMaze();
+      drawWords();
+      drawGhost();
+      drawPacman();
+
+      requestAnimationFrame(render);
+    }
+
     function start(reset){
       st.lives = 3;
       st.running = true;
       st.pac = {x:1,y:1,dir:"right"};
       st.ghost = {x:COLS-2,y:ROWS-2};
       if(reset) pickSentence();
-      draw();
     }
 
-    // UI
+    // UI hooks
     UI.start.onclick = ()=> start(true);
     UI.restart.onclick = ()=> start(true);
-    UI.next.onclick = ()=> { st.running=true; st.lives=3; st.pac={x:1,y:1,dir:"right"}; st.ghost={x:COLS-2,y:ROWS-2}; pickSentence(); draw(); };
-    UI.ghosts.onclick = ()=>{ st.ghostsOn=!st.ghostsOn; UI.ghosts.textContent=`Ghosts: ${st.ghostsOn?"ON":"OFF"}`; setFB(UI.fb, st.ghostsOn?"Fantasmas ON":"Fantasmas OFF","warn"); draw(); };
+    UI.next.onclick = ()=> { st.running=true; st.lives=3; st.pac={x:1,y:1,dir:"right"}; st.ghost={x:COLS-2,y:ROWS-2}; pickSentence(); };
+    UI.ghosts.onclick = ()=>{ st.ghostsOn=!st.ghostsOn; UI.ghosts.textContent=`Ghosts: ${st.ghostsOn?"ON":"OFF"}`; setFB(UI.fb, st.ghostsOn?"Fantasmas ON":"Fantasmas OFF","warn"); };
     UI.back.onclick = ()=> show("arcade");
 
+    // keyboard
     window.addEventListener("keydown",(e)=>{
       if(!screens.pac.classList.contains("active")) return;
       const k = e.key.toLowerCase();
       const map = {arrowup:"up",w:"up",arrowdown:"down",s:"down",arrowleft:"left",a:"left",arrowright:"right",d:"right"};
-      if(map[k]){ e.preventDefault(); step(map[k]); }
+      const dir = map[k];
+      if(!dir) return;
+      e.preventDefault();
+      step(dir);
     }, {passive:false});
 
-    pickSentence();
-    draw();
-
     // ghost timer
-    setInterval(()=>{ if(screens.pac.classList.contains("active")){ moveGhost(); draw(); } }, 700);
+    setInterval(()=>{ if(screens.pac.classList.contains("active")) moveGhost(); }, 650);
 
-    return { start };
-  })();
+    // init
+    pickSentence();
+    requestAnimationFrame(render);
 
-  // ============================================================
-  // Word Invaders placeholder: keep stable navigation (optional)
-  // If you want, I can paste the full invaders engine here too.
-  // ============================================================
-  const inv = (() => {
-    const cv = $("invCv");
-    const ctx = cv.getContext("2d");
-    const UI = {
-      slots: $("invSlots"),
-      fb: $("invFb"),
-      start: $("invStart"),
-      next: $("invNext"),
-      restart: $("invRestart"),
-      back: $("invBack"),
-    };
-    let tokens = [];
-    let expected = 0;
-
-    function pick(){
-      const s = SENTENCES[Math.floor(Math.random()*SENTENCES.length)];
-      tokens = s.trim().split(/\s+/);
-      expected = 0;
-      makeSlots(UI.slots, tokens.length, expected);
-      setFB(UI.fb, "Invaders listo. (Si quieres el juego completo aquí, lo integro.)", "warn");
-      draw();
-    }
-    function draw(){
-      ctx.clearRect(0,0,cv.width,cv.height);
-      ctx.fillStyle = "rgba(255,255,255,.06)";
-      ctx.fillRect(0,0,cv.width,cv.height);
-      ctx.fillStyle = "rgba(234,240,255,.92)";
-      ctx.font = "900 26px system-ui,-apple-system,Segoe UI,Roboto,Arial";
-      ctx.textAlign = "center";
-      ctx.fillText("WORD INVADERS", cv.width/2, 120);
-      ctx.font = "800 16px system-ui,-apple-system,Segoe UI,Roboto,Arial";
-      ctx.fillStyle = "rgba(168,180,216,.95)";
-      ctx.fillText("This screen is wired. If you want the full invaders engine here, say: 'add full invaders'.", cv.width/2, 160);
-    }
-    function start(reset){ if(reset) pick(); }
-    UI.start.onclick = ()=> start(true);
-    UI.restart.onclick = ()=> start(true);
-    UI.next.onclick = ()=> start(true);
-    UI.back.onclick = ()=> show("arcade");
-    pick();
     return { start };
   })();
 
