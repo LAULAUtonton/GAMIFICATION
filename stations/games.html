@@ -21,7 +21,6 @@
       --warn:#ffd166;
       --brand:#7b5cff;
       --shadow: 0 22px 80px rgba(0,0,0,.60);
-      --r: 26px;
     }
     *{box-sizing:border-box}
     body{
@@ -38,10 +37,8 @@
       align-items:center;
       justify-content:center;
     }
-
-    /* BIGGER CONTAINER */
     .app{
-      width:min(1650px, calc(100vw - 28px));
+      width:min(1750px, calc(100vw - 28px));
       background:linear-gradient(180deg, rgba(255,255,255,.11), rgba(255,255,255,.03));
       border:1px solid var(--line);
       border-radius:28px;
@@ -59,7 +56,7 @@
     }
     h1{
       margin:0;
-      font-size:clamp(18px, 2.8vw, 30px);
+      font-size:clamp(18px, 2.7vw, 30px);
       letter-spacing:.9px;
     }
     .sub{
@@ -88,7 +85,7 @@
     /* ARCADE MENU */
     .grid{
       display:grid;
-      grid-template-columns:repeat(auto-fit,minmax(310px,1fr));
+      grid-template-columns:repeat(auto-fit,minmax(330px,1fr));
       gap:14px;
     }
     .card{
@@ -99,7 +96,7 @@
       display:flex;
       flex-direction:column;
       gap:10px;
-      min-height:200px;
+      min-height:210px;
     }
     .card h3{margin:0;font-size:18px}
     .card p{
@@ -137,7 +134,6 @@
     }
     @media(max-width:1200px){ .gameLayout{grid-template-columns:1fr} }
 
-    /* BIG CANVAS */
     canvas{
       display:block;
       width:100%;
@@ -162,6 +158,7 @@
       color:var(--muted);
       font-family:'Orbitron',system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
     }
+
     .slots{
       display:flex;flex-wrap:wrap;gap:8px;align-items:center;
       min-height:54px;margin-bottom:10px
@@ -183,6 +180,7 @@
       background:rgba(46,229,157,.12);
       color:var(--ink);
     }
+
     .fb{
       min-height:30px;
       font-weight:900;
@@ -193,6 +191,7 @@
     .fb.ok{color:var(--ok)}
     .fb.bad{color:var(--bad)}
     .fb.warn{color:var(--warn)}
+
     .kbd{
       font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;
       border:1px solid var(--line);
@@ -204,6 +203,22 @@
     }
     .note{color:var(--muted);font-size:13px;line-height:1.35;margin-top:10px}
     .controlsRow{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+
+    .hudLine{
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+      margin:8px 0 0;
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+    }
+    .hudPill{
+      background:rgba(0,0,0,.20);
+      border:1px solid rgba(255,255,255,.14);
+      border-radius:999px;
+      padding:7px 10px;
+      font-weight:900;
+      font-size:12px;
+    }
   </style>
 </head>
 
@@ -212,22 +227,22 @@
     <header class="top">
       <div>
         <h1>THE PIT — GAME ARCADE</h1>
-        <p class="sub">Primero entras al Arcade. Luego eliges Pac-Man. (Look clásico + palabras grandes).</p>
+        <p class="sub">Arcade → eliges juego. Pac-Man (frases) + Invaders (sinónimos) — arreglado “for good”.</p>
       </div>
       <div class="pillRow">
-        <div class="pill">✅ Arcade first</div>
-        <div class="pill">✅ Classic Pac-Man look</div>
-        <div class="pill">✅ Bigger words</div>
+        <div class="pill">✅ Arcade access fixed</div>
+        <div class="pill">✅ Invaders spawns words</div>
+        <div class="pill">✅ Pac ghost stable</div>
       </div>
     </header>
 
     <section class="screens">
-      <!-- ARCADE MENU -->
+      <!-- ARCADE -->
       <div id="arcade" class="screen active">
         <div class="grid">
           <article class="card">
             <h3>🟨 PacSentence (Pac-Man)</h3>
-            <p>Laberinto azul estilo Pac-Man. Comecocos amarillo con boca animada. Palabras MUY grandes.</p>
+            <p>Laberinto azul. Comecocos amarillo. Fantasma se mueve sin glitches. Palabras grandes.</p>
             <div class="row">
               <button class="btn primary" id="goPac">Play Pac-Man</button>
               <button class="btn" onclick="location.href='../index.html'">Main Menu</button>
@@ -235,21 +250,20 @@
           </article>
 
           <article class="card">
-            <h3>🚧 Otros juegos</h3>
-            <p>Ahora priorizamos que Pac-Man esté perfecto. Luego integramos Space Invaders otra vez.</p>
+            <h3>🚀 Synonym Invaders</h3>
+            <p>Dispara a un sinónimo del objetivo. Palabras grandes. Siempre aparecen palabras. Sin ayudas.</p>
             <div class="row">
-              <button class="btn" disabled style="opacity:.55;cursor:not-allowed">Locked</button>
+              <button class="btn primary" id="goInv">Play Invaders</button>
+              <button class="btn" id="resetAll">Reset</button>
             </div>
           </article>
         </div>
       </div>
 
-      <!-- PAC SCREEN -->
+      <!-- PAC -->
       <div id="pac" class="screen">
         <div class="gameLayout">
-          <!-- BIGGER CANVAS -->
-          <div><canvas id="pacCv" width="1400" height="860"></canvas></div>
-
+          <div><canvas id="pacCv" width="1500" height="900"></canvas></div>
           <aside class="side">
             <h4>PacSentence</h4>
             <div class="slots" id="pacSlots"></div>
@@ -270,13 +284,45 @@
           </aside>
         </div>
       </div>
+
+      <!-- INVADERS -->
+      <div id="inv" class="screen">
+        <div class="gameLayout">
+          <div><canvas id="invCv" width="1500" height="900"></canvas></div>
+          <aside class="side">
+            <h4>Synonym Invaders</h4>
+
+            <div class="hudLine">
+              <div class="hudPill">❤️ Lives: <span id="invLives">3</span></div>
+              <div class="hudPill">❌ Strikes: <span id="invStrikes">0</span></div>
+              <div class="hudPill">🔥 Streak: <span id="invStreak">0</span></div>
+              <div class="hudPill">⭐ Score: <span id="invScore">0</span></div>
+            </div>
+
+            <div class="slots" id="invSlots"></div>
+            <div class="fb" id="invFb">Pulsa Start.</div>
+
+            <div class="controlsRow">
+              <button class="btn primary" id="invStart">Start</button>
+              <button class="btn" id="invNext">Next</button>
+              <button class="btn" id="invRestart">Restart</button>
+              <button class="btn" id="invBack">Back to Arcade</button>
+            </div>
+
+            <p class="note">
+              Controles: mover <span class="kbd">← →</span>/<span class="kbd">A D</span> · disparar <span class="kbd">Espacio</span><br>
+              Objetivo: “Shoot a synonym of: …” (sin resaltados/ayudas).
+            </p>
+          </aside>
+        </div>
+      </div>
     </section>
   </main>
 
 <script>
 (() => {
   // =========================
-  // EDIT YOUR BANK HERE
+  // DATA (edit here)
   // =========================
   const SENTENCES = [
     "I always do my homework at night.",
@@ -289,13 +335,34 @@
     "If you study, you will pass the test."
   ];
 
+  const SYNONYMS = [
+    { target: "big", answers: ["large", "huge", "giant"] },
+    { target: "small", answers: ["tiny", "little", "mini"] },
+    { target: "happy", answers: ["glad", "joyful", "cheerful"] },
+    { target: "sad", answers: ["unhappy", "upset", "miserable"] },
+    { target: "fast", answers: ["quick", "rapid", "speedy"] },
+    { target: "slow", answers: ["sluggish", "unhurried", "lazy"] },
+    { target: "start", answers: ["begin", "launch", "commence"] },
+    { target: "finish", answers: ["end", "complete", "finalize"] },
+    { target: "easy", answers: ["simple", "effortless", "clear"] },
+    { target: "difficult", answers: ["hard", "tough", "challenging"] },
+  ];
+
+  // =========================
+  // Helpers
+  // =========================
   const $ = (id) => document.getElementById(id);
-  const screens = { arcade: $("arcade"), pac: $("pac") };
+  const screens = { arcade: $("arcade"), pac: $("pac"), inv: $("inv") };
+
   function show(name){
     Object.values(screens).forEach(s => s.classList.remove("active"));
     screens[name].classList.add("active");
   }
-  $("goPac").onclick = () => { show("pac"); pac.start(true); };
+
+  function setFB(el, msg, cls=""){
+    el.className = "fb" + (cls ? ` ${cls}` : "");
+    el.textContent = msg;
+  }
 
   function makeSlots(container, total, filled){
     container.innerHTML = "";
@@ -306,13 +373,21 @@
       container.appendChild(d);
     }
   }
-  function setFB(el, msg, cls=""){
-    el.className = "fb" + (cls ? ` ${cls}` : "");
-    el.textContent = msg;
+
+  function shuffle(arr){
+    for(let i=arr.length-1;i>0;i--){
+      const j = Math.floor(Math.random()*(i+1));
+      [arr[i],arr[j]]=[arr[j],arr[i]];
+    }
+    return arr;
   }
 
+  $("goPac").addEventListener("click", () => { show("pac"); pac.start(true); });
+  $("goInv").addEventListener("click", () => { show("inv"); inv.start(true); });
+  $("resetAll").addEventListener("click", () => { pac.start(true); inv.start(true); });
+
   // ============================================================
-  // PACSENTENCE — Classic look + BIG words + bigger container
+  // PAC-MAN (stable ghost movement)
   // ============================================================
   const pac = (() => {
     const cv = $("pacCv");
@@ -328,7 +403,7 @@
       back: $("pacBack"),
     };
 
-    // Fixed maze: 21 x 13 (corridors)
+    // 21x13 maze
     const MAZE = [
       "111111111111111111111",
       "100000000100000000001",
@@ -348,26 +423,26 @@
     const ROWS = MAZE.length;
     const COLS = MAZE[0].length;
 
-    // Make tiles BIG (this is what makes words big)
-    const TILE = Math.floor(Math.min(cv.width / COLS, cv.height / ROWS));
+    const TILE = Math.floor(Math.min(cv.width/COLS, cv.height/ROWS));
     const OFFX = Math.floor((cv.width - COLS*TILE)/2);
     const OFFY = Math.floor((cv.height - ROWS*TILE)/2);
 
     const st = {
       running:false,
       ghostsOn:true,
-      lives:3,
       sentence:"",
       tokens:[],
       expected:0,
       words:[],
       pac:{x:1,y:1,dir:"right"},
-      ghost:{x:COLS-2,y:ROWS-2},
-      t:0, // for animation
+      ghost:{x:COLS-2,y:ROWS-2, dir:"left"},
+      t:0,
+      ghostEveryMs: 520,
+      lastGhostMs: 0
     };
 
     function isWall(x,y){
-      if (x<0||y<0||x>=COLS||y>=ROWS) return true;
+      if(x<0||y<0||x>=COLS||y>=ROWS) return true;
       return MAZE[y][x]===1;
     }
 
@@ -378,33 +453,30 @@
       st.words = [];
       placeWords();
       makeSlots(UI.slots, st.tokens.length, st.expected);
-      setFB(UI.fb, "Start: come palabras en orden.", "ok");
-    }
-
-    function emptyCells(){
-      const cells=[];
-      for (let y=1;y<ROWS-1;y++){
-        for (let x=1;x<COLS-1;x++){
-          if(!isWall(x,y) && !(x===1&&y===1) && !(x===COLS-2&&y===ROWS-2)) cells.push({x,y});
-        }
-      }
-      return cells.sort(()=>Math.random()-0.5);
+      setFB(UI.fb, "Start: eat words in order.", "ok");
     }
 
     function placeWords(){
-      // Clean maze: fewer distractors
       const pool = new Set();
       SENTENCES.forEach(s=>{
         if(s===st.sentence) return;
         s.trim().split(/\s+/).forEach(w=>pool.add(w));
       });
-      const distract = [...pool].sort(()=>Math.random()-0.5).slice(0,6);
+      const distract = shuffle([...pool]).slice(0,6);
 
-      const items = st.tokens.map((w,i)=>({word:w, idx:i, isCorrect:true}))
+      const items = shuffle(
+        st.tokens.map((w,i)=>({word:w, idx:i, isCorrect:true}))
         .concat(distract.map(w=>({word:w, idx:-1, isCorrect:false})))
-        .sort(()=>Math.random()-0.5);
+      );
 
-      const cells = emptyCells();
+      const cells=[];
+      for(let y=1;y<ROWS-1;y++){
+        for(let x=1;x<COLS-1;x++){
+          if(!isWall(x,y) && !(x===1&&y===1) && !(x===COLS-2&&y===ROWS-2)) cells.push({x,y});
+        }
+      }
+      shuffle(cells);
+
       st.words = items.slice(0, Math.min(items.length, cells.length)).map((it,i)=>({
         ...it, eaten:false, x:cells[i].x, y:cells[i].y
       }));
@@ -421,45 +493,17 @@
       if(ok){
         st.expected++;
         makeSlots(UI.slots, st.tokens.length, st.expected);
-        setFB(UI.fb, "✅ Correcto.", "ok");
+        setFB(UI.fb, "✅ Correct.", "ok");
         if(st.expected >= st.tokens.length){
           st.running = false;
-          setFB(UI.fb, "🏆 Frase completada. Next sentence.", "ok");
+          setFB(UI.fb, "🏆 Completed. Next sentence.", "ok");
         }
       } else {
-        st.lives--;
-        setFB(UI.fb, "❌ Incorrecto. -1 vida.", "bad");
-        if(st.lives <= 0){
-          st.running=false;
-          setFB(UI.fb, "💀 Game Over. Restart.", "bad");
-        }
+        setFB(UI.fb, "❌ Wrong.", "bad");
       }
     }
 
-    function moveGhost(){
-      if(!st.ghostsOn || !st.running) return;
-      const dirs = [{dx:1,dy:0},{dx:-1,dy:0},{dx:0,dy:1},{dx:0,dy:-1}];
-      let best=null;
-      for(const d of dirs){
-        const nx = st.ghost.x + d.dx, ny = st.ghost.y + d.dy;
-        if(isWall(nx,ny)) continue;
-        const dist = Math.abs(nx-st.pac.x)+Math.abs(ny-st.pac.y);
-        if(!best || dist < best.dist) best = {nx,ny,dist};
-      }
-      if(best){ st.ghost.x=best.nx; st.ghost.y=best.ny; }
-      if(st.ghost.x===st.pac.x && st.ghost.y===st.pac.y){
-        st.lives--;
-        if(st.lives<=0){
-          st.running=false;
-          setFB(UI.fb, "👻 Fantasma. Game Over.", "bad");
-        } else {
-          st.pac.x=1; st.pac.y=1;
-          setFB(UI.fb, "👻 Fantasma: -1 vida. Inicio.", "warn");
-        }
-      }
-    }
-
-    function step(dir){
+    function stepPac(dir){
       if(!st.running) return;
       const v = {up:[0,-1],down:[0,1],left:[-1,0],right:[1,0]}[dir];
       if(!v) return;
@@ -467,33 +511,104 @@
       st.pac.dir = dir;
       const nx = st.pac.x + v[0], ny = st.pac.y + v[1];
       if(isWall(nx,ny)) return;
-
       st.pac.x=nx; st.pac.y=ny;
       eatIfWord();
-      moveGhost();
+
+      // instant collision check
+      if(st.ghostsOn && st.ghost.x===st.pac.x && st.ghost.y===st.pac.y){
+        st.running=false;
+        setFB(UI.fb, "👻 Ghost caught you. Restart.", "bad");
+      }
     }
 
-    // ======= CLASSIC DRAWING =======
+    // Stable ghost: keeps direction, only changes when blocked; slight “chase bias” at junctions
+    function ghostStep(){
+      if(!st.running || !st.ghostsOn) return;
+
+      const dirVec = {up:[0,-1],down:[0,1],left:[-1,0],right:[1,0]};
+      const opposite = {up:"down",down:"up",left:"right",right:"left"};
+
+      // candidates (excluding walls, prefer not reversing unless forced)
+      const dirs = ["up","down","left","right"].filter(d=>{
+        const [dx,dy]=dirVec[d];
+        return !isWall(st.ghost.x+dx, st.ghost.y+dy);
+      });
+
+      if(dirs.length===0) return;
+
+      let candidates = dirs.filter(d => d !== opposite[st.ghost.dir]);
+      if(candidates.length===0) candidates = dirs; // forced reverse
+
+      // chase bias: pick candidate that reduces manhattan distance, but keep direction if it’s good
+      const distNow = Math.abs(st.ghost.x - st.pac.x) + Math.abs(st.ghost.y - st.pac.y);
+
+      // if current dir still available and not worse, keep it (reduces jitter)
+      if(candidates.includes(st.ghost.dir)){
+        const [dx,dy]=dirVec[st.ghost.dir];
+        const nx = st.ghost.x+dx, ny=st.ghost.y+dy;
+        const distNext = Math.abs(nx-st.pac.x)+Math.abs(ny-st.pac.y);
+        if(distNext <= distNow + 1){ // allow equal/slightly worse to keep stable
+          st.ghost.x = nx; st.ghost.y = ny;
+          return collisionAfterGhostMove();
+        }
+      }
+
+      // otherwise choose best distance; random among ties
+      let best = [];
+      let bestD = Infinity;
+      for(const d of candidates){
+        const [dx,dy]=dirVec[d];
+        const nx = st.ghost.x+dx, ny=st.ghost.y+dy;
+        const dd = Math.abs(nx-st.pac.x)+Math.abs(ny-st.pac.y);
+        if(dd < bestD){ bestD = dd; best=[d]; }
+        else if(dd === bestD){ best.push(d); }
+      }
+      const pick = best[Math.floor(Math.random()*best.length)];
+      st.ghost.dir = pick;
+      const [dx,dy]=dirVec[pick];
+      st.ghost.x += dx; st.ghost.y += dy;
+      collisionAfterGhostMove();
+    }
+
+    function collisionAfterGhostMove(){
+      if(st.ghost.x===st.pac.x && st.ghost.y===st.pac.y){
+        st.running=false;
+        setFB(UI.fb, "👻 Ghost caught you. Restart.", "bad");
+      }
+    }
+
+    // draw helpers
+    function roundRect(x,y,w,h,r){
+      ctx.beginPath();
+      ctx.moveTo(x+r,y);
+      ctx.arcTo(x+w,y,x+w,y+h,r);
+      ctx.arcTo(x+w,y+h,x,y+h,r);
+      ctx.arcTo(x,y+h,x,y,r);
+      ctx.arcTo(x,y,x+w,y,r);
+      ctx.closePath();
+    }
+    function dirAngle(dir){
+      if(dir==="right") return 0;
+      if(dir==="down") return Math.PI/2;
+      if(dir==="left") return Math.PI;
+      return -Math.PI/2;
+    }
+
     function drawMaze(){
-      ctx.fillStyle = "#000";
+      ctx.fillStyle="#000";
       ctx.fillRect(0,0,cv.width,cv.height);
 
-      // Draw walls as thick blue outlines, like classic pacman
       for(let y=0;y<ROWS;y++){
         for(let x=0;x<COLS;x++){
-          if(MAZE[y][x] !== 1) continue;
+          if(MAZE[y][x]!==1) continue;
           const px = OFFX + x*TILE;
           const py = OFFY + y*TILE;
 
-          ctx.fillStyle = "rgba(0,0,0,1)";
-          ctx.fillRect(px,py,TILE,TILE);
-
-          // blue wall block with inner cut to feel like lines
-          ctx.fillStyle = "rgba(30,64,175,.95)"; // strong blue
+          ctx.fillStyle="rgba(30,64,175,.95)";
           roundRect(px+2, py+2, TILE-4, TILE-4, 10);
           ctx.fill();
 
-          ctx.fillStyle = "#000";
+          ctx.fillStyle="#000";
           roundRect(px+7, py+7, TILE-14, TILE-14, 8);
           ctx.fill();
         }
@@ -506,47 +621,42 @@
         const px = OFFX + w.x*TILE;
         const py = OFFY + w.y*TILE;
 
-        // word tile (bigger)
-        ctx.fillStyle = "rgba(255,255,255,.10)";
-        ctx.strokeStyle = "rgba(255,255,255,.22)";
-        ctx.lineWidth = 2;
+        ctx.fillStyle="rgba(255,255,255,.10)";
+        ctx.strokeStyle="rgba(255,255,255,.22)";
+        ctx.lineWidth=2;
         roundRect(px+5, py+5, TILE-10, TILE-10, 14);
-        ctx.fill();
-        ctx.stroke();
+        ctx.fill(); ctx.stroke();
 
-        // BIG text: start very large
-        let fs = Math.max(22, Math.floor(TILE * 0.48)); // bigger than before
-        const minFs = 16;
+        // very big text
+        let fs = Math.max(28, Math.floor(TILE*0.55));
+        const minFs = 18;
         ctx.textAlign="center";
         ctx.textBaseline="middle";
         while(fs > minFs){
           ctx.font = `1000 ${fs}px system-ui,-apple-system,Segoe UI,Roboto,Arial`;
-          if(ctx.measureText(w.word).width <= (TILE - 18)) break;
+          if(ctx.measureText(w.word).width <= (TILE - 16)) break;
           fs--;
         }
-        ctx.fillStyle = "rgba(255,255,255,.98)";
+        ctx.fillStyle="rgba(255,255,255,.98)";
         ctx.fillText(w.word, px+TILE/2, py+TILE/2+1);
       }
     }
 
-    function drawPacman(){
+    function drawPacman(dt){
       const cx = OFFX + st.pac.x*TILE + TILE/2;
       const cy = OFFY + st.pac.y*TILE + TILE/2;
       const r = TILE*0.34;
+      const base = dirAngle(st.pac.dir);
+      const open = 0.20 + 0.20*Math.abs(Math.sin(st.t*7.0));
 
-      // mouth animation (open/close)
-      const open = 0.20 + 0.20*Math.abs(Math.sin(st.t*6.2)); // 0.2..0.4
-      const base = directionAngle(st.pac.dir);
-
-      ctx.fillStyle = "#ffd400"; // classic yellow
+      ctx.fillStyle="#ffd400";
       ctx.beginPath();
       ctx.moveTo(cx,cy);
       ctx.arc(cx,cy,r, base+open, base+(Math.PI*2-open));
       ctx.closePath();
       ctx.fill();
 
-      // eye
-      ctx.fillStyle = "rgba(0,0,0,.55)";
+      ctx.fillStyle="rgba(0,0,0,.55)";
       const ex = cx + Math.cos(base - Math.PI/2)*r*0.35;
       const ey = cy + Math.sin(base - Math.PI/2)*r*0.35;
       ctx.beginPath();
@@ -562,14 +672,11 @@
       const w = TILE*0.62;
       const h = TILE*0.70;
 
-      // body
-      ctx.fillStyle = "#ff2d55"; // classic-ish red
+      ctx.fillStyle="#ff2d55";
       ctx.beginPath();
-      // top semicircle
       ctx.arc(x, y - h*0.12, w*0.50, Math.PI, 0);
-      // sides down
       ctx.lineTo(x + w*0.50, y + h*0.32);
-      // scallops
+
       const left = x - w*0.50;
       const baseY = y + h*0.32;
       const step = w/3;
@@ -579,26 +686,219 @@
       ctx.closePath();
       ctx.fill();
 
-      // eyes
-      ctx.fillStyle = "#fff";
+      ctx.fillStyle="#fff";
       ctx.beginPath();
       ctx.arc(x - w*0.18, y - h*0.06, w*0.13, 0, Math.PI*2);
       ctx.arc(x + w*0.18, y - h*0.06, w*0.13, 0, Math.PI*2);
       ctx.fill();
 
-      // pupils
-      ctx.fillStyle = "#111827";
+      ctx.fillStyle="#111827";
       ctx.beginPath();
       ctx.arc(x - w*0.14, y - h*0.06, w*0.06, 0, Math.PI*2);
       ctx.arc(x + w*0.22, y - h*0.06, w*0.06, 0, Math.PI*2);
       ctx.fill();
     }
 
-    function directionAngle(dir){
-      if(dir==="right") return 0;
-      if(dir==="down") return Math.PI/2;
-      if(dir==="left") return Math.PI;
-      return -Math.PI/2; // up
+    let lastFrame = 0;
+    function loop(t){
+      const dt = Math.min(33, t - lastFrame);
+      lastFrame = t;
+      st.t += dt/1000;
+
+      // ghost step timer
+      if(screens.pac.classList.contains("active") && st.running && st.ghostsOn){
+        if(t - st.lastGhostMs > st.ghostEveryMs){
+          st.lastGhostMs = t;
+          ghostStep();
+        }
+      }
+
+      drawMaze();
+      drawWords();
+      drawGhost();
+      drawPacman(dt);
+
+      requestAnimationFrame(loop);
+    }
+
+    function start(reset){
+      st.running = true;
+      st.pac = {x:1,y:1,dir:"right"};
+      st.ghost = {x:COLS-2,y:ROWS-2,dir:"left"};
+      st.lastGhostMs = 0;
+      if(reset) pickSentence();
+    }
+
+    UI.start.onclick = ()=> start(true);
+    UI.restart.onclick = ()=> start(true);
+    UI.next.onclick = ()=> start(true);
+    UI.ghosts.onclick = ()=> {
+      st.ghostsOn = !st.ghostsOn;
+      UI.ghosts.textContent = `Ghosts: ${st.ghostsOn?"ON":"OFF"}`;
+      setFB(UI.fb, st.ghostsOn ? "Ghosts ON" : "Ghosts OFF", "warn");
+    };
+    UI.back.onclick = ()=> show("arcade");
+
+    window.addEventListener("keydown",(e)=>{
+      if(!screens.pac.classList.contains("active")) return;
+      const k = e.key.toLowerCase();
+      const map = {arrowup:"up",w:"up",arrowdown:"down",s:"down",arrowleft:"left",a:"left",arrowright:"right",d:"right"};
+      const dir = map[k];
+      if(!dir) return;
+      e.preventDefault();
+      stepPac(dir);
+    }, {passive:false});
+
+    pickSentence();
+    requestAnimationFrame(loop);
+
+    return { start };
+  })();
+
+  // ============================================================
+  // INVADERS (words always spawn; arcade access fixed)
+  // ============================================================
+  const inv = (() => {
+    const cv = $("invCv");
+    const ctx = cv.getContext("2d");
+    const W = cv.width, H = cv.height;
+
+    const UI = {
+      slots: $("invSlots"),
+      fb: $("invFb"),
+      lives: $("invLives"),
+      strikes: $("invStrikes"),
+      streak: $("invStreak"),
+      score: $("invScore"),
+      start: $("invStart"),
+      next: $("invNext"),
+      restart: $("invRestart"),
+      back: $("invBack"),
+    };
+
+    const MAX_WORDS_ON_SCREEN = 7;
+    const SPAWN_MS = 950;
+    const SHOT_SPEED = 16;
+    const SHIP_SPEED = 12;
+
+    const st = {
+      running:false,
+      target:"",
+      correctSet:new Set(),
+      need:3,
+      got:0,
+
+      lives:3,
+      strikes:0,
+      streak:0,
+      score:0,
+
+      ship:{x:W/2, w:100, h:24},
+      keys:{},
+      words:[],
+      shots:[],
+      lastSpawn:0,
+      lastT:0
+    };
+
+    function hud(){
+      UI.lives.textContent = st.lives;
+      UI.strikes.textContent = st.strikes;
+      UI.streak.textContent = st.streak;
+      UI.score.textContent = st.score;
+      makeSlots(UI.slots, st.need, st.got);
+    }
+
+    function pickQuestion(){
+      const q = SYNONYMS[Math.floor(Math.random()*SYNONYMS.length)];
+      st.target = q.target;
+      st.correctSet = new Set(q.answers.map(x=>x.toLowerCase()));
+      st.need = 3;
+      st.got = 0;
+
+      st.words = [];
+      st.shots = [];
+      st.lastSpawn = 0;
+
+      setFB(UI.fb, `Shoot a synonym of: ${st.target.toUpperCase()}`, "warn");
+      hud();
+    }
+
+    function reset(full){
+      st.running = false;
+      if(full){
+        st.lives = 3;
+        st.strikes = 0;
+        st.streak = 0;
+        st.score = 0;
+      }
+      pickQuestion();
+      hud();
+    }
+
+    function spawnWord(now){
+      if(st.words.length >= MAX_WORDS_ON_SCREEN) return;
+
+      const correct = Array.from(st.correctSet);
+      const distractPool = [];
+      for(const item of SYNONYMS){
+        if(item.target === st.target) continue;
+        distractPool.push(item.target, ...item.answers);
+      }
+      shuffle(distractPool);
+
+      // pick correct about half the time
+      const isCorrect = Math.random() < 0.55 && correct.length > 0;
+      const text = isCorrect
+        ? correct[Math.floor(Math.random()*correct.length)]
+        : (distractPool.length ? distractPool[Math.floor(Math.random()*Math.min(60, distractPool.length))] : "word");
+
+      st.words.push({
+        text,
+        isCorrect: st.correctSet.has(text.toLowerCase()),
+        x: 140 + Math.random()*(W-280),
+        y: -60,
+        vy: 140 + Math.random()*80, // px per sec
+        w:0,h:0,font:0
+      });
+
+      st.lastSpawn = now;
+    }
+
+    function shoot(){
+      if(!st.running) return;
+      st.shots.push({x: st.ship.x, y: H - 140, vy: 900}); // px per sec
+    }
+
+    function measure(word, size){
+      ctx.font = `1000 ${size}px system-ui,-apple-system,Segoe UI,Roboto,Arial`;
+      return ctx.measureText(word).width;
+    }
+
+    function layoutWord(w){
+      let fs = 38;
+      while(fs > 20 && measure(w.text, fs) > 420) fs--;
+      w.font = fs;
+      w.w = measure(w.text, fs) + 34;
+      w.h = fs + 18;
+    }
+
+    function drawWord(w){
+      layoutWord(w);
+      const x = w.x - w.w/2;
+      const y = w.y - w.h/2;
+
+      ctx.fillStyle = "rgba(255,255,255,.10)";
+      ctx.strokeStyle = "rgba(255,255,255,.18)";
+      ctx.lineWidth = 2;
+      roundRect(x,y,w.w,w.h,18);
+      ctx.fill(); ctx.stroke();
+
+      ctx.fillStyle = "rgba(255,255,255,.96)";
+      ctx.textAlign="center";
+      ctx.textBaseline="middle";
+      ctx.font = `1000 ${w.font}px system-ui,-apple-system,Segoe UI,Roboto,Arial`;
+      ctx.fillText(w.text, w.x, w.y+1);
     }
 
     function roundRect(x,y,w,h,r){
@@ -611,50 +911,166 @@
       ctx.closePath();
     }
 
+    function handleHit(w){
+      if(w.isCorrect){
+        st.got++;
+        st.score += 10;
+        st.streak++;
+        setFB(UI.fb, `✅ Correct synonym for ${st.target.toUpperCase()}`, "ok");
+        hud();
+        if(st.got >= st.need){
+          st.running = false;
+          st.score += 20;
+          setFB(UI.fb, `🏆 Round complete. Press Next.`, "ok");
+          hud();
+        }
+      } else {
+        st.strikes++;
+        st.streak = 0;
+        st.lives--;
+        setFB(UI.fb, `❌ Wrong.`, "bad");
+        hud();
+        if(st.lives <= 0){
+          st.running = false;
+          setFB(UI.fb, `💀 Game Over. Press Restart.`, "bad");
+        }
+      }
+    }
+
+    function update(dt, now){
+      // ship
+      if(st.keys["arrowleft"] || st.keys["a"]) st.ship.x -= SHIP_SPEED*dt;
+      if(st.keys["arrowright"] || st.keys["d"]) st.ship.x += SHIP_SPEED*dt;
+      st.ship.x = Math.max(110, Math.min(W-110, st.ship.x));
+
+      // spawn ALWAYS when running
+      if(now - st.lastSpawn >= SPAWN_MS) spawnWord(now);
+
+      // move words
+      for(const w of st.words) w.y += w.vy * dt;
+
+      // move shots
+      for(const s of st.shots) s.y -= s.vy * dt;
+
+      // collisions
+      for(let si=st.shots.length-1; si>=0; si--){
+        const s = st.shots[si];
+        for(let wi=st.words.length-1; wi>=0; wi--){
+          const w = st.words[wi];
+          if(!w.w) layoutWord(w);
+          const left = w.x - w.w/2, right = w.x + w.w/2;
+          const top = w.y - w.h/2, bottom = w.y + w.h/2;
+          if(s.x>=left && s.x<=right && s.y>=top && s.y<=bottom){
+            st.shots.splice(si,1);
+            st.words.splice(wi,1);
+            handleHit(w);
+            break;
+          }
+        }
+      }
+
+      // cleanup
+      st.shots = st.shots.filter(s => s.y > -80);
+      st.words = st.words.filter(w => w.y < H + 120);
+    }
+
+    function drawShip(){
+      const x = st.ship.x;
+      const y = H - 120;
+      ctx.fillStyle = "rgba(255,255,255,.92)";
+      ctx.fillRect(x - st.ship.w/2, y, st.ship.w, st.ship.h);
+      ctx.fillStyle = "rgba(255,209,102,.95)";
+      ctx.fillRect(x - 10, y - 30, 20, 30);
+      ctx.fillStyle = "rgba(0,0,0,.35)";
+      ctx.fillRect(x - st.ship.w/2, y + st.ship.h - 4, st.ship.w, 4);
+    }
+
     function render(){
-      // animate even when standing
-      st.t += 1/60;
+      ctx.clearRect(0,0,W,H);
 
-      drawMaze();
-      drawWords();
-      drawGhost();
-      drawPacman();
+      // starfield
+      ctx.fillStyle = "rgba(255,255,255,.03)";
+      for(let i=0;i<260;i++){
+        const x = (i*73)%W;
+        const y = (i*151)%H;
+        ctx.fillRect(x,y,2,2);
+      }
 
-      requestAnimationFrame(render);
+      // goal text only
+      ctx.fillStyle = "rgba(255,255,255,.88)";
+      ctx.font = "1000 30px system-ui,-apple-system,Segoe UI,Roboto,Arial";
+      ctx.textAlign="left";
+      ctx.textBaseline="top";
+      ctx.fillText(`Shoot a synonym of: ${st.target.toUpperCase()}`, 18, 16);
+
+      // shots
+      ctx.fillStyle = "rgba(255,209,102,.95)";
+      for(const s of st.shots){
+        ctx.beginPath();
+        ctx.arc(s.x, s.y, 8, 0, Math.PI*2);
+        ctx.fill();
+      }
+
+      // words
+      for(const w of st.words) drawWord(w);
+
+      // ship
+      drawShip();
+
+      // floor
+      ctx.strokeStyle = "rgba(255,255,255,.10)";
+      ctx.lineWidth = 3;
+      ctx.beginPath();
+      ctx.moveTo(0, H-90);
+      ctx.lineTo(W, H-90);
+      ctx.stroke();
     }
 
-    function start(reset){
-      st.lives = 3;
+    function loop(now){
+      const dt = Math.min(0.05, (now - st.lastT)/1000 || 0.016);
+      st.lastT = now;
+
+      if(screens.inv.classList.contains("active") && st.running){
+        update(dt, now);
+      }
+      render();
+      requestAnimationFrame(loop);
+    }
+
+    function start(resetAll){
+      if(resetAll) reset(true);
       st.running = true;
-      st.pac = {x:1,y:1,dir:"right"};
-      st.ghost = {x:COLS-2,y:ROWS-2};
-      if(reset) pickSentence();
+      setFB(UI.fb, `Shoot a synonym of: ${st.target.toUpperCase()}`, "warn");
+      hud();
+      // force immediate spawn so you ALWAYS see words
+      spawnWord(performance.now());
+      spawnWord(performance.now()+1);
+      spawnWord(performance.now()+2);
     }
 
-    // UI hooks
     UI.start.onclick = ()=> start(true);
     UI.restart.onclick = ()=> start(true);
-    UI.next.onclick = ()=> { st.running=true; st.lives=3; st.pac={x:1,y:1,dir:"right"}; st.ghost={x:COLS-2,y:ROWS-2}; pickSentence(); };
-    UI.ghosts.onclick = ()=>{ st.ghostsOn=!st.ghostsOn; UI.ghosts.textContent=`Ghosts: ${st.ghostsOn?"ON":"OFF"}`; setFB(UI.fb, st.ghostsOn?"Fantasmas ON":"Fantasmas OFF","warn"); };
+    UI.next.onclick = ()=> { reset(false); st.running=true; start(false); };
     UI.back.onclick = ()=> show("arcade");
 
-    // keyboard
     window.addEventListener("keydown",(e)=>{
-      if(!screens.pac.classList.contains("active")) return;
+      if(!screens.inv.classList.contains("active")) return;
+      if(e.key === " "){
+        e.preventDefault();
+        shoot();
+        return;
+      }
       const k = e.key.toLowerCase();
-      const map = {arrowup:"up",w:"up",arrowdown:"down",s:"down",arrowleft:"left",a:"left",arrowright:"right",d:"right"};
-      const dir = map[k];
-      if(!dir) return;
-      e.preventDefault();
-      step(dir);
+      st.keys[k] = true;
     }, {passive:false});
-
-    // ghost timer
-    setInterval(()=>{ if(screens.pac.classList.contains("active")) moveGhost(); }, 650);
+    window.addEventListener("keyup",(e)=>{
+      const k = e.key.toLowerCase();
+      st.keys[k] = false;
+    });
 
     // init
-    pickSentence();
-    requestAnimationFrame(render);
+    reset(true);
+    requestAnimationFrame(loop);
 
     return { start };
   })();
