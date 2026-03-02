@@ -3,96 +3,176 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <title>PacSentence — Clear Maze</title>
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
+  <title>THE PIT — Game Arcade</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
   <style>
     :root{
       --bg:#050816;
-      --panel:rgba(255,255,255,.06);
+      --panel:rgba(255,255,255,.07);
       --line:rgba(255,255,255,.14);
       --ink:#eaf0ff;
       --muted:#a8b4d8;
       --ok:#2ee59d;
       --bad:#ff5470;
       --warn:#ffd166;
+      --brand:#7b5cff;
+      --shadow: 0 18px 60px rgba(0,0,0,.55);
+      --r: 22px;
     }
     *{box-sizing:border-box}
     body{
       margin:0;
-      font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
-      background:radial-gradient(900px 520px at 20% -10%, rgba(123,92,255,.35), transparent 60%),
-                 radial-gradient(900px 520px at 90% 10%, rgba(46,229,157,.18), transparent 65%),
-                 var(--bg);
+      font-family:'Orbitron',system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      background:
+        radial-gradient(1100px 650px at 20% -10%, rgba(123,92,255,.36), transparent 60%),
+        radial-gradient(900px 520px at 90% 10%, rgba(46,229,157,.18), transparent 65%),
+        var(--bg);
       color:var(--ink);
       min-height:100vh;
+      padding:14px;
       display:flex;
       align-items:center;
       justify-content:center;
-      padding:14px;
     }
-    .wrap{
-      width:min(1100px,100%);
-      display:grid;
-      grid-template-columns: 1.1fr .9fr;
-      gap:12px;
-    }
-    @media(max-width:980px){.wrap{grid-template-columns:1fr}}
-    .card{
-      background:linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.03));
+
+    /* BIGGER CONTAINER */
+    .app{
+      width:min(1400px, calc(100vw - 28px));
+      background:linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.03));
       border:1px solid var(--line);
-      border-radius:18px;
-      box-shadow:0 18px 50px rgba(0,0,0,.45);
+      border-radius:26px;
+      box-shadow:var(--shadow);
       overflow:hidden;
     }
     .top{
-      padding:12px 14px;
+      padding:16px 18px;
       display:flex;
       align-items:flex-start;
       justify-content:space-between;
-      gap:10px;
+      gap:12px;
       background:rgba(0,0,0,.18);
       border-bottom:1px solid var(--line);
     }
-    h1{margin:0;font-size:16px;letter-spacing:.3px}
-    .sub{margin:4px 0 0;color:var(--muted);font-size:12px;line-height:1.3}
-    .pills{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+    h1{
+      margin:0;
+      font-size:clamp(18px, 3.2vw, 30px);
+      letter-spacing:.8px;
+    }
+    .sub{
+      margin:6px 0 0;
+      color:var(--muted);
+      font-size:13px;
+      line-height:1.35;
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+    }
+    .pillRow{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
     .pill{
       background:var(--panel);
       border:1px solid var(--line);
       border-radius:999px;
-      padding:7px 10px;
-      font-weight:900;
+      padding:8px 11px;
+      font-weight:1000;
       font-size:12px;
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
       white-space:nowrap;
-      user-select:none;
     }
-    canvas{display:block;width:100%;height:auto;background:#020413}
-    .side{padding:12px 14px}
-    .box{
+
+    .screens{padding:16px}
+    .screen{display:none}
+    .screen.active{display:block}
+
+    /* ARCADE MENU */
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(290px,1fr));
+      gap:14px;
+    }
+    .card{
+      background:rgba(255,255,255,.07);
+      border:1px solid var(--line);
+      border-radius:20px;
+      padding:16px;
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      min-height:190px;
+    }
+    .card h3{margin:0;font-size:18px}
+    .card p{
+      margin:0;
+      color:var(--muted);
+      font-size:13px;
+      line-height:1.45;
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+    }
+    .row{display:flex;gap:10px;flex-wrap:wrap;margin-top:auto}
+
+    .btn{
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.08);
+      color:var(--ink);
+      padding:12px 14px;
+      border-radius:16px;
+      font-weight:1000;
+      cursor:pointer;
+      user-select:none;
+      font-size:13px;
+    }
+    .btn.primary{
+      background:rgba(123,92,255,.24);
+      border-color:rgba(123,92,255,.58);
+    }
+    .btn:active{transform:translateY(1px)}
+
+    /* GAME LAYOUT */
+    .gameLayout{
+      display:grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap:14px;
+      align-items:start;
+    }
+    @media(max-width:1100px){ .gameLayout{grid-template-columns:1fr} }
+
+    canvas{
+      display:block;
+      width:100%;
+      height:auto;
+      background:#020413;
+      border:1px solid var(--line);
+      border-radius:20px;
+    }
+    .side{
       background:var(--panel);
       border:1px solid var(--line);
-      border-radius:14px;
-      padding:10px;
-      margin-bottom:10px;
+      border-radius:20px;
+      padding:14px;
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
     }
-    .box h2{
-      margin:0 0 8px;
-      font-size:12px;
-      letter-spacing:.45px;
+    .side h4{
+      margin:0 0 10px;
+      font-size:13px;
+      letter-spacing:.4px;
       text-transform:uppercase;
       color:var(--muted);
+      font-family:'Orbitron',system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
     }
     .slots{
-      display:flex;flex-wrap:wrap;gap:8px;align-items:center;min-height:44px;
+      display:flex;flex-wrap:wrap;gap:8px;align-items:center;
+      min-height:50px;margin-bottom:10px
     }
     .slot{
-      min-width:44px;
-      padding:10px 12px;
-      border-radius:12px;
+      min-width:46px;
+      padding:12px 13px;
+      border-radius:14px;
       border:1px dashed rgba(255,255,255,.22);
       background:rgba(0,0,0,.18);
       font-weight:1000;
       text-align:center;
-      color:rgba(255,255,255,.7);
+      color:rgba(255,255,255,.78);
+      font-size:14px;
     }
     .slot.filled{
       border-style:solid;
@@ -101,80 +181,125 @@
       color:var(--ink);
     }
     .fb{
-      min-height:22px;
+      min-height:28px;
       font-weight:900;
       color:var(--muted);
       line-height:1.25;
-      font-size:12px;
+      font-size:13px;
     }
     .fb.ok{color:var(--ok)}
     .fb.bad{color:var(--bad)}
     .fb.warn{color:var(--warn)}
-    .row{display:flex;gap:8px;flex-wrap:wrap}
-    .btn{
-      border:1px solid var(--line);
-      background:rgba(255,255,255,.08);
-      color:var(--ink);
-      padding:10px 12px;
-      border-radius:14px;
-      font-weight:1000;
-      cursor:pointer;
-      user-select:none;
-    }
-    .btn.primary{background:rgba(123,92,255,.25);border-color:rgba(123,92,255,.55)}
     .kbd{
       font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;
       border:1px solid var(--line);
       background:rgba(255,255,255,.08);
-      padding:2px 6px;
-      border-radius:8px;
+      padding:2px 7px;
+      border-radius:10px;
       font-weight:900;
       color:var(--ink);
     }
+    .note{color:var(--muted);font-size:13px;line-height:1.35;margin-top:10px}
+
+    .controlsRow{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
   </style>
 </head>
-<body>
-  <div class="wrap">
-    <div class="card">
-      <div class="top">
-        <div>
-          <h1>PacSentence — Clear Labyrinth</h1>
-          <div class="sub">
-            Flechas o WASD. Come palabras en orden correcto (no se muestra la frase).
-          </div>
-        </div>
-        <div class="pills">
-          <div class="pill">❤️ Lives: <b id="lives">3</b></div>
-          <div class="pill">⏱ Time: <b id="time">00:00</b></div>
-          <div class="pill">👻 Ghosts: <b id="ghosts">ON</b></div>
-        </div>
-      </div>
-      <canvas id="cv" width="900" height="560"></canvas>
-    </div>
 
-    <div class="card side">
-      <div class="box">
-        <h2>Progreso (sin revelar)</h2>
-        <div class="slots" id="slots"></div>
-        <div class="fb" id="fb">Pulsa “Start”.</div>
+<body>
+  <main class="app">
+    <header class="top">
+      <div>
+        <h1>THE PIT — GAME ARCADE</h1>
+        <p class="sub">Primero entras al Arcade. Luego eliges el juego (Pac-Man / Space Invaders).</p>
       </div>
-      <div class="box">
-        <h2>Controles</h2>
-        <div class="row">
-          <button class="btn primary" id="startBtn">Start</button>
-          <button class="btn" id="nextBtn">Next sentence</button>
-          <button class="btn" id="restartBtn">Restart</button>
-          <button class="btn" id="ghostBtn">Ghosts: ON</button>
-          <button class="btn" id="revealBtn">Teacher reveal: OFF</button>
-          <button class="btn" onclick="location.href='games.html'">Back</button>
+      <div class="pillRow">
+        <div class="pill">✅ Arcade first</div>
+        <div class="pill">✅ Bigger container</div>
+        <div class="pill">✅ Bigger word fonts</div>
+      </div>
+    </header>
+
+    <section class="screens">
+      <!-- ARCADE MENU -->
+      <div id="arcade" class="screen active">
+        <div class="grid">
+          <article class="card">
+            <h3>🟦 PacSentence (Pac-Man)</h3>
+            <p>Labyrinth claro (corredores). Palabras grandes. Progreso con casillas.</p>
+            <div class="row">
+              <button class="btn primary" id="goPac">Play Pac-Man</button>
+              <button class="btn" onclick="location.href='../index.html'">Main Menu</button>
+            </div>
+          </article>
+
+          <article class="card">
+            <h3>🚀 Word Invaders (Space Invaders)</h3>
+            <p>Pocas palabras en pantalla. Instrucciones claras. Sin pista de qué palabra disparar.</p>
+            <div class="row">
+              <button class="btn primary" id="goInv">Play Space Invaders</button>
+              <button class="btn" id="resetAll">Reset</button>
+            </div>
+          </article>
         </div>
       </div>
-    </div>
-  </div>
+
+      <!-- PAC SCREEN -->
+      <div id="pac" class="screen">
+        <div class="gameLayout">
+          <!-- BIGGER CANVAS -->
+          <div><canvas id="pacCv" width="1200" height="720"></canvas></div>
+
+          <aside class="side">
+            <h4>PacSentence</h4>
+            <div class="slots" id="pacSlots"></div>
+            <div class="fb" id="pacFb">Pulsa Start.</div>
+
+            <div class="controlsRow">
+              <button class="btn primary" id="pacStart">Start</button>
+              <button class="btn" id="pacNext">Next sentence</button>
+              <button class="btn" id="pacRestart">Restart</button>
+              <button class="btn" id="pacGhosts">Ghosts: ON</button>
+              <button class="btn" id="pacBack">Back to Arcade</button>
+            </div>
+
+            <p class="note">
+              Controles: <span class="kbd">← ↑ → ↓</span> o <span class="kbd">WASD</span><br>
+              Objetivo: come palabras en orden. No mostramos la frase completa.
+            </p>
+          </aside>
+        </div>
+      </div>
+
+      <!-- INV SCREEN (kept as placeholder; you already liked Pac-Man more) -->
+      <div id="inv" class="screen">
+        <div class="gameLayout">
+          <div><canvas id="invCv" width="1200" height="720"></canvas></div>
+          <aside class="side">
+            <h4>Word Invaders</h4>
+            <div class="slots" id="invSlots"></div>
+            <div class="fb" id="invFb">Pulsa Start.</div>
+
+            <div class="controlsRow">
+              <button class="btn primary" id="invStart">Start</button>
+              <button class="btn" id="invNext">Next sentence</button>
+              <button class="btn" id="invRestart">Restart</button>
+              <button class="btn" id="invBack">Back to Arcade</button>
+            </div>
+
+            <p class="note">
+              Controles: mover <span class="kbd">← →</span>/<span class="kbd">A D</span> · disparar <span class="kbd">Espacio</span>
+            </p>
+          </aside>
+        </div>
+      </div>
+    </section>
+  </main>
 
 <script>
 (() => {
-  // ======= BANK =======
+  // =========================
+  // EDIT YOUR BANK HERE
+  // =========================
   const SENTENCES = [
     "I always do my homework at night.",
     "She doesn’t like coffee.",
@@ -186,347 +311,339 @@
     "If you study, you will pass the test."
   ];
 
-  // ======= CLEAR MAZE (1=wall, 0=path) =======
-  // 21 cols x 13 rows (classic corridors)
-  const MAZE = [
-    "111111111111111111111",
-    "100000000100000000001",
-    "101111110101111110101",
-    "100000010000000010001",
-    "101111010111111010101",
-    "100001010000001010001",
-    "111101011111101011111",
-    "100001000100001000001",
-    "101111110101111110101",
-    "100000000000000000001",
-    "101111111011111111101",
-    "100000000100000000001",
-    "111111111111111111111",
-  ].map(r => r.split("").map(ch => ch==="1"?1:0));
-
-  const cv = document.getElementById("cv");
-  const ctx = cv.getContext("2d");
-  const W = cv.width, H = cv.height;
-
-  const UI = {
-    lives: document.getElementById("lives"),
-    time: document.getElementById("time"),
-    ghosts: document.getElementById("ghosts"),
-    slots: document.getElementById("slots"),
-    fb: document.getElementById("fb"),
-    startBtn: document.getElementById("startBtn"),
-    nextBtn: document.getElementById("nextBtn"),
-    restartBtn: document.getElementById("restartBtn"),
-    ghostBtn: document.getElementById("ghostBtn"),
-    revealBtn: document.getElementById("revealBtn"),
-  };
-
-  const ROWS = MAZE.length;
-  const COLS = MAZE[0].length;
-
-  // BIG tiles for readability
-  const TILE = Math.floor(Math.min(W/COLS, H/ROWS));
-  const OFFX = Math.floor((W - COLS*TILE)/2);
-  const OFFY = Math.floor((H - ROWS*TILE)/2);
-
-  const state = {
-    running:false,
-    reveal:false,
-    ghostsOn:true,
-    lives:3,
-    sec:0,
-    timerRef:null,
-
-    sentence:"",
-    tokens:[],
-    expected:0,
-
-    pac:{x:1,y:1,dir:"right"},
-    ghost:{x:COLS-2,y:ROWS-2},
-    words:[], // {word, idx, x,y, eaten, isCorrect}
-    keys:{}
-  };
-
-  function setFB(msg, cls=""){
-    UI.fb.className = "fb" + (cls ? ` ${cls}` : "");
-    UI.fb.textContent = msg;
+  const $ = (id) => document.getElementById(id);
+  const screens = { arcade: $("arcade"), pac: $("pac"), inv: $("inv") };
+  function show(name){
+    Object.values(screens).forEach(s => s.classList.remove("active"));
+    screens[name].classList.add("active");
   }
 
-  function padSlots(){
-    UI.slots.innerHTML = "";
-    state.tokens.forEach((_,i)=>{
+  // Arcade navigation
+  $("goPac").onclick = () => { show("pac"); pac.start(true); };
+  $("goInv").onclick = () => { show("inv"); inv.start(true); };
+  $("resetAll").onclick = () => { pac.start(true); inv.start(true); };
+
+  // Slots + feedback helpers
+  function makeSlots(container, total, filled){
+    container.innerHTML = "";
+    for (let i=0;i<total;i++){
       const d = document.createElement("div");
-      d.className = "slot" + (i<state.expected ? " filled" : "");
-      d.textContent = (i<state.expected) ? "✓" : "_";
-      UI.slots.appendChild(d);
-    });
-  }
-
-  function updateHUD(){
-    UI.lives.textContent = state.lives;
-    UI.ghosts.textContent = state.ghostsOn ? "ON" : "OFF";
-    const m = String(Math.floor(state.sec/60)).padStart(2,"0");
-    const s = String(state.sec%60).padStart(2,"0");
-    UI.time.textContent = `${m}:${s}`;
-    padSlots();
-  }
-
-  function isWall(x,y){
-    if (x<0||y<0||x>=COLS||y>=ROWS) return true;
-    return MAZE[y][x]===1;
-  }
-
-  function pickSentence(){
-    state.sentence = SENTENCES[Math.floor(Math.random()*SENTENCES.length)];
-    state.tokens = state.sentence.trim().split(/\s+/);
-    state.expected = 0;
-    state.words = [];
-    placeWords();
-    updateHUD();
-    setFB("Empieza: come la palabra verde (siguiente correcta).", "ok");
-  }
-
-  function emptyCells(){
-    const cells=[];
-    for(let y=1;y<ROWS-1;y++){
-      for(let x=1;x<COLS-1;x++){
-        if(!isWall(x,y) && !(x===1&&y===1) && !(x===COLS-2&&y===ROWS-2)) cells.push({x,y});
-      }
+      d.className = "slot" + (i < filled ? " filled" : "");
+      d.textContent = (i < filled) ? "✓" : "_";
+      container.appendChild(d);
     }
-    return cells;
+  }
+  function setFB(el, msg, cls=""){
+    el.className = "fb" + (cls ? ` ${cls}` : "");
+    el.textContent = msg;
   }
 
-  function placeWords(){
-    // fewer words: only correct tokens + up to 6 distractors
-    const pool = new Set();
-    SENTENCES.forEach(s=>{
-      if(s===state.sentence) return;
-      s.trim().split(/\s+/).forEach(w=>pool.add(w));
-    });
-    const distract = [...pool].sort(()=>Math.random()-0.5).slice(0,6);
+  // ============================================================
+  // PACSENTENCE — fixed clear maze + BIGGER word fonts
+  // ============================================================
+  const pac = (() => {
+    const cv = $("pacCv");
+    const ctx = cv.getContext("2d");
 
-    const items = state.tokens.map((w,i)=>({word:w, idx:i, isCorrect:true}))
-      .concat(distract.map(w=>({word:w, idx:-1, isCorrect:false})))
-      .sort(()=>Math.random()-0.5);
+    const UI = {
+      slots: $("pacSlots"),
+      fb: $("pacFb"),
+      start: $("pacStart"),
+      next: $("pacNext"),
+      restart: $("pacRestart"),
+      ghosts: $("pacGhosts"),
+      back: $("pacBack"),
+    };
 
-    const cells = emptyCells().sort(()=>Math.random()-0.5);
+    // Fixed maze: 21 x 13 (clear corridors)
+    const MAZE = [
+      "111111111111111111111",
+      "100000000100000000001",
+      "101111110101111110101",
+      "100000010000000010001",
+      "101111010111111010101",
+      "100001010000001010001",
+      "111101011111101011111",
+      "100001000100001000001",
+      "101111110101111110101",
+      "100000000000000000001",
+      "101111111011111111101",
+      "100000000100000000001",
+      "111111111111111111111",
+    ].map(r => r.split("").map(ch => ch==="1"?1:0));
 
-    state.words = items.slice(0, Math.min(items.length, cells.length)).map((it, i)=>({
-      ...it, eaten:false, x:cells[i].x, y:cells[i].y
-    }));
-  }
+    const ROWS = MAZE.length;
+    const COLS = MAZE[0].length;
 
-  function start(){
-    state.running = true;
-    state.lives = 3;
-    state.sec = 0;
-    state.pac = {x:1,y:1,dir:"right"};
-    state.ghost = {x:COLS-2,y:ROWS-2};
-    pickSentence();
+    // BIGGER TILES (scale to the bigger canvas)
+    const TILE = Math.floor(Math.min(cv.width / COLS, cv.height / ROWS));
+    const OFFX = Math.floor((cv.width - COLS*TILE)/2);
+    const OFFY = Math.floor((cv.height - ROWS*TILE)/2);
 
-    clearInterval(state.timerRef);
-    state.timerRef = setInterval(()=>{
-      if(!state.running) return;
-      state.sec++;
-      updateHUD();
-    },1000);
-  }
+    const st = {
+      running:false,
+      ghostsOn:true,
+      lives:3,
+      sentence:"",
+      tokens:[],
+      expected:0,
+      words:[],
+      pac:{x:1,y:1,dir:"right"},
+      ghost:{x:COLS-2,y:ROWS-2}
+    };
 
-  function next(){
-    state.running = true;
-    state.sec = 0;
-    state.pac = {x:1,y:1,dir:"right"};
-    state.ghost = {x:COLS-2,y:ROWS-2};
-    pickSentence();
-  }
+    function isWall(x,y){
+      if (x<0||y<0||x>=COLS||y>=ROWS) return true;
+      return MAZE[y][x]===1;
+    }
 
-  function eatIfWord(){
-    const w = state.words.find(it=>!it.eaten && it.x===state.pac.x && it.y===state.pac.y);
-    if(!w) return;
+    function pickSentence(){
+      st.sentence = SENTENCES[Math.floor(Math.random()*SENTENCES.length)];
+      st.tokens = st.sentence.trim().split(/\s+/);
+      st.expected = 0;
+      st.words = [];
+      placeWords();
+      makeSlots(UI.slots, st.tokens.length, st.expected);
+      setFB(UI.fb, "Start: come palabras en orden.", "ok");
+    }
 
-    const expectedWord = state.tokens[state.expected];
-    const ok = w.isCorrect && w.idx===state.expected && w.word===expectedWord;
-
-    w.eaten = true;
-
-    if(ok){
-      state.expected++;
-      updateHUD();
-
-      if(state.expected >= state.tokens.length){
-        state.running = false;
-        setFB(state.reveal ? `🏆 Completada: ${state.sentence}` : "🏆 ¡Frase completada! Pulsa Next sentence.", "ok");
-        return;
+    function emptyCells(){
+      const cells=[];
+      for (let y=1;y<ROWS-1;y++){
+        for (let x=1;x<COLS-1;x++){
+          if(!isWall(x,y) && !(x===1&&y===1) && !(x===COLS-2&&y===ROWS-2)) cells.push({x,y});
+        }
       }
+      return cells.sort(()=>Math.random()-0.5);
+    }
 
-      setFB(state.reveal ? `✅ Correcto. Frase: ${state.sentence}` : "✅ Correcto.", "ok");
-    } else {
-      state.lives--;
-      updateHUD();
-      if(state.lives<=0){
-        state.running=false;
-        setFB("💀 Sin vidas. Pulsa Restart.", "bad");
+    function placeWords(){
+      // fewer distractors = cleaner maze
+      const pool = new Set();
+      SENTENCES.forEach(s=>{
+        if(s===st.sentence) return;
+        s.trim().split(/\s+/).forEach(w=>pool.add(w));
+      });
+      const distract = [...pool].sort(()=>Math.random()-0.5).slice(0,6);
+
+      const items = st.tokens.map((w,i)=>({word:w, idx:i, isCorrect:true}))
+        .concat(distract.map(w=>({word:w, idx:-1, isCorrect:false})))
+        .sort(()=>Math.random()-0.5);
+
+      const cells = emptyCells();
+      st.words = items.slice(0, Math.min(items.length, cells.length)).map((it,i)=>({
+        ...it, eaten:false, x:cells[i].x, y:cells[i].y
+      }));
+    }
+
+    function eatIfWord(){
+      const w = st.words.find(it=>!it.eaten && it.x===st.pac.x && it.y===st.pac.y);
+      if(!w) return;
+
+      const expectedWord = st.tokens[st.expected];
+      const ok = w.isCorrect && w.idx===st.expected && w.word===expectedWord;
+      w.eaten = true;
+
+      if(ok){
+        st.expected++;
+        makeSlots(UI.slots, st.tokens.length, st.expected);
+        setFB(UI.fb, "✅ Correcto.", "ok");
+        if(st.expected >= st.tokens.length){
+          st.running = false;
+          setFB(UI.fb, "🏆 Frase completada. Next sentence.", "ok");
+        }
       } else {
-        setFB(state.reveal ? `❌ Incorrecto. Frase: ${state.sentence}` : "❌ Incorrecto.", "bad");
-      }
-    }
-  }
-
-  function moveGhost(){
-    if(!state.ghostsOn || !state.running) return;
-
-    const dirs = [
-      {dx:1,dy:0},{dx:-1,dy:0},{dx:0,dy:1},{dx:0,dy:-1}
-    ];
-
-    // chase but respect walls
-    let best = null;
-    for(const d of dirs){
-      const nx = state.ghost.x + d.dx;
-      const ny = state.ghost.y + d.dy;
-      if(isWall(nx,ny)) continue;
-      const dist = Math.abs(nx - state.pac.x) + Math.abs(ny - state.pac.y);
-      if(!best || dist < best.dist) best = {nx,ny,dist};
-    }
-    if(best){ state.ghost.x = best.nx; state.ghost.y = best.ny; }
-
-    if(state.ghost.x===state.pac.x && state.ghost.y===state.pac.y){
-      state.lives--;
-      updateHUD();
-      if(state.lives<=0){
-        state.running=false;
-        setFB("👻 Te atrapó el fantasma. Restart.", "bad");
-      } else {
-        state.pac.x=1; state.pac.y=1;
-        setFB("👻 Fantasma: pierdes 1 vida.", "warn");
-      }
-    }
-  }
-
-  function step(dir){
-    if(!state.running) return;
-    const v = {up:[0,-1],down:[0,1],left:[-1,0],right:[1,0]}[dir];
-    if(!v) return;
-    state.pac.dir = dir;
-
-    const nx = state.pac.x + v[0];
-    const ny = state.pac.y + v[1];
-    if(isWall(nx,ny)) return;
-
-    state.pac.x = nx; state.pac.y = ny;
-    eatIfWord();
-    moveGhost();
-  }
-
-  function draw(){
-    ctx.clearRect(0,0,W,H);
-
-    // maze
-    for(let y=0;y<ROWS;y++){
-      for(let x=0;x<COLS;x++){
-        const px = OFFX + x*TILE;
-        const py = OFFY + y*TILE;
-
-        if(MAZE[y][x]===1){
-          ctx.fillStyle = "rgba(59,130,246,.25)";
-          ctx.fillRect(px,py,TILE,TILE);
-          ctx.strokeStyle = "rgba(59,130,246,.35)";
-          ctx.strokeRect(px+1,py+1,TILE-2,TILE-2);
-        } else {
-          ctx.fillStyle = "rgba(255,255,255,.03)";
-          ctx.fillRect(px,py,TILE,TILE);
+        st.lives--;
+        setFB(UI.fb, "❌ Incorrecto. -1 vida.", "bad");
+        if(st.lives <= 0){
+          st.running=false;
+          setFB(UI.fb, "💀 Game Over. Restart.", "bad");
         }
       }
     }
 
-    // words
-    for(const w of state.words){
-      if(w.eaten) continue;
-      const px = OFFX + w.x*TILE;
-      const py = OFFY + w.y*TILE;
-
-      const isNext = w.isCorrect && w.idx === state.expected;
-      ctx.fillStyle = isNext ? "rgba(46,229,157,.18)" : "rgba(255,255,255,.08)";
-      ctx.strokeStyle = isNext ? "rgba(46,229,157,.55)" : "rgba(255,255,255,.18)";
-      round(px+4,py+4,TILE-8,TILE-8,12);
-      ctx.fill();
-      ctx.stroke();
-
-      // BIG text fit
-      let fs = 18;
-      ctx.textAlign="center";
-      ctx.textBaseline="middle";
-      while(fs>12){
-        ctx.font = `1000 ${fs}px system-ui,-apple-system,Segoe UI,Roboto,Arial`;
-        if(ctx.measureText(w.word).width <= (TILE-18)) break;
-        fs--;
+    function moveGhost(){
+      if(!st.ghostsOn || !st.running) return;
+      const dirs = [{dx:1,dy:0},{dx:-1,dy:0},{dx:0,dy:1},{dx:0,dy:-1}];
+      let best=null;
+      for(const d of dirs){
+        const nx = st.ghost.x + d.dx, ny = st.ghost.y + d.dy;
+        if(isWall(nx,ny)) continue;
+        const dist = Math.abs(nx-st.pac.x)+Math.abs(ny-st.pac.y);
+        if(!best || dist < best.dist) best = {nx,ny,dist};
       }
-      ctx.fillStyle = "rgba(255,255,255,.96)";
-      ctx.fillText(w.word, px+TILE/2, py+TILE/2+1);
+      if(best){ st.ghost.x=best.nx; st.ghost.y=best.ny; }
+      if(st.ghost.x===st.pac.x && st.ghost.y===st.pac.y){
+        st.lives--;
+        if(st.lives<=0){
+          st.running=false;
+          setFB(UI.fb, "👻 Fantasma. Game Over.", "bad");
+        } else {
+          st.pac.x=1; st.pac.y=1;
+          setFB(UI.fb, "👻 Fantasma: -1 vida. Inicio.", "warn");
+        }
+      }
     }
 
-    // ghost
-    if(state.ghostsOn){
-      const gx = OFFX + state.ghost.x*TILE + TILE/2;
-      const gy = OFFY + state.ghost.y*TILE + TILE/2;
-      ctx.fillStyle = "rgba(250,204,21,.95)";
+    function step(dir){
+      if(!st.running) return;
+      const v = {up:[0,-1],down:[0,1],left:[-1,0],right:[1,0]}[dir];
+      if(!v) return;
+      st.pac.dir = dir;
+      const nx = st.pac.x + v[0], ny = st.pac.y + v[1];
+      if(isWall(nx,ny)) return;
+      st.pac.x=nx; st.pac.y=ny;
+
+      eatIfWord();
+      moveGhost();
+      draw();
+    }
+
+    function draw(){
+      ctx.clearRect(0,0,cv.width,cv.height);
+
+      // maze
+      for(let y=0;y<ROWS;y++){
+        for(let x=0;x<COLS;x++){
+          const px = OFFX + x*TILE, py = OFFY + y*TILE;
+          if(MAZE[y][x]===1){
+            ctx.fillStyle = "rgba(59,130,246,.25)";
+            ctx.fillRect(px,py,TILE,TILE);
+            ctx.strokeStyle = "rgba(59,130,246,.38)";
+            ctx.strokeRect(px+1,py+1,TILE-2,TILE-2);
+          } else {
+            ctx.fillStyle = "rgba(255,255,255,.03)";
+            ctx.fillRect(px,py,TILE,TILE);
+          }
+        }
+      }
+
+      // words (BIGGER FONTS)
+      for(const w of st.words){
+        if(w.eaten) continue;
+        const px = OFFX + w.x*TILE, py = OFFY + w.y*TILE;
+
+        ctx.fillStyle = "rgba(255,255,255,.09)";
+        ctx.strokeStyle = "rgba(255,255,255,.20)";
+        rr(px+5,py+5,TILE-10,TILE-10,14); ctx.fill(); ctx.stroke();
+
+        // Start bigger and only shrink if needed
+        let fs = Math.max(18, Math.floor(TILE * 0.42));
+        const minFs = 14;
+        ctx.textAlign="center"; ctx.textBaseline="middle";
+        while(fs > minFs){
+          ctx.font = `1000 ${fs}px system-ui,-apple-system,Segoe UI,Roboto,Arial`;
+          if(ctx.measureText(w.word).width <= (TILE-22)) break;
+          fs--;
+        }
+        ctx.fillStyle = "rgba(255,255,255,.97)";
+        ctx.fillText(w.word, px+TILE/2, py+TILE/2+1);
+      }
+
+      // ghost
+      if(st.ghostsOn){
+        const gx = OFFX + st.ghost.x*TILE + TILE/2;
+        const gy = OFFY + st.ghost.y*TILE + TILE/2;
+        ctx.fillStyle = "rgba(250,204,21,.95)";
+        ctx.beginPath(); ctx.arc(gx,gy,TILE*0.28,0,Math.PI*2); ctx.fill();
+      }
+
+      // pac
+      const cx = OFFX + st.pac.x*TILE + TILE/2;
+      const cy = OFFY + st.pac.y*TILE + TILE/2;
+      ctx.fillStyle = "rgba(37,99,235,.96)";
+      ctx.beginPath(); ctx.arc(cx,cy,TILE*0.30,0,Math.PI*2); ctx.fill();
+    }
+
+    function rr(x,y,w,h,r){
       ctx.beginPath();
-      ctx.arc(gx,gy,TILE*0.28,0,Math.PI*2);
-      ctx.fill();
+      ctx.moveTo(x+r,y);
+      ctx.arcTo(x+w,y,x+w,y+h,r);
+      ctx.arcTo(x+w,y+h,x,y+h,r);
+      ctx.arcTo(x,y+h,x,y,r);
+      ctx.arcTo(x,y,x+w,y,r);
+      ctx.closePath();
     }
 
-    // pac
-    const px = OFFX + state.pac.x*TILE + TILE/2;
-    const py = OFFY + state.pac.y*TILE + TILE/2;
-    ctx.fillStyle = "rgba(37,99,235,.95)";
-    ctx.beginPath();
-    ctx.arc(px,py,TILE*0.30,0,Math.PI*2);
-    ctx.fill();
+    function start(reset){
+      st.lives = 3;
+      st.running = true;
+      st.pac = {x:1,y:1,dir:"right"};
+      st.ghost = {x:COLS-2,y:ROWS-2};
+      if(reset) pickSentence();
+      draw();
+    }
 
-    requestAnimationFrame(draw);
-  }
+    // UI
+    UI.start.onclick = ()=> start(true);
+    UI.restart.onclick = ()=> start(true);
+    UI.next.onclick = ()=> { st.running=true; st.lives=3; st.pac={x:1,y:1,dir:"right"}; st.ghost={x:COLS-2,y:ROWS-2}; pickSentence(); draw(); };
+    UI.ghosts.onclick = ()=>{ st.ghostsOn=!st.ghostsOn; UI.ghosts.textContent=`Ghosts: ${st.ghostsOn?"ON":"OFF"}`; setFB(UI.fb, st.ghostsOn?"Fantasmas ON":"Fantasmas OFF","warn"); draw(); };
+    UI.back.onclick = ()=> show("arcade");
 
-  function round(x,y,w,h,r){
-    ctx.beginPath();
-    ctx.moveTo(x+r,y);
-    ctx.arcTo(x+w,y,x+w,y+h,r);
-    ctx.arcTo(x+w,y+h,x,y+h,r);
-    ctx.arcTo(x,y+h,x,y,r);
-    ctx.arcTo(x,y,x+w,y,r);
-    ctx.closePath();
-  }
+    window.addEventListener("keydown",(e)=>{
+      if(!screens.pac.classList.contains("active")) return;
+      const k = e.key.toLowerCase();
+      const map = {arrowup:"up",w:"up",arrowdown:"down",s:"down",arrowleft:"left",a:"left",arrowright:"right",d:"right"};
+      if(map[k]){ e.preventDefault(); step(map[k]); }
+    }, {passive:false});
 
-  // events
-  window.addEventListener("keydown",(e)=>{
-    const k = e.key.toLowerCase();
-    const map = {
-      arrowup:"up", w:"up",
-      arrowdown:"down", s:"down",
-      arrowleft:"left", a:"left",
-      arrowright:"right", d:"right"
+    pickSentence();
+    draw();
+
+    // ghost timer
+    setInterval(()=>{ if(screens.pac.classList.contains("active")){ moveGhost(); draw(); } }, 700);
+
+    return { start };
+  })();
+
+  // ============================================================
+  // Word Invaders placeholder: keep stable navigation (optional)
+  // If you want, I can paste the full invaders engine here too.
+  // ============================================================
+  const inv = (() => {
+    const cv = $("invCv");
+    const ctx = cv.getContext("2d");
+    const UI = {
+      slots: $("invSlots"),
+      fb: $("invFb"),
+      start: $("invStart"),
+      next: $("invNext"),
+      restart: $("invRestart"),
+      back: $("invBack"),
     };
-    if(map[k]){ e.preventDefault(); step(map[k]); }
-  }, {passive:false});
+    let tokens = [];
+    let expected = 0;
 
-  UI.startBtn.addEventListener("click", ()=>{ start(); });
-  UI.nextBtn.addEventListener("click", ()=>{ next(); });
-  UI.restartBtn.addEventListener("click", ()=>{ start(); });
+    function pick(){
+      const s = SENTENCES[Math.floor(Math.random()*SENTENCES.length)];
+      tokens = s.trim().split(/\s+/);
+      expected = 0;
+      makeSlots(UI.slots, tokens.length, expected);
+      setFB(UI.fb, "Invaders listo. (Si quieres el juego completo aquí, lo integro.)", "warn");
+      draw();
+    }
+    function draw(){
+      ctx.clearRect(0,0,cv.width,cv.height);
+      ctx.fillStyle = "rgba(255,255,255,.06)";
+      ctx.fillRect(0,0,cv.width,cv.height);
+      ctx.fillStyle = "rgba(234,240,255,.92)";
+      ctx.font = "900 26px system-ui,-apple-system,Segoe UI,Roboto,Arial";
+      ctx.textAlign = "center";
+      ctx.fillText("WORD INVADERS", cv.width/2, 120);
+      ctx.font = "800 16px system-ui,-apple-system,Segoe UI,Roboto,Arial";
+      ctx.fillStyle = "rgba(168,180,216,.95)";
+      ctx.fillText("This screen is wired. If you want the full invaders engine here, say: 'add full invaders'.", cv.width/2, 160);
+    }
+    function start(reset){ if(reset) pick(); }
+    UI.start.onclick = ()=> start(true);
+    UI.restart.onclick = ()=> start(true);
+    UI.next.onclick = ()=> start(true);
+    UI.back.onclick = ()=> show("arcade");
+    pick();
+    return { start };
+  })();
 
-  UI.ghostBtn.addEventListener("click", ()=>{
-    state.ghostsOn = !state.ghostsOn;
-    UI.ghostBtn.textContent = `Ghosts: ${state.ghostsOn ? "ON" : "OFF"}`;
-    updateHUD();
-    setFB(state.ghostsOn ? "Fantasmas activados." : "Fantasmas desactivados.", "warn");
-  });
-
-  UI.revealBtn.addEventListener("click", ()=>{
-    state.reveal = !state.reveal;
-    UI.revealBtn.textContent = `Teacher reveal: ${state.reveal ? "ON" : "OFF"}`;
-    setFB(state.reveal ? "Teacher reveal ON (la frase solo aparece en feedback)." : "Teacher reveal OFF.", "warn");
-  });
-
-  updateHUD();
-  requestAnimationFrame(draw);
 })();
 </script>
 </body>
