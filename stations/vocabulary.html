@@ -1,60 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Vocabulary Station</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vocabulary Station — Synchronize 2</title>
 
 <style>
-:root{
-  --bg:#121226;
-  --card1:#1f1f35;
-  --card2:#2a2a48;
-}
-
 body{
   margin:0;
-  font-family:system-ui;
-  background:
-    radial-gradient(circle at 20% 20%, #2a2a5a 0%, transparent 40%),
-    radial-gradient(circle at 80% 30%, #3a1f5c 0%, transparent 40%),
-    radial-gradient(circle at 50% 80%, #004c4c 0%, transparent 40%),
-    var(--bg);
-  color:white;
+  font-family:system-ui, sans-serif;
+  background:#f4f6fb;
 }
 
 header{
-  padding:18px;
-  background:#151530;
-  border-bottom:2px solid rgba(255,255,255,.08);
+  background:#ffffff;
+  padding:16px;
+  border-bottom:2px solid #e0e4ef;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  flex-wrap:wrap;
 }
 
 h1{
   margin:0;
-  font-size:24px;
-  font-weight:900;
+  font-size:20px;
 }
 
 .controls{
-  margin-top:14px;
   display:flex;
   gap:10px;
   flex-wrap:wrap;
 }
 
-button, select{
-  padding:10px 14px;
-  font-weight:900;
-  border-radius:12px;
-  border:2px solid rgba(255,255,255,.15);
-  background:#1c1c38;
-  color:white;
+select, button{
+  padding:8px 12px;
+  border-radius:8px;
+  border:1px solid #ccd3e0;
+  font-weight:600;
   cursor:pointer;
-  transition:all .15s ease;
+  background:white;
 }
 
 button:hover{
-  background:#25255a;
+  background:#eef2ff;
 }
 
 main{
@@ -63,61 +52,50 @@ main{
 
 .grid{
   display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-  gap:18px;
+  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+  gap:16px;
 }
 
-/* ---------- CARD ---------- */
-
 .card{
-  padding:18px;
-  background:linear-gradient(145deg,var(--card1),var(--card2));
+  background:white;
   border-radius:16px;
-  border:3px solid rgba(255,255,255,.1);
-  box-shadow:0 10px 0 rgba(0,0,0,.5);
-  transition:transform .15s ease;
+  padding:16px;
+  box-shadow:0 6px 18px rgba(0,0,0,.08);
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  transition:.2s;
 }
 
 .card:hover{
-  transform:translateY(-4px);
+  transform:translateY(-3px);
 }
 
-.pxsvg{
-  width:64px;
-  height:64px;
-  color:white;   /* IMPORTANT FIX */
+.icon{
+  width:72px;
+  height:72px;
+}
+
+.icon img{
+  width:72px;
+  height:72px;
+  object-fit:contain;
 }
 
 .word{
-  font-size:34px;
-  font-weight:900;
-  margin-top:12px;
-  text-shadow:0 3px 0 rgba(0,0,0,.6);
+  font-size:22px;
+  font-weight:800;
 }
 
 .back{
-  font-size:20px;
-  margin-top:6px;
-  opacity:.85;
+  font-size:18px;
+  color:#555;
 }
 
 .meta{
-  margin-top:10px;
-  font-size:13px;
-  opacity:.7;
+  font-size:12px;
+  color:#888;
 }
-
-/* ---------- ACCENTS ---------- */
-
-.accent-mint   { background:linear-gradient(145deg,#003f3a,#005f55); }
-.accent-yellow { background:linear-gradient(145deg,#5a4a00,#7a6300); }
-.accent-blue   { background:linear-gradient(145deg,#003a5a,#005a8a); }
-.accent-pink   { background:linear-gradient(145deg,#5a003f,#8a005f); }
-.accent-purple { background:linear-gradient(145deg,#3a005a,#5a008a); }
-.accent-orange { background:linear-gradient(145deg,#5a2a00,#8a3f00); }
-.accent-green  { background:linear-gradient(145deg,#004f2a,#007a3f); }
-.accent-red    { background:linear-gradient(145deg,#5a0000,#8a0000); }
-
 </style>
 </head>
 
@@ -125,11 +103,11 @@ main{
 
 <header>
   <h1>Vocabulary Station — Synchronize 2</h1>
+
   <div class="controls">
     <select id="unitSelect"></select>
     <select id="setSelect"></select>
     <button id="shuffleBtn">Shuffle</button>
-    <button id="modeBtn">Mode</button>
   </div>
 </header>
 
@@ -138,24 +116,25 @@ main{
 </main>
 
 <script type="module">
-
 import { VOCAB_DB, listUnits, listSets, getCards, shuffle } from "./vocabulary.js";
-import { VOCAB_ICONS } from "./vocabulary-icons.js";
 
-const grid = document.getElementById("grid");
 const unitSelect = document.getElementById("unitSelect");
 const setSelect = document.getElementById("setSelect");
+const grid = document.getElementById("grid");
 const shuffleBtn = document.getElementById("shuffleBtn");
-const modeBtn = document.getElementById("modeBtn");
 
-let mode = "flash";
 let cards = [];
 
 function initUnits(){
   const units = listUnits(VOCAB_DB);
+
   unitSelect.innerHTML =
     `<option value="all">All units</option>` +
-    units.map(u => `<option value="${u.unit}">Unit ${u.unit}</option>`).join("");
+    units.map(u =>
+      `<option value="${u.unit}">Unit ${u.unit}: ${u.title}</option>`
+    ).join("");
+
+  initSets("all");
 }
 
 function initSets(unitVal){
@@ -164,7 +143,9 @@ function initSets(unitVal){
 
   setSelect.innerHTML =
     `<option value="all">All sets</option>` +
-    sets.map(s => `<option value="${s.setId}">${s.label}</option>`).join("");
+    sets.map(s =>
+      `<option value="${s.setId}">U${s.unit}: ${s.label}</option>`
+    ).join("");
 }
 
 function loadCards(){
@@ -174,61 +155,29 @@ function loadCards(){
   const unitNum = unitVal === "all" ? null : Number(unitVal);
   const setId = setVal === "all" ? null : setVal;
 
-  cards = shuffle(getCards(VOCAB_DB, { unit: unitNum, setId }));
+  cards = getCards(VOCAB_DB, { unit: unitNum, setId });
   render();
 }
 
 function render(){
-  grid.innerHTML = cards.map(card => {
-
-    const iconKey = card.visual?.iconKey || "calendar";
-    const accent  = card.visual?.accent || "blue";
-    const icon = VOCAB_ICONS[iconKey] || VOCAB_ICONS["calendar"] || "";
-
-    if(mode === "flash"){
-      return `
-        <div class="card accent-${accent}">
-          ${icon}
-          <div class="word">${card.front}</div>
-          ${card.back ? `<div class="back">${card.back}</div>` : ""}
-          <div class="meta">Unit ${card.unit}</div>
-        </div>
-      `;
-    }
-
-    return `
-      <div class="card accent-${accent} quiz"
-        data-front="${card.front}"
-        data-back="${card.back}">
-        ${icon}
-        <div class="word">Click to reveal</div>
+  grid.innerHTML = cards.map(card => `
+    <div class="card">
+      <div class="icon">
+        <img src="${card.image}" alt="">
       </div>
-    `;
-  }).join("");
-
-  if(mode === "quiz"){
-    document.querySelectorAll(".quiz").forEach(el=>{
-      el.addEventListener("click", ()=>{
-        const f = el.getAttribute("data-front");
-        const b = el.getAttribute("data-back");
-        el.innerHTML = `
-          <div class="word">${f}</div>
-          ${b ? `<div class="back">${b}</div>` : ""}
-        `;
-      }, { once:true });
-    });
-  }
+      <div class="word">${card.front}</div>
+      ${card.back ? `<div class="back">${card.back}</div>` : ``}
+      <div class="meta">Unit ${card.unit} · ${card.setLabel}</div>
+    </div>
+  `).join("");
 }
 
-shuffleBtn.addEventListener("click", loadCards);
-
-modeBtn.addEventListener("click", ()=>{
-  mode = (mode === "flash") ? "quiz" : "flash";
-  modeBtn.textContent = `Mode: ${mode}`;
+shuffleBtn.addEventListener("click", () => {
+  cards = shuffle(cards);
   render();
 });
 
-unitSelect.addEventListener("change", ()=>{
+unitSelect.addEventListener("change", () => {
   initSets(unitSelect.value);
   loadCards();
 });
@@ -236,9 +185,9 @@ unitSelect.addEventListener("change", ()=>{
 setSelect.addEventListener("change", loadCards);
 
 initUnits();
-initSets("all");
 loadCards();
 
 </script>
+
 </body>
 </html>
