@@ -1,4 +1,4 @@
-// vocab-icon-engine.js
+// vocab-icons-engine.js
 // Lucide-based semantic icon engine
 
 const ICONS = {
