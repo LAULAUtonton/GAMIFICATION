@@ -62,7 +62,6 @@
       position:relative;
     }
 
-    /* HEADER */
     header{
       padding:22px 22px 18px;
       background: rgba(0,0,0,.18);
@@ -83,36 +82,34 @@
     .titleWrap{position:relative}
     h1{
       margin:0;
-      font-size:clamp(34px, 3.6vw, 56px); /* BIGGER */
+      font-size:clamp(34px, 3.6vw, 56px);
       letter-spacing:1.6px;
       color:var(--blue);
       text-shadow: 0 0 26px rgba(56,189,248,.28);
     }
     .sub{
       margin:12px 0 0;
-      font-size:20px; /* BIGGER */
+      font-size:20px;
       color:var(--muted);
       font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
       line-height:1.35;
       max-width:1200px;
     }
 
-    /* SCREENS */
     .screens{padding:18px 18px 20px}
     .screen{display:none}
     .screen.active{display:block}
 
-    /* BUTTONS */
     .btn{
       border:1px solid rgba(255,255,255,.22);
       background: rgba(255,255,255,.10);
       color:var(--ink);
-      padding:16px 18px;          /* BIG */
+      padding:16px 18px;
       border-radius:18px;
       font-weight:900;
       cursor:pointer;
       user-select:none;
-      font-size:16px;             /* BIG */
+      font-size:16px;
       transition: transform .08s ease, filter .12s ease;
     }
     .btn:hover{filter:brightness(1.07)}
@@ -129,11 +126,14 @@
       background: linear-gradient(180deg, rgba(167,139,250,.22), rgba(0,0,0,.18));
       border-color: rgba(167,139,250,.55);
     }
+    .btn.yellow{
+      background: linear-gradient(180deg, rgba(251,191,36,.22), rgba(0,0,0,.18));
+      border-color: rgba(251,191,36,.55);
+    }
     .btn.ghost{background: rgba(0,0,0,.18)}
 
     .row{display:flex; gap:12px; flex-wrap:wrap; align-items:center}
 
-    /* ARCADE MENU */
     .banner{
       border:1px solid rgba(255,255,255,.18);
       background: linear-gradient(90deg, rgba(56,189,248,.18), rgba(29,78,216,.12));
@@ -147,12 +147,12 @@
     }
     .banner .big{
       margin:0;
-      font-size:22px; /* BIG */
+      font-size:22px;
       letter-spacing:1.2px;
     }
     .banner .small{
       margin:8px 0 0;
-      font-size:16px; /* BIG */
+      font-size:16px;
       color:var(--muted);
       font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
       line-height:1.3;
@@ -195,13 +195,12 @@
     .card h3{margin:0;font-size:24px;letter-spacing:.5px}
     .card p{
       margin:0;
-      font-size:18px; /* BIG instructions */
+      font-size:18px;
       color:var(--muted);
       font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
       line-height:1.4;
     }
 
-    /* GAME LAYOUT */
     .gameLayout{
       display:grid;
       grid-template-columns: 1.25fr .75fr;
@@ -240,7 +239,7 @@
 
     .side h4{
       margin:0 0 10px;
-      font-size:16px; /* BIG */
+      font-size:16px;
       text-transform:uppercase;
       letter-spacing:.7px;
       color:var(--muted);
@@ -248,7 +247,7 @@
     }
     .fb{
       min-height:40px;
-      font-size:20px; /* BIG */
+      font-size:20px;
       font-weight:900;
       line-height:1.25;
       color:var(--muted);
@@ -259,7 +258,7 @@
 
     .note{
       margin-top:12px;
-      font-size:18px; /* BIG */
+      font-size:18px;
       color:var(--muted);
       line-height:1.35;
     }
@@ -274,7 +273,6 @@
       font-size:14px;
     }
 
-    /* HUD blocks: Score / Timer / Progress */
     .hudLine{
       display:grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -287,7 +285,7 @@
       border-radius:18px;
       padding:12px 12px;
       font-weight:1000;
-      font-size:16px; /* BIG */
+      font-size:16px;
     }
     .progressWrap{
       margin-top:10px;
@@ -316,7 +314,6 @@
       transition: width .25s ease;
     }
 
-    /* MEMORY GAME */
     .matchHeader{
       display:flex;
       gap:12px;
@@ -335,7 +332,7 @@
       font-weight:1000;
       cursor:pointer;
       font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
-      font-size:18px; /* BIG */
+      font-size:18px;
       min-width:240px;
     }
 
@@ -350,7 +347,7 @@
 
     .memCard{
       position:relative;
-      height:180px; /* BIG cards */
+      height:180px;
       perspective: 1100px;
       border-radius:24px;
     }
@@ -400,7 +397,7 @@
         radial-gradient(420px 280px at 45% 20%, rgba(251,191,36,.10), transparent 60%),
         radial-gradient(420px 280px at 75% 65%, rgba(56,189,248,.10), transparent 60%),
         rgba(0,0,0,.22);
-      font-size:26px; /* BIG */
+      font-size:26px;
     }
     .memFront.small{ font-size:22px; }
     .memFront.tiny{ font-size:20px; }
@@ -413,6 +410,7 @@
       color: var(--ok);
     }
     .memCard.locked{ pointer-events:none; opacity:.92; }
+
   </style>
 </head>
 
@@ -421,7 +419,7 @@
     <header>
       <div class="titleWrap">
         <h1>TRAINING ARCADE</h1>
-        <p class="sub">Big text, clear instructions, useful HUD (score + timer + progress), and games that work for learning.</p>
+        <p class="sub">Five games. Big text. Clear HUD: score + timer + progress. Back to Arcade in every game.</p>
       </div>
     </header>
 
@@ -431,7 +429,7 @@
         <div class="banner">
           <div>
             <p class="big">MAIN ARCADE MENU</p>
-            <p class="small">Choose a game. Every game has Score + Timer + Progress + Back button.</p>
+            <p class="small">Choose a game. Use the big START button inside each game.</p>
           </div>
           <div class="row">
             <button class="btn ghost" onclick="location.href='../index.html'">MAIN SITE MENU</button>
@@ -440,18 +438,18 @@
 
         <div class="grid">
           <article class="card">
-            <div class="tag"><span class="dot" style="background:var(--yellow)"></span>Classic Pac-Man style</div>
+            <div class="tag"><span class="dot" style="background:var(--yellow)"></span>Classic Pac-Man look</div>
             <h3>🟨 PacSentence</h3>
-            <p>Move Pac-Man in a blue maze. Collect words and practice reading.</p>
+            <p>Move Pac-Man in a blue maze. Eat word tiles to gain points.</p>
             <div class="row" style="margin-top:auto">
               <button class="btn primary" id="goPac">PLAY</button>
             </div>
           </article>
 
           <article class="card">
-            <div class="tag"><span class="dot" style="background:var(--lime)"></span>Classic shooter practice</div>
+            <div class="tag"><span class="dot" style="background:var(--lime)"></span>Shoot synonyms</div>
             <h3>🚀 Synonym Invaders</h3>
-            <p>Shoot a synonym of the target word. Fast ship. Big falling word tiles.</p>
+            <p>Shoot a synonym of the target. Fast ship. Round progress included.</p>
             <div class="row" style="margin-top:auto">
               <button class="btn green" id="goInv">PLAY</button>
             </div>
@@ -460,9 +458,27 @@
           <article class="card">
             <div class="tag"><span class="dot" style="background:var(--purple)"></span>Flip cards memory</div>
             <h3>🧩 Matching Memory</h3>
-            <p>Flip 2 cards. If they match, they stay open. Synonyms / Definitions / Spanish-English.</p>
+            <p>Flip 2 cards. If they match, they stay open. Multiple modes.</p>
             <div class="row" style="margin-top:auto">
               <button class="btn purple" id="goMatch">PLAY</button>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="tag"><span class="dot" style="background:var(--blue)"></span>Catch the right words</div>
+            <h3>🎣 Grammar Fishing</h3>
+            <p>Catch words with the hook. Correct catch = points. Wrong catch = penalty.</p>
+            <div class="row" style="margin-top:auto">
+              <button class="btn primary" id="goFish">PLAY</button>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="tag"><span class="dot" style="background:var(--yellow)"></span>Catch ingredients</div>
+            <h3>🥑 Guacamole Grammar</h3>
+            <p>Move the bowl to catch correct “ingredients”. Wrong = strike.</p>
+            <div class="row" style="margin-top:auto">
+              <button class="btn yellow" id="goGuac">PLAY</button>
             </div>
           </article>
         </div>
@@ -500,7 +516,7 @@
 
             <p class="note">
               Controls: <span class="kbd">← ↑ → ↓</span> or <span class="kbd">W A S D</span><br/>
-              Tip: Eat words to increase score and progress.
+              Eat word tiles for points.
             </p>
           </aside>
         </div>
@@ -596,27 +612,92 @@
         </div>
       </div>
 
+      <!-- FISH -->
+      <div id="fish" class="screen">
+        <div class="gameLayout">
+          <div><canvas id="fishCv" width="1500" height="900"></canvas></div>
+
+          <aside class="side">
+            <h4>Grammar Fishing</h4>
+
+            <div class="hudLine">
+              <div class="hudPill">⭐ Score: <span id="fishScore">0</span></div>
+              <div class="hudPill">⏱ Time: <span id="fishTime">00:00</span></div>
+              <div class="hudPill">🎯 Caught: <span id="fishCaught">0</span></div>
+            </div>
+
+            <div class="progressWrap">
+              <div class="progressLabel">
+                <span>Progress</span><span id="fishProgLabel">0%</span>
+              </div>
+              <div class="bar"><div class="barFill" id="fishProg"></div></div>
+            </div>
+
+            <div class="fb warn" id="fishFb">Press START. Catch only correct words!</div>
+
+            <div class="row" style="margin-top:14px">
+              <button class="btn primary" id="fishStart">START</button>
+              <button class="btn" id="fishNext">NEXT ROUND</button>
+              <button class="btn ghost" id="fishBack">BACK TO ARCADE</button>
+            </div>
+
+            <p class="note">
+              Move: <span class="kbd">← →</span> / <span class="kbd">A D</span><br/>
+              Drop/Reel: <span class="kbd">Space</span>
+            </p>
+          </aside>
+        </div>
+      </div>
+
+      <!-- GUAC -->
+      <div id="guac" class="screen">
+        <div class="gameLayout">
+          <div><canvas id="guacCv" width="1500" height="900"></canvas></div>
+
+          <aside class="side">
+            <h4>Guacamole Grammar</h4>
+
+            <div class="hudLine">
+              <div class="hudPill">⭐ Score: <span id="guacScore">0</span></div>
+              <div class="hudPill">⏱ Time: <span id="guacTime">00:00</span></div>
+              <div class="hudPill">❌ Strikes: <span id="guacStrikes">0</span></div>
+            </div>
+
+            <div class="progressWrap">
+              <div class="progressLabel">
+                <span>Progress</span><span id="guacProgLabel">0%</span>
+              </div>
+              <div class="bar"><div class="barFill" id="guacProg"></div></div>
+            </div>
+
+            <div class="fb warn" id="guacFb">Press START. Add only correct words!</div>
+
+            <div class="row" style="margin-top:14px">
+              <button class="btn yellow" id="guacStart">START</button>
+              <button class="btn" id="guacNext">NEXT ROUND</button>
+              <button class="btn ghost" id="guacBack">BACK TO ARCADE</button>
+            </div>
+
+            <p class="note">
+              Move bowl: <span class="kbd">← →</span> / <span class="kbd">A D</span><br/>
+              Goal: catch correct “ingredients” only.
+            </p>
+          </aside>
+        </div>
+      </div>
+
     </section>
   </main>
 
 <script>
 (() => {
   // =============================
-  // EDIT YOUR UNIT BANKS HERE
+  // BANKS (edit here)
   // =============================
   const UNIT_SYNONYMS = [
-    ["big", "large"],
-    ["fast", "quick"],
-    ["happy", "glad"],
-    ["start", "begin"],
-    ["finish", "end"],
-    ["difficult", "hard"],
-    ["safe", "secure"],
-    ["important", "essential"],
-    ["smart", "clever"],
-    ["tired", "exhausted"],
-    ["nice", "kind"],
-    ["angry", "mad"],
+    ["big", "large"], ["fast", "quick"], ["happy", "glad"], ["start", "begin"],
+    ["finish", "end"], ["difficult", "hard"], ["safe", "secure"], ["important", "essential"],
+    ["smart", "clever"], ["tired", "exhausted"], ["nice", "kind"], ["angry", "mad"],
   ];
 
   const UNIT_DEFINITIONS = [
@@ -645,7 +726,6 @@
     ["terminar", "finish"],
   ];
 
-  // Pac practice sentences (you can swap these for your unit sentences)
   const SENTENCES = [
     "I always do my homework at night.",
     "She doesn’t like coffee.",
@@ -657,7 +737,6 @@
     "If you study, you will pass the test."
   ];
 
-  // Invaders bank: target -> accepted synonyms
   const SYNONYMS = [
     { target: "big", answers: ["large", "huge", "giant"] },
     { target: "fast", answers: ["quick", "rapid", "speedy"] },
@@ -671,16 +750,18 @@
   // Helpers
   // =============================
   const $ = (id) => document.getElementById(id);
-  const screens = { arcade: $("arcade"), pac: $("pac"), inv: $("inv"), match: $("match") };
+  const screens = { arcade: $("arcade"), pac: $("pac"), inv: $("inv"), match: $("match"), fish: $("fish"), guac: $("guac") };
 
   function show(name){
     Object.values(screens).forEach(s => s.classList.remove("active"));
     screens[name].classList.add("active");
   }
+
   function setFB(el, msg, cls=""){
     el.className = "fb" + (cls ? ` ${cls}` : "");
     el.textContent = msg;
   }
+
   function shuffle(arr){
     for(let i=arr.length-1;i>0;i--){
       const j = Math.floor(Math.random()*(i+1));
@@ -688,21 +769,25 @@
     }
     return arr;
   }
+
   function pad2(n){ return String(n).padStart(2,"0"); }
   function fmtTime(sec){ return `${pad2(Math.floor(sec/60))}:${pad2(sec%60)}`; }
 
-  // Arcade nav
+  // Navigation
   $("goPac").addEventListener("click", ()=>{ show("pac"); pac.start(true); });
   $("goInv").addEventListener("click", ()=>{ show("inv"); inv.start(true); });
   $("goMatch").addEventListener("click", ()=>{ show("match"); memory.start(true); });
+  $("goFish").addEventListener("click", ()=>{ show("fish"); fishing.start(true); });
+  $("goGuac").addEventListener("click", ()=>{ show("guac"); guac.start(true); });
 
-  // Back buttons
   $("pacBack").addEventListener("click", ()=> show("arcade"));
   $("invBack").addEventListener("click", ()=> show("arcade"));
   $("matchBack").addEventListener("click", ()=> show("arcade"));
+  $("fishBack").addEventListener("click", ()=> show("arcade"));
+  $("guacBack").addEventListener("click", ()=> show("arcade"));
 
   // ============================================================
-  // PACSENTENCE (classic Pac-Man + classic ghost shape)
+  // PAC
   // ============================================================
   const pac = (() => {
     const cv = $("pacCv");
@@ -856,7 +941,6 @@
     function ghostStep(){
       if(!st.running || !st.ghostsOn) return;
 
-      // Stable movement: keep direction unless blocked
       const dirVec = {up:[0,-1],down:[0,1],left:[-1,0],right:[1,0]};
       const options = ["up","down","left","right"].filter(d=>{
         const [dx,dy]=dirVec[d];
@@ -869,7 +953,6 @@
 
       let pick = st.ghost.dir;
       if(!canContinue){
-        // choose option that reduces distance
         let best = null;
         for(const d of options){
           const [dx,dy]=dirVec[d];
@@ -892,32 +975,26 @@
     }
 
     function drawGhostClassic(x,y,scale,color){
-      // Classic ghost silhouette
       ctx.save();
       ctx.translate(x,y);
       ctx.scale(scale,scale);
 
       ctx.fillStyle = color;
       ctx.beginPath();
-      // head
       ctx.arc(0, -6, 10, Math.PI, 0);
-      // body
       ctx.lineTo(10, 10);
-      // scallops
       ctx.quadraticCurveTo(6, 6, 2, 10);
       ctx.quadraticCurveTo(0, 6, -2, 10);
       ctx.quadraticCurveTo(-6, 6, -10, 10);
       ctx.closePath();
       ctx.fill();
 
-      // eyes
       ctx.fillStyle = "#fff";
       ctx.beginPath();
       ctx.arc(-4, -6, 3.2, 0, Math.PI*2);
       ctx.arc(4, -6, 3.2, 0, Math.PI*2);
       ctx.fill();
 
-      // pupils
       ctx.fillStyle = "#111827";
       ctx.beginPath();
       ctx.arc(-3, -6, 1.4, 0, Math.PI*2);
@@ -928,11 +1005,9 @@
     }
 
     function render(now){
-      // background
       ctx.fillStyle="#000";
       ctx.fillRect(0,0,cv.width,cv.height);
 
-      // maze
       for(let y=0;y<ROWS;y++){
         for(let x=0;x<COLS;x++){
           if(MAZE[y][x]!==1) continue;
@@ -949,7 +1024,6 @@
         }
       }
 
-      // words tiles
       for(const w of st.words){
         if(w.eaten) continue;
         const px = OFFX + w.x*TILE;
@@ -973,14 +1047,12 @@
         ctx.fillText(w.word, px+TILE/2, py+TILE/2+1);
       }
 
-      // ghost
       if(st.ghostsOn){
         const gx = OFFX + st.ghost.x*TILE + TILE/2;
         const gy = OFFY + st.ghost.y*TILE + TILE/2;
-        drawGhostClassic(gx, gy, TILE/26, "#fb7185"); // pink ghost is fine here (classic ghost shape), not a circle
+        drawGhostClassic(gx, gy, TILE/26, "#fb7185");
       }
 
-      // pacman
       const cx = OFFX + st.pac.x*TILE + TILE/2;
       const cy = OFFY + st.pac.y*TILE + TILE/2;
       const r = TILE*0.34;
@@ -996,7 +1068,6 @@
 
       st.t += 1/60;
 
-      // ghost step timer
       if(st.running && st.ghostsOn){
         if(now - st.lastGhostMs > st.ghostEveryMs){
           st.lastGhostMs = now;
@@ -1037,16 +1108,14 @@
       stepPac(dir);
     }, {passive:false});
 
-    // init
     buildWords();
     resetHud();
     requestAnimationFrame(render);
-
     return { start };
   })();
 
   // ============================================================
-  // INVADERS (classic-ish, fast, with HUD)
+  // INVADERS
   // ============================================================
   const inv = (() => {
     const cv = $("invCv");
@@ -1266,7 +1335,7 @@
       st.words = st.words.filter(w => w.y < H + 140);
     }
 
-    function render(now){
+    function render(){
       ctx.fillStyle="#000";
       ctx.fillRect(0,0,W,H);
 
@@ -1293,8 +1362,6 @@
       ctx.moveTo(0, H-95);
       ctx.lineTo(W, H-95);
       ctx.stroke();
-
-      requestAnimationFrame(loop);
     }
 
     function loop(now){
@@ -1304,11 +1371,8 @@
       if(screens.inv.classList.contains("active") && st.running){
         update(dt, now);
       }
-
-      // Always render to keep it alive
-      ctx.fillStyle="#000";
-      ctx.fillRect(0,0,W,H);
-      render(now);
+      render();
+      requestAnimationFrame(loop);
     }
 
     function start(resetAll){
@@ -1343,12 +1407,11 @@
     pickQ();
     updateHud();
     requestAnimationFrame(loop);
-
     return { start };
   })();
 
   // ============================================================
-  // MEMORY MATCHING (score + timer + progress)
+  // MEMORY
   // ============================================================
   const memory = (() => {
     const board = $("memoryBoard");
@@ -1446,7 +1509,6 @@
       st.cards.forEach((c)=>{
         const card = document.createElement("div");
         card.className = "memCard";
-        card.dataset.id = c.id;
         card.dataset.pair = c.pairId;
 
         const inner = document.createElement("div");
@@ -1493,7 +1555,7 @@
         st.first.classList.add("matched","locked");
         st.second.classList.add("matched","locked");
         st.done++;
-        st.score += 20;  // reward
+        st.score += 20;
         updateHud();
         setFB(fb, "✅ MATCH!", "ok");
         st.first = null;
@@ -1546,7 +1608,519 @@
 
     buildDeck();
     updateHud();
+    return { start };
+  })();
 
+  // ============================================================
+  // FISHING
+  // ============================================================
+  const fishing = (() => {
+    const cv = $("fishCv");
+    const ctx = cv.getContext("2d");
+    const W = cv.width, H = cv.height;
+
+    const UI = {
+      score: $("fishScore"),
+      time: $("fishTime"),
+      caught: $("fishCaught"),
+      prog: $("fishProg"),
+      progLabel: $("fishProgLabel"),
+      fb: $("fishFb"),
+      start: $("fishStart"),
+      next: $("fishNext"),
+    };
+
+    function rand(min,max){ return min + Math.random()*(max-min); }
+
+    const state = {
+      running:false,
+      score:0,
+      sec:0,
+      timer:null,
+
+      need: 8,
+      got: 0,
+
+      rodX: W*0.5,
+      hookY: 120,
+      hookDown:false,
+      hookSpeed: 920,
+
+      bubbles: [],
+      targetSet: new Set(),
+
+      keys: {},
+      lastT: 0,
+    };
+
+    function setMsg(msg, cls="warn"){
+      UI.fb.className = "fb " + cls;
+      UI.fb.textContent = msg;
+    }
+
+    function hud(){
+      UI.score.textContent = state.score;
+      UI.time.textContent = fmtTime(state.sec);
+      UI.caught.textContent = `${state.got}/${state.need}`;
+      const pct = Math.round((state.got/state.need)*100);
+      UI.prog.style.width = `${pct}%`;
+      UI.progLabel.textContent = `${pct}%`;
+    }
+
+    function startTimer(){
+      stopTimer();
+      state.sec = 0;
+      UI.time.textContent = fmtTime(state.sec);
+      state.timer = setInterval(()=>{
+        if(!state.running) return;
+        state.sec++;
+        UI.time.textContent = fmtTime(state.sec);
+      },1000);
+    }
+    function stopTimer(){
+      if(state.timer) clearInterval(state.timer);
+      state.timer = null;
+    }
+
+    function poolWords(){
+      const all = new Set();
+      UNIT_SYNONYMS.forEach(p=>{ all.add(p[0]); all.add(p[1]); });
+      UNIT_DEFINITIONS.forEach(p=>{ all.add(p[0]); });
+      UNIT_ES_EN.forEach(p=>{ all.add(p[0]); all.add(p[1]); });
+      return [...all].filter(Boolean);
+    }
+
+    function bubbleFont(word){
+      const len = String(word).length;
+      if(len <= 6) return 44;
+      if(len <= 10) return 38;
+      if(len <= 16) return 30;
+      return 26;
+    }
+
+    function buildRound(){
+      state.score = 0;
+      state.got = 0;
+      state.hookY = 120;
+      state.hookDown = false;
+
+      const pool = poolWords();
+      const unique = [...new Set(pool)].filter(Boolean);
+      shuffle(unique);
+
+      state.targetSet = new Set(unique.slice(0, state.need).map(w=>String(w).toLowerCase()));
+
+      const distract = unique.slice(state.need, state.need + 18);
+      const all = unique.slice(0, state.need).concat(distract).slice(0, 24);
+
+      state.bubbles = all.map((t)=>({
+        text: t,
+        x: rand(140, W-140),
+        y: rand(H*0.35, H*0.92),
+        vx: rand(-70, 70),
+        vy: rand(-20, 20),
+        isTarget: state.targetSet.has(String(t).toLowerCase()),
+        caught:false
+      }));
+
+      setMsg("Catch correct words (green outline).", "warn");
+      hud();
+    }
+
+    function drawScene(){
+      ctx.fillStyle = "#020413";
+      ctx.fillRect(0,0,W,H);
+
+      const g = ctx.createLinearGradient(0, H*0.25, 0, H);
+      g.addColorStop(0, "rgba(56,189,248,.10)");
+      g.addColorStop(1, "rgba(29,78,216,.45)");
+      ctx.fillStyle = g;
+      ctx.fillRect(0, H*0.25, W, H);
+
+      ctx.fillStyle = "rgba(255,255,255,.10)";
+      ctx.fillRect(0, 0, W, 120);
+
+      ctx.strokeStyle = "rgba(251,191,36,.95)";
+      ctx.lineWidth = 10;
+      ctx.lineCap = "round";
+      ctx.beginPath();
+      ctx.moveTo(state.rodX, 70);
+      ctx.lineTo(state.rodX, 110);
+      ctx.stroke();
+
+      ctx.strokeStyle = "rgba(255,255,255,.82)";
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.moveTo(state.rodX, 110);
+      ctx.lineTo(state.rodX, state.hookY);
+      ctx.stroke();
+
+      ctx.fillStyle = "rgba(255,255,255,.92)";
+      ctx.beginPath();
+      ctx.arc(state.rodX, state.hookY, 10, 0, Math.PI*2);
+      ctx.fill();
+
+      for(const b of state.bubbles){
+        if(b.caught) continue;
+
+        ctx.fillStyle = "rgba(255,255,255,.10)";
+        ctx.strokeStyle = b.isTarget ? "rgba(52,211,153,.55)" : "rgba(255,255,255,.18)";
+        ctx.lineWidth = 3;
+        ctx.beginPath();
+        ctx.arc(b.x, b.y, 62, 0, Math.PI*2);
+        ctx.fill();
+        ctx.stroke();
+
+        const fs = bubbleFont(b.text);
+        ctx.font = `900 ${fs}px system-ui,-apple-system,Segoe UI,Roboto,Arial`;
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        ctx.fillStyle = "rgba(238,246,255,.96)";
+        ctx.fillText(b.text, b.x, b.y+2);
+      }
+
+      ctx.fillStyle = "rgba(0,0,0,.35)";
+      ctx.fillRect(18, 140, 690, 74);
+      ctx.fillStyle = "rgba(238,246,255,.95)";
+      ctx.font = "900 28px system-ui,-apple-system,Segoe UI,Roboto,Arial";
+      ctx.textAlign = "left";
+      ctx.textBaseline = "middle";
+      ctx.fillText("Move ← →  •  Space = drop / reel", 34, 177);
+    }
+
+    function update(dt){
+      const speed = 820;
+      if(state.keys["arrowleft"] || state.keys["a"]) state.rodX -= speed*dt;
+      if(state.keys["arrowright"] || state.keys["d"]) state.rodX += speed*dt;
+      state.rodX = Math.max(80, Math.min(W-80, state.rodX));
+
+      if(state.hookDown){
+        state.hookY += state.hookSpeed*dt;
+        if(state.hookY >= H*0.92){
+          state.hookY = H*0.92;
+          state.hookDown = false;
+        }
+      } else {
+        if(state.hookY > 120){
+          state.hookY -= state.hookSpeed*dt;
+          if(state.hookY <= 120) state.hookY = 120;
+        }
+      }
+
+      for(const b of state.bubbles){
+        if(b.caught) continue;
+
+        b.x += b.vx*dt;
+        b.y += b.vy*dt;
+        if(b.x < 100 || b.x > W-100) b.vx *= -1;
+        if(b.y < H*0.35 || b.y > H*0.92) b.vy *= -1;
+
+        const dx = b.x - state.rodX;
+        const dy = b.y - state.hookY;
+        const dist = Math.sqrt(dx*dx + dy*dy);
+
+        if(dist < 62 && state.hookDown){
+          b.caught = true;
+          if(b.isTarget){
+            state.score += 15;
+            state.got += 1;
+            setMsg("✅ Great catch!", "ok");
+          } else {
+            state.score = Math.max(0, state.score - 10);
+            setMsg("❌ Wrong catch!", "bad");
+          }
+          hud();
+
+          if(state.got >= state.need){
+            state.running = false;
+            stopTimer();
+            setMsg("🏆 Round complete! Press NEXT ROUND.", "ok");
+          }
+          state.hookDown = false;
+        }
+      }
+    }
+
+    function loop(t){
+      const dt = Math.min(0.05, (t - state.lastT)/1000 || 0.016);
+      state.lastT = t;
+
+      if(screens.fish.classList.contains("active")){
+        if(state.running) update(dt);
+        drawScene();
+      }
+      requestAnimationFrame(loop);
+    }
+
+    function start(reset){
+      state.running = true;
+      if(reset) buildRound();
+      startTimer();
+      hud();
+    }
+
+    window.addEventListener("keydown",(e)=>{
+      if(!screens.fish.classList.contains("active")) return;
+      if(e.key === " "){
+        e.preventDefault();
+        if(state.hookY <= 125) state.hookDown = true;
+        else state.hookDown = !state.hookDown;
+        return;
+      }
+      state.keys[e.key.toLowerCase()] = true;
+    }, {passive:false});
+
+    window.addEventListener("keyup",(e)=>{
+      state.keys[e.key.toLowerCase()] = false;
+    });
+
+    UI.start.addEventListener("click", ()=> start(true));
+    UI.next.addEventListener("click", ()=> start(true));
+
+    buildRound();
+    hud();
+    requestAnimationFrame(loop);
+    return { start };
+  })();
+
+  // ============================================================
+  // GUACAMOLE
+  // ============================================================
+  const guac = (() => {
+    const cv = $("guacCv");
+    const ctx = cv.getContext("2d");
+    const W = cv.width, H = cv.height;
+
+    const UI = {
+      score: $("guacScore"),
+      time: $("guacTime"),
+      strikes: $("guacStrikes"),
+      prog: $("guacProg"),
+      progLabel: $("guacProgLabel"),
+      fb: $("guacFb"),
+      start: $("guacStart"),
+      next: $("guacNext"),
+    };
+
+    function rand(min,max){ return min + Math.random()*(max-min); }
+
+    const st = {
+      running:false,
+      score:0,
+      strikes:0,
+      sec:0,
+      timer:null,
+
+      need: 10,
+      got: 0,
+
+      basketX: W*0.5,
+      basketW: 240,
+
+      drops: [],
+      keys: {},
+      lastT: 0,
+      lastSpawn: 0,
+      spawnMs: 900
+    };
+
+    function setMsg(msg, cls="warn"){
+      UI.fb.className = "fb " + cls;
+      UI.fb.textContent = msg;
+    }
+
+    function hud(){
+      UI.score.textContent = st.score;
+      UI.time.textContent = fmtTime(st.sec);
+      UI.strikes.textContent = st.strikes;
+
+      const pct = Math.round((st.got/st.need)*100);
+      UI.prog.style.width = `${pct}%`;
+      UI.progLabel.textContent = `${pct}%`;
+    }
+
+    function startTimer(){
+      stopTimer();
+      st.sec = 0;
+      UI.time.textContent = fmtTime(st.sec);
+      st.timer = setInterval(()=>{
+        if(!st.running) return;
+        st.sec++;
+        UI.time.textContent = fmtTime(st.sec);
+      },1000);
+    }
+
+    function stopTimer(){
+      if(st.timer) clearInterval(st.timer);
+      st.timer=null;
+    }
+
+    function poolWords(){
+      const all = new Set();
+      UNIT_SYNONYMS.forEach(p=>{ all.add(p[0]); all.add(p[1]); });
+      UNIT_DEFINITIONS.forEach(p=>{ all.add(p[0]); });
+      UNIT_ES_EN.forEach(p=>{ all.add(p[0]); all.add(p[1]); });
+      return [...all].filter(Boolean);
+    }
+
+    function buildRound(){
+      st.score = 0;
+      st.strikes = 0;
+      st.got = 0;
+      st.drops = [];
+      st.lastSpawn = 0;
+      setMsg("Catch only GOOD ingredients (green).", "warn");
+      hud();
+    }
+
+    function spawn(now){
+      const pool = poolWords();
+      shuffle(pool);
+      const isGood = Math.random() < 0.5;
+      const text = pool[Math.floor(Math.random()*Math.min(60,pool.length))] || "word";
+
+      st.drops.push({
+        text,
+        x: rand(160, W-160),
+        y: -60,
+        vy: rand(240, 340),
+        isGood
+      });
+      st.lastSpawn = now;
+    }
+
+    function draw(){
+      ctx.fillStyle = "#061f4a";
+      ctx.fillRect(0,0,W,H);
+
+      ctx.fillStyle = "rgba(255,255,255,.08)";
+      ctx.fillRect(0, H-240, W, 240);
+
+      // bowl
+      const bowlX = st.basketX;
+      const bowlY = H-130;
+      ctx.fillStyle = "rgba(56,189,248,.14)";
+      ctx.strokeStyle = "rgba(56,189,248,.38)";
+      ctx.lineWidth = 6;
+      ctx.beginPath();
+      ctx.ellipse(bowlX, bowlY, st.basketW/2, 60, 0, 0, Math.PI*2);
+      ctx.fill(); ctx.stroke();
+
+      // guac fill
+      ctx.fillStyle = "rgba(52,211,153,.22)";
+      ctx.beginPath();
+      ctx.ellipse(bowlX, bowlY, st.basketW/2 - 18, 44, 0, 0, Math.PI*2);
+      ctx.fill();
+
+      // ingredients
+      for(const d of st.drops){
+        const w = 460, h = 66;
+
+        ctx.fillStyle = "rgba(255,255,255,.10)";
+        ctx.strokeStyle = d.isGood ? "rgba(52,211,153,.55)" : "rgba(251,113,133,.45)";
+        ctx.lineWidth = 3;
+        ctx.beginPath();
+        ctx.roundRect(d.x - w/2, d.y - h/2, w, h, 16);
+        ctx.fill(); ctx.stroke();
+
+        let fs = 34;
+        ctx.font = `900 ${fs}px system-ui,-apple-system,Segoe UI,Roboto,Arial`;
+        while(fs > 20 && ctx.measureText(d.text).width > w-28){
+          fs--;
+          ctx.font = `900 ${fs}px system-ui,-apple-system,Segoe UI,Roboto,Arial`;
+        }
+        ctx.fillStyle = "rgba(238,246,255,.96)";
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        ctx.fillText(d.text, d.x, d.y+1);
+      }
+
+      // big overlay instruction
+      ctx.fillStyle = "rgba(0,0,0,.35)";
+      ctx.fillRect(18, 18, 760, 74);
+      ctx.fillStyle = "rgba(238,246,255,.95)";
+      ctx.font = "900 28px system-ui,-apple-system,Segoe UI,Roboto,Arial";
+      ctx.textAlign = "left";
+      ctx.textBaseline = "middle";
+      ctx.fillText("Move bowl ← →  •  Catch GOOD (green) words", 34, 55);
+    }
+
+    function update(dt, now){
+      const speed = 920;
+      if(st.keys["arrowleft"] || st.keys["a"]) st.basketX -= speed*dt;
+      if(st.keys["arrowright"] || st.keys["d"]) st.basketX += speed*dt;
+      st.basketX = Math.max(st.basketW/2 + 40, Math.min(W - st.basketW/2 - 40, st.basketX));
+
+      if(now - st.lastSpawn >= st.spawnMs) spawn(now);
+
+      const bowlY = H-130;
+      for(const d of st.drops){
+        d.y += d.vy*dt;
+
+        if(d.y >= bowlY-10 && d.y <= bowlY+40){
+          if(Math.abs(d.x - st.basketX) <= st.basketW/2){
+            d.y = 99999;
+            if(d.isGood){
+              st.score += 10;
+              st.got += 1;
+              setMsg("✅ Good ingredient!", "ok");
+            } else {
+              st.strikes += 1;
+              st.score = Math.max(0, st.score - 8);
+              setMsg("❌ Wrong ingredient!", "bad");
+            }
+            hud();
+
+            if(st.strikes >= 3){
+              st.running = false;
+              stopTimer();
+              setMsg("💀 3 strikes! Press START.", "bad");
+            }
+            if(st.got >= st.need){
+              st.running = false;
+              stopTimer();
+              setMsg("🏆 Guacamole complete! Press NEXT ROUND.", "ok");
+            }
+          }
+        }
+      }
+
+      st.drops = st.drops.filter(d => d.y < H+140);
+    }
+
+    function loop(t){
+      const dt = Math.min(0.05, (t - st.lastT)/1000 || 0.016);
+      st.lastT = t;
+
+      if(screens.guac.classList.contains("active")){
+        if(st.running) update(dt, t);
+        draw();
+      }
+      requestAnimationFrame(loop);
+    }
+
+    function start(reset){
+      st.running = true;
+      if(reset) buildRound();
+      startTimer();
+      hud();
+    }
+
+    window.addEventListener("keydown",(e)=>{
+      if(!screens.guac.classList.contains("active")) return;
+      st.keys[e.key.toLowerCase()] = true;
+    }, {passive:false});
+
+    window.addEventListener("keyup",(e)=>{
+      st.keys[e.key.toLowerCase()] = false;
+    });
+
+    UI.start.addEventListener("click", ()=> start(true));
+    UI.next.addEventListener("click", ()=> start(true));
+
+    buildRound();
+    hud();
+    requestAnimationFrame(loop);
     return { start };
   })();
 
