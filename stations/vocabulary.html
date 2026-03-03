@@ -1,984 +1,1387 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
   <title>THE PIT — Vocabulary Station</title>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
   <style>
-    :root {
-      --bg0: #0f0a1e;
-      --bg1: #1a0f35;
-      --bg2: #6d28d9;
-      --ink: #f5f3ff;
-      --muted: #c4b5fd;
-      --panel: rgba(255,255,255,.10);
-      --line: rgba(255,255,255,.18);
-      --ok: #34d399;
-      --bad: #fb7185;
-      --warn: #fbbf24;
-      --purple: #a78bfa;
-      --shadow: 0 22px 80px rgba(0,0,0,.60);
+    :root{
+      --bg0:#0f0a1e;--bg1:#1a0f35;--ink:#f5f3ff;--muted:#c4b5fd;
+      --panel:rgba(255,255,255,.10);--line:rgba(255,255,255,.18);
+      --ok:#34d399;--bad:#fb7185;--warn:#fbbf24;--purple:#a78bfa;
+      --shadow:0 22px 80px rgba(0,0,0,.60);
     }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      font-family: 'Orbitron', system-ui, sans-serif;
-      background:
-        radial-gradient(1200px 800px at 10% -10%, rgba(109,40,217,.30), transparent 55%),
-        radial-gradient(900px 700px at 90% 15%, rgba(167,139,250,.18), transparent 58%),
-        linear-gradient(180deg, var(--bg0), var(--bg1));
-      color: var(--ink);
-      min-height: 100vh;
-      padding: 14px 14px 80px;
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{
+      font-family:'Orbitron',system-ui,sans-serif;
+      background:radial-gradient(1200px 800px at 10% -10%,rgba(109,40,217,.30),transparent 55%),
+        radial-gradient(900px 700px at 90% 15%,rgba(167,139,250,.18),transparent 58%),
+        linear-gradient(180deg,var(--bg0),var(--bg1));
+      color:var(--ink);min-height:100vh;padding:14px 14px 80px;
     }
-    .app {
-      width: min(1100px, calc(100vw - 28px));
-      margin: 0 auto;
-      background: rgba(255,255,255,.08);
-      border: 1px solid var(--line);
-      border-radius: 26px;
-      box-shadow: var(--shadow);
-      overflow: hidden;
+    .app{
+      width:min(1140px,calc(100vw - 28px));margin:0 auto;
+      background:rgba(255,255,255,.08);border:1px solid var(--line);
+      border-radius:26px;box-shadow:var(--shadow);overflow:hidden;
     }
+    header{padding:20px 22px 16px;background:rgba(0,0,0,.20);border-bottom:1px solid var(--line)}
+    h1{font-size:clamp(18px,3.5vw,30px);letter-spacing:2px;color:var(--purple);
+       text-shadow:0 0 24px rgba(167,139,250,.35)}
+    .sub{font-size:12px;color:var(--muted);margin-top:6px;font-family:system-ui,sans-serif;font-weight:700}
+    .screen{display:none;padding:18px}.screen.active{display:block}
+    /* Buttons */
+    .btn{border:1px solid var(--line);background:var(--panel);color:var(--ink);
+         padding:11px 15px;border-radius:13px;font-weight:900;font-family:inherit;
+         font-size:12px;cursor:pointer;transition:filter .1s,transform .08s}
+    .btn:hover{filter:brightness(1.12)}.btn:active{transform:translateY(1px)}
+    .btn.purple{background:rgba(109,40,217,.35);border-color:rgba(167,139,250,.55)}
+    .btn.green{background:rgba(52,211,153,.22);border-color:rgba(52,211,153,.55)}
+    .btn.yellow{background:rgba(251,191,36,.22);border-color:rgba(251,191,36,.55)}
+    .btn.blue{background:rgba(56,189,248,.22);border-color:rgba(56,189,248,.55)}
+    .btn.teal{background:rgba(20,184,166,.22);border-color:rgba(20,184,166,.55)}
+    .btn.ghost{background:rgba(0,0,0,.25)}
+    .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+    /* Menu grid */
+    .menuGrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin-top:14px}
+    .menuCard{background:rgba(255,255,255,.09);border:1px solid var(--line);border-radius:22px;
+              padding:18px;display:flex;flex-direction:column;gap:10px;min-height:170px}
+    .menuCard .tag{font-size:11px;font-weight:900;color:var(--muted);letter-spacing:.5px;text-transform:uppercase}
+    .menuCard h2{font-size:19px;letter-spacing:.5px}
+    .menuCard p{font-size:12px;color:var(--muted);font-family:system-ui,sans-serif;line-height:1.45;font-weight:700}
+    .menuCard .row{margin-top:auto}
+    /* Unit tiles */
+    .unitGrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(195px,1fr));gap:10px;margin-top:12px}
+    .unitTile{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);
+              border-radius:16px;padding:12px 14px;cursor:pointer;transition:filter .1s,transform .08s}
+    .unitTile:hover{filter:brightness(1.1);transform:translateY(-2px)}
+    .unitTile .num{font-size:11px;font-weight:900;text-transform:uppercase;letter-spacing:.5px}
+    .unitTile .name{font-size:13px;font-weight:900;margin:4px 0}
+    .unitTile .gram{font-size:11px;color:var(--muted);font-family:system-ui,sans-serif;font-weight:700}
+    /* Filter row */
+    .filterRow{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:12px}
+    .filterRow label{font-size:12px;font-weight:900;color:var(--muted)}
+    .filterRow select{background:rgba(0,0,0,.35);border:1px solid var(--line);border-radius:10px;
+                      color:var(--ink);padding:7px 10px;font-family:inherit;font-size:12px;font-weight:900}
+    /* HUD */
+    .hud{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+    .pill{background:rgba(255,255,255,.10);border:1px solid var(--line);border-radius:999px;
+          padding:6px 12px;font-size:12px;font-weight:900;white-space:nowrap}
+    /* Feedback */
+    .fb{min-height:28px;padding:8px 12px;border-radius:12px;font-size:13px;font-weight:900;
+        margin:10px 0;font-family:system-ui,sans-serif;line-height:1.3}
+    .fb.ok{background:rgba(52,211,153,.15);border:1px solid rgba(52,211,153,.40);color:var(--ok)}
+    .fb.bad{background:rgba(251,113,133,.15);border:1px solid rgba(251,113,133,.40);color:var(--bad)}
+    .fb.warn{background:rgba(251,191,36,.12);border:1px solid rgba(251,191,36,.35);color:var(--warn)}
+    /* Progress */
+    .progWrap{margin:10px 0}
+    .progLabel{display:flex;justify-content:space-between;font-size:11px;font-weight:900;color:var(--muted);margin-bottom:5px}
+    .progBar{height:7px;background:rgba(255,255,255,.10);border-radius:999px;overflow:hidden}
+    .progFill{height:100%;background:linear-gradient(90deg,var(--purple),#38bdf8);
+              border-radius:999px;transition:width .3s ease}
 
-    /* ── Header ── */
-    header {
-      padding: 20px 22px 16px;
-      background: rgba(0,0,0,.20);
-      border-bottom: 1px solid var(--line);
-    }
-    h1 {
-      font-size: clamp(18px, 3.5vw, 30px);
-      letter-spacing: 2px;
-      color: var(--purple);
-      text-shadow: 0 0 24px rgba(167,139,250,.35);
-    }
-    .sub {
-      font-size: 12px;
-      color: var(--muted);
-      margin-top: 6px;
-      font-family: system-ui, sans-serif;
-      font-weight: 700;
-    }
+    /* ── MATCHING ── */
+    .matchGrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:9px;margin:12px 0}
+    .matchCard{height:100px;perspective:700px;cursor:pointer}
+    .matchCard .inner{width:100%;height:100%;position:relative;transition:transform .4s ease;transform-style:preserve-3d}
+    .matchCard.flipped .inner{transform:rotateY(180deg)}
+    .matchCard .face{position:absolute;inset:0;border-radius:14px;display:flex;flex-direction:column;
+                     align-items:center;justify-content:center;text-align:center;padding:6px;
+                     font-weight:900;backface-visibility:hidden;border:1px solid var(--line);user-select:none}
+    .matchCard .back-face{background:rgba(109,40,217,.35);color:var(--purple);font-size:26px}
+    .matchCard .front-face{background:rgba(255,255,255,.10);color:var(--ink);
+                            font-family:system-ui,sans-serif;font-size:12px;transform:rotateY(180deg)}
+    .matchCard .front-face .emoji{font-size:22px;margin-bottom:4px;line-height:1}
+    .matchCard .front-face .word{font-size:12px;font-weight:900;font-family:'Orbitron',sans-serif;
+                                  word-break:break-word;line-height:1.2}
+    .matchCard.matched .face{background:rgba(52,211,153,.18)!important;
+                              border-color:rgba(52,211,153,.50);color:var(--ok)!important}
 
-    /* ── Screens ── */
-    .screen { display: none; padding: 18px; }
-    .screen.active { display: block; }
+    /* ── WORD ORDER ── */
+    .sentenceTarget{background:rgba(0,0,0,.25);border:2px dashed rgba(255,255,255,.18);
+                    border-radius:14px;padding:12px 14px;min-height:58px;display:flex;
+                    flex-wrap:wrap;gap:7px;align-items:center;margin-bottom:10px}
+    .wordBank{display:flex;flex-wrap:wrap;gap:7px;margin:8px 0 12px}
+    .wordChip{background:rgba(109,40,217,.28);border:1px solid rgba(167,139,250,.50);
+              border-radius:9px;padding:8px 12px;font-size:14px;font-weight:900;
+              cursor:pointer;user-select:none;font-family:system-ui,sans-serif;
+              transition:filter .1s,transform .08s}
+    .wordChip:hover{filter:brightness(1.15)}.wordChip:active{transform:scale(.96)}
+    .wordChip.placed{background:rgba(52,211,153,.18);border-color:rgba(52,211,153,.45);color:var(--ok)}
+    .wordChip.used{opacity:.28;cursor:default;pointer-events:none}
 
-    /* ── Buttons ── */
-    .btn {
-      border: 1px solid var(--line);
-      background: var(--panel);
-      color: var(--ink);
-      padding: 12px 16px;
-      border-radius: 14px;
-      font-weight: 900;
-      font-family: inherit;
-      font-size: 13px;
-      cursor: pointer;
-      transition: filter .1s, transform .08s;
-    }
-    .btn:hover { filter: brightness(1.1); }
-    .btn:active { transform: translateY(1px); }
-    .btn.purple { background: rgba(109,40,217,.35); border-color: rgba(167,139,250,.55); }
-    .btn.green  { background: rgba(52,211,153,.22); border-color: rgba(52,211,153,.55); }
-    .btn.yellow { background: rgba(251,191,36,.22); border-color: rgba(251,191,36,.55); }
-    .btn.blue   { background: rgba(56,189,248,.22); border-color: rgba(56,189,248,.55); }
-    .btn.ghost  { background: rgba(0,0,0,.25); }
-    .row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+    /* ── FILL IN BLANKS ── */
+    .clozeWrap{background:rgba(0,0,0,.22);border:1px solid var(--line);border-radius:18px;
+               padding:18px;margin-bottom:12px}
+    .clozeSentence{font-size:20px;font-family:system-ui,sans-serif;font-weight:700;
+                   line-height:1.55;color:var(--ink);margin-bottom:14px}
+    .clozeBlank{display:inline-block;min-width:110px;border-bottom:3px solid var(--purple);
+                color:var(--purple);font-weight:900;text-align:center;padding:0 6px;vertical-align:middle}
+    .clozeBlank.ok{border-color:var(--ok);color:var(--ok)}
+    .clozeBlank.bad{border-color:var(--bad);color:var(--bad)}
+    .wordOptions{display:flex;flex-wrap:wrap;gap:8px}
+    .optBtn{background:rgba(255,255,255,.10);border:1px solid var(--line);border-radius:10px;
+            padding:9px 14px;font-size:14px;font-weight:900;cursor:pointer;
+            font-family:system-ui,sans-serif;color:var(--ink);transition:filter .1s}
+    .optBtn:hover{filter:brightness(1.15)}
+    .optBtn.correct{background:rgba(52,211,153,.20);border-color:rgba(52,211,153,.55);color:var(--ok)}
+    .optBtn.wrong{background:rgba(251,113,133,.18);border-color:rgba(251,113,133,.50);color:var(--bad)}
+    .optBtn:disabled{opacity:.5;cursor:default}
 
-    /* ── Menu grid ── */
-    .menuGrid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 14px;
-      margin-top: 14px;
-    }
-    .menuCard {
-      background: rgba(255,255,255,.09);
-      border: 1px solid var(--line);
-      border-radius: 22px;
-      padding: 18px;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      min-height: 180px;
-    }
-    .menuCard .tag {
-      font-size: 11px;
-      font-weight: 900;
-      color: var(--muted);
-      letter-spacing: .5px;
-      text-transform: uppercase;
-    }
-    .menuCard h2 { font-size: 20px; letter-spacing: .5px; }
-    .menuCard p {
-      font-size: 12px;
-      color: var(--muted);
-      font-family: system-ui, sans-serif;
-      line-height: 1.45;
-      font-weight: 700;
-    }
-    .menuCard .row { margin-top: auto; }
+    /* ── FLASHCARD ── */
+    .flashCard{max-width:480px;margin:20px auto;height:200px;perspective:800px;cursor:pointer}
+    .flashInner{width:100%;height:100%;position:relative;transition:transform .5s ease;transform-style:preserve-3d}
+    .flashCard.flipped .flashInner{transform:rotateY(180deg)}
+    .flashFace{position:absolute;inset:0;border-radius:22px;display:flex;flex-direction:column;
+               align-items:center;justify-content:center;text-align:center;padding:20px;
+               backface-visibility:hidden;border:1px solid var(--line)}
+    .flashFront{background:rgba(109,40,217,.25);color:var(--ink)}
+    .flashBack{background:rgba(52,211,153,.15);font-family:system-ui,sans-serif;
+               font-weight:700;color:var(--ok);transform:rotateY(180deg)}
+    .flashEmoji{font-size:40px;margin-bottom:8px;line-height:1}
+    .flashWord{font-size:clamp(20px,4vw,30px);font-weight:900}
+    .flashDef{font-size:clamp(13px,2.5vw,18px);line-height:1.45}
+    .flashNote{text-align:center;font-size:11px;color:var(--muted);margin-top:8px;
+               font-family:system-ui,sans-serif}
+    .flashNav{display:flex;justify-content:center;gap:12px;margin-top:12px}
 
-    /* ── Unit filter ── */
-    .filterRow {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      align-items: center;
-      margin-bottom: 14px;
+    /* ── LUCY CHART (Semantic Field Map) ── */
+    #lucyCanvas{
+      width:100%;max-height:560px;
+      background:rgba(0,0,0,.22);
+      border:1px solid var(--line);
+      border-radius:18px;
+      cursor:grab;
+      display:block;
     }
-    .filterRow label { font-size: 12px; font-weight: 900; color: var(--muted); }
-    .filterRow select {
-      background: rgba(0,0,0,.35);
-      border: 1px solid var(--line);
-      border-radius: 10px;
-      color: var(--ink);
-      padding: 8px 10px;
-      font-family: inherit;
-      font-size: 12px;
-      font-weight: 900;
+    #lucyCanvas:active{cursor:grabbing}
+    .lucyPopup{
+      position:fixed;
+      background:rgba(15,10,30,.96);
+      border:1px solid rgba(167,139,250,.60);
+      border-radius:16px;
+      padding:14px 18px;
+      max-width:280px;
+      box-shadow:0 8px 40px rgba(0,0,0,.70);
+      pointer-events:none;
+      z-index:9999;
+      display:none;
     }
+    .lucyPopup .pw{font-size:18px;font-weight:900;color:var(--purple);margin-bottom:6px}
+    .lucyPopup .pd{font-size:13px;color:var(--ink);font-family:system-ui,sans-serif;line-height:1.4}
+    .lucyPopup .pc{font-size:11px;color:var(--muted);margin-top:6px;font-family:system-ui,sans-serif}
 
-    /* ── HUD ── */
-    .hud {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      margin-bottom: 14px;
-    }
-    .pill {
-      background: rgba(255,255,255,.10);
-      border: 1px solid var(--line);
-      border-radius: 999px;
-      padding: 7px 13px;
-      font-size: 12px;
-      font-weight: 900;
-      white-space: nowrap;
-    }
-
-    /* ── Feedback bar ── */
-    .fb {
-      min-height: 28px;
-      padding: 8px 12px;
-      border-radius: 12px;
-      font-size: 13px;
-      font-weight: 900;
-      margin: 10px 0;
-      font-family: system-ui, sans-serif;
-      line-height: 1.3;
-    }
-    .fb.ok   { background: rgba(52,211,153,.15); border: 1px solid rgba(52,211,153,.40); color: var(--ok); }
-    .fb.bad  { background: rgba(251,113,133,.15); border: 1px solid rgba(251,113,133,.40); color: var(--bad); }
-    .fb.warn { background: rgba(251,191,36,.12); border: 1px solid rgba(251,191,36,.35); color: var(--warn); }
-
-    /* ══════════════════════════════════════
-       MATCHING (flip-card memory)
-    ══════════════════════════════════════ */
-    .matchGrid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
-      gap: 10px;
-      margin: 14px 0;
-    }
-    .matchCard {
-      height: 90px;
-      perspective: 600px;
-      cursor: pointer;
-    }
-    .matchCard .inner {
-      width: 100%; height: 100%;
-      position: relative;
-      transition: transform .4s ease;
-      transform-style: preserve-3d;
-    }
-    .matchCard.flipped .inner { transform: rotateY(180deg); }
-    .matchCard .face {
-      position: absolute; inset: 0;
-      border-radius: 14px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 8px;
-      font-size: 14px;
-      font-weight: 900;
-      backface-visibility: hidden;
-      border: 1px solid var(--line);
-      user-select: none;
-    }
-    .matchCard .back-face {
-      background: rgba(109,40,217,.35);
-      color: var(--purple);
-    }
-    .matchCard .front-face {
-      background: rgba(255,255,255,.10);
-      color: var(--ink);
-      font-family: system-ui, sans-serif;
-      transform: rotateY(180deg);
-      font-size: 13px;
-    }
-    .matchCard.matched .face {
-      background: rgba(52,211,153,.18) !important;
-      border-color: rgba(52,211,153,.50);
-      color: var(--ok) !important;
-    }
-    .matchCard.wrong .face {
-      background: rgba(251,113,133,.18) !important;
-      border-color: rgba(251,113,133,.50);
-    }
-
-    /* ══════════════════════════════════════
-       WORD ORDER
-    ══════════════════════════════════════ */
-    .sentenceTarget {
-      background: rgba(0,0,0,.25);
-      border: 2px dashed rgba(255,255,255,.18);
-      border-radius: 14px;
-      padding: 12px 14px;
-      min-height: 64px;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      align-items: center;
-      margin-bottom: 12px;
-    }
-    .wordBank {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin: 10px 0 14px;
-    }
-    .wordChip {
-      background: rgba(109,40,217,.28);
-      border: 1px solid rgba(167,139,250,.50);
-      border-radius: 10px;
-      padding: 9px 13px;
-      font-size: 14px;
-      font-weight: 900;
-      cursor: pointer;
-      transition: filter .1s, transform .08s;
-      user-select: none;
-      font-family: system-ui, sans-serif;
-    }
-    .wordChip:hover { filter: brightness(1.15); }
-    .wordChip:active { transform: scale(.96); }
-    .wordChip.placed {
-      background: rgba(52,211,153,.18);
-      border-color: rgba(52,211,153,.45);
-      color: var(--ok);
-    }
-    .wordChip.err {
-      background: rgba(251,113,133,.18);
-      border-color: rgba(251,113,133,.45);
-      color: var(--bad);
-    }
-    .wordChip.used { opacity: .28; cursor: default; pointer-events: none; }
-
-    /* ══════════════════════════════════════
-       FILL IN THE BLANKS
-    ══════════════════════════════════════ */
-    .clozeWrap {
-      background: rgba(0,0,0,.22);
-      border: 1px solid var(--line);
-      border-radius: 18px;
-      padding: 18px;
-      margin-bottom: 14px;
-    }
-    .clozeSentence {
-      font-size: 20px;
-      font-family: system-ui, sans-serif;
-      font-weight: 700;
-      line-height: 1.55;
-      color: var(--ink);
-      margin-bottom: 14px;
-    }
-    .clozeBlank {
-      display: inline-block;
-      min-width: 110px;
-      border-bottom: 3px solid var(--purple);
-      color: var(--purple);
-      font-weight: 900;
-      text-align: center;
-      padding: 0 6px;
-      font-family: inherit;
-      vertical-align: middle;
-    }
-    .clozeBlank.ok   { border-color: var(--ok);  color: var(--ok); }
-    .clozeBlank.bad  { border-color: var(--bad); color: var(--bad); }
-    .wordOptions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-    }
-    .optBtn {
-      background: rgba(255,255,255,.10);
-      border: 1px solid var(--line);
-      border-radius: 10px;
-      padding: 9px 14px;
-      font-size: 14px;
-      font-weight: 900;
-      cursor: pointer;
-      font-family: system-ui, sans-serif;
-      color: var(--ink);
-      transition: filter .1s;
-    }
-    .optBtn:hover { filter: brightness(1.15); }
-    .optBtn.correct { background: rgba(52,211,153,.20); border-color: rgba(52,211,153,.55); color: var(--ok); }
-    .optBtn.wrong   { background: rgba(251,113,133,.18); border-color: rgba(251,113,133,.50); color: var(--bad); }
-    .optBtn:disabled { opacity: .5; cursor: default; }
-
-    /* ── Progress bar ── */
-    .progWrap { margin: 12px 0; }
-    .progLabel {
-      display: flex;
-      justify-content: space-between;
-      font-size: 11px;
-      font-weight: 900;
-      color: var(--muted);
-      margin-bottom: 6px;
-    }
-    .progBar {
-      height: 8px;
-      background: rgba(255,255,255,.10);
-      border-radius: 999px;
-      overflow: hidden;
-    }
-    .progFill {
-      height: 100%;
-      background: linear-gradient(90deg, var(--purple), #38bdf8);
-      border-radius: 999px;
-      transition: width .3s ease;
-    }
-
-    @media (max-width: 600px) {
-      .matchGrid { grid-template-columns: repeat(3, 1fr); }
-      .matchCard { height: 76px; }
+    @media(max-width:600px){
+      .matchGrid{grid-template-columns:repeat(3,1fr)}
+      .matchCard{height:84px}
+      .clozeSentence{font-size:16px}
     }
   </style>
 </head>
 <body>
-  <main class="app">
-    <header>
-      <h1>THE PIT — VOCABULARY</h1>
-      <p class="sub">Synchronize 2 · Units 1–8 · Matching · Word Order · Fill in the Blanks</p>
-    </header>
+<main class="app">
+  <header>
+    <h1>THE PIT — VOCABULARY</h1>
+    <p class="sub">Synchronize 2 · 2º ESO · Units 1–8 · Lucy Chart · Matching · Word Order · Fill in Blanks · Flashcards</p>
+  </header>
 
-    <!-- ── MENU ── -->
-    <section id="menuScreen" class="screen active">
-      <div class="menuGrid">
+  <!-- ══ MENU ══ -->
+  <section id="menuScreen" class="screen active">
+    <div class="menuGrid">
+      <article class="menuCard">
+        <div class="tag">🌐 Semantic field map</div>
+        <h2>Lucy Chart</h2>
+        <p>Explore vocabulary organised by semantic fields. Click any word node to see its definition.</p>
+        <div class="row"><button id="startLucy" class="btn teal">▶ Explore</button></div>
+      </article>
+      <article class="menuCard">
+        <div class="tag">🃏 Memory — with images</div>
+        <h2>Matching Pairs</h2>
+        <p>Flip two cards. Each card shows an image + word. Match it with its pair or opposite!</p>
+        <div class="row"><button id="startMatch" class="btn purple">▶ Play</button></div>
+      </article>
+      <article class="menuCard">
+        <div class="tag">🔀 Sentence building</div>
+        <h2>Word Order</h2>
+        <p>Tap words in the correct order to build the sentence. Real grammar from Units 1–8.</p>
+        <div class="row"><button id="startOrder" class="btn green">▶ Play</button></div>
+      </article>
+      <article class="menuCard">
+        <div class="tag">✏️ Cloze test</div>
+        <h2>Fill in the Blanks</h2>
+        <p>Choose the missing vocabulary word. 10 questions per round across all 8 units.</p>
+        <div class="row"><button id="startFill" class="btn yellow">▶ Play</button></div>
+      </article>
+      <article class="menuCard">
+        <div class="tag">🗂️ Study mode</div>
+        <h2>Flashcards</h2>
+        <p>Browse vocabulary with images. Tap to flip and reveal the definition.</p>
+        <div class="row"><button id="startFlash" class="btn blue">▶ Browse</button></div>
+      </article>
+    </div>
+    <h3 style="font-size:12px;color:var(--muted);letter-spacing:1px;margin:18px 0 10px">UNITS — 2º ESO SYNCHRONIZE 2</h3>
+    <div class="unitGrid" id="unitTileGrid"></div>
+    <div class="row" style="margin-top:16px">
+      <button class="btn ghost" onclick="location.href='../index.html'">← Main Menu</button>
+    </div>
+  </section>
 
-        <article class="menuCard">
-          <div class="tag">🃏 Flip cards</div>
-          <h2>Matching Pairs</h2>
-          <p>Flip two cards. If the word and its pair match, they stay open. Clear the board!</p>
-          <div class="row">
-            <button id="startMatch" class="btn purple">▶ Play</button>
-          </div>
-        </article>
-
-        <article class="menuCard">
-          <div class="tag">🔀 Click words</div>
-          <h2>Word Order</h2>
-          <p>Click the words in the correct sentence order. Uses real sentences from Units 1–8.</p>
-          <div class="row">
-            <button id="startOrder" class="btn green">▶ Play</button>
-          </div>
-        </article>
-
-        <article class="menuCard">
-          <div class="tag">✏️ Choose answer</div>
-          <h2>Fill in the Blanks</h2>
-          <p>Read the sentence and choose the missing vocabulary word. 10 questions per round.</p>
-          <div class="row">
-            <button id="startFill" class="btn yellow">▶ Play</button>
-          </div>
-        </article>
-
-      </div>
-      <div class="row" style="margin-top:16px">
-        <button class="btn ghost" onclick="location.href='../index.html'">← Main Menu</button>
-      </div>
-    </section>
-
-    <!-- ══════════════════════════════════════
-         MATCHING SCREEN
-    ══════════════════════════════════════ -->
-    <section id="matchScreen" class="screen">
-      <div class="row" style="margin-bottom:12px">
-        <button id="matchBack" class="btn ghost">← Back</button>
-        <button id="matchRestart" class="btn purple">↺ New Round</button>
-        <div style="flex:1"></div>
-        <div class="hud">
-          <div class="pill">Pairs: <span id="matchPairs">0/0</span></div>
-          <div class="pill">Moves: <span id="matchMoves">0</span></div>
-          <div class="pill">Unit: <span id="matchUnit">—</span></div>
-        </div>
-      </div>
-      <div class="filterRow">
+  <!-- ══ LUCY CHART SCREEN ══ -->
+  <section id="lucyScreen" class="screen">
+    <div class="row" style="margin-bottom:10px">
+      <button id="lucyBack" class="btn ghost">← Back</button>
+      <div style="flex:1"></div>
+      <div class="filterRow" style="margin-bottom:0">
         <label>Unit:</label>
-        <select id="matchUnitSel">
-          <option value="all">All Units</option>
+        <select id="lucyUnitSel">
           <option value="1">Unit 1 — Then &amp; Now</option>
           <option value="2">Unit 2 — Materials &amp; Art</option>
           <option value="3">Unit 3 — Outdoor Life</option>
           <option value="4">Unit 4 — Helping Others</option>
           <option value="5">Unit 5 — Games &amp; Senses</option>
           <option value="6">Unit 6 — Health</option>
-          <option value="7">Unit 7 — Learning</option>
+          <option value="7">Unit 7 — School Life</option>
           <option value="8">Unit 8 — Jobs &amp; Future</option>
         </select>
       </div>
-      <div class="progWrap">
-        <div class="progLabel"><span>Progress</span><span id="matchProgPct">0%</span></div>
-        <div class="progBar"><div class="progFill" id="matchProgFill" style="width:0%"></div></div>
+    </div>
+    <p style="font-size:12px;color:var(--muted);margin-bottom:10px;font-family:system-ui,sans-serif;font-weight:700">
+      Click any word to see its definition · Drag to explore
+    </p>
+    <canvas id="lucyCanvas" height="560"></canvas>
+    <div class="lucyPopup" id="lucyPopup">
+      <div class="pw" id="lucyPopWord"></div>
+      <div class="pd" id="lucyPopDef"></div>
+      <div class="pc" id="lucyPopCat"></div>
+    </div>
+  </section>
+
+  <!-- ══ MATCHING SCREEN ══ -->
+  <section id="matchScreen" class="screen">
+    <div class="row" style="margin-bottom:10px">
+      <button id="matchBack" class="btn ghost">← Back</button>
+      <button id="matchRestart" class="btn purple">↺ New Round</button>
+      <div style="flex:1"></div>
+      <div class="hud">
+        <div class="pill">Pairs: <span id="matchPairs">0/0</span></div>
+        <div class="pill">Moves: <span id="matchMoves">0</span></div>
       </div>
-      <div id="matchFb" class="fb warn">Click two cards to find matching pairs.</div>
-      <div id="matchGrid" class="matchGrid"></div>
-    </section>
+    </div>
+    <div class="filterRow">
+      <label>Unit:</label>
+      <select id="matchUnitSel">
+        <option value="all">All Units</option>
+        <option value="1">Unit 1 — Then &amp; Now</option>
+        <option value="2">Unit 2 — Materials &amp; Art</option>
+        <option value="3">Unit 3 — Outdoor Life</option>
+        <option value="4">Unit 4 — Helping Others</option>
+        <option value="5">Unit 5 — Games &amp; Senses</option>
+        <option value="6">Unit 6 — Health</option>
+        <option value="7">Unit 7 — School Life</option>
+        <option value="8">Unit 8 — Jobs &amp; Future</option>
+      </select>
+    </div>
+    <div class="progWrap">
+      <div class="progLabel"><span>Progress</span><span id="matchProgPct">0%</span></div>
+      <div class="progBar"><div class="progFill" id="matchProgFill" style="width:0%"></div></div>
+    </div>
+    <div id="matchFb" class="fb warn">Click two cards to find matching pairs.</div>
+    <div id="matchGrid" class="matchGrid"></div>
+  </section>
 
-    <!-- ══════════════════════════════════════
-         WORD ORDER SCREEN
-    ══════════════════════════════════════ -->
-    <section id="orderScreen" class="screen">
-      <div class="row" style="margin-bottom:12px">
-        <button id="orderBack" class="btn ghost">← Back</button>
-        <button id="orderNext" class="btn green">▶ Next Sentence</button>
-        <div style="flex:1"></div>
-        <div class="hud">
-          <div class="pill">Score: <span id="orderScore">0</span></div>
-          <div class="pill">Sentence: <span id="orderNum">1</span></div>
-        </div>
+  <!-- ══ WORD ORDER SCREEN ══ -->
+  <section id="orderScreen" class="screen">
+    <div class="row" style="margin-bottom:10px">
+      <button id="orderBack" class="btn ghost">← Back</button>
+      <button id="orderNext" class="btn green">▶ Next Sentence</button>
+      <div style="flex:1"></div>
+      <div class="hud">
+        <div class="pill">Score: <span id="orderScore">0</span></div>
+        <div class="pill">Q: <span id="orderNum">—</span></div>
       </div>
-      <div class="filterRow">
-        <label>Unit:</label>
-        <select id="orderUnitSel">
-          <option value="all">All Units</option>
-          <option value="1">Unit 1</option>
-          <option value="2">Unit 2</option>
-          <option value="3">Unit 3</option>
-          <option value="4">Unit 4</option>
-          <option value="5">Unit 5</option>
-          <option value="6">Unit 6</option>
-          <option value="7">Unit 7</option>
-          <option value="8">Unit 8</option>
-        </select>
+    </div>
+    <div class="filterRow">
+      <label>Unit:</label>
+      <select id="orderUnitSel">
+        <option value="all">All Units</option>
+        <option value="1">Unit 1</option><option value="2">Unit 2</option>
+        <option value="3">Unit 3</option><option value="4">Unit 4</option>
+        <option value="5">Unit 5</option><option value="6">Unit 6</option>
+        <option value="7">Unit 7</option><option value="8">Unit 8</option>
+      </select>
+    </div>
+    <p style="font-size:12px;color:var(--muted);margin-bottom:8px;font-family:system-ui,sans-serif;font-weight:700">
+      Tap words <b>in order</b> to rebuild the sentence. Tap a placed word to remove it.
+    </p>
+    <div id="sentenceTarget" class="sentenceTarget">
+      <span style="color:rgba(255,255,255,.25);font-size:13px;font-family:system-ui,sans-serif">Tap words below…</span>
+    </div>
+    <div id="wordBank" class="wordBank"></div>
+    <div id="orderFb" class="fb warn">Choose a unit and press "Next Sentence" to start.</div>
+    <div class="row" style="margin-top:8px">
+      <button id="orderCheck" class="btn purple">✓ Check</button>
+      <button id="orderClear" class="btn ghost">✕ Clear</button>
+    </div>
+  </section>
+
+  <!-- ══ FILL IN BLANKS SCREEN ══ -->
+  <section id="fillScreen" class="screen">
+    <div class="row" style="margin-bottom:10px">
+      <button id="fillBack" class="btn ghost">← Back</button>
+      <button id="fillRestart" class="btn yellow">↺ New Round</button>
+      <div style="flex:1"></div>
+      <div class="hud">
+        <div class="pill">Score: <span id="fillScore">0</span></div>
+        <div class="pill">Q: <span id="fillNum">1/10</span></div>
       </div>
-      <p style="font-size:12px;color:var(--muted);margin-bottom:10px;font-family:system-ui,sans-serif;font-weight:700;">
-        Click the words <strong>in order</strong> to build the sentence. Click a placed word to remove it.
-      </p>
-      <div id="sentenceTarget" class="sentenceTarget"><span style="color:rgba(255,255,255,.25);font-size:13px;font-family:system-ui,sans-serif">Tap words below to build the sentence…</span></div>
-      <div id="wordBank" class="wordBank"></div>
-      <div id="orderFb" class="fb warn">Choose a unit and press "Next Sentence" to start.</div>
-      <div class="row" style="margin-top:10px">
-        <button id="orderCheck" class="btn purple">✓ Check</button>
-        <button id="orderClear" class="btn ghost">✕ Clear</button>
+    </div>
+    <div class="filterRow">
+      <label>Unit:</label>
+      <select id="fillUnitSel">
+        <option value="all">All Units</option>
+        <option value="1">Unit 1</option><option value="2">Unit 2</option>
+        <option value="3">Unit 3</option><option value="4">Unit 4</option>
+        <option value="5">Unit 5</option><option value="6">Unit 6</option>
+        <option value="7">Unit 7</option><option value="8">Unit 8</option>
+      </select>
+    </div>
+    <div class="progWrap">
+      <div class="progLabel"><span>Progress</span><span id="fillProgPct">0%</span></div>
+      <div class="progBar"><div class="progFill" id="fillProgFill" style="width:0%"></div></div>
+    </div>
+    <div class="clozeWrap">
+      <div id="clozeSentence" class="clozeSentence"></div>
+      <div id="wordOptions" class="wordOptions"></div>
+    </div>
+    <div id="fillFb" class="fb warn">Choose a unit, then press "New Round".</div>
+  </section>
+
+  <!-- ══ FLASHCARD SCREEN ══ -->
+  <section id="flashScreen" class="screen">
+    <div class="row" style="margin-bottom:10px">
+      <button id="flashBack" class="btn ghost">← Back</button>
+      <div style="flex:1"></div>
+      <div class="hud"><div class="pill"><span id="flashIdx">1</span>/<span id="flashTotal">0</span></div></div>
+    </div>
+    <div class="filterRow">
+      <label>Unit:</label>
+      <select id="flashUnitSel">
+        <option value="all">All Units</option>
+        <option value="1">Unit 1</option><option value="2">Unit 2</option>
+        <option value="3">Unit 3</option><option value="4">Unit 4</option>
+        <option value="5">Unit 5</option><option value="6">Unit 6</option>
+        <option value="7">Unit 7</option><option value="8">Unit 8</option>
+      </select>
+    </div>
+    <div class="progWrap">
+      <div class="progLabel"><span>Cards</span><span id="flashProgPct">0%</span></div>
+      <div class="progBar"><div class="progFill" id="flashProgFill" style="width:0%"></div></div>
+    </div>
+    <div id="flashCardEl" class="flashCard">
+      <div class="flashInner">
+        <div class="flashFace flashFront"><div class="flashEmoji" id="flashEmoji">📖</div><div class="flashWord" id="flashWord">—</div></div>
+        <div class="flashFace flashBack"><div class="flashDef" id="flashDef">—</div></div>
       </div>
-    </section>
+    </div>
+    <p class="flashNote">Tap the card to flip · Use buttons to navigate</p>
+    <div class="flashNav">
+      <button id="flashPrev" class="btn ghost">◀ Prev</button>
+      <button id="flashShuf" class="btn blue">⟳ Shuffle</button>
+      <button id="flashNext" class="btn ghost">Next ▶</button>
+    </div>
+  </section>
 
-    <!-- ══════════════════════════════════════
-         FILL IN THE BLANKS SCREEN
-    ══════════════════════════════════════ -->
-    <section id="fillScreen" class="screen">
-      <div class="row" style="margin-bottom:12px">
-        <button id="fillBack" class="btn ghost">← Back</button>
-        <button id="fillRestart" class="btn yellow">↺ New Round</button>
-        <div style="flex:1"></div>
-        <div class="hud">
-          <div class="pill">Score: <span id="fillScore">0</span></div>
-          <div class="pill">Q: <span id="fillNum">1/10</span></div>
-        </div>
-      </div>
-      <div class="filterRow">
-        <label>Unit:</label>
-        <select id="fillUnitSel">
-          <option value="all">All Units</option>
-          <option value="1">Unit 1</option>
-          <option value="2">Unit 2</option>
-          <option value="3">Unit 3</option>
-          <option value="4">Unit 4</option>
-          <option value="5">Unit 5</option>
-          <option value="6">Unit 6</option>
-          <option value="7">Unit 7</option>
-          <option value="8">Unit 8</option>
-        </select>
-      </div>
-      <div class="progWrap">
-        <div class="progLabel"><span>Progress</span><span id="fillProgPct">0%</span></div>
-        <div class="progBar"><div class="progFill" id="fillProgFill" style="width:0%"></div></div>
-      </div>
-      <div class="clozeWrap">
-        <div id="clozeSentence" class="clozeSentence"></div>
-        <div id="wordOptions" class="wordOptions"></div>
-      </div>
-      <div id="fillFb" class="fb warn">Choose a unit, then press "New Round".</div>
-    </section>
+</main>
+<script>
+(function(){
+"use strict";
 
-  </main>
+// ═══════════════════════════════════════════════════════════════════════════
+// EMOJI MAP — word → emoji image
+// ═══════════════════════════════════════════════════════════════════════════
+var EMOJI = {
+  // Unit 1
+  "appear":"✨","disappear":"💨","borrow":"🤝","lend":"🤲","buy":"🛒","sell":"💰",
+  "save":"💾","spend":"💸","send":"📤","receive":"📥","connect":"🔗","disconnect":"🔌",
+  "win":"🏆","lose":"😔","agree":"👍","disagree":"👎","excited":"🎉","bored":"😴",
+  "worried":"😟","relaxed":"😌","happy":"😊","unhappy":"😢","scared":"😱","surprised":"😲",
+  "container":"📦","hide":"🙈","inside":"🏠","outside":"🌳","items":"🗂️",
+  // Unit 2
+  "cardboard":"📦","cotton":"🧶","glass":"🪟","leather":"👜","metal":"⚙️","paper":"📄",
+  "plastic":"♻️","wood":"🪵","wool":"🐑","dance":"💃","design":"✏️","music":"🎵",
+  "paint":"🎨","photograph":"📸","sculpture":"🗿","designer":"👨‍🎨","musician":"🎸",
+  "painter":"🖌️","photographer":"📷","illustrator":"🖼️","bright":"☀️","huge":"🏔️",
+  "strange":"🤔","materials":"🧱","artist":"🎭","brilliant":"💫","enormous":"🦣",
+  // Unit 3
+  "cycling":"🚴","jogging":"🏃","rowing":"🚣","working out":"🏋️","kite flying":"🪁",
+  "free running":"🏃","concert":"🎤","festival":"🎪","lake":"🏞️","park":"🌳",
+  "outdoor gym":"🏅","fun run":"👟","marathon":"🏅","training":"💪","kayaking":"🛶",
+  // Unit 4
+  "patient":"🧘","impatient":"😤","generous":"💝","mean":"😠","polite":"🎩","rude":"🚫",
+  "confident":"😎","shy":"😳","kind":"💛","unkind":"💔","volunteer":"🙋","community":"👥",
+  "prediction":"🔮","renewable":"☀️","technology":"💻","environmentally friendly":"🌿",
+  // Unit 5
+  "sight":"👁️","hearing":"👂","smell":"👃","taste":"👅","touch":"✋",
+  "faster":"⚡","slower":"🐢","harder":"💪","easier":"🌟","better":"⬆️","worse":"⬇️",
+  "the best":"🥇","the worst":"🥴","more exciting":"🎢","more boring":"😑",
+  "most popular":"⭐","can":"✅","could":"💭",
+  // Unit 6
+  "muscles":"💪","bones":"🦴","brain":"🧠","heart":"❤️","lungs":"🫁",
+  "injury":"🤕","recovery":"🌱","stretch":"🤸","rest":"💤","energy":"⚡",
+  "exhaustion":"😮‍💨","train":"🏋️","warm up":"🔥","lifestyle":"🏃","routine":"🗓️",
+  // Unit 7
+  "achieve":"🏅","achievement":"🏆","decide":"🤔","decision":"✅","solve":"🧩",
+  "solution":"��","learn":"📚","learning":"🎓","respect":"🙏","disrespect":"❌",
+  "uniform":"👔","appearance":"🪞","protect":"🛡️","defend":"🛡️","attend":"✅","absence":"❓",
+  "responsible":"⚖️","irresponsible":"🚫","rule":"📋","behave":"😇","attendance":"📅",
+  // Unit 8
+  "everybody":"👥","nobody":"👤","somebody":"🙋","anybody":"🙋","something":"📦",
+  "nothing":"0️⃣","everywhere":"🌐","nowhere":"❌","themselves":"🪞","ourselves":"👫",
+  "astronaut":"🚀","engineer":"⚙️","dentist":"🦷","builder":"🏗️","lawyer":"⚖️",
+  "manager":"💼","teacher":"👩‍🏫","musician_job":"🎸","everything":"🌍"
+};
 
-  <script>
-  (function () {
-    "use strict";
+function emojiFor(word){
+  var w = word.toLowerCase().trim();
+  return EMOJI[w] || "📖";
+}
 
-    // ── DATA ─────────────────────────────────────────────────────────────
+// ═══════════════════════════════════════════════════════════════════════════
+// LUCY CHART DATA — semantic field nodes per unit
+// Each unit has: title, color, categories[]
+//   Each category: name, color, words[]
+//   Each word: text, def
+// ═══════════════════════════════════════════════════════════════════════════
+var LUCY_DATA = [
+  {
+    unit:1, title:"Then & Now", emoji:"⏳", color:"#f59e0b",
+    categories:[
+      { name:"Verb Opposites", color:"#f472b6", words:[
+        {t:"appear",    d:"to become visible"},
+        {t:"disappear", d:"to become invisible; to vanish"},
+        {t:"borrow",    d:"to take temporarily (you return it)"},
+        {t:"lend",      d:"to give temporarily (they return it)"},
+        {t:"buy",       d:"to get something by paying money"},
+        {t:"sell",      d:"to give something in exchange for money"},
+        {t:"save",      d:"to keep money instead of spending it"},
+        {t:"spend",     d:"to use money to buy things"},
+        {t:"send",      d:"to make something go to another person"},
+        {t:"receive",   d:"to get something that was sent to you"},
+        {t:"win",       d:"to finish first; to beat others"},
+        {t:"lose",      d:"to not win; to be unable to find something"}
+      ]},
+      { name:"Feelings", color:"#fb923c", words:[
+        {t:"excited",   d:"feeling happy and enthusiastic"},
+        {t:"worried",   d:"feeling anxious or nervous"},
+        {t:"happy",     d:"feeling pleased and satisfied"},
+        {t:"scared",    d:"feeling afraid"},
+        {t:"surprised", d:"feeling amazement at something unexpected"},
+        {t:"bored",     d:"feeling uninterested; nothing to do"},
+        {t:"relaxed",   d:"feeling calm and free from stress"},
+        {t:"tired",     d:"needing rest or sleep"}
+      ]},
+      { name:"Objects & Places", color:"#a3e635", words:[
+        {t:"container", d:"a box or object used to hold things"},
+        {t:"inside",    d:"in the inner part of something"},
+        {t:"outside",   d:"not inside; in the open air"},
+        {t:"items",     d:"individual things; objects"}
+      ]}
+    ]
+  },
+  {
+    unit:2, title:"Materials & Art", emoji:"🎨", color:"#06b6d4",
+    categories:[
+      { name:"Materials", color:"#38bdf8", words:[
+        {t:"cardboard", d:"thick paper used for making boxes"},
+        {t:"cotton",    d:"soft white plant fibre used for clothing"},
+        {t:"glass",     d:"hard transparent material used for windows"},
+        {t:"leather",   d:"material made from animal skin"},
+        {t:"metal",     d:"hard shiny material (iron, steel, gold)"},
+        {t:"paper",     d:"thin flat material used for writing"},
+        {t:"plastic",   d:"light synthetic material made from chemicals"},
+        {t:"wood",      d:"hard material that comes from trees"},
+        {t:"wool",      d:"soft hair from sheep, used for clothing"}
+      ]},
+      { name:"Arts & Artists", color:"#a78bfa", words:[
+        {t:"dance",        d:"to move your body to music"},
+        {t:"design",       d:"to plan how something will look"},
+        {t:"music",        d:"sounds arranged in a pleasing way"},
+        {t:"paint",        d:"to make a picture with paint"},
+        {t:"photograph",   d:"to take a picture with a camera"},
+        {t:"sculpture",    d:"a piece of art made by carving or shaping"},
+        {t:"designer",     d:"a person who plans how things look"},
+        {t:"musician",     d:"a person who plays or writes music"},
+        {t:"painter",      d:"an artist who paints pictures"},
+        {t:"photographer", d:"a person who takes photos professionally"},
+        {t:"illustrator",  d:"a person who draws pictures for books"}
+      ]},
+      { name:"Adjectives", color:"#34d399", words:[
+        {t:"bright",    d:"giving out or reflecting strong light"},
+        {t:"huge",      d:"extremely large"},
+        {t:"strange",   d:"unusual or surprising; not normal"},
+        {t:"brilliant", d:"very clever or impressive"},
+        {t:"enormous",  d:"extremely large; much bigger than average"}
+      ]}
+    ]
+  },
+  {
+    unit:3, title:"Outdoor Life", emoji:"🌿", color:"#22c55e",
+    categories:[
+      { name:"Outdoor Activities", color:"#4ade80", words:[
+        {t:"cycling",     d:"riding a bicycle as sport or exercise"},
+        {t:"jogging",     d:"running at a slow, steady pace"},
+        {t:"rowing",      d:"moving a boat using oars"},
+        {t:"working out", d:"doing physical exercise, especially at a gym"},
+        {t:"kite flying", d:"flying a kite attached to a long string"},
+        {t:"free running", d:"moving over buildings and obstacles by jumping"}
+      ]},
+      { name:"Events & Places", color:"#facc15", words:[
+        {t:"concert",    d:"a live music performance"},
+        {t:"festival",   d:"a special event with music, food and activities"},
+        {t:"lake",       d:"a large area of water surrounded by land"},
+        {t:"picnic area",d:"an outdoor space where people can eat"},
+        {t:"outdoor gym",d:"exercise equipment placed in a park"},
+        {t:"fun run",    d:"a non-competitive run, often for charity"},
+        {t:"marathon",   d:"a long-distance running race of 42 km"}
+      ]},
+      { name:"First Conditional", color:"#fb923c", words:[
+        {t:"if … will",   d:"used for real future possibilities"},
+        {t:"train",       d:"to practise a sport or skill regularly"},
+        {t:"improve",     d:"to get better at something"},
+        {t:"stay inside", d:"to remain indoors"}
+      ]}
+    ]
+  },
+  {
+    unit:4, title:"Helping Others", emoji:"🤝", color:"#f472b6",
+    categories:[
+      { name:"Personality", color:"#f9a8d4", words:[
+        {t:"patient",   d:"able to wait calmly; not easily annoyed"},
+        {t:"impatient", d:"not able to wait; easily annoyed"},
+        {t:"generous",  d:"willing to give more than is expected"},
+        {t:"mean",      d:"not willing to share; unkind"},
+        {t:"polite",    d:"having good manners; respectful"},
+        {t:"rude",      d:"having bad manners; offensive"},
+        {t:"confident", d:"believing in your own ability"},
+        {t:"shy",       d:"nervous and uncomfortable with other people"},
+        {t:"kind",      d:"friendly and generous in nature"},
+        {t:"unkind",    d:"not kind; harsh or unfriendly"},
+        {t:"lazy",      d:"not willing to work or use energy"}
+      ]},
+      { name:"Community & Environment", color:"#86efac", words:[
+        {t:"volunteer",              d:"to offer to do something without being paid"},
+        {t:"community",              d:"a group of people living in the same place"},
+        {t:"prediction",             d:"a statement about what will happen"},
+        {t:"renewable",              d:"energy from sources that do not run out"},
+        {t:"technology",             d:"the application of scientific knowledge"},
+        {t:"environmentally friendly",d:"not harmful to the environment"},
+        {t:"take part",              d:"to join in an activity or event"}
+      ]}
+    ]
+  },
+  {
+    unit:5, title:"Games & Senses", emoji:"🎮", color:"#a78bfa",
+    categories:[
+      { name:"Five Senses", color:"#c4b5fd", words:[
+        {t:"sight",   d:"the ability to see; one of the five senses"},
+        {t:"hearing", d:"the ability to perceive sound"},
+        {t:"smell",   d:"the ability to detect odours"},
+        {t:"taste",   d:"the ability to perceive flavours"},
+        {t:"touch",   d:"the ability to feel through the skin"}
+      ]},
+      { name:"Comparatives", color:"#67e8f9", words:[
+        {t:"faster",       d:"comparative of fast: moving more quickly"},
+        {t:"harder",       d:"comparative of hard: more difficult"},
+        {t:"better",       d:"comparative of good: more positive"},
+        {t:"worse",        d:"comparative of bad: more negative"},
+        {t:"more exciting",d:"comparative of exciting (long adj.)"},
+        {t:"more boring",  d:"comparative of boring (long adj.)"}
+      ]},
+      { name:"Superlatives", color:"#fde68a", words:[
+        {t:"the best",          d:"superlative of good: the most positive"},
+        {t:"the worst",         d:"superlative of bad: the most negative"},
+        {t:"the most difficult",d:"superlative of difficult"},
+        {t:"the most popular",  d:"superlative of popular"},
+        {t:"the fastest",       d:"superlative of fast"}
+      ]},
+      { name:"Ability", color:"#86efac", words:[
+        {t:"can",   d:"ability in the present: I can swim"},
+        {t:"could", d:"ability in the past: She could read at age 4"}
+      ]}
+    ]
+  },
+  {
+    unit:6, title:"Health", emoji:"💪", color:"#34d399",
+    categories:[
+      { name:"Body Parts", color:"#6ee7b7", words:[
+        {t:"brain",   d:"the organ inside your head that controls everything"},
+        {t:"heart",   d:"the organ that pumps blood around the body"},
+        {t:"lungs",   d:"organs that take in oxygen when you breathe"},
+        {t:"muscles", d:"body tissue that contracts to produce movement"},
+        {t:"bones",   d:"the hard parts that form the skeleton"},
+        {t:"liver",   d:"organ that filters blood and produces bile"}
+      ]},
+      { name:"Fitness & Health", color:"#fbbf24", words:[
+        {t:"injury",   d:"physical damage to the body"},
+        {t:"recovery", d:"the process of getting better after illness"},
+        {t:"stretch",  d:"to extend muscles to keep them flexible"},
+        {t:"rest",     d:"to stop activity and relax to recover energy"},
+        {t:"train",    d:"to practise a sport or skill regularly"},
+        {t:"warm up",  d:"to do gentle exercise before the main activity"},
+        {t:"energy",   d:"the power to do physical or mental work"},
+        {t:"lifestyle",d:"the way a person lives, including habits and diet"}
+      ]},
+      { name:"Present Perfect", color:"#c4b5fd", words:[
+        {t:"since",      d:"from a point in the past until now: since Monday"},
+        {t:"for",        d:"a period of time: for three years"},
+        {t:"ever",       d:"at any time (used in questions): Have you ever…?"},
+        {t:"never",      d:"at no time: I have never broken a bone"},
+        {t:"just",       d:"very recently: I have just finished training"}
+      ]}
+    ]
+  },
+  {
+    unit:7, title:"School Life", emoji:"📚", color:"#fb7185",
+    categories:[
+      { name:"School Rules", color:"#fca5a5", words:[
+        {t:"uniform",     d:"a set of standard clothes worn at school"},
+        {t:"attendance",  d:"the act of going to school regularly"},
+        {t:"responsible", d:"having a duty to do something correctly"},
+        {t:"respect",     d:"to treat someone or something with care and value"},
+        {t:"protect",     d:"to keep someone or something safe from harm"},
+        {t:"behave",      d:"to act in a particular way; good behaviour"},
+        {t:"rule",        d:"an official instruction that must be followed"}
+      ]},
+      { name:"Learning Nouns", color:"#fdba74", words:[
+        {t:"achievement",d:"something accomplished through effort"},
+        {t:"decision",   d:"the act of deciding between options"},
+        {t:"solution",   d:"a way of solving a problem"},
+        {t:"learning",   d:"the process of gaining knowledge"}
+      ]},
+      { name:"Obligation (Modal Verbs)", color:"#86efac", words:[
+        {t:"must",    d:"strong obligation — no choice; I must wear uniform"},
+        {t:"should",  d:"advice / recommendation: You should study"},
+        {t:"have to", d:"external obligation (rules): We have to attend"},
+        {t:"must not",d:"prohibition: You must not use your phone in class"}
+      ]}
+    ]
+  },
+  {
+    unit:8, title:"Jobs & Future", emoji:"🚀", color:"#38bdf8",
+    categories:[
+      { name:"Jobs", color:"#7dd3fc", words:[
+        {t:"astronaut", d:"a person trained to travel in space"},
+        {t:"builder",   d:"a person who constructs buildings"},
+        {t:"dentist",   d:"a doctor who treats teeth and gums"},
+        {t:"engineer",  d:"a person who designs machines or structures"},
+        {t:"musician",  d:"a person who plays or writes music"},
+        {t:"teacher",   d:"a person who instructs others"},
+        {t:"lawyer",    d:"a person trained in law who gives legal advice"},
+        {t:"manager",   d:"a person responsible for controlling a team"}
+      ]},
+      { name:"Indefinite Pronouns", color:"#d8b4fe", words:[
+        {t:"somebody",  d:"an unspecified person; someone"},
+        {t:"nobody",    d:"no person; not anyone"},
+        {t:"everybody", d:"all people; everyone"},
+        {t:"anybody",   d:"any person (questions/negatives)"},
+        {t:"something", d:"an unspecified thing"},
+        {t:"nothing",   d:"not any thing"},
+        {t:"everything",d:"all things"},
+        {t:"anywhere",  d:"in, at or to any place"},
+        {t:"everywhere",d:"in or to all places"},
+        {t:"nowhere",   d:"not in any place"}
+      ]},
+      { name:"Reflexive Pronouns", color:"#86efac", words:[
+        {t:"myself",     d:"used when subject and object are both I"},
+        {t:"yourself",   d:"used when subject and object are both you (sing.)"},
+        {t:"themselves", d:"used when subject and object are they"},
+        {t:"ourselves",  d:"used when subject and object are we"}
+      ]}
+    ]
+  }
+];
 
-    // Matching pairs: word ↔ opposite/partner (from vocabulary.js VOCAB_DB)
-    var PAIR_BANK = [
-      // Unit 1 — verb opposites
-      { a: "agree",      b: "disagree",    unit: 1 },
-      { a: "appear",     b: "disappear",   unit: 1 },
-      { a: "borrow",     b: "lend",        unit: 1 },
-      { a: "buy",        b: "sell",        unit: 1 },
-      { a: "connect",    b: "disconnect",  unit: 1 },
-      { a: "lose",       b: "win",         unit: 1 },
-      { a: "save",       b: "spend",       unit: 1 },
-      { a: "send",       b: "receive",     unit: 1 },
-      { a: "happy",      b: "unhappy",     unit: 1 },
-      { a: "scared",     b: "relaxed",     unit: 1 },
-      // Unit 2 — materials & art
-      { a: "cardboard",  b: "paper",       unit: 2 },
-      { a: "cotton",     b: "wool",        unit: 2 },
-      { a: "design",     b: "designer",    unit: 2 },
-      { a: "paint",      b: "painter",     unit: 2 },
-      { a: "photograph", b: "photographer",unit: 2 },
-      { a: "music",      b: "musician",    unit: 2 },
-      // Unit 3 — outdoor life
-      { a: "cycling",    b: "jogging",     unit: 3 },
-      { a: "rowing",     b: "kayaking",    unit: 3 },
-      { a: "concert",    b: "festival",    unit: 3 },
-      { a: "working out",b: "training",    unit: 3 },
-      // Unit 4 — personality
-      { a: "patient",    b: "impatient",   unit: 4 },
-      { a: "generous",   b: "mean",        unit: 4 },
-      { a: "polite",     b: "rude",        unit: 4 },
-      { a: "confident",  b: "shy",         unit: 4 },
-      { a: "kind",       b: "unkind",      unit: 4 },
-      // Unit 5 — comparatives/senses
-      { a: "sight",      b: "hearing",     unit: 5 },
-      { a: "smell",      b: "taste",       unit: 5 },
-      { a: "faster",     b: "slower",      unit: 5 },
-      { a: "harder",     b: "easier",      unit: 5 },
-      { a: "better",     b: "worse",       unit: 5 },
-      // Unit 6 — health
-      { a: "injury",     b: "recovery",    unit: 6 },
-      { a: "muscles",    b: "bones",       unit: 6 },
-      { a: "stretch",    b: "rest",        unit: 6 },
-      { a: "brain",      b: "heart",       unit: 6 },
-      { a: "energy",     b: "exhaustion",  unit: 6 },
-      // Unit 7 — learning / school rules
-      { a: "achieve",    b: "achievement", unit: 7 },
-      { a: "decide",     b: "decision",    unit: 7 },
-      { a: "learn",      b: "learning",    unit: 7 },
-      { a: "solve",      b: "solution",    unit: 7 },
-      { a: "respect",    b: "disrespect",  unit: 7 },
-      { a: "protect",    b: "unprotect",   unit: 7 },
-      // Unit 8 — jobs / pronouns
-      { a: "somebody",   b: "nobody",      unit: 8 },
-      { a: "everybody",  b: "anyone",      unit: 8 },
-      { a: "something",  b: "nothing",     unit: 8 },
-      { a: "astronaut",  b: "engineer",    unit: 8 },
-      { a: "lawyer",     b: "manager",     unit: 8 }
-    ];
+// ═══════════════════════════════════════════════════════════════════════════
+// PAIR BANK (matching game)
+// ═══════════════════════════════════════════════════════════════════════════
+var PAIR_BANK = [
+  {a:"appear",b:"disappear",unit:1},{a:"borrow",b:"lend",unit:1},
+  {a:"buy",b:"sell",unit:1},{a:"save",b:"spend",unit:1},
+  {a:"send",b:"receive",unit:1},{a:"connect",b:"disconnect",unit:1},
+  {a:"win",b:"lose",unit:1},{a:"agree",b:"disagree",unit:1},
+  {a:"excited",b:"bored",unit:1},{a:"worried",b:"relaxed",unit:1},
+  {a:"happy",b:"unhappy",unit:1},{a:"inside",b:"outside",unit:1},
+  {a:"cardboard",b:"paper",unit:2},{a:"cotton",b:"wool",unit:2},
+  {a:"glass",b:"metal",unit:2},{a:"leather",b:"plastic",unit:2},
+  {a:"design",b:"designer",unit:2},{a:"paint",b:"painter",unit:2},
+  {a:"photograph",b:"photographer",unit:2},{a:"music",b:"musician",unit:2},
+  {a:"bright",b:"dark",unit:2},{a:"huge",b:"tiny",unit:2},
+  {a:"brilliant",b:"terrible",unit:2},{a:"illustrator",b:"sculptor",unit:2},
+  {a:"cycling",b:"jogging",unit:3},{a:"concert",b:"festival",unit:3},
+  {a:"lake",b:"river",unit:3},{a:"working out",b:"training",unit:3},
+  {a:"outdoor gym",b:"sports centre",unit:3},{a:"fun run",b:"marathon",unit:3},
+  {a:"patient",b:"impatient",unit:4},{a:"generous",b:"mean",unit:4},
+  {a:"polite",b:"rude",unit:4},{a:"confident",b:"shy",unit:4},
+  {a:"kind",b:"unkind",unit:4},{a:"volunteer",b:"community",unit:4},
+  {a:"renewable",b:"sustainable",unit:4},{a:"prediction",b:"forecast",unit:4},
+  {a:"sight",b:"hearing",unit:5},{a:"smell",b:"taste",unit:5},
+  {a:"touch",b:"feel",unit:5},{a:"faster",b:"slower",unit:5},
+  {a:"harder",b:"easier",unit:5},{a:"better",b:"worse",unit:5},
+  {a:"the best",b:"the worst",unit:5},{a:"more exciting",b:"more boring",unit:5},
+  {a:"muscles",b:"bones",unit:6},{a:"brain",b:"heart",unit:6},
+  {a:"lungs",b:"liver",unit:6},{a:"injury",b:"recovery",unit:6},
+  {a:"stretch",b:"rest",unit:6},{a:"energy",b:"exhaustion",unit:6},
+  {a:"train",b:"warm up",unit:6},{a:"lifestyle",b:"routine",unit:6},
+  {a:"achieve",b:"achievement",unit:7},{a:"decide",b:"decision",unit:7},
+  {a:"solve",b:"solution",unit:7},{a:"learn",b:"learning",unit:7},
+  {a:"respect",b:"disrespect",unit:7},{a:"uniform",b:"appearance",unit:7},
+  {a:"responsible",b:"irresponsible",unit:7},{a:"attend",b:"absence",unit:7},
+  {a:"everybody",b:"nobody",unit:8},{a:"somebody",b:"anybody",unit:8},
+  {a:"something",b:"nothing",unit:8},{a:"everywhere",b:"nowhere",unit:8},
+  {a:"themselves",b:"ourselves",unit:8},{a:"astronaut",b:"engineer",unit:8},
+  {a:"dentist",b:"builder",unit:8},{a:"lawyer",b:"manager",unit:8}
+];
 
-    // Sentence order data (from grammar.html UNIT_SUMMARY)
-    var ORDER_BANK = [
-      { unit: 1, words: ["There","were","old","containers","inside","the","factory."] },
-      { unit: 1, words: ["She","appeared","and","then","disappeared","quickly."] },
-      { unit: 1, words: ["He","was","excited","to","receive","the","gift."] },
-      { unit: 2, words: ["While","we","were","waiting,","the","photographer","was","taking","pictures."] },
-      { unit: 2, words: ["The","designer","created","a","sculpture","from","metal","and","wood."] },
-      { unit: 2, words: ["She","painted","a","picture","using","bright","colours."] },
-      { unit: 3, words: ["If","we","train","twice","a","week,","we","will","improve","quickly."] },
-      { unit: 3, words: ["They","went","cycling","and","jogging","at","the","outdoor","gym."] },
-      { unit: 3, words: ["The","festival","at","the","lake","was","fantastic."] },
-      { unit: 4, words: ["I","am","going","to","volunteer","at","the","community","centre."] },
-      { unit: 4, words: ["She","is","very","kind","and","generous","to","everyone."] },
-      { unit: 4, words: ["If","we","are","polite,","people","will","be","polite","back."] },
-      { unit: 5, words: ["Basketball","is","more","exciting","than","tennis."] },
-      { unit: 5, words: ["This","is","the","most","popular","sport","in","school."] },
-      { unit: 5, words: ["She","could","taste","the","difference","between","them."] },
-      { unit: 6, words: ["I","have","felt","more","energetic","since","I","started","training."] },
-      { unit: 6, words: ["You","should","stretch","before","and","after","exercise."] },
-      { unit: 6, words: ["A","serious","injury","can","affect","your","muscles","and","bones."] },
-      { unit: 7, words: ["Students","must","protect","their","passwords","online."] },
-      { unit: 7, words: ["Everybody","should","respect","the","school","rules."] },
-      { unit: 7, words: ["You","have","to","attend","all","lessons","on","time."] },
-      { unit: 8, words: ["Everybody","can","help","if","they","believe","in","themselves."] },
-      { unit: 8, words: ["Somebody","left","something","on","the","teacher's","desk."] },
-      { unit: 8, words: ["Nobody","knows","where","the","engineer","went."] }
-    ];
+// ═══════════════════════════════════════════════════════════════════════════
+// ORDER BANK
+// ═══════════════════════════════════════════════════════════════════════════
+var ORDER_BANK = [
+  {unit:1,words:["There","were","old","containers","inside","the","factory."]},
+  {unit:1,words:["She","appeared","and","then","disappeared","quickly."]},
+  {unit:1,words:["He","was","excited","to","receive","the","gift."]},
+  {unit:1,words:["They","were","worried","about","the","test","results."]},
+  {unit:1,words:["I","borrowed","a","book","from","the","library."]},
+  {unit:2,words:["While","we","were","waiting,","the","photographer","was","taking","pictures."]},
+  {unit:2,words:["The","designer","created","a","sculpture","from","metal","and","wood."]},
+  {unit:2,words:["She","was","painting","when","the","phone","rang."]},
+  {unit:2,words:["The","bag","is","made","of","leather","and","metal."]},
+  {unit:2,words:["He","was","playing","music","while","she","was","drawing."]},
+  {unit:3,words:["If","we","train","twice","a","week,","we","will","improve","quickly."]},
+  {unit:3,words:["They","went","cycling","and","jogging","at","the","outdoor","gym."]},
+  {unit:3,words:["If","it","rains,","we","will","stay","inside."]},
+  {unit:3,words:["She","will","join","the","fun","run","if","she","feels","better."]},
+  {unit:3,words:["The","festival","at","the","lake","was","fantastic."]},
+  {unit:4,words:["I","am","going","to","volunteer","at","the","community","centre."]},
+  {unit:4,words:["She","is","very","kind","and","generous","to","everyone."]},
+  {unit:4,words:["We","will","use","more","renewable","energy","in","the","future."]},
+  {unit:4,words:["If","we","are","polite,","people","will","be","polite","back."]},
+  {unit:4,words:["He","is","going","to","help","at","the","local","charity."]},
+  {unit:5,words:["Basketball","is","more","exciting","than","tennis."]},
+  {unit:5,words:["This","is","the","most","popular","sport","in","school."]},
+  {unit:5,words:["She","could","taste","the","difference","between","them."]},
+  {unit:5,words:["Running","is","faster","and","harder","than","walking."]},
+  {unit:5,words:["He","has","the","best","sense","of","smell","in","the","class."]},
+  {unit:6,words:["I","have","felt","more","energetic","since","I","started","training."]},
+  {unit:6,words:["You","should","stretch","before","and","after","exercise."]},
+  {unit:6,words:["A","serious","injury","can","affect","your","muscles","and","bones."]},
+  {unit:6,words:["She","has","never","had","a","serious","injury","before."]},
+  {unit:6,words:["He","has","been","training","hard","for","three","months."]},
+  {unit:7,words:["Students","must","protect","their","passwords","online."]},
+  {unit:7,words:["Everybody","should","respect","the","school","rules."]},
+  {unit:7,words:["You","have","to","attend","all","lessons","on","time."]},
+  {unit:7,words:["She","found","a","solution","to","the","difficult","problem."]},
+  {unit:7,words:["We","must","behave","responsibly","and","protect","the","environment."]},
+  {unit:8,words:["Everybody","can","help","if","they","believe","in","themselves."]},
+  {unit:8,words:["Somebody","left","something","on","the","teacher's","desk."]},
+  {unit:8,words:["Nobody","knows","where","the","engineer","went."]},
+  {unit:8,words:["The","astronaut","trained","for","years","before","going","to","space."]},
+  {unit:8,words:["Everywhere","she","went,","she","met","somebody","new."]}
+];
 
-    // Fill-in-the-blanks: sentence with one blank and 3 options
-    var FILL_BANK = [
-      { unit:1, pre:"She was very", blank:"excited", post:"to open the present.", opts:["excited","bored","material"] },
-      { unit:1, pre:"He tried to", blank:"save", post:"money to buy the new phone.", opts:["spend","save","send"] },
-      { unit:1, pre:"Can you", blank:"lend", post:"me your pen?", opts:["lend","borrow","sell"] },
-      { unit:1, pre:"There", blank:"were", post:"many containers in the factory.", opts:["was","were","is"] },
-      { unit:1, pre:"She looked", blank:"worried", post:"when she heard the news.", opts:["worried","happy","bright"] },
-      { unit:2, pre:"The", blank:"photographer", post:"took amazing pictures of the city.", opts:["photographer","designer","painter"] },
-      { unit:2, pre:"The bag is made of", blank:"leather", post:"and metal.", opts:["leather","glass","cotton"] },
-      { unit:2, pre:"She loves to", blank:"design", post:"clothes for her friends.", opts:["design","train","row"] },
-      { unit:2, pre:"The sculpture was made from", blank:"cardboard", post:"and wire.", opts:["cardboard","wool","plastic"] },
-      { unit:2, pre:"His", blank:"music", post:"inspired many young people.", opts:["music","cycling","sculpture"] },
-      { unit:3, pre:"We went", blank:"cycling", post:"along the river at the weekend.", opts:["cycling","volunteering","borrowing"] },
-      { unit:3, pre:"If it rains, we", blank:"will stay", post:"inside.", opts:["will stay","stays","staying"] },
-      { unit:3, pre:"She enjoys", blank:"jogging", post:"in the park every morning.", opts:["jogging","solving","spending"] },
-      { unit:3, pre:"The", blank:"fun run", post:"raised money for charity.", opts:["fun run","outdoor gym","concert"] },
-      { unit:4, pre:"She is always very", blank:"generous", post:"with her time and money.", opts:["generous","lazy","rude"] },
-      { unit:4, pre:"We are going", blank:"to volunteer", post:"at the local community centre.", opts:["to volunteer","volunteering","volunteer"] },
-      { unit:4, pre:"It is important to be", blank:"polite", post:"to your teachers.", opts:["polite","mean","confident"] },
-      { unit:4, pre:"The", blank:"community", post:"came together to help clean the park.", opts:["community","prediction","uniform"] },
-      { unit:5, pre:"Running is", blank:"faster", post:"than walking.", opts:["faster","more fast","fastest"] },
-      { unit:5, pre:"She used her sense of", blank:"smell", post:"to find the flowers.", opts:["smell","sight","taste"] },
-      { unit:5, pre:"This is", blank:"the most difficult", post:"level in the game.", opts:["the most difficult","the more difficult","most difficult"] },
-      { unit:5, pre:"Football is", blank:"more exciting", post:"than chess.", opts:["more exciting","most exciting","excitinger"] },
-      { unit:6, pre:"You should always", blank:"stretch", post:"before exercise.", opts:["stretch","borrow","attend"] },
-      { unit:6, pre:"She has had a muscle", blank:"injury", post:"since the game.", opts:["injury","uniform","prediction"] },
-      { unit:6, pre:"Regular", blank:"training", post:"helps keep your body strong.", opts:["training","recycling","designing"] },
-      { unit:6, pre:"A healthy", blank:"lifestyle", post:"includes sleep and exercise.", opts:["lifestyle","volunteer","community"] },
-      { unit:7, pre:"Students", blank:"must", post:"wear uniform every day.", opts:["must","should to","have"] },
-      { unit:7, pre:"Good", blank:"attendance", post:"is important for success.", opts:["attendance","injury","cardboard"] },
-      { unit:7, pre:"She found a", blank:"solution", post:"to the difficult maths problem.", opts:["solution","decision","achievement"] },
-      { unit:7, pre:"We need to", blank:"respect", post:"each other's opinions.", opts:["respect","ignore","prevent"] },
-      { unit:8, pre:"", blank:"Everybody", post:"can make a difference.", opts:["Everybody","Nobody","Somebody"] },
-      { unit:8, pre:"", blank:"Nobody", post:"left the room during the test.", opts:["Nobody","Anybody","Somebody"] },
-      { unit:8, pre:"She left", blank:"something", post:"on the table.", opts:["something","nothing","everybody"] },
-      { unit:8, pre:"The", blank:"engineer", post:"designed the new bridge.", opts:["engineer","musician","lawyer"] }
-    ];
+// ═══════════════════════════════════════════════════════════════════════════
+// FILL BANK
+// ═══════════════════════════════════════════════════════════════════════════
+var FILL_BANK = [
+  {unit:1,pre:"She was very",blank:"excited",post:"to open the present.",opts:["excited","bored","material"]},
+  {unit:1,pre:"He tried to",blank:"save",post:"money to buy the phone.",opts:["spend","save","send"]},
+  {unit:1,pre:"Can you",blank:"lend",post:"me your pen, please?",opts:["lend","borrow","sell"]},
+  {unit:1,pre:"There",blank:"were",post:"many containers in the factory.",opts:["was","were","is"]},
+  {unit:1,pre:"She looked",blank:"worried",post:"when she heard the news.",opts:["worried","happy","bright"]},
+  {unit:1,pre:"They decided to",blank:"disconnect",post:"from social media for a week.",opts:["connect","disconnect","receive"]},
+  {unit:1,pre:"I need to",blank:"receive",post:"the parcel before Friday.",opts:["send","receive","hide"]},
+  {unit:2,pre:"The",blank:"photographer",post:"took amazing pictures.",opts:["photographer","designer","painter"]},
+  {unit:2,pre:"The bag is made of",blank:"leather",post:"and metal.",opts:["leather","glass","cotton"]},
+  {unit:2,pre:"She loves to",blank:"design",post:"clothes for her friends.",opts:["design","train","row"]},
+  {unit:2,pre:"The sculpture was made from",blank:"cardboard",post:"and wire.",opts:["cardboard","wool","plastic"]},
+  {unit:2,pre:"His",blank:"music",post:"inspired many young people.",opts:["music","cycling","sculpture"]},
+  {unit:2,pre:"The artist painted a",blank:"brilliant",post:"portrait of his family.",opts:["brilliant","lazy","strange"]},
+  {unit:2,pre:"She is a talented",blank:"illustrator",post:"who draws for books.",opts:["illustrator","volunteer","lawyer"]},
+  {unit:3,pre:"We went",blank:"cycling",post:"along the river at the weekend.",opts:["cycling","volunteering","borrowing"]},
+  {unit:3,pre:"If it rains, we",blank:"will stay",post:"inside and watch a film.",opts:["will stay","stays","staying"]},
+  {unit:3,pre:"She enjoys",blank:"jogging",post:"in the park every morning.",opts:["jogging","solving","spending"]},
+  {unit:3,pre:"The",blank:"fun run",post:"raised money for charity.",opts:["fun run","outdoor gym","concert"]},
+  {unit:3,pre:"They went",blank:"rowing",post:"on the lake every Saturday.",opts:["rowing","designing","saving"]},
+  {unit:4,pre:"She is always very",blank:"generous",post:"with her time and money.",opts:["generous","lazy","rude"]},
+  {unit:4,pre:"We are going",blank:"to volunteer",post:"at the local community centre.",opts:["to volunteer","volunteering","volunteer"]},
+  {unit:4,pre:"It is important to be",blank:"polite",post:"to your teachers.",opts:["polite","mean","confident"]},
+  {unit:4,pre:"The",blank:"community",post:"came together to help.",opts:["community","prediction","uniform"]},
+  {unit:4,pre:"We should use more",blank:"renewable",post:"energy to help the environment.",opts:["renewable","rude","lazy"]},
+  {unit:4,pre:"She is so",blank:"patient",post:"— she never gets angry.",opts:["patient","impatient","nervous"]},
+  {unit:5,pre:"Running is",blank:"faster",post:"than walking.",opts:["faster","more fast","fastest"]},
+  {unit:5,pre:"She used her sense of",blank:"smell",post:"to find the flowers.",opts:["smell","sight","taste"]},
+  {unit:5,pre:"This is",blank:"the most difficult",post:"level in the game.",opts:["the most difficult","the more difficult","most difficult"]},
+  {unit:5,pre:"Football is",blank:"more exciting",post:"than chess.",opts:["more exciting","most exciting","excitinger"]},
+  {unit:5,pre:"She has",blank:"the best",post:"hearing in the class.",opts:["the best","the most","the better"]},
+  {unit:5,pre:"He",blank:"could",post:"play chess when he was five.",opts:["could","can","would"]},
+  {unit:6,pre:"You should always",blank:"stretch",post:"before exercise.",opts:["stretch","borrow","attend"]},
+  {unit:6,pre:"She has had a muscle",blank:"injury",post:"since the game.",opts:["injury","uniform","prediction"]},
+  {unit:6,pre:"Regular",blank:"training",post:"helps keep your body strong.",opts:["training","recycling","designing"]},
+  {unit:6,pre:"A healthy",blank:"lifestyle",post:"includes sleep and exercise.",opts:["lifestyle","volunteer","community"]},
+  {unit:6,pre:"He has been feeling more",blank:"energetic",post:"since he started running.",opts:["energetic","worried","lazy"]},
+  {unit:6,pre:"She has",blank:"never",post:"broken a bone in her life.",opts:["never","ever","since"]},
+  {unit:7,pre:"Students",blank:"must",post:"wear uniform every day.",opts:["must","should to","have"]},
+  {unit:7,pre:"Good",blank:"attendance",post:"is important for success.",opts:["attendance","injury","cardboard"]},
+  {unit:7,pre:"She found a",blank:"solution",post:"to the difficult maths problem.",opts:["solution","decision","achievement"]},
+  {unit:7,pre:"We need to",blank:"respect",post:"each other's opinions.",opts:["respect","ignore","prevent"]},
+  {unit:7,pre:"You",blank:"should",post:"revise every day before the exam.",opts:["should","must","have"]},
+  {unit:7,pre:"It was a great",blank:"achievement",post:"to win the competition.",opts:["achievement","decision","solution"]},
+  {unit:8,pre:"",blank:"Everybody",post:"can make a difference.",opts:["Everybody","Nobody","Somebody"]},
+  {unit:8,pre:"",blank:"Nobody",post:"left the room during the test.",opts:["Nobody","Anybody","Somebody"]},
+  {unit:8,pre:"She left",blank:"something",post:"on the table.",opts:["something","nothing","everybody"]},
+  {unit:8,pre:"The",blank:"engineer",post:"designed the new bridge.",opts:["engineer","musician","lawyer"]},
+  {unit:8,pre:"They organised",blank:"everything",post:"themselves.",opts:["everything","nothing","someone"]},
+  {unit:8,pre:"The",blank:"astronaut",post:"trained for years before the mission.",opts:["astronaut","builder","dentist"]}
+];
 
-    // ── HELPERS ───────────────────────────────────────────────────────────
-    function $(id) { return document.getElementById(id); }
+// ═══════════════════════════════════════════════════════════════════════════
+// FLASHCARD BANK
+// ═══════════════════════════════════════════════════════════════════════════
+var FLASH_BANK = [
+  {unit:1,w:"appear",d:"to become visible; opposite of disappear"},
+  {unit:1,w:"disappear",d:"to become invisible; to vanish"},
+  {unit:1,w:"borrow",d:"to take something temporarily (you return it)"},
+  {unit:1,w:"lend",d:"to give something temporarily (they return it)"},
+  {unit:1,w:"save",d:"to keep money instead of spending it"},
+  {unit:1,w:"spend",d:"to use money to buy things"},
+  {unit:1,w:"excited",d:"feeling happy and enthusiastic about something"},
+  {unit:1,w:"worried",d:"feeling anxious or nervous about something"},
+  {unit:1,w:"container",d:"a box or object used to hold things"},
+  {unit:2,w:"cardboard",d:"thick paper used for making boxes"},
+  {unit:2,w:"leather",d:"material made from animal skin"},
+  {unit:2,w:"photographer",d:"a person who takes photos professionally"},
+  {unit:2,w:"illustrator",d:"a person who draws pictures for books"},
+  {unit:2,w:"designer",d:"a person who plans how something will look"},
+  {unit:2,w:"brilliant",d:"very clever or impressive"},
+  {unit:2,w:"enormous",d:"extremely large; much bigger than average"},
+  {unit:3,w:"cycling",d:"riding a bicycle as sport or exercise"},
+  {unit:3,w:"jogging",d:"running at a slow, steady pace"},
+  {unit:3,w:"fun run",d:"a non-competitive run, often for charity"},
+  {unit:3,w:"outdoor gym",d:"exercise equipment placed in a park"},
+  {unit:3,w:"festival",d:"a special event with music, food and activities"},
+  {unit:4,w:"volunteer",d:"to offer to do something without being paid"},
+  {unit:4,w:"generous",d:"willing to give more than is expected"},
+  {unit:4,w:"patient",d:"able to wait calmly; not easily annoyed"},
+  {unit:4,w:"renewable",d:"energy from sources that do not run out (sun, wind)"},
+  {unit:4,w:"community",d:"a group of people living in the same place"},
+  {unit:4,w:"prediction",d:"a statement about what will happen in the future"},
+  {unit:5,w:"sight",d:"the ability to see; one of the five senses"},
+  {unit:5,w:"hearing",d:"the ability to perceive sound; a sense"},
+  {unit:5,w:"touch",d:"the ability to feel through your skin"},
+  {unit:5,w:"comparative",d:"adjective form to compare two things: bigger, faster"},
+  {unit:5,w:"superlative",d:"adjective form for the most extreme: the biggest"},
+  {unit:5,w:"more exciting",d:"comparative of exciting (long adjective)"},
+  {unit:6,w:"injury",d:"physical damage to the body"},
+  {unit:6,w:"stretch",d:"to extend muscles to keep them flexible"},
+  {unit:6,w:"lifestyle",d:"the way a person lives, including habits and diet"},
+  {unit:6,w:"muscles",d:"body tissue that contracts to produce movement"},
+  {unit:6,w:"since",d:"from a point in the past until now: since Monday"},
+  {unit:6,w:"for",d:"a period of time: for three years"},
+  {unit:7,w:"uniform",d:"a set of standard clothes worn at school or work"},
+  {unit:7,w:"attendance",d:"the act of going to school or an event regularly"},
+  {unit:7,w:"responsible",d:"having a duty to do something; trustworthy"},
+  {unit:7,w:"achievement",d:"something accomplished through effort and skill"},
+  {unit:7,w:"must",d:"strong obligation — no choice: I must wear uniform"},
+  {unit:7,w:"should",d:"advice or recommendation: You should study more"},
+  {unit:7,w:"have to",d:"external obligation (rules from others)"},
+  {unit:8,w:"somebody",d:"a person (unknown); someone"},
+  {unit:8,w:"nobody",d:"no person; not anyone"},
+  {unit:8,w:"everybody",d:"all people; everyone"},
+  {unit:8,w:"something",d:"an unspecified thing"},
+  {unit:8,w:"nothing",d:"not any thing; zero things"},
+  {unit:8,w:"everywhere",d:"in all places"},
+  {unit:8,w:"themselves",d:"reflexive pronoun for they/them"},
+  {unit:8,w:"astronaut",d:"a person trained to travel in space"},
+  {unit:8,w:"engineer",d:"a person who designs machines or structures"}
+];
 
-    function shuffle(arr) {
-      var a = arr.slice();
-      for (var i = a.length - 1; i > 0; i--) {
-        var j = Math.floor(Math.random() * (i + 1));
-        var t = a[i]; a[i] = a[j]; a[j] = t;
-      }
-      return a;
-    }
+// ═══════════════════════════════════════════════════════════════════════════
+// HELPERS
+// ═══════════════════════════════════════════════════════════════════════════
+function $(id){ return document.getElementById(id); }
+function shuffle(arr){
+  var a=arr.slice();
+  for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}
+  return a;
+}
+function setFB(id,msg,cls){ var el=$(id);el.className="fb "+(cls||"warn");el.textContent=msg; }
+function showScreen(name){
+  ["menuScreen","lucyScreen","matchScreen","orderScreen","fillScreen","flashScreen"].forEach(function(s){
+    $(s).classList.remove("active");
+  });
+  $(name).classList.add("active");
+}
+function filterByUnit(bank,val){
+  if(val==="all") return bank.slice();
+  var u=parseInt(val,10);
+  return bank.filter(function(x){ return x.unit===u; });
+}
 
-    function setFB(id, msg, cls) {
-      var el = $(id);
-      el.className = "fb " + (cls || "warn");
-      el.textContent = msg;
-    }
+// ── Unit tiles on menu ────────────────────────────────────────────────────
+(function(){
+  var grid=$("unitTileGrid");
+  LUCY_DATA.forEach(function(u){
+    var tile=document.createElement("div");
+    tile.className="unitTile";
+    tile.style.borderColor=u.color+"55";
+    tile.innerHTML=
+      '<div class="num" style="color:'+u.color+'">'+u.emoji+' UNIT '+u.unit+'</div>'+
+      '<div class="name">'+u.title+'</div>'+
+      '<div class="gram">'+u.categories.map(function(c){return c.name;}).join(' · ')+'</div>';
+    tile.addEventListener("click",function(){
+      $("lucyUnitSel").value=String(u.unit);
+      showScreen("lucyScreen");
+      drawLucy(u.unit);
+    });
+    grid.appendChild(tile);
+  });
+})();
 
-    function showScreen(name) {
-      ["menuScreen","matchScreen","orderScreen","fillScreen"].forEach(function (s) {
-        $(s).classList.remove("active");
+// ═══════════════════════════════════════════════════════════════════════════
+// LUCY CHART — canvas-based radial semantic field map
+// ═══════════════════════════════════════════════════════════════════════════
+(function(){
+  var cv  = $("lucyCanvas");
+  var ctx = cv.getContext("2d");
+  var popup = $("lucyPopup");
+  var nodes = [];   // {x,y,r,label,color,type,def,cat}
+  var edges = [];   // {from,to}
+
+  function resize(){
+    cv.width  = cv.clientWidth || 800;
+    cv.height = parseInt(cv.getAttribute("height")) || 560;
+  }
+
+  function buildGraph(unitNum){
+    var data = LUCY_DATA.find(function(u){ return u.unit===unitNum; });
+    if(!data) return;
+    nodes=[]; edges=[];
+    resize();
+    var W=cv.width, H=cv.height;
+    var cx=W/2, cy=H/2;
+
+    // Central node
+    nodes.push({x:cx,y:cy,r:46,label:data.emoji+" "+data.title,
+                color:data.color,type:"root",def:"Unit "+unitNum+" — "+data.title,cat:""});
+
+    var catCount = data.categories.length;
+    var catAngleStep = (2*Math.PI)/catCount;
+    var catRadius = Math.min(W,H)*0.28;
+    var wordRadius = Math.min(W,H)*0.44;
+
+    data.categories.forEach(function(cat,ci){
+      var catAngle = -Math.PI/2 + ci*catAngleStep;
+      var catX = cx + catRadius*Math.cos(catAngle);
+      var catY = cy + catRadius*Math.sin(catAngle);
+      var catIdx = nodes.length;
+      nodes.push({x:catX,y:catY,r:34,label:cat.name,color:cat.color,
+                  type:"category",def:cat.name+" — "+cat.words.length+" words",cat:""});
+      edges.push({from:0,to:catIdx});
+
+      var wCount = cat.words.length;
+      var halfSpan = Math.min(Math.PI*0.6, wCount*0.22);
+      cat.words.forEach(function(word,wi){
+        var wAngle = wCount>1
+          ? catAngle - halfSpan + wi*(2*halfSpan/(wCount-1))
+          : catAngle;
+        var wX = cx + wordRadius*Math.cos(wAngle);
+        var wY = cy + wordRadius*Math.sin(wAngle);
+        var wIdx = nodes.length;
+        nodes.push({x:wX,y:wY,r:26,label:word.t,color:cat.color,
+                    type:"word",def:word.d,cat:cat.name});
+        edges.push({from:catIdx,to:wIdx});
       });
-      $(name).classList.add("active");
-    }
+    });
+  }
 
-    function filterByUnit(bank, unitVal) {
-      if (unitVal === "all") return bank.slice();
-      var u = parseInt(unitVal, 10);
-      return bank.filter(function (x) { return x.unit === u; });
-    }
+  function hexToRgb(hex){
+    var r=parseInt(hex.slice(1,3),16),g=parseInt(hex.slice(3,5),16),b=parseInt(hex.slice(5,7),16);
+    return r+","+g+","+b;
+  }
 
-    // ══════════════════════════════════════
-    // MATCHING
-    // ══════════════════════════════════════
-    var matchState = {
-      deck: [],
-      open: [],
-      matched: 0,
-      total: 0,
-      moves: 0,
-      locked: false
-    };
+  function draw(){
+    if(!cv.width) resize();
+    ctx.clearRect(0,0,cv.width,cv.height);
 
-    function startMatch() {
-      var unitVal = $("matchUnitSel").value;
-      var pairs = filterByUnit(PAIR_BANK, unitVal);
-      if (pairs.length === 0) pairs = PAIR_BANK.slice();
-      pairs = shuffle(pairs).slice(0, 8); // 8 pairs = 16 cards
+    // Background
+    ctx.fillStyle="rgba(0,0,0,.18)";
+    ctx.fillRect(0,0,cv.width,cv.height);
 
-      matchState.deck = [];
-      matchState.open = [];
-      matchState.matched = 0;
-      matchState.total = pairs.length;
-      matchState.moves = 0;
-      matchState.locked = false;
+    // Edges
+    edges.forEach(function(e){
+      var a=nodes[e.from],b=nodes[e.to];
+      ctx.beginPath();
+      ctx.moveTo(a.x,a.y);
+      ctx.lineTo(b.x,b.y);
+      ctx.strokeStyle="rgba(255,255,255,.12)";
+      ctx.lineWidth=1.5;
+      ctx.stroke();
+    });
 
-      // Build flat cards array (A side + B side)
-      pairs.forEach(function (p, idx) {
-        matchState.deck.push({ id: idx + "-a", pairId: idx, text: p.a, flipped: false, matched: false });
-        matchState.deck.push({ id: idx + "-b", pairId: idx, text: p.b, flipped: false, matched: false });
-      });
-      matchState.deck = shuffle(matchState.deck);
+    // Nodes
+    nodes.forEach(function(n){
+      var rgb=hexToRgb(n.color);
+      // Glow
+      var grd=ctx.createRadialGradient(n.x,n.y,0,n.x,n.y,n.r*1.8);
+      grd.addColorStop(0,"rgba("+rgb+",.22)");
+      grd.addColorStop(1,"rgba("+rgb+",0)");
+      ctx.beginPath();
+      ctx.arc(n.x,n.y,n.r*1.8,0,2*Math.PI);
+      ctx.fillStyle=grd;
+      ctx.fill();
 
-      var unitLabel = unitVal === "all" ? "All" : "Unit " + unitVal;
-      $("matchUnit").textContent = unitLabel;
-      updateMatchHUD();
-      renderMatchGrid();
-      setFB("matchFb", "Click two cards to find matching pairs.", "warn");
-    }
+      // Circle
+      ctx.beginPath();
+      ctx.arc(n.x,n.y,n.r,0,2*Math.PI);
+      ctx.fillStyle="rgba("+rgb+",.22)";
+      ctx.fill();
+      ctx.strokeStyle="rgba("+rgb+",.75)";
+      ctx.lineWidth=n.type==="root"?3:n.type==="category"?2:1.5;
+      ctx.stroke();
 
-    function updateMatchHUD() {
-      $("matchPairs").textContent = matchState.matched + "/" + matchState.total;
-      $("matchMoves").textContent = matchState.moves;
-      var pct = matchState.total ? Math.round((matchState.matched / matchState.total) * 100) : 0;
-      $("matchProgPct").textContent = pct + "%";
-      $("matchProgFill").style.width = pct + "%";
-    }
-
-    function renderMatchGrid() {
-      var grid = $("matchGrid");
-      grid.innerHTML = "";
-      matchState.deck.forEach(function (card) {
-        var el = document.createElement("div");
-        el.className = "matchCard" + (card.flipped || card.matched ? " flipped" : "") + (card.matched ? " matched" : "");
-        el.dataset.cardId = card.id;
-        el.innerHTML = '<div class="inner">' +
-          '<div class="face back-face">?</div>' +
-          '<div class="face front-face">' + card.text + '</div>' +
-          '</div>';
-        el.addEventListener("click", function () { onMatchClick(card.id); });
-        grid.appendChild(el);
-      });
-    }
-
-    function onMatchClick(cardId) {
-      if (matchState.locked) return;
-      var card = matchState.deck.find(function (c) { return c.id === cardId; });
-      if (!card || card.flipped || card.matched) return;
-
-      card.flipped = true;
-      matchState.open.push(card);
-      renderMatchGrid();
-
-      if (matchState.open.length === 2) {
-        matchState.moves++;
-        matchState.locked = true;
-        var a = matchState.open[0], b = matchState.open[1];
-
-        if (a.pairId === b.pairId) {
-          // Match!
-          setTimeout(function () {
-            a.matched = b.matched = true;
-            a.flipped = b.flipped = true;
-            matchState.matched++;
-            matchState.open = [];
-            matchState.locked = false;
-            updateMatchHUD();
-            renderMatchGrid();
-            if (matchState.matched === matchState.total) {
-              setFB("matchFb", "🏆 All pairs matched! Press New Round for more.", "ok");
-            } else {
-              setFB("matchFb", "✅ Match! Keep going.", "ok");
-            }
-          }, 400);
-        } else {
-          // No match
-          setFB("matchFb", "❌ Not a match. Try again.", "bad");
-          setTimeout(function () {
-            a.flipped = b.flipped = false;
-            matchState.open = [];
-            matchState.locked = false;
-            renderMatchGrid();
-          }, 800);
-        }
-      }
-    }
-
-    // ══════════════════════════════════════
-    // WORD ORDER
-    // ══════════════════════════════════════
-    var orderState = {
-      sentence: null,
-      placed: [],
-      score: 0,
-      num: 0
-    };
-
-    function nextOrder() {
-      var unitVal = $("orderUnitSel").value;
-      var pool = filterByUnit(ORDER_BANK, unitVal);
-      if (pool.length === 0) pool = ORDER_BANK.slice();
-      orderState.sentence = pool[Math.floor(Math.random() * pool.length)];
-      orderState.placed = [];
-      orderState.num++;
-      $("orderNum").textContent = orderState.num;
-      renderOrderScreen();
-      setFB("orderFb", "Click the words in the correct order to build the sentence.", "warn");
-    }
-
-    function renderOrderScreen() {
-      if (!orderState.sentence) return;
-      var words = orderState.sentence.words;
-      var shuffled = shuffle(words);
-
-      // Render placed area
-      var target = $("sentenceTarget");
-      if (orderState.placed.length === 0) {
-        target.innerHTML = '<span style="color:rgba(255,255,255,.25);font-size:13px;font-family:system-ui,sans-serif">Tap words below to build the sentence…</span>';
+      // Label
+      var fSize = n.type==="root"?13:n.type==="category"?11:10;
+      ctx.font="900 "+fSize+"px 'Orbitron',system-ui,sans-serif";
+      ctx.textAlign="center";
+      ctx.textBaseline="middle";
+      ctx.fillStyle="#fff";
+      ctx.shadowColor="rgba(0,0,0,.8)";
+      ctx.shadowBlur=4;
+      // Wrap long labels
+      var maxW=n.r*1.8;
+      var words2=n.label.split(" ");
+      if(words2.length===1 || ctx.measureText(n.label).width<=maxW){
+        ctx.fillText(n.label,n.x,n.y);
       } else {
-        target.innerHTML = "";
-        orderState.placed.forEach(function (w, i) {
-          var chip = document.createElement("span");
-          chip.className = "wordChip placed";
-          chip.textContent = w;
-          chip.addEventListener("click", function () {
-            orderState.placed.splice(i, 1);
-            renderOrderScreen();
-          });
-          target.appendChild(chip);
-        });
+        var line1=words2.slice(0,Math.ceil(words2.length/2)).join(" ");
+        var line2=words2.slice(Math.ceil(words2.length/2)).join(" ");
+        ctx.fillText(line1,n.x,n.y-fSize*0.6);
+        ctx.fillText(line2,n.x,n.y+fSize*0.6);
       }
+      ctx.shadowBlur=0;
+    });
+  }
 
-      // Render bank
-      var bank = $("wordBank");
-      bank.innerHTML = "";
-      shuffled.forEach(function (w) {
-        var chip = document.createElement("span");
-        var isUsed = orderState.placed.filter(function (p) { return p === w; }).length >=
-                     words.filter(function (ww) { return ww === w; }).length;
-        chip.className = "wordChip" + (isUsed ? " used" : "");
-        chip.textContent = w;
-        chip.addEventListener("click", function () {
-          if (!isUsed) {
-            orderState.placed.push(w);
-            renderOrderScreen();
-          }
-        });
-        bank.appendChild(chip);
-      });
+  function hitTest(mx,my){
+    for(var i=nodes.length-1;i>=0;i--){
+      var n=nodes[i];
+      var dx=mx-n.x, dy=my-n.y;
+      if(dx*dx+dy*dy<=n.r*n.r) return n;
     }
+    return null;
+  }
 
-    function checkOrder() {
-      if (!orderState.sentence) { setFB("orderFb", "Press 'Next Sentence' to start.", "warn"); return; }
-      var correct = orderState.sentence.words;
-      if (orderState.placed.length === 0) { setFB("orderFb", "Build the sentence first!", "warn"); return; }
-      if (orderState.placed.join(" ") === correct.join(" ")) {
-        orderState.score++;
-        $("orderScore").textContent = orderState.score;
-        setFB("orderFb", "🏆 Correct! " + correct.join(" "), "ok");
-      } else {
-        setFB("orderFb", "❌ Not quite. Correct: " + correct.join(" "), "bad");
-      }
+  function showPopup(n,px,py){
+    if(!n||n.type==="root"){ hidePopup(); return; }
+    $("lucyPopWord").textContent=n.label;
+    $("lucyPopDef").textContent=n.def;
+    $("lucyPopCat").textContent=n.cat?"Semantic field: "+n.cat:"";
+    var pop=popup;
+    pop.style.display="block";
+    var vw=window.innerWidth,vh=window.innerHeight;
+    var pw=280,ph=100;
+    var left=Math.min(px+14,vw-pw-10);
+    var top=Math.min(py-20,vh-ph-10);
+    pop.style.left=left+"px";
+    pop.style.top=top+"px";
+  }
+  function hidePopup(){ popup.style.display="none"; }
+
+  // Mouse events
+  cv.addEventListener("mousemove",function(e){
+    var rect=cv.getBoundingClientRect();
+    var scaleX=cv.width/rect.width,scaleY=cv.height/rect.height;
+    var n=hitTest((e.clientX-rect.left)*scaleX,(e.clientY-rect.top)*scaleY);
+    cv.style.cursor=n&&n.type!=="root"?"pointer":"grab";
+    if(n&&n.type!=="root") showPopup(n,e.clientX,e.clientY);
+    else hidePopup();
+  });
+  cv.addEventListener("mouseleave",hidePopup);
+  cv.addEventListener("click",function(e){
+    var rect=cv.getBoundingClientRect();
+    var scaleX=cv.width/rect.width,scaleY=cv.height/rect.height;
+    var n=hitTest((e.clientX-rect.left)*scaleX,(e.clientY-rect.top)*scaleY);
+    if(n&&n.type!=="root"){ showPopup(n,e.clientX,e.clientY); }
+  });
+  // Touch
+  cv.addEventListener("touchstart",function(e){
+    e.preventDefault();
+    var rect=cv.getBoundingClientRect();
+    var t=e.touches[0];
+    var scaleX=cv.width/rect.width,scaleY=cv.height/rect.height;
+    var n=hitTest((t.clientX-rect.left)*scaleX,(t.clientY-rect.top)*scaleY);
+    if(n&&n.type!=="root") showPopup(n,t.clientX,t.clientY);
+    else hidePopup();
+  },{passive:false});
+
+  window.drawLucy=function(unitNum){
+    buildGraph(unitNum);
+    draw();
+  };
+
+  $("lucyUnitSel").addEventListener("change",function(){
+    drawLucy(parseInt(this.value,10));
+  });
+
+  // Redraw on resize
+  window.addEventListener("resize",function(){
+    if($("lucyScreen").classList.contains("active")){
+      var u=parseInt($("lucyUnitSel").value,10);
+      drawLucy(u);
     }
+  });
+})();
 
-    function clearOrder() {
-      orderState.placed = [];
-      renderOrderScreen();
-      setFB("orderFb", "Cleared. Try again!", "warn");
+// ═══════════════════════════════════════════════════════════════════════════
+// MATCHING PAIRS (with emoji images)
+// ═══════════════════════════════════════════════════════════════════════════
+var matchSt={deck:[],open:[],matched:0,total:0,moves:0,locked:false};
+
+function startMatch(){
+  var unitVal=$("matchUnitSel").value;
+  var pairs=filterByUnit(PAIR_BANK,unitVal);
+  if(!pairs.length) pairs=PAIR_BANK.slice();
+  pairs=shuffle(pairs).slice(0,8);
+  matchSt.deck=[];matchSt.open=[];
+  matchSt.matched=0;matchSt.total=pairs.length;
+  matchSt.moves=0;matchSt.locked=false;
+  pairs.forEach(function(p,idx){
+    matchSt.deck.push({id:idx+"-a",pairId:idx,text:p.a,flipped:false,matched:false});
+    matchSt.deck.push({id:idx+"-b",pairId:idx,text:p.b,flipped:false,matched:false});
+  });
+  matchSt.deck=shuffle(matchSt.deck);
+  updateMatchHUD();renderMatchGrid();
+  setFB("matchFb","Click two cards to find matching pairs.","warn");
+}
+
+function updateMatchHUD(){
+  $("matchPairs").textContent=matchSt.matched+"/"+matchSt.total;
+  $("matchMoves").textContent=matchSt.moves;
+  var pct=matchSt.total?Math.round(matchSt.matched/matchSt.total*100):0;
+  $("matchProgPct").textContent=pct+"%";
+  $("matchProgFill").style.width=pct+"%";
+}
+
+function renderMatchGrid(){
+  var grid=$("matchGrid");grid.innerHTML="";
+  matchSt.deck.forEach(function(card){
+    var el=document.createElement("div");
+    el.className="matchCard"+(card.flipped||card.matched?" flipped":"")+(card.matched?" matched":"");
+    el.innerHTML=
+      '<div class="inner">'+
+        '<div class="face back-face">🂠</div>'+
+        '<div class="face front-face">'+
+          '<div class="emoji">'+emojiFor(card.text)+'</div>'+
+          '<div class="word">'+card.text+'</div>'+
+        '</div>'+
+      '</div>';
+    (function(c){ el.addEventListener("click",function(){ onMatchClick(c.id); }); })(card);
+    grid.appendChild(el);
+  });
+}
+
+function onMatchClick(id){
+  if(matchSt.locked) return;
+  var card=matchSt.deck.find(function(c){ return c.id===id; });
+  if(!card||card.flipped||card.matched) return;
+  card.flipped=true;matchSt.open.push(card);renderMatchGrid();
+  if(matchSt.open.length===2){
+    matchSt.moves++;matchSt.locked=true;
+    var a=matchSt.open[0],b=matchSt.open[1];
+    if(a.pairId===b.pairId){
+      setTimeout(function(){
+        a.matched=b.matched=a.flipped=b.flipped=true;
+        matchSt.matched++;matchSt.open=[];matchSt.locked=false;
+        updateMatchHUD();renderMatchGrid();
+        setFB("matchFb",matchSt.matched===matchSt.total?
+          "🏆 All pairs matched! Press New Round for more.":
+          "✅ Match! Keep going.","ok");
+      },400);
+    } else {
+      setFB("matchFb","❌ Not a match — try again!","bad");
+      setTimeout(function(){
+        a.flipped=b.flipped=false;matchSt.open=[];matchSt.locked=false;renderMatchGrid();
+      },800);
     }
+  }
+}
 
-    // ══════════════════════════════════════
-    // FILL IN THE BLANKS
-    // ══════════════════════════════════════
-    var fillState = {
-      queue: [],
-      idx: 0,
-      score: 0,
-      answered: false
-    };
-
-    function startFill() {
-      var unitVal = $("fillUnitSel").value;
-      var pool = filterByUnit(FILL_BANK, unitVal);
-      if (pool.length === 0) pool = FILL_BANK.slice();
-      fillState.queue = shuffle(pool).slice(0, 10);
-      fillState.idx = 0;
-      fillState.score = 0;
-      fillState.answered = false;
-      $("fillScore").textContent = "0";
-      renderFillQ();
+// ═══════════════════════════════════════════════════════════════════════════
+// WORD ORDER
+// ═══════════════════════════════════════════════════════════════════════════
+var orderSt={sentence:null,placed:[],score:0,num:0};
+function nextOrder(){
+  var pool=filterByUnit(ORDER_BANK,$("orderUnitSel").value);
+  if(!pool.length) pool=ORDER_BANK.slice();
+  orderSt.sentence=pool[Math.floor(Math.random()*pool.length)];
+  orderSt.placed=[];orderSt.num++;
+  $("orderNum").textContent=orderSt.num;
+  renderOrderScreen();
+  setFB("orderFb","Tap words in the correct order to build the sentence.","warn");
+}
+function renderOrderScreen(){
+  if(!orderSt.sentence) return;
+  var words=orderSt.sentence.words;
+  var shuffled=shuffle(words);
+  var target=$("sentenceTarget");
+  if(!orderSt.placed.length){
+    target.innerHTML='<span style="color:rgba(255,255,255,.25);font-size:13px;font-family:system-ui,sans-serif">Tap words below\u2026</span>';
+  } else {
+    target.innerHTML="";
+    orderSt.placed.forEach(function(w,i){
+      var chip=document.createElement("span");chip.className="wordChip placed";chip.textContent=w;
+      (function(idx){ chip.addEventListener("click",function(){ orderSt.placed.splice(idx,1);renderOrderScreen(); }); })(i);
+      target.appendChild(chip);
+    });
+  }
+  var bank=$("wordBank");bank.innerHTML="";
+  var usedCounts={};
+  orderSt.placed.forEach(function(w){ usedCounts[w]=(usedCounts[w]||0)+1; });
+  var bankCounts={};
+  shuffled.forEach(function(w){ bankCounts[w]=(bankCounts[w]||0)+1; });
+  Object.keys(bankCounts).forEach(function(w){
+    for(var k=0;k<bankCounts[w];k++){
+      var used=(k<(usedCounts[w]||0));
+      var chip=document.createElement("span");
+      chip.className="wordChip"+(used?" used":"");chip.textContent=w;
+      if(!used){ (function(ww){ chip.addEventListener("click",function(){ orderSt.placed.push(ww);renderOrderScreen(); }); })(w); }
+      bank.appendChild(chip);
     }
+  });
+}
+function checkOrder(){
+  if(!orderSt.sentence){ setFB("orderFb","Press \u2018Next Sentence\u2019 to start.","warn"); return; }
+  var correct=orderSt.sentence.words;
+  if(!orderSt.placed.length){ setFB("orderFb","Build the sentence first!","warn"); return; }
+  if(orderSt.placed.join(" ")===correct.join(" ")){
+    orderSt.score++;$("orderScore").textContent=orderSt.score;
+    setFB("orderFb","\u{1F3C6} Correct! \u201c"+correct.join(" ")+"\u201d","ok");
+  } else {
+    setFB("orderFb","\u274C Not quite. Correct: \u201c"+correct.join(" ")+"\u201d","bad");
+  }
+}
+function clearOrder(){ orderSt.placed=[];renderOrderScreen();setFB("orderFb","Cleared. Try again!","warn"); }
 
-    function renderFillQ() {
-      var total = fillState.queue.length;
-      var q = fillState.queue[fillState.idx];
-      fillState.answered = false;
+// ═══════════════════════════════════════════════════════════════════════════
+// FILL IN THE BLANKS
+// ═══════════════════════════════════════════════════════════════════════════
+var fillSt={queue:[],idx:0,score:0,answered:false};
+function startFill(){
+  var pool=filterByUnit(FILL_BANK,$("fillUnitSel").value);
+  if(!pool.length) pool=FILL_BANK.slice();
+  fillSt.queue=shuffle(pool).slice(0,10);fillSt.idx=0;fillSt.score=0;fillSt.answered=false;
+  $("fillScore").textContent="0";renderFillQ();
+}
+function renderFillQ(){
+  var total=fillSt.queue.length,q=fillSt.queue[fillSt.idx];fillSt.answered=false;
+  $("fillNum").textContent=(fillSt.idx+1)+"/"+total;
+  var pct=Math.round(fillSt.idx/total*100);
+  $("fillProgPct").textContent=pct+"%";$("fillProgFill").style.width=pct+"%";
+  var pre=q.pre?q.pre+" ":"",post=q.post?" "+q.post:"";
+  $("clozeSentence").innerHTML=pre+'<span class="clozeBlank" id="clozeBlank">________</span>'+post;
+  var opts=$("wordOptions");opts.innerHTML="";
+  shuffle(q.opts).forEach(function(opt){
+    var btn=document.createElement("button");btn.className="optBtn";btn.textContent=opt;
+    (function(o){ btn.addEventListener("click",function(){ onFillAnswer(o,q.blank,btn); }); })(opt);
+    opts.appendChild(btn);
+  });
+  setFB("fillFb","Choose the missing word.","warn");
+}
+function onFillAnswer(chosen,correct,btn){
+  if(fillSt.answered) return;fillSt.answered=true;
+  var isOk=(chosen===correct);
+  var bl=$("clozeBlank");bl.textContent=correct;bl.classList.add(isOk?"ok":"bad");
+  document.querySelectorAll(".optBtn").forEach(function(b){
+    b.disabled=true;if(b.textContent===correct) b.classList.add("correct");
+  });
+  if(!isOk) btn.classList.add("wrong");
+  if(isOk){ fillSt.score++;$("fillScore").textContent=fillSt.score;setFB("fillFb","\u2705 Correct!","ok"); }
+  else setFB("fillFb","\u274C The answer was: "+correct,"bad");
+  setTimeout(function(){
+    fillSt.idx++;
+    if(fillSt.idx>=fillSt.queue.length){
+      var t=fillSt.queue.length;
+      $("fillProgFill").style.width="100%";$("fillProgPct").textContent="100%";
+      $("fillNum").textContent=t+"/"+t;
+      setFB("fillFb","\u{1F3C6} Round complete! Score: "+fillSt.score+"/"+t+". Press New Round to play again.","ok");
+      $("clozeSentence").innerHTML="";$("wordOptions").innerHTML="";
+    } else renderFillQ();
+  },1400);
+}
 
-      $("fillNum").textContent = (fillState.idx + 1) + "/" + total;
-      var pct = Math.round((fillState.idx / total) * 100);
-      $("fillProgPct").textContent = pct + "%";
-      $("fillProgFill").style.width = pct + "%";
+// ═══════════════════════════════════════════════════════════════════════════
+// FLASHCARDS
+// ═══════════════════════════════════════════════════════════════════════════
+var flashSt={deck:[],idx:0};
+function startFlash(){
+  var pool=filterByUnit(FLASH_BANK,$("flashUnitSel").value);
+  if(!pool.length) pool=FLASH_BANK.slice();
+  flashSt.deck=shuffle(pool);flashSt.idx=0;
+  $("flashCardEl").classList.remove("flipped");
+  renderFlash();
+}
+function renderFlash(){
+  var card=flashSt.deck[flashSt.idx];
+  $("flashCardEl").classList.remove("flipped");
+  $("flashEmoji").textContent=emojiFor(card.w);
+  $("flashWord").textContent=card.w;
+  $("flashDef").textContent=card.d;
+  var t=flashSt.deck.length;
+  $("flashIdx").textContent=flashSt.idx+1;$("flashTotal").textContent=t;
+  var pct=Math.round(flashSt.idx/t*100);
+  $("flashProgPct").textContent=pct+"%";$("flashProgFill").style.width=pct+"%";
+}
+$("flashCardEl").addEventListener("click",function(){
+  this.classList.toggle("flipped");
+});
+$("flashNext").addEventListener("click",function(){
+  if(flashSt.idx<flashSt.deck.length-1){flashSt.idx++;renderFlash();}
+});
+$("flashPrev").addEventListener("click",function(){
+  if(flashSt.idx>0){flashSt.idx--;renderFlash();}
+});
+$("flashShuf").addEventListener("click",function(){
+  flashSt.deck=shuffle(flashSt.deck);flashSt.idx=0;renderFlash();
+});
+$("flashUnitSel").addEventListener("change",startFlash);
 
-      // Sentence
-      var pre  = q.pre  ? q.pre + " "  : "";
-      var post = q.post ? " " + q.post : "";
-      $("clozeSentence").innerHTML =
-        pre + '<span class="clozeBlank" id="clozeBlank">________</span>' + post;
+// ═══════════════════════════════════════════════════════════════════════════
+// NAVIGATION EVENTS
+// ═══════════════════════════════════════════════════════════════════════════
+$("startLucy").addEventListener("click",function(){
+  showScreen("lucyScreen");drawLucy(parseInt($("lucyUnitSel").value,10)||1);
+});
+$("startMatch").addEventListener("click",function(){ showScreen("matchScreen");startMatch(); });
+$("startOrder").addEventListener("click",function(){
+  showScreen("orderScreen");orderSt.num=0;orderSt.score=0;$("orderScore").textContent="0";nextOrder();
+});
+$("startFill").addEventListener("click",function(){ showScreen("fillScreen");startFill(); });
+$("startFlash").addEventListener("click",function(){ showScreen("flashScreen");startFlash(); });
 
-      // Options
-      var opts = $("wordOptions");
-      opts.innerHTML = "";
-      shuffle(q.opts).forEach(function (opt) {
-        var btn = document.createElement("button");
-        btn.className = "optBtn";
-        btn.textContent = opt;
-        btn.addEventListener("click", function () { onFillAnswer(opt, q.blank, btn); });
-        opts.appendChild(btn);
-      });
+$("lucyBack").addEventListener("click",function(){ showScreen("menuScreen"); });
+$("matchBack").addEventListener("click",function(){ showScreen("menuScreen"); });
+$("orderBack").addEventListener("click",function(){ showScreen("menuScreen"); });
+$("fillBack").addEventListener("click",function(){ showScreen("menuScreen"); });
+$("flashBack").addEventListener("click",function(){ showScreen("menuScreen"); });
 
-      setFB("fillFb", "Choose the correct word to fill the blank.", "warn");
-    }
+$("matchRestart").addEventListener("click",startMatch);
+$("matchUnitSel").addEventListener("change",startMatch);
+$("orderNext").addEventListener("click",nextOrder);
+$("orderCheck").addEventListener("click",checkOrder);
+$("orderClear").addEventListener("click",clearOrder);
+$("fillRestart").addEventListener("click",startFill);
+$("fillUnitSel").addEventListener("change",startFill);
 
-    function onFillAnswer(chosen, correct, btn) {
-      if (fillState.answered) return;
-      fillState.answered = true;
-
-      var isOk = chosen === correct;
-      var blankEl = $("clozeBlank");
-      blankEl.textContent = correct;
-      blankEl.classList.add(isOk ? "ok" : "bad");
-
-      // Colour all buttons
-      document.querySelectorAll(".optBtn").forEach(function (b) {
-        b.disabled = true;
-        if (b.textContent === correct) b.classList.add("correct");
-      });
-      if (!isOk) btn.classList.add("wrong");
-
-      if (isOk) {
-        fillState.score++;
-        $("fillScore").textContent = fillState.score;
-        setFB("fillFb", "✅ Correct!", "ok");
-      } else {
-        setFB("fillFb", "❌ The answer was: " + correct, "bad");
-      }
-
-      // Auto-advance after 1.4 s
-      setTimeout(function () {
-        fillState.idx++;
-        if (fillState.idx >= fillState.queue.length) {
-          var total = fillState.queue.length;
-          $("fillProgFill").style.width = "100%";
-          $("fillProgPct").textContent = "100%";
-          $("fillNum").textContent = total + "/" + total;
-          setFB("fillFb", "🏆 Round complete! Score: " + fillState.score + "/" + total + ". Press New Round to play again.", "ok");
-          $("clozeSentence").innerHTML = "";
-          $("wordOptions").innerHTML = "";
-        } else {
-          renderFillQ();
-        }
-      }, 1400);
-    }
-
-    // ── EVENT LISTENERS ───────────────────────────────────────────────────
-    $("startMatch").addEventListener("click", function () { showScreen("matchScreen"); startMatch(); });
-    $("startOrder").addEventListener("click", function () { showScreen("orderScreen"); orderState.num = 0; orderState.score = 0; $("orderScore").textContent = "0"; nextOrder(); });
-    $("startFill").addEventListener("click",  function () { showScreen("fillScreen");  startFill(); });
-
-    $("matchBack").addEventListener("click",  function () { showScreen("menuScreen"); });
-    $("orderBack").addEventListener("click",  function () { showScreen("menuScreen"); });
-    $("fillBack").addEventListener("click",   function () { showScreen("menuScreen"); });
-
-    $("matchRestart").addEventListener("click", function () { startMatch(); });
-    $("orderNext").addEventListener("click",    function () { nextOrder(); });
-    $("fillRestart").addEventListener("click",  function () { startFill(); });
-    $("orderCheck").addEventListener("click",   function () { checkOrder(); });
-    $("orderClear").addEventListener("click",   function () { clearOrder(); });
-
-    $("matchUnitSel").addEventListener("change", function () { startMatch(); });
-    $("fillUnitSel").addEventListener("change",  function () { startFill(); });
-
-  }());
-  </script>
+}());
+</script>
 </body>
 </html>
