@@ -1,61 +1,86 @@
 // vocab-visuals.js
+// Pixel/Arcade visuals (no emojis). Works with vocab-icons.js (VOCAB_ICONS).
+
 export const SET_VISUALS = {
   // Unit 1
-  u1_verbs_opposites: { emoji: "🔁", icon: "swap", pattern: "diagonal", accent: "mint" },
-  u1_feelings_adjectives: { emoji: "🙂", icon: "mood", pattern: "dots", accent: "yellow" },
-  u1_time_capsules_extra: { emoji: "📦", icon: "box", pattern: "grid", accent: "blue" },
+  u1_verbs_opposites: { iconKey: "swap", pattern: "pixels", accent: "mint" },
+  u1_feelings_adjectives: { iconKey: "mood", pattern: "pixels", accent: "yellow" },
+  u1_time_capsules_extra: { iconKey: "box", pattern: "pixels", accent: "blue" },
 
   // Unit 2
-  u2_adjectives_synonyms: { emoji: "✨", icon: "spark", pattern: "stars", accent: "pink" },
-  u2_materials: { emoji: "🧱", icon: "layers", pattern: "bricks", accent: "orange" },
-  u2_art_artists_extra: { emoji: "🎨", icon: "palette", pattern: "waves", accent: "purple" },
+  u2_adjectives_synonyms: { iconKey: "spark", pattern: "pixels", accent: "pink" },
+  u2_materials: { iconKey: "layers", pattern: "pixels", accent: "orange" },
+  u2_art_artists_extra: { iconKey: "palette", pattern: "pixels", accent: "purple" },
 
   // Unit 3
-  u3_outdoor_leisure_activities: { emoji: "🚴", icon: "activity", pattern: "wind", accent: "mint" },
-  u3_outdoor_events: { emoji: "🎪", icon: "ticket", pattern: "confetti", accent: "pink" },
-  u3_parks_features_extra: { emoji: "🌳", icon: "tree", pattern: "dots", accent: "green" },
+  u3_outdoor_leisure_activities: { iconKey: "activity", pattern: "pixels", accent: "mint" },
+  u3_outdoor_events: { iconKey: "ticket", pattern: "pixels", accent: "pink" },
+  u3_parks_features_extra: { iconKey: "tree", pattern: "pixels", accent: "green" },
 
   // Unit 4
-  u4_personality_adjectives: { emoji: "🧠", icon: "person", pattern: "grid", accent: "purple" },
-  u4_phrasal_verbs: { emoji: "🧩", icon: "puzzle", pattern: "diagonal", accent: "blue" },
-  u4_good_deeds_extra: { emoji: "🤝", icon: "heart", pattern: "hearts", accent: "red" },
+  u4_personality_adjectives: { iconKey: "person", pattern: "pixels", accent: "purple" },
+  u4_phrasal_verbs: { iconKey: "puzzle", pattern: "pixels", accent: "blue" },
+  u4_good_deeds_extra: { iconKey: "heart", pattern: "pixels", accent: "red" },
 
   // Unit 5
-  u5_senses: { emoji: "👂", icon: "senses", pattern: "rings", accent: "yellow" },
-  u5_gaming_verbs: { emoji: "🎮", icon: "gamepad", pattern: "pixels", accent: "mint" },
-  u5_games_extra: { emoji: "🕹️", icon: "arcade", pattern: "pixels", accent: "blue" },
+  u5_senses: { iconKey: "senses", pattern: "pixels", accent: "yellow" },
+  u5_gaming_verbs: { iconKey: "gamepad", pattern: "pixels", accent: "mint" },
+  u5_games_extra: { iconKey: "gamepad", pattern: "pixels", accent: "blue" },
 
   // Unit 6
-  u6_exercise_body: { emoji: "💪", icon: "fitness", pattern: "stripes", accent: "orange" },
-  u6_personal_hygiene: { emoji: "🧼", icon: "hygiene", pattern: "bubbles", accent: "blue" },
-  u6_morning_routines_extra: { emoji: "⏰", icon: "clock", pattern: "dots", accent: "yellow" },
+  u6_exercise_body: { iconKey: "fitness", pattern: "pixels", accent: "orange" },
+  u6_personal_hygiene: { iconKey: "hygiene", pattern: "pixels", accent: "blue" },
+  u6_morning_routines_extra: { iconKey: "clock", pattern: "pixels", accent: "yellow" }, // if you don't have "clock" icon, change to "calendar"
 
   // Unit 7
-  u7_learning_noun_pairs: { emoji: "🎓", icon: "cap", pattern: "grid", accent: "purple" },
-  u7_verbs: { emoji: "🗣️", icon: "chat", pattern: "waves", accent: "mint" },
-  u7_online_learning_extra: { emoji: "💻", icon: "laptop", pattern: "circuits", accent: "blue" },
+  u7_learning_noun_pairs: { iconKey: "cap", pattern: "pixels", accent: "purple" },
+  u7_verbs: { iconKey: "chat", pattern: "pixels", accent: "mint" },
+  u7_online_learning_extra: { iconKey: "laptop", pattern: "pixels", accent: "blue" },
 
   // Unit 8
-  u8_summer_holidays: { emoji: "🏖️", icon: "sun", pattern: "waves", accent: "yellow" },
-  u8_jobs: { emoji: "🧰", icon: "briefcase", pattern: "grid", accent: "orange" },
-  u8_school_events_extra: { emoji: "🏫", icon: "calendar", pattern: "confetti", accent: "pink" }
+  u8_summer_holidays: { iconKey: "sun", pattern: "pixels", accent: "yellow" },
+  u8_jobs: { iconKey: "briefcase", pattern: "pixels", accent: "orange" },
+  u8_school_events_extra: { iconKey: "calendar", pattern: "pixels", accent: "pink" }
 };
 
-const STICKERS = ["⭐", "🔥", "💥", "✅", "🏆", "🌈", "🧠", "🎯", "⚡", "🪄"];
+// Pixel badges (optional)
+const STICKERS = [
+  "⭐", "🔥", "💥", "✅", "🏆", "🎯", "⚡", "🪄", "💎", "🚀"
+];
 
+// Optional word-based icon overrides (for a few obvious words)
+function overrideIconByWord(wordOrPhrase, currentKey) {
+  const w = String(wordOrPhrase || "").toLowerCase();
+
+  if (w.includes("dentist")) return "tooth";       // only if you create "tooth" icon
+  if (w.includes("hairdresser")) return "scissors"; // only if you create "scissors" icon
+  if (w.includes("volunteer")) return "heart";
+  if (w.includes("bike")) return "activity";
+  if (w.includes("game")) return "gamepad";
+  if (w.includes("online") || w.includes("search engine")) return "laptop";
+
+  return currentKey;
+}
+
+/**
+ * Returns visual metadata for a vocab card.
+ * Output:
+ *  { iconKey, pattern, accent, sticker }
+ */
 export function getVisualForCard(setId, wordOrPhrase) {
-  const base = SET_VISUALS[setId] || { emoji: "📘", icon: "book", pattern: "dots", accent: "blue" };
+  const base = SET_VISUALS[setId] || {
+    iconKey: "calendar",
+    pattern: "pixels",
+    accent: "blue"
+  };
 
-  // optional “sticker sometimes”
-  const sticker = Math.random() < 0.25 ? STICKERS[Math.floor(Math.random() * STICKERS.length)] : "";
+  // Add an occasional sticker for variety (25%)
+  const sticker = Math.random() < 0.25
+    ? STICKERS[Math.floor(Math.random() * STICKERS.length)]
+    : "";
 
-  // tiny tweak: if phrase includes "bike", show bike emoji etc.
-  let emoji = base.emoji;
-  const w = (wordOrPhrase || "").toLowerCase();
-  if (w.includes("bike")) emoji = "🚲";
-  if (w.includes("dentist")) emoji = "🦷";
-  if (w.includes("hairdresser")) emoji = "💇";
-  if (w.includes("volunteer")) emoji = "🫶";
+  // Icon overrides (safe: only changes if you implement those keys)
+  const iconKey = overrideIconByWord(wordOrPhrase, base.iconKey);
 
-  return { ...base, emoji, sticker };
+  return { ...base, iconKey, sticker };
 }
