@@ -5,17 +5,20 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Vocabulary Station — Synchronize 2</title>
 
+<!-- Lucide Icon Library -->
+<script src="https://unpkg.com/lucide@latest"></script>
+
 <style>
 body{
   margin:0;
   font-family:system-ui, sans-serif;
-  background:#f4f6fb;
+  background:#f5f7fb;
 }
 
 header{
-  background:#ffffff;
+  background:white;
   padding:16px;
-  border-bottom:2px solid #e0e4ef;
+  border-bottom:2px solid #e4e7f2;
   display:flex;
   justify-content:space-between;
   align-items:center;
@@ -36,7 +39,7 @@ h1{
 select, button{
   padding:8px 12px;
   border-radius:8px;
-  border:1px solid #ccd3e0;
+  border:1px solid #d3d9ea;
   font-weight:600;
   cursor:pointer;
   background:white;
@@ -68,18 +71,19 @@ main{
 }
 
 .card:hover{
-  transform:translateY(-3px);
+  transform:translateY(-4px);
 }
 
 .icon{
-  width:72px;
-  height:72px;
+  width:48px;
+  height:48px;
+  color:#4f46e5;
 }
 
-.icon img{
-  width:72px;
-  height:72px;
-  object-fit:contain;
+.icon svg{
+  width:48px;
+  height:48px;
+  stroke-width:2.5;
 }
 
 .word{
@@ -116,6 +120,7 @@ main{
 </main>
 
 <script type="module">
+
 import { VOCAB_DB, listUnits, listSets, getCards, shuffle } from "./vocabulary.js";
 
 const unitSelect = document.getElementById("unitSelect");
@@ -163,13 +168,16 @@ function render(){
   grid.innerHTML = cards.map(card => `
     <div class="card">
       <div class="icon">
-        <img src="${card.image}" alt="">
+        <i data-lucide="${card.icon}"></i>
       </div>
       <div class="word">${card.front}</div>
       ${card.back ? `<div class="back">${card.back}</div>` : ``}
       <div class="meta">Unit ${card.unit} · ${card.setLabel}</div>
     </div>
   `).join("");
+
+  // IMPORTANT: render Lucide icons
+  lucide.createIcons();
 }
 
 shuffleBtn.addEventListener("click", () => {
