@@ -170,6 +170,28 @@ function goBack() {
 }
 
 </script>
+  <!-- …tu contenido de la estación… -->
 
+  <div id="testOutput" style="font-family:system-ui; padding:12px;"></div>
+
+  <script type="module">
+    import { VOCAB_DB, flattenVocab, listUnits } from "./vocabulary.js";
+
+    const out = document.getElementById("testOutput");
+    const cards = flattenVocab(VOCAB_DB);
+
+    const missingVisual = cards.filter(c => !c.visual || !c.visual.emoji).length;
+
+    out.innerHTML = `
+      <h3>Vocab DB Loaded ✅</h3>
+      <p><b>Total cards:</b> ${cards.length}</p>
+      <p><b>Missing visuals:</b> ${missingVisual}</p>
+      <p><b>Example:</b> ${cards[0].front} ${cards[0].visual?.emoji || ""}</p>
+    `;
+
+    console.log("Cards:", cards);
+  </script>
+</body>
+</html>
 </body>
 </html>
