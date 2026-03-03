@@ -1,87 +1,251 @@
-// vocab-icon-engine.js
-// Lucide-based semantic icon engine
+// vocabulary.js
+// Synchronize 2 — Units 1–8
+// Clean, safe, ES-module version
 
-const ICONS = {
+import { getIconName } from "./vocab-icon-engine.js";
 
-  /* VERBS */
-  agree: "handshake",
-  disagree: "x-circle",
-  appear: "sparkles",
-  disappear: "wind",
-  borrow: "banknote",
-  lend: "banknote",
-  buy: "shopping-bag",
-  sell: "banknote",
-  connect: "link",
-  disconnect: "unlink",
-  lose: "x",
-  win: "trophy",
-  save: "save",
-  spend: "credit-card",
-  send: "send",
-  receive: "inbox",
+/* ===============================
+   DATABASE
+=================================*/
 
-  /* FEELINGS */
-  happy: "smile",
-  unhappy: "frown",
-  scared: "alert-triangle",
-  surprised: "zap",
-  tired: "battery-low",
-  bored: "minus-circle",
-  excited: "star",
-  worried: "alert-circle",
-  relaxed: "coffee",
+export const VOCAB_DB = {
+  units: [
 
-  /* JOBS */
-  dentist: "activity",
-  hairdresser: "scissors",
-  engineer: "wrench",
-  musician: "music",
-  police: "shield",
-  lawyer: "scale",
-  cook: "chef-hat",
-  astronaut: "rocket",
-  builder: "hammer",
-  manager: "briefcase",
-  detective: "search",
-  teacher: "graduation-cap",
+    /* UNIT 1 */
+    {
+      unit: 1,
+      title: "Then and now",
+      sets: [
+        {
+          setId: "u1_verbs_opposites",
+          label: "Verbs and opposites",
+          type: "pairs",
+          items: [
+            { a: "agree", b: "disagree" },
+            { a: "appear", b: "disappear" },
+            { a: "borrow", b: "lend" },
+            { a: "buy", b: "sell" },
+            { a: "connect", b: "disconnect" },
+            { a: "lose", b: "win" },
+            { a: "save", b: "spend" },
+            { a: "send", b: "receive" }
+          ]
+        },
+        {
+          setId: "u1_feelings",
+          label: "Feelings",
+          type: "words",
+          items: [
+            "happy","unhappy","scared","surprised",
+            "tired","bored","excited","worried","relaxed"
+          ]
+        }
+      ]
+    },
 
-  /* GENERAL */
-  book: "book",
-  school: "school",
-  computer: "monitor",
-  laptop: "laptop",
-  phone: "smartphone",
-  bike: "bike",
-  car: "car",
-  tree: "tree-pine",
-  sun: "sun",
-  heart: "heart",
-  game: "gamepad-2",
-  sport: "trophy",
-  music: "music",
-  hospital: "hospital",
-  brain: "brain"
+    /* UNIT 2 */
+    {
+      unit: 2,
+      title: "Materials and Art",
+      sets: [
+        {
+          setId: "u2_materials",
+          label: "Materials",
+          type: "words",
+          items: [
+            "cardboard","cotton","glass","leather",
+            "metal","paper","plastic","wood","wool"
+          ]
+        },
+        {
+          setId: "u2_art",
+          label: "Art and artists",
+          type: "words",
+          items: [
+            "dance","design","music","paint",
+            "photograph","sculpture","designer",
+            "musician","painter","photographer"
+          ]
+        }
+      ]
+    },
+
+    /* UNIT 3 */
+    {
+      unit: 3,
+      title: "Outdoor life",
+      sets: [
+        {
+          setId: "u3_activities",
+          label: "Outdoor activities",
+          type: "words",
+          items: [
+            "cycling","jogging","rowing","working out",
+            "kite flying","free running"
+          ]
+        }
+      ]
+    },
+
+    /* UNIT 4 */
+    {
+      unit: 4,
+      title: "Helping others",
+      sets: [
+        {
+          setId: "u4_personality",
+          label: "Personality adjectives",
+          type: "words",
+          items: [
+            "patient","lazy","generous","polite",
+            "confident","kind","mean","rude"
+          ]
+        }
+      ]
+    },
+
+    /* UNIT 5 */
+    {
+      unit: 5,
+      title: "Games and senses",
+      sets: [
+        {
+          setId: "u5_senses",
+          label: "Senses",
+          type: "words",
+          items: [
+            "sight","smell","taste","touch","hearing"
+          ]
+        }
+      ]
+    },
+
+    /* UNIT 6 */
+    {
+      unit: 6,
+      title: "Health",
+      sets: [
+        {
+          setId: "u6_body",
+          label: "Body and fitness",
+          type: "words",
+          items: [
+            "brain","heart","lungs","muscles","bones",
+            "injury","stretch","train"
+          ]
+        }
+      ]
+    },
+
+    /* UNIT 7 */
+    {
+      unit: 7,
+      title: "Learning",
+      sets: [
+        {
+          setId: "u7_learning",
+          label: "Learning words",
+          type: "pairs",
+          items: [
+            { a: "achieve", b: "achievement" },
+            { a: "decide", b: "decision" },
+            { a: "learn", b: "learning" },
+            { a: "solve", b: "solution" }
+          ]
+        }
+      ]
+    },
+
+    /* UNIT 8 */
+    {
+      unit: 8,
+      title: "Jobs and future",
+      sets: [
+        {
+          setId: "u8_jobs",
+          label: "Jobs",
+          type: "words",
+          items: [
+            "astronaut","builder","dentist","engineer",
+            "musician","teacher","lawyer","manager"
+          ]
+        }
+      ]
+    }
+
+  ]
 };
 
-function cleanWord(word) {
-  return String(word)
-    .toLowerCase()
-    .replace(/\(.*?\)/g, "")
-    .replace(/[^a-z ]/g, "")
-    .trim();
-}
+/* ===============================
+   FLATTEN FUNCTION
+=================================*/
 
-export function getIconName(word) {
-  const cleaned = cleanWord(word);
+export function flattenVocab(db = VOCAB_DB) {
+  const out = [];
 
-  if (ICONS[cleaned]) return ICONS[cleaned];
+  for (const unit of db.units) {
+    for (const set of unit.sets) {
 
-  for (const key in ICONS) {
-    if (cleaned.includes(key)) {
-      return ICONS[key];
+      if (set.type === "pairs") {
+        for (const pair of set.items) {
+          out.push({
+            unit: unit.unit,
+            unitTitle: unit.title,
+            setId: set.setId,
+            setLabel: set.label,
+            type: "pair",
+            front: pair.a,
+            back: pair.b,
+            icon: getIconName(pair.a)
+          });
+        }
+      }
+
+      if (set.type === "words") {
+        for (const word of set.items) {
+          out.push({
+            unit: unit.unit,
+            unitTitle: unit.title,
+            setId: set.setId,
+            setLabel: set.label,
+            type: "word",
+            front: word,
+            back: "",
+            icon: getIconName(word)
+          });
+        }
+      }
+
     }
   }
 
-  return "circle"; // safe fallback
+  return out;
+}
+
+/* ===============================
+   HELPERS
+=================================*/
+
+export function getCards(db = VOCAB_DB, { unit = null } = {}) {
+  let cards = flattenVocab(db);
+  if (unit !== null) {
+    cards = cards.filter(c => c.unit === unit);
+  }
+  return cards;
+}
+
+export function listUnits(db = VOCAB_DB) {
+  return db.units.map(u => ({
+    unit: u.unit,
+    title: u.title
+  }));
+}
+
+export function shuffle(array) {
+  const a = array.slice();
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
 }
