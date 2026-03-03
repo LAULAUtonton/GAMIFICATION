@@ -1,197 +1,634 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Vocabulary Station</title>
 
 <style>
+  :root{
+    --bg1:#141414;
+    --bg2:#1d1d1d;
+    --panel: rgba(255,255,255,.08);
+    --panel2: rgba(255,255,255,.06);
+    --stroke: rgba(255,255,255,.16);
 
-/* DARK METAL GRAY BACKGROUND + WHITE TEXT */
-body {
-    background: linear-gradient(135deg, #2b2b2b, #1f1f1f, #2a2a2a);
-    color: white;
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-}
+    --purple:#6A1B9A;
+    --purple2:#4A0072;
 
-/* UNIVERSAL ACTIVITY COLORS */
-.ordering-theme {
-    background: #00B0FF20;
-    border-left: 6px solid #00B0FF;
-}
+    --yellow:#FFEB3B;
+    --yellow2:#FBC02D;
 
-.matching-theme {
-    background: #AB47BC20;
-    border-left: 6px solid #AB47BC;
-}
+    --text:#ffffff;
+    --muted: rgba(255,255,255,.78);
+    --muted2: rgba(255,255,255,.62);
 
-.trivia-theme {
-    background: #4CAF5020;
-    border-left: 6px solid #4CAF50;
-}
+    --radius:18px;
+  }
 
-.fill-theme {
-    background: #EF535020;
-    border-left: 6px solid #EF5350;
-}
+  *{ box-sizing:border-box; }
 
-.builder-theme {
-    background: #FDD83520;
-    border-left: 6px solid #FDD835;
-}
+  body{
+    margin:0;
+    color:var(--text);
+    font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    background:
+      radial-gradient(1200px 600px at 20% 10%, rgba(106,27,154,.35), transparent 60%),
+      radial-gradient(900px 500px at 90% 20%, rgba(76,195,247,.18), transparent 55%),
+      linear-gradient(135deg, var(--bg1), var(--bg2));
+    min-height:100vh;
+  }
 
-.listen-theme {
-    background: #FFA72620;
-    border-left: 6px solid #FFA726;
-}
+  /* Fixed bottom bar */
+  .fixed-bar{
+    position:fixed;
+    bottom:0;
+    left:0;
+    width:100%;
+    background: rgba(106,27,154,.95);
+    border-top:2px solid rgba(74,0,114,.9);
+    padding:12px;
+    display:flex;
+    justify-content:center;
+    gap:14px;
+    z-index:9999;
+    backdrop-filter: blur(8px);
+  }
+  .bar-btn{
+    background: var(--yellow);
+    color:#1A1A1A;
+    padding:10px 18px;
+    border-radius:12px;
+    border:none;
+    cursor:pointer;
+    font-weight:800;
+    font-size:16px;
+  }
+  .bar-btn:hover{ background: var(--yellow2); }
 
-.read-theme {
-    background: #5C6BC020;
-    border-left: 6px solid #5C6BC0;
-}
+  /* Layout */
+  .wrap{
+    padding:22px 22px 94px; /* bottom padding for bar */
+    max-width: 1200px;
+    margin: 0 auto;
+  }
 
-.speak-theme {
-    background: #26C6DA20;
-    border-left: 6px solid #26C6DA;
-}
+  .top{
+    display:flex;
+    align-items:flex-end;
+    justify-content:space-between;
+    gap:16px;
+    margin-bottom:14px;
+  }
 
-/* FIXED BOTTOM BAR — PURPLE */
-.fixed-bar {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    background: #6A1B9A;
-    padding: 12px;
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    z-index: 9999;
-    border-top: 2px solid #4A0072;
-    backdrop-filter: blur(6px);
-}
+  h1{
+    margin:0;
+    font-size:34px;
+    letter-spacing:.3px;
+  }
+  .subtitle{
+    margin-top:6px;
+    color:var(--muted);
+    font-size:14px;
+    font-weight:600;
+  }
 
-/* YELLOW BUTTONS */
-.bar-btn {
-    background: #FFEB3B;
-    color: #1A1A1A;
-    padding: 10px 20px;
-    border-radius: 10px;
-    border: none;
-    cursor: pointer;
-    font-size: 16px;
-}
+  .mode-pill{
+    display:flex;
+    gap:10px;
+    align-items:center;
+    padding:10px 12px;
+    background: var(--panel);
+    border:1px solid var(--stroke);
+    border-radius: 999px;
+  }
+  .pill{
+    padding:8px 12px;
+    border-radius:999px;
+    border:1px solid var(--stroke);
+    background: rgba(255,255,255,.06);
+    color:var(--text);
+    cursor:pointer;
+    font-weight:800;
+    font-size:14px;
+  }
+  .pill.active{
+    background: rgba(255,235,59,.22);
+    border-color: rgba(255,235,59,.35);
+  }
 
-.bar-btn:hover {
-    background: #FBC02D;
-    color: black;
-}
+  .panel{
+    background: var(--panel);
+    border: 1px solid var(--stroke);
+    border-radius: var(--radius);
+    padding: 14px;
+    box-shadow: 0 14px 28px rgba(0,0,0,.28);
+  }
 
-/* GENERAL LAYOUT */
-.screen {
-    display: none;
-    padding: 30px;
-    margin-bottom: 100px;
-    border-radius: 12px;
-    color: white;
-}
+  .controls{
+    display:grid;
+    grid-template-columns: 1.4fr 1.8fr 1fr 1fr 1fr;
+    gap:12px;
+    align-items:stretch;
+    margin-bottom:14px;
+  }
 
-#main {
-    padding: 30px;
-    margin-bottom: 100px;
-    color: white;
-}
+  .control{
+    display:flex;
+    flex-direction:column;
+    gap:6px;
+  }
+  label{
+    font-size:12px;
+    color:var(--muted2);
+    font-weight:800;
+    letter-spacing:.25px;
+  }
 
-button {
-    padding: 12px 20px;
-    margin: 10px;
-    border-radius: 10px;
-    border: none;
-    background: #4FC3F7;
-    cursor: pointer;
+  select, input{
+    width:100%;
+    padding:12px 12px;
+    border-radius:14px;
+    border:1px solid var(--stroke);
+    background: rgba(20,20,20,.45);
+    color:var(--text);
+    font-size:16px;
+    font-weight:700;
+    outline:none;
+  }
+
+  .btn{
+    width:100%;
+    padding:12px 12px;
+    border-radius:14px;
+    border:1px solid var(--stroke);
+    background: rgba(79,195,247,.92);
+    color:#0d0d0d;
+    font-weight:900;
+    font-size:16px;
+    cursor:pointer;
+  }
+  .btn:hover{ filter:brightness(.95); }
+
+  .btn.secondary{
+    background: rgba(255,255,255,.10);
+    color: var(--text);
+  }
+  .btn.secondary:hover{ background: rgba(255,255,255,.14); }
+
+  .stats{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+    margin-bottom:14px;
+  }
+  .chip{
+    background: rgba(255,255,255,.07);
+    border:1px solid var(--stroke);
+    border-radius:999px;
+    padding:8px 12px;
+    font-weight:900;
+    font-size:13px;
+    color: var(--muted);
+  }
+
+  /* Grid */
+  #vocabGrid{
+    display:grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap:14px;
+  }
+
+  .vcard{
+    border-radius: 18px;
+    padding: 14px;
+    border: 2px solid rgba(255,255,255,.14);
+    background: rgba(255,255,255,.07);
+    box-shadow: 0 12px 24px rgba(0,0,0,.22);
+    position:relative;
+    overflow:hidden;
+    cursor:pointer;
+    text-align:left;
+  }
+  .vcard:focus{ outline: 3px solid rgba(255,235,59,.35); }
+
+  .vcard-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:8px;
+  }
+  .v-emoji{ font-size:34px; }
+  .v-sticker{ font-size:22px; opacity:.95; }
+
+  .vword{
+    font-size:26px;
+    font-weight:1000;
+    line-height:1.05;
+    margin: 4px 0 8px;
+  }
+  .vback{
+    font-size:18px;
+    font-weight:800;
+    color: var(--muted);
+    margin-bottom:10px;
+  }
+  .vmeta{
+    display:flex;
+    justify-content:space-between;
+    gap:10px;
+    font-size:12px;
+    font-weight:900;
+    color: var(--muted2);
+  }
+
+  /* accents (flat, no gradients) */
+  .accent-mint { outline:3px solid rgba(120,255,210,.20); }
+  .accent-yellow { outline:3px solid rgba(255,225,120,.20); }
+  .accent-blue { outline:3px solid rgba(120,190,255,.20); }
+  .accent-pink { outline:3px solid rgba(255,140,210,.20); }
+  .accent-purple { outline:3px solid rgba(190,140,255,.20); }
+  .accent-orange { outline:3px solid rgba(255,170,110,.20); }
+  .accent-green { outline:3px solid rgba(140,255,140,.20); }
+  .accent-red { outline:3px solid rgba(255,120,120,.20); }
+
+  /* patterns (lightweight, using currentColor) */
+  .pattern-dots::before,
+  .pattern-diagonal::before,
+  .pattern-grid::before,
+  .pattern-pixels::before,
+  .pattern-waves::before,
+  .pattern-confetti::before,
+  .pattern-bubbles::before,
+  .pattern-circuits::before,
+  .pattern-rings::before,
+  .pattern-stripes::before,
+  .pattern-bricks::before,
+  .pattern-stars::before,
+  .pattern-hearts::before,
+  .pattern-wind::before{
+    content:"";
+    position:absolute;
+    inset:-40px;
+    opacity:.18;
+    pointer-events:none;
+    background-size: 40px 40px;
+    color: rgba(255,255,255,.75);
+  }
+  .pattern-dots::before{
+    background-image: radial-gradient(currentColor 2px, transparent 2px);
+  }
+  .pattern-grid::before{
+    background-image:
+      linear-gradient(to right, currentColor 1px, transparent 1px),
+      linear-gradient(to bottom, currentColor 1px, transparent 1px);
+  }
+  .pattern-diagonal::before{
+    background-image: linear-gradient(135deg, currentColor 2px, transparent 2px);
+  }
+  .pattern-stripes::before{
+    background-image: linear-gradient(90deg, currentColor 7px, transparent 7px);
+  }
+  .pattern-pixels::before{
+    background-image:
+      linear-gradient(to right, currentColor 6px, transparent 6px),
+      linear-gradient(to bottom, currentColor 6px, transparent 6px);
+    background-size: 18px 18px;
+  }
+  .pattern-waves::before{
+    background-image: radial-gradient(circle at 10px 10px, currentColor 2px, transparent 4px);
+  }
+  .pattern-confetti::before{
+    background-image: radial-gradient(currentColor 2px, transparent 3px);
+    background-size: 22px 22px;
+  }
+  .pattern-bubbles::before{
+    background-image: radial-gradient(currentColor 2px, transparent 6px);
+    background-size: 26px 26px;
+  }
+  .pattern-circuits::before{
+    background-image:
+      linear-gradient(to right, currentColor 2px, transparent 2px),
+      linear-gradient(to bottom, currentColor 2px, transparent 2px);
+    background-size: 30px 30px;
+  }
+  .pattern-rings::before{
+    background-image: radial-gradient(transparent 12px, currentColor 13px, transparent 14px);
+    background-size: 34px 34px;
+  }
+  .pattern-bricks::before{
+    background-image:
+      linear-gradient(to right, currentColor 1px, transparent 1px),
+      linear-gradient(to bottom, currentColor 1px, transparent 1px);
+    background-size: 26px 18px;
+  }
+  .pattern-stars::before{
+    background-image: radial-gradient(currentColor 2px, transparent 3px);
+    background-size: 18px 18px;
+  }
+  .pattern-hearts::before{
+    background-image: radial-gradient(currentColor 2px, transparent 3px);
+    background-size: 20px 20px;
+  }
+  .pattern-wind::before{
+    background-image: linear-gradient(0deg, currentColor 2px, transparent 2px);
+    background-size: 36px 36px;
+  }
+
+  /* Quiz */
+  .quiz{
+    grid-column: 1 / -1;
+    padding: 18px;
+    border-radius: 18px;
+    background: rgba(255,255,255,.07);
+    border: 2px solid rgba(255,255,255,.14);
+    position:relative;
+    overflow:hidden;
+  }
+  .quiz-emoji{ font-size: 56px; margin-bottom: 8px; }
+  .quiz-q{ font-size: 20px; font-weight: 1000; margin-bottom: 12px; }
+  .quiz-opts{
+    display:grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap:12px;
+    margin-bottom: 10px;
+  }
+  .qopt{
+    padding:14px 12px;
+    border-radius: 14px;
+    border: 1px solid var(--stroke);
+    background: rgba(20,20,20,.45);
+    color: var(--text);
+    font-weight: 1000;
     font-size: 18px;
-    color: black;
-}
+    cursor:pointer;
+  }
+  .qopt.ok{ outline: 3px solid rgba(120,255,140,.28); }
+  .qopt.bad{ outline: 3px solid rgba(255,120,120,.28); }
 
-button:hover {
-    background: #0288D1;
-    color: white;
-}
+  .quiz-meta{
+    font-size: 13px;
+    font-weight: 900;
+    color: var(--muted2);
+  }
 
+  /* Responsive controls */
+  @media (max-width: 900px){
+    .controls{ grid-template-columns: 1fr 1fr; }
+    .top{ flex-direction:column; align-items:flex-start; }
+  }
 </style>
 </head>
 
 <body>
-
-<!-- FIXED BOTTOM BAR -->
-<div class="fixed-bar">
-    <button class="bar-btn" onclick="goBack()">Back</button>
+  <!-- Fixed bottom bar -->
+  <div class="fixed-bar">
+    <button class="bar-btn" id="backBtn">Back</button>
     <button class="bar-btn" onclick="location.href='../index.html'">Main Menu</button>
-    <button class="bar-btn" onclick="alert('Paused')">Pause</button>
-</div>
+    <button class="bar-btn" id="pauseBtn">Pause</button>
+  </div>
 
-<!-- MAIN MENU -->
-<div id="main">
-    <h1>Vocabulary Station</h1>
-    <button onclick="openScreen('matching')">Matching</button>
-    <button onclick="openScreen('ordering')">Ordering</button>
-    <button onclick="openScreen('fill')">Fill in the Blanks</button>
-</div>
+  <div class="wrap">
+    <div class="top">
+      <div>
+        <h1>Vocabulary Station</h1>
+        <div class="subtitle">Visual cards + quiz • Units 1–8 • Shuffle & filter</div>
+      </div>
 
-<!-- MATCHING -->
-<div id="matching" class="screen matching-theme">
-    <h2>Matching Activity</h2>
-    <p>Match the words with their definitions.</p>
-</div>
+      <div class="mode-pill">
+        <button class="pill active" id="modeCards">Cards</button>
+        <button class="pill" id="modeQuiz">Quiz</button>
+      </div>
+    </div>
 
-<!-- ORDERING -->
-<div id="ordering" class="screen ordering-theme">
-    <h2>Ordering Activity</h2>
-    <p>Put the words in the correct order.</p>
-</div>
+    <div class="panel">
+      <div class="controls">
+        <div class="control">
+          <label>Unit</label>
+          <select id="unitSelect"></select>
+        </div>
 
-<!-- FILL IN THE BLANKS -->
-<div id="fill" class="screen fill-theme">
-    <h2>Fill in the Blanks</h2>
-    <p>Complete the sentences with the correct words.</p>
-</div>
+        <div class="control">
+          <label>Set</label>
+          <select id="setSelect"></select>
+        </div>
+
+        <div class="control">
+          <label>Show</label>
+          <select id="countSelect">
+            <option value="18">18 cards</option>
+            <option value="30" selected>30 cards</option>
+            <option value="45">45 cards</option>
+          </select>
+        </div>
+
+        <div class="control">
+          <label>Search</label>
+          <input id="searchInput" placeholder="type: dentist, agree, market..." />
+        </div>
+
+        <div class="control">
+          <label>Actions</label>
+          <div style="display:flex; gap:10px;">
+            <button class="btn" id="shuffleBtn">Shuffle</button>
+            <button class="btn secondary" id="resetBtn">Reset</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="stats" id="statsRow"></div>
+
+      <div id="vocabGrid"></div>
+    </div>
+  </div>
 
 <script>
+  // Back + pause keep your station behaviour
+  function goBack() {
+    // This station is single-screen now: just go to main menu of the station or index if you prefer.
+    // If you have a station hub, change this line.
+    location.href = "../index.html";
+  }
+  document.getElementById("backBtn").onclick = goBack;
 
-function openScreen(id) {
-    document.querySelectorAll('.screen, #main').forEach(s => s.style.display = 'none');
-    document.getElementById(id).style.display = 'block';
-}
-
-function goBack() {
-    document.querySelectorAll('.screen').forEach(s => s.style.display = 'none');
-    document.getElementById('main').style.display = 'block';
-}
-
+  document.getElementById("pauseBtn").onclick = () => {
+    alert("Paused");
+  };
 </script>
-  <!-- …tu contenido de la estación… -->
 
-  <div id="testOutput" style="font-family:system-ui; padding:12px;"></div>
+<script type="module">
+  import { VOCAB_DB, listUnits, listSets, getCards, shuffle } from "./vocabulary.js";
 
-  <script type="module">
-    import { VOCAB_DB, flattenVocab, listUnits } from "./vocabulary.js";
+  const unitSelect = document.getElementById("unitSelect");
+  const setSelect  = document.getElementById("setSelect");
+  const countSelect= document.getElementById("countSelect");
+  const searchInput= document.getElementById("searchInput");
+  const grid       = document.getElementById("vocabGrid");
+  const statsRow   = document.getElementById("statsRow");
 
-    const out = document.getElementById("testOutput");
-    const cards = flattenVocab(VOCAB_DB);
+  const modeCardsBtn = document.getElementById("modeCards");
+  const modeQuizBtn  = document.getElementById("modeQuiz");
+  const shuffleBtn   = document.getElementById("shuffleBtn");
+  const resetBtn     = document.getElementById("resetBtn");
 
-    const missingVisual = cards.filter(c => !c.visual || !c.visual.emoji).length;
+  let mode = "cards"; // "cards" | "quiz"
 
-    out.innerHTML = `
-      <h3>Vocab DB Loaded ✅</h3>
-      <p><b>Total cards:</b> ${cards.length}</p>
-      <p><b>Missing visuals:</b> ${missingVisual}</p>
-      <p><b>Example:</b> ${cards[0].front} ${cards[0].visual?.emoji || ""}</p>
+  function escapeHTML(s="") {
+    return String(s).replace(/[&<>"']/g, m => ({
+      "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"
+    }[m]));
+  }
+
+  function populateUnits() {
+    const units = listUnits(VOCAB_DB);
+    unitSelect.innerHTML =
+      `<option value="all">All units</option>` +
+      units.map(u => `<option value="${u.unit}">Unit ${u.unit} — ${escapeHTML(u.title)}</option>`).join("");
+  }
+
+  function populateSets(unitValue) {
+    const unitNum = unitValue === "all" ? null : Number(unitValue);
+    const sets = listSets(VOCAB_DB, unitNum);
+    setSelect.innerHTML =
+      `<option value="all">All sets</option>` +
+      sets.map(s => `<option value="${s.setId}">U${s.unit} — ${escapeHTML(s.label)}</option>`).join("");
+  }
+
+  function cardToHTML(card) {
+    const emoji = card.visual?.emoji || "📘";
+    const sticker = card.visual?.sticker || "";
+    const pattern = card.visual?.pattern || "dots";
+    const accent = card.visual?.accent || "blue";
+
+    return `
+      <button class="vcard pattern-${pattern} accent-${accent}" data-front="${escapeHTML(card.front)}" data-back="${escapeHTML(card.back||"")}">
+        <div class="vcard-top">
+          <div class="v-emoji">${emoji}</div>
+          <div class="v-sticker">${sticker}</div>
+        </div>
+        <div class="vword">${escapeHTML(card.front)}</div>
+        ${card.back ? `<div class="vback">${escapeHTML(card.back)}</div>` : ``}
+        <div class="vmeta"><span>U${card.unit}</span><span>${escapeHTML(card.setLabel)}</span></div>
+      </button>
+    `;
+  }
+
+  function getFilteredCards() {
+    const unitValue = unitSelect.value;
+    const setValue  = setSelect.value;
+    const query = searchInput.value.trim().toLowerCase();
+
+    const unitNum = unitValue === "all" ? null : Number(unitValue);
+    const setId   = setValue === "all" ? null : setValue;
+
+    let cards = getCards(VOCAB_DB, { unit: unitNum, setId });
+
+    if (query) {
+      cards = cards.filter(c =>
+        String(c.front).toLowerCase().includes(query) ||
+        String(c.back||"").toLowerCase().includes(query) ||
+        String(c.setLabel).toLowerCase().includes(query) ||
+        String(c.unitTitle).toLowerCase().includes(query)
+      );
+    }
+
+    return cards;
+  }
+
+  function renderStats(cards) {
+    const unitValue = unitSelect.value;
+    const setValue  = setSelect.value;
+    const q = searchInput.value.trim();
+
+    const chips = [
+      `Cards: ${cards.length}`,
+      `Mode: ${mode.toUpperCase()}`,
+      unitValue === "all" ? "All Units" : `Unit ${unitValue}`,
+      setValue === "all" ? "All Sets" : `Set: ${setValue}`,
+      q ? `Search: "${escapeHTML(q)}"` : "Search: —"
+    ];
+
+    statsRow.innerHTML = chips.map(t => `<div class="chip">${t}</div>`).join("");
+  }
+
+  function render() {
+    let cards = getFilteredCards();
+    renderStats(cards);
+
+    if (cards.length === 0) {
+      grid.innerHTML = `<div class="quiz"><div class="quiz-q">No results. Try a different filter/search.</div></div>`;
+      return;
+    }
+
+    cards = shuffle(cards);
+    const limit = Number(countSelect.value);
+
+    if (mode === "cards") {
+      const shown = cards.slice(0, limit);
+      grid.innerHTML = shown.map(cardToHTML).join("");
+      return;
+    }
+
+    // QUIZ MODE: emoji -> choose correct word
+    const pool = cards.slice(0, Math.max(8, limit));
+    const qCard = pool[0];
+    const wrong = pool.slice(1).map(c => c.front).filter(w => w !== qCard.front);
+    const options = shuffle([qCard.front, ...wrong.slice(0, 3)]);
+
+    grid.innerHTML = `
+      <div class="quiz">
+        <div class="quiz-emoji">${qCard.visual?.emoji || "📘"}</div>
+        <div class="quiz-q">Choose the correct word / phrase</div>
+        <div class="quiz-opts">
+          ${options.map(o => `<button class="qopt" data-ok="${o === qCard.front}">${escapeHTML(o)}</button>`).join("")}
+        </div>
+        <div class="quiz-meta">U${qCard.unit} — ${escapeHTML(qCard.setLabel)}</div>
+      </div>
     `;
 
-    console.log("Cards:", cards);
-  </script>
-</body>
-</html>
+    grid.querySelectorAll(".qopt").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const ok = btn.dataset.ok === "true";
+        btn.classList.add(ok ? "ok" : "bad");
+        setTimeout(render, 550);
+      });
+    });
+  }
+
+  // Mode buttons
+  function setMode(next) {
+    mode = next;
+    modeCardsBtn.classList.toggle("active", mode === "cards");
+    modeQuizBtn.classList.toggle("active", mode === "quiz");
+    render();
+  }
+  modeCardsBtn.onclick = () => setMode("cards");
+  modeQuizBtn.onclick  = () => setMode("quiz");
+
+  // Events
+  unitSelect.onchange = () => { populateSets(unitSelect.value); render(); };
+  setSelect.onchange = render;
+  countSelect.onchange = render;
+  shuffleBtn.onclick = render;
+  resetBtn.onclick = () => {
+    unitSelect.value = "all";
+    populateSets("all");
+    setSelect.value = "all";
+    countSelect.value = "30";
+    searchInput.value = "";
+    setMode("cards");
+  };
+  searchInput.addEventListener("input", () => {
+    // smooth typing render
+    render();
+  });
+
+  // Init
+  populateUnits();
+  populateSets("all");
+  setSelect.value = "all";
+  render();
+</script>
+
 </body>
 </html>
