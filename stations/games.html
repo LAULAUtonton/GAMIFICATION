@@ -1,13 +1,13 @@
 <!doctype html>
-<html lang="es">
+<html lang="en">
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"/>
   <meta http-equiv="Pragma" content="no-cache"/>
   <meta http-equiv="Expires" content="0"/>
-  <title>THE PIT — Arcade</title>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
+  <title>Training Arcade</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800;900&display=swap" rel="stylesheet">
 
   <style>
     :root{
@@ -18,16 +18,15 @@
       --ink:#eef6ff;
       --muted:#c9ddff;
 
-      --panel: rgba(255,255,255,.10);
-      --line: rgba(255,255,255,.18);
+      --panel: rgba(255,255,255,.12);
+      --line: rgba(255,255,255,.20);
 
       --ok:#34d399;
       --bad:#fb7185;
       --warn:#fbbf24;
 
-      /* Accents per game */
-      --cyan:#22d3ee;
-      --pink:#fb7185;
+      --blue:#38bdf8;
+      --deep:#1d4ed8;
       --purple:#a78bfa;
       --lime:#34d399;
       --yellow:#fbbf24;
@@ -47,16 +46,15 @@
       align-items:center;
       justify-content:center;
       background:
-        radial-gradient(1400px 900px at 15% -12%, rgba(34,211,238,.30), transparent 60%),
-        radial-gradient(1200px 760px at 88% 8%, rgba(167,139,250,.22), transparent 62%),
-        radial-gradient(900px 650px at 50% 110%, rgba(52,211,153,.14), transparent 60%),
+        radial-gradient(1400px 900px at 15% -12%, rgba(56,189,248,.26), transparent 60%),
+        radial-gradient(1200px 760px at 88% 8%, rgba(167,139,250,.18), transparent 62%),
+        radial-gradient(900px 650px at 50% 110%, rgba(52,211,153,.12), transparent 60%),
         linear-gradient(180deg, var(--bg0), var(--bg1) 48%, var(--bg0));
     }
 
-    /* Bigger container */
     .app{
-      width:min(1820px, calc(100vw - 28px));
-      background: linear-gradient(180deg, rgba(255,255,255,.12), rgba(255,255,255,.04));
+      width:min(1850px, calc(100vw - 28px));
+      background: linear-gradient(180deg, rgba(255,255,255,.13), rgba(255,255,255,.05));
       border:1px solid var(--line);
       border-radius: var(--r);
       box-shadow:var(--shadow);
@@ -64,8 +62,8 @@
       position:relative;
     }
 
-    /* Header */
-    .top{
+    /* HEADER */
+    header{
       padding:22px 22px 18px;
       background: rgba(0,0,0,.18);
       border-bottom:1px solid var(--line);
@@ -73,110 +71,104 @@
       position:relative;
       overflow:hidden;
     }
-    .top::before{
+    header::before{
       content:"";
-      position:absolute; inset:-80px;
+      position:absolute; inset:-90px;
       background:
-        radial-gradient(360px 200px at 12% 30%, rgba(34,211,238,.20), transparent 60%),
-        radial-gradient(360px 200px at 88% 45%, rgba(167,139,250,.16), transparent 60%),
-        radial-gradient(460px 240px at 50% 120%, rgba(56,189,248,.10), transparent 65%);
+        radial-gradient(520px 280px at 12% 28%, rgba(56,189,248,.20), transparent 60%),
+        radial-gradient(520px 280px at 86% 38%, rgba(167,139,250,.14), transparent 60%),
+        radial-gradient(620px 320px at 50% 120%, rgba(29,78,216,.10), transparent 65%);
       pointer-events:none;
     }
-    .titleBlock{position:relative}
-    .titleBlock h1{
+    .titleWrap{position:relative}
+    h1{
       margin:0;
-      font-size:clamp(30px, 3.5vw, 52px);
-      letter-spacing:1.8px;
-      color: var(--cyan);
-      text-shadow: 0 0 26px rgba(34,211,238,.35);
+      font-size:clamp(34px, 3.6vw, 56px); /* BIGGER */
+      letter-spacing:1.6px;
+      color:var(--blue);
+      text-shadow: 0 0 26px rgba(56,189,248,.28);
     }
-    .titleBlock .sub{
-      margin:10px 0 0;
+    .sub{
+      margin:12px 0 0;
+      font-size:20px; /* BIGGER */
       color:var(--muted);
-      font-size:18px; /* BIG */
-      line-height:1.35;
       font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
-      max-width:1100px;
+      line-height:1.35;
+      max-width:1200px;
     }
 
+    /* SCREENS */
     .screens{padding:18px 18px 20px}
     .screen{display:none}
     .screen.active{display:block}
 
-    /* Arcade banner */
-    .arcadeBanner{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:14px;
-      padding:18px 18px 16px;
+    /* BUTTONS */
+    .btn{
+      border:1px solid rgba(255,255,255,.22);
+      background: rgba(255,255,255,.10);
+      color:var(--ink);
+      padding:16px 18px;          /* BIG */
+      border-radius:18px;
+      font-weight:900;
+      cursor:pointer;
+      user-select:none;
+      font-size:16px;             /* BIG */
+      transition: transform .08s ease, filter .12s ease;
+    }
+    .btn:hover{filter:brightness(1.07)}
+    .btn:active{transform:translateY(1px)}
+    .btn.primary{
+      background: linear-gradient(180deg, rgba(56,189,248,.28), rgba(29,78,216,.18));
+      border-color: rgba(56,189,248,.60);
+    }
+    .btn.green{
+      background: linear-gradient(180deg, rgba(52,211,153,.22), rgba(0,0,0,.18));
+      border-color: rgba(52,211,153,.55);
+    }
+    .btn.purple{
+      background: linear-gradient(180deg, rgba(167,139,250,.22), rgba(0,0,0,.18));
+      border-color: rgba(167,139,250,.55);
+    }
+    .btn.ghost{background: rgba(0,0,0,.18)}
+
+    .row{display:flex; gap:12px; flex-wrap:wrap; align-items:center}
+
+    /* ARCADE MENU */
+    .banner{
       border:1px solid rgba(255,255,255,.18);
-      background: linear-gradient(90deg, rgba(34,211,238,.20), rgba(29,78,216,.14));
+      background: linear-gradient(90deg, rgba(56,189,248,.18), rgba(29,78,216,.12));
       border-radius:22px;
+      padding:18px;
+      display:flex;
+      justify-content:space-between;
+      gap:12px;
+      align-items:center;
       margin-bottom:16px;
-      position:relative;
-      overflow:hidden;
     }
-    .arcadeBanner::after{
-      content:"";
-      position:absolute; inset:-120px;
-      background:
-        radial-gradient(400px 260px at 30% 35%, rgba(34,211,238,.16), transparent 65%),
-        radial-gradient(380px 240px at 70% 55%, rgba(251,113,133,.10), transparent 65%);
-      pointer-events:none;
-    }
-    .arcadeBanner .left{position:relative}
-    .arcadeBanner .big{
-      font-size:22px;
-      letter-spacing:1.6px;
+    .banner .big{
       margin:0;
-      color: rgba(238,246,255,.98);
-      text-shadow: 0 0 18px rgba(34,211,238,.20);
+      font-size:22px; /* BIG */
+      letter-spacing:1.2px;
     }
-    .arcadeBanner .small{
+    .banner .small{
       margin:8px 0 0;
-      color:var(--muted);
       font-size:16px; /* BIG */
+      color:var(--muted);
       font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
       line-height:1.3;
     }
 
-    /* Buttons */
-    .btn{
-      border:1px solid rgba(255,255,255,.20);
-      background: rgba(255,255,255,.10);
-      color:var(--ink);
-      padding:14px 16px;
-      border-radius:18px;
-      font-weight:1000;
-      cursor:pointer;
-      user-select:none;
-      font-size:15px; /* bigger */
-      transition: transform .08s ease, filter .12s ease, box-shadow .12s ease;
-    }
-    .btn:hover{filter:brightness(1.08)}
-    .btn:active{transform:translateY(1px)}
-    .btn.primary{
-      background: linear-gradient(180deg, rgba(34,211,238,.28), rgba(29,78,216,.18));
-      border-color: rgba(34,211,238,.60);
-      box-shadow: 0 0 0 6px rgba(34,211,238,.08);
-    }
-    .btn.ghost{
-      background: rgba(0,0,0,.18);
-    }
-
-    /* Arcade cards */
     .grid{
       display:grid;
-      grid-template-columns:repeat(auto-fit,minmax(380px,1fr));
+      grid-template-columns:repeat(auto-fit, minmax(390px, 1fr));
       gap:18px;
     }
     .card{
+      border:1px solid rgba(255,255,255,.18);
+      background: rgba(255,255,255,.10);
       border-radius:26px;
       padding:18px;
       min-height:260px;
-      border:1px solid rgba(255,255,255,.18);
-      background: rgba(255,255,255,.10);
       position:relative;
       overflow:hidden;
       display:flex;
@@ -185,34 +177,31 @@
     }
     .card::before{
       content:"";
-      position:absolute; inset:-90px;
+      position:absolute; inset:-110px;
       background:
-        radial-gradient(420px 240px at 20% 25%, rgba(34,211,238,.18), transparent 60%),
-        radial-gradient(420px 240px at 85% 35%, rgba(167,139,250,.15), transparent 60%),
-        radial-gradient(520px 300px at 50% 115%, rgba(147,197,253,.10), transparent 65%);
+        radial-gradient(520px 300px at 18% 24%, rgba(56,189,248,.16), transparent 62%),
+        radial-gradient(520px 300px at 88% 34%, rgba(167,139,250,.12), transparent 62%),
+        radial-gradient(720px 420px at 50% 120%, rgba(52,211,153,.08), transparent 66%);
       pointer-events:none;
     }
     .card > *{position:relative}
-
-    .tagline{
+    .tag{
       display:flex; align-items:center; gap:10px;
       font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
-      font-size:14px;
-      font-weight:1000;
+      font-size:14px; font-weight:900;
       opacity:.95;
     }
-    .dot{width:14px;height:14px;border-radius:999px; box-shadow: 0 0 0 6px rgba(255,255,255,.05);}
-    .card h3{margin:0;font-size:22px;letter-spacing:.6px}
+    .dot{width:14px;height:14px;border-radius:999px; box-shadow:0 0 0 6px rgba(255,255,255,.05)}
+    .card h3{margin:0;font-size:24px;letter-spacing:.5px}
     .card p{
       margin:0;
+      font-size:18px; /* BIG instructions */
       color:var(--muted);
-      font-size:16px; /* BIG instructions */
-      line-height:1.45;
       font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      line-height:1.4;
     }
-    .row{display:flex; gap:12px; flex-wrap:wrap; margin-top:auto}
 
-    /* Game layout */
+    /* GAME LAYOUT */
     .gameLayout{
       display:grid;
       grid-template-columns: 1.25fr .75fr;
@@ -222,17 +211,17 @@
     @media(max-width:1200px){ .gameLayout{grid-template-columns:1fr} }
 
     canvas{
-      display:block;
       width:100%;
       height:auto;
-      background:#000;
+      display:block;
       border:1px solid rgba(255,255,255,.20);
       border-radius:24px;
+      background:#000;
     }
 
     .side{
-      background: rgba(255,255,255,.10);
       border:1px solid rgba(255,255,255,.18);
+      background: rgba(255,255,255,.10);
       border-radius:24px;
       padding:16px;
       font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
@@ -243,68 +232,91 @@
       content:"";
       position:absolute; inset:-90px;
       background:
-        radial-gradient(420px 240px at 25% 20%, rgba(34,211,238,.16), transparent 60%),
-        radial-gradient(380px 220px at 80% 35%, rgba(251,191,36,.10), transparent 60%);
+        radial-gradient(520px 300px at 22% 22%, rgba(56,189,248,.14), transparent 62%),
+        radial-gradient(520px 300px at 82% 35%, rgba(251,191,36,.10), transparent 62%);
       pointer-events:none;
     }
     .side > *{position:relative}
 
     .side h4{
       margin:0 0 10px;
-      font-size:15px; /* bigger */
-      letter-spacing:.7px;
+      font-size:16px; /* BIG */
       text-transform:uppercase;
+      letter-spacing:.7px;
       color:var(--muted);
       font-family:'Orbitron',system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
     }
-
     .fb{
-      min-height:36px;
-      font-weight:1000;
-      color:var(--muted);
+      min-height:40px;
+      font-size:20px; /* BIG */
+      font-weight:900;
       line-height:1.25;
-      font-size:18px; /* BIG */
+      color:var(--muted);
     }
     .fb.ok{color:var(--ok)}
     .fb.bad{color:var(--bad)}
     .fb.warn{color:var(--warn)}
 
     .note{
-      color:var(--muted);
-      font-size:16px; /* BIG */
-      line-height:1.35;
       margin-top:12px;
+      font-size:18px; /* BIG */
+      color:var(--muted);
+      line-height:1.35;
     }
     .kbd{
       font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;
-      border:1px solid rgba(255,255,255,.20);
+      border:1px solid rgba(255,255,255,.22);
       background:rgba(0,0,0,.18);
-      padding:3px 9px;
+      padding:4px 10px;
       border-radius:12px;
-      font-weight:1000;
+      font-weight:900;
       color:var(--ink);
       font-size:14px;
     }
-    .controlsRow{display:flex; gap:12px; flex-wrap:wrap; margin-top:14px}
 
-    /* HUD pills (bigger + colorful) */
+    /* HUD blocks: Score / Timer / Progress */
     .hudLine{
-      display:flex;
+      display:grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
       gap:10px;
-      flex-wrap:wrap;
-      margin:10px 0 0;
-      font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      margin:10px 0 12px;
     }
     .hudPill{
       background:rgba(0,0,0,.18);
       border:1px solid rgba(255,255,255,.16);
-      border-radius:999px;
-      padding:10px 12px;
+      border-radius:18px;
+      padding:12px 12px;
       font-weight:1000;
-      font-size:14px; /* bigger */
+      font-size:16px; /* BIG */
+    }
+    .progressWrap{
+      margin-top:10px;
+      background:rgba(0,0,0,.18);
+      border:1px solid rgba(255,255,255,.16);
+      border-radius:18px;
+      padding:10px;
+    }
+    .progressLabel{
+      display:flex; justify-content:space-between; align-items:center;
+      font-weight:1000;
+      font-size:15px;
+      margin-bottom:8px;
+    }
+    .bar{
+      height:14px;
+      border-radius:999px;
+      background:rgba(255,255,255,.10);
+      overflow:hidden;
+      border:1px solid rgba(255,255,255,.14);
+    }
+    .barFill{
+      height:100%;
+      width:0%;
+      background: linear-gradient(90deg, rgba(56,189,248,.85), rgba(167,139,250,.65));
+      transition: width .25s ease;
     }
 
-    /* Matching Memory Board */
+    /* MEMORY GAME */
     .matchHeader{
       display:flex;
       gap:12px;
@@ -323,8 +335,8 @@
       font-weight:1000;
       cursor:pointer;
       font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
-      font-size:16px; /* BIG */
-      min-width:230px;
+      font-size:18px; /* BIG */
+      min-width:240px;
     }
 
     .memoryBoard{
@@ -338,8 +350,8 @@
 
     .memCard{
       position:relative;
-      height:170px; /* BIGGER */
-      perspective: 1000px;
+      height:180px; /* BIG cards */
+      perspective: 1100px;
       border-radius:24px;
     }
     .memInner{
@@ -362,100 +374,95 @@
       font-weight:1000;
       line-height:1.12;
       border:1px solid rgba(255,255,255,.20);
-      box-shadow: 0 14px 38px rgba(0,0,0,.30);
+      box-shadow: 0 16px 42px rgba(0,0,0,.32);
       overflow:hidden;
     }
-
     .memBack{
       background:
-        radial-gradient(320px 220px at 30% 25%, rgba(34,211,238,.28), transparent 60%),
-        radial-gradient(320px 220px at 75% 45%, rgba(167,139,250,.22), transparent 60%),
+        radial-gradient(360px 240px at 30% 25%, rgba(56,189,248,.26), transparent 60%),
+        radial-gradient(360px 240px at 75% 45%, rgba(167,139,250,.20), transparent 60%),
         linear-gradient(180deg, rgba(29,78,216,.30), rgba(0,0,0,.18));
-      color: rgba(238,246,255,.98);
-      letter-spacing:1.2px;
-      font-size:20px;
+      font-size:22px;
+      letter-spacing:1.1px;
     }
     .memBack .badge{
-      width:42px; height:42px; border-radius:14px;
+      width:46px; height:46px; border-radius:16px;
       display:inline-flex; align-items:center; justify-content:center;
       background: rgba(0,0,0,.18);
       border:1px solid rgba(255,255,255,.18);
-      font-size:20px;
+      font-size:22px;
       margin-right:10px;
-      box-shadow: 0 0 0 6px rgba(34,211,238,.08);
+      box-shadow:0 0 0 7px rgba(56,189,248,.08);
     }
-    .memBack span{display:flex; align-items:center; justify-content:center; gap:10px}
-
     .memFront{
       transform: rotateY(180deg);
       background:
-        radial-gradient(360px 260px at 40% 20%, rgba(251,191,36,.10), transparent 60%),
-        radial-gradient(360px 260px at 75% 65%, rgba(34,211,238,.10), transparent 60%),
+        radial-gradient(420px 280px at 45% 20%, rgba(251,191,36,.10), transparent 60%),
+        radial-gradient(420px 280px at 75% 65%, rgba(56,189,248,.10), transparent 60%),
         rgba(0,0,0,.22);
-      color: rgba(238,246,255,.98);
-      font-size:24px; /* BIG */
+      font-size:26px; /* BIG */
     }
-    .memFront.small{ font-size:20px; }
-    .memFront.tiny{ font-size:18px; }
+    .memFront.small{ font-size:22px; }
+    .memFront.tiny{ font-size:20px; }
 
     .memCard.matched .memFront{
       border-color: rgba(52,211,153,.60);
       background:
-        radial-gradient(380px 260px at 50% 40%, rgba(52,211,153,.14), transparent 60%),
+        radial-gradient(420px 280px at 50% 40%, rgba(52,211,153,.16), transparent 60%),
         rgba(52,211,153,.12);
       color: var(--ok);
     }
-    .memCard.locked{ pointer-events:none; opacity:.90; }
+    .memCard.locked{ pointer-events:none; opacity:.92; }
   </style>
 </head>
 
 <body>
   <main class="app">
-    <header class="top">
-      <div class="titleBlock">
-        <h1>CYAN ARCADE</h1>
-        <p class="sub">Big instructions, fun colors, and a real Memory Matching game with flip cards.</p>
+    <header>
+      <div class="titleWrap">
+        <h1>TRAINING ARCADE</h1>
+        <p class="sub">Big text, clear instructions, useful HUD (score + timer + progress), and games that work for learning.</p>
       </div>
     </header>
 
     <section class="screens">
       <!-- ARCADE -->
       <div id="arcade" class="screen active">
-        <div class="arcadeBanner">
-          <div class="left">
-            <p class="big">CHOOSE YOUR GAME</p>
-            <p class="small">Big buttons • Big instructions • Bright colors • Kid-friendly</p>
+        <div class="banner">
+          <div>
+            <p class="big">MAIN ARCADE MENU</p>
+            <p class="small">Choose a game. Every game has Score + Timer + Progress + Back button.</p>
           </div>
-          <div class="row" style="margin:0; position:relative">
-            <button class="btn ghost" onclick="location.href='../index.html'">Main Menu</button>
+          <div class="row">
+            <button class="btn ghost" onclick="location.href='../index.html'">MAIN SITE MENU</button>
           </div>
         </div>
 
         <div class="grid">
           <article class="card">
-            <div class="tagline"><span class="dot" style="background:var(--yellow)"></span>Maze + sentences</div>
-            <h3>🟨 PacSentence (Pac-Man)</h3>
-            <p>Move Pac-Man in a blue maze. Practice sentence words (big tiles).</p>
-            <div class="row">
+            <div class="tag"><span class="dot" style="background:var(--yellow)"></span>Classic Pac-Man style</div>
+            <h3>🟨 PacSentence</h3>
+            <p>Move Pac-Man in a blue maze. Collect words and practice reading.</p>
+            <div class="row" style="margin-top:auto">
               <button class="btn primary" id="goPac">PLAY</button>
             </div>
           </article>
 
           <article class="card">
-            <div class="tagline"><span class="dot" style="background:var(--lime)"></span>Shoot synonyms</div>
+            <div class="tag"><span class="dot" style="background:var(--lime)"></span>Classic shooter practice</div>
             <h3>🚀 Synonym Invaders</h3>
-            <p>Classic shooter feel. Move fast. Shoot a synonym of the target word.</p>
-            <div class="row">
-              <button class="btn primary" id="goInv">PLAY</button>
+            <p>Shoot a synonym of the target word. Fast ship. Big falling word tiles.</p>
+            <div class="row" style="margin-top:auto">
+              <button class="btn green" id="goInv">PLAY</button>
             </div>
           </article>
 
           <article class="card">
-            <div class="tagline"><span class="dot" style="background:var(--purple)"></span>Flip cards</div>
+            <div class="tag"><span class="dot" style="background:var(--purple)"></span>Flip cards memory</div>
             <h3>🧩 Matching Memory</h3>
-            <p>Flip 2 cards. If they match, they stay open. Synonyms / Definitions / Spanish–English.</p>
-            <div class="row">
-              <button class="btn primary" id="goMatch">PLAY</button>
+            <p>Flip 2 cards. If they match, they stay open. Synonyms / Definitions / Spanish-English.</p>
+            <div class="row" style="margin-top:auto">
+              <button class="btn purple" id="goMatch">PLAY</button>
             </div>
           </article>
         </div>
@@ -465,17 +472,35 @@
       <div id="pac" class="screen">
         <div class="gameLayout">
           <div><canvas id="pacCv" width="1500" height="900"></canvas></div>
+
           <aside class="side">
             <h4>PacSentence</h4>
-            <div class="fb warn" id="pacFb">Press START. Then move with arrows / WASD.</div>
-            <div class="controlsRow">
+
+            <div class="hudLine">
+              <div class="hudPill">⭐ Score: <span id="pacScore">0</span></div>
+              <div class="hudPill">⏱ Time: <span id="pacTime">00:00</span></div>
+              <div class="hudPill">🎯 Words: <span id="pacWords">0</span></div>
+            </div>
+
+            <div class="progressWrap">
+              <div class="progressLabel">
+                <span>Progress</span><span id="pacProgLabel">0%</span>
+              </div>
+              <div class="bar"><div class="barFill" id="pacProg"></div></div>
+            </div>
+
+            <div class="fb warn" id="pacFb">Press START, then move with arrows / WASD.</div>
+
+            <div class="row" style="margin-top:14px">
               <button class="btn primary" id="pacStart">START</button>
               <button class="btn" id="pacNext">NEXT</button>
               <button class="btn" id="pacGhosts">GHOSTS: ON</button>
-              <button class="btn" id="pacBack">BACK</button>
+              <button class="btn ghost" id="pacBack">BACK TO ARCADE</button>
             </div>
+
             <p class="note">
-              Controls: <span class="kbd">← ↑ → ↓</span> or <span class="kbd">WASD</span>
+              Controls: <span class="kbd">← ↑ → ↓</span> or <span class="kbd">W A S D</span><br/>
+              Tip: Eat words to increase score and progress.
             </p>
           </aside>
         </div>
@@ -485,21 +510,34 @@
       <div id="inv" class="screen">
         <div class="gameLayout">
           <div><canvas id="invCv" width="1500" height="900"></canvas></div>
+
           <aside class="side">
             <h4>Synonym Invaders</h4>
+
             <div class="hudLine">
-              <div class="hudPill">❤️ Lives: <span id="invLives">3</span></div>
-              <div class="hudPill">❌ Mistakes: <span id="invMist">0</span></div>
               <div class="hudPill">⭐ Score: <span id="invScore">0</span></div>
+              <div class="hudPill">⏱ Time: <span id="invTime">00:00</span></div>
+              <div class="hudPill">❤️ Lives: <span id="invLives">3</span></div>
             </div>
-            <div class="fb warn" id="invFb">Press START. Move fast and shoot synonyms.</div>
-            <div class="controlsRow">
-              <button class="btn primary" id="invStart">START</button>
+
+            <div class="progressWrap">
+              <div class="progressLabel">
+                <span>Round</span><span id="invProgLabel">0/3</span>
+              </div>
+              <div class="bar"><div class="barFill" id="invProg"></div></div>
+            </div>
+
+            <div class="fb warn" id="invFb">Press START. Shoot a synonym of the target.</div>
+
+            <div class="row" style="margin-top:14px">
+              <button class="btn green" id="invStart">START</button>
               <button class="btn" id="invNext">NEXT</button>
-              <button class="btn" id="invBack">BACK</button>
+              <button class="btn ghost" id="invBack">BACK TO ARCADE</button>
             </div>
+
             <p class="note">
-              Move: <span class="kbd">← →</span>/<span class="kbd">A D</span> • Shoot: <span class="kbd">Space</span>
+              Move: <span class="kbd">← →</span> / <span class="kbd">A D</span><br/>
+              Shoot: <span class="kbd">Space</span>
             </p>
           </aside>
         </div>
@@ -512,9 +550,9 @@
             <div class="matchHeader">
               <div>
                 <h4 style="margin:0">Matching Memory</h4>
-                <div class="fb warn" id="matchFb" style="margin-top:8px">Choose mode and press START.</div>
+                <div class="fb warn" id="matchFb" style="margin-top:10px">Choose mode and press START.</div>
               </div>
-              <div style="display:flex;gap:12px;flex-wrap:wrap;justify-content:flex-end">
+              <div class="row" style="justify-content:flex-end">
                 <select id="matchMode" class="select">
                   <option value="synonyms">Synonyms</option>
                   <option value="definitions">Word ↔ Definition</option>
@@ -526,15 +564,22 @@
                   <option value="10">10 pairs</option>
                   <option value="12">12 pairs</option>
                 </select>
-                <button class="btn primary" id="matchStart">START</button>
-                <button class="btn" id="matchBack">BACK</button>
+                <button class="btn purple" id="matchStart">START</button>
+                <button class="btn ghost" id="matchBack">BACK TO ARCADE</button>
               </div>
             </div>
 
             <div class="hudLine" style="margin-top:10px">
+              <div class="hudPill">⭐ Score: <span id="matchScore">0</span></div>
               <div class="hudPill">⏱ Time: <span id="matchTime">00:00</span></div>
-              <div class="hudPill">🧠 Matches: <span id="matchDone">0</span>/<span id="matchTotal">0</span></div>
               <div class="hudPill">🔁 Moves: <span id="matchMoves">0</span></div>
+            </div>
+
+            <div class="progressWrap">
+              <div class="progressLabel">
+                <span>Progress</span><span id="matchProgLabel">0%</span>
+              </div>
+              <div class="bar"><div class="barFill" id="matchProg"></div></div>
             </div>
 
             <div class="memoryBoard" id="memoryBoard"></div>
@@ -543,13 +588,14 @@
           <aside class="side">
             <h4>Teacher</h4>
             <p class="note" style="margin-top:0">
-              Edit banks in the code:<br>
+              Edit the banks in the code:<br/>
               <b>UNIT_SYNONYMS</b>, <b>UNIT_DEFINITIONS</b>, <b>UNIT_ES_EN</b>
             </p>
-            <div class="fb warn">Tip: use 6–8 pairs for younger kids.</div>
+            <div class="fb warn">Tip: 6–8 pairs is perfect for younger students.</div>
           </aside>
         </div>
       </div>
+
     </section>
   </main>
 
@@ -599,7 +645,7 @@
     ["terminar", "finish"],
   ];
 
-  // Pac sentences (placeholder)
+  // Pac practice sentences (you can swap these for your unit sentences)
   const SENTENCES = [
     "I always do my homework at night.",
     "She doesn’t like coffee.",
@@ -611,7 +657,7 @@
     "If you study, you will pass the test."
   ];
 
-  // Invaders target bank
+  // Invaders bank: target -> accepted synonyms
   const SYNONYMS = [
     { target: "big", answers: ["large", "huge", "giant"] },
     { target: "fast", answers: ["quick", "rapid", "speedy"] },
@@ -643,19 +689,36 @@
     return arr;
   }
   function pad2(n){ return String(n).padStart(2,"0"); }
+  function fmtTime(sec){ return `${pad2(Math.floor(sec/60))}:${pad2(sec%60)}`; }
 
   // Arcade nav
   $("goPac").addEventListener("click", ()=>{ show("pac"); pac.start(true); });
   $("goInv").addEventListener("click", ()=>{ show("inv"); inv.start(true); });
   $("goMatch").addEventListener("click", ()=>{ show("match"); memory.start(true); });
 
-  // =============================
-  // PAC (functional, stable)
-  // =============================
+  // Back buttons
+  $("pacBack").addEventListener("click", ()=> show("arcade"));
+  $("invBack").addEventListener("click", ()=> show("arcade"));
+  $("matchBack").addEventListener("click", ()=> show("arcade"));
+
+  // ============================================================
+  // PACSENTENCE (classic Pac-Man + classic ghost shape)
+  // ============================================================
   const pac = (() => {
     const cv = $("pacCv");
     const ctx = cv.getContext("2d");
-    const fb = $("pacFb");
+
+    const UI = {
+      fb: $("pacFb"),
+      score: $("pacScore"),
+      time: $("pacTime"),
+      words: $("pacWords"),
+      prog: $("pacProg"),
+      progLabel: $("pacProgLabel"),
+      start: $("pacStart"),
+      next: $("pacNext"),
+      ghosts: $("pacGhosts"),
+    };
 
     const MAZE = [
       "111111111111111111111",
@@ -675,6 +738,7 @@
 
     const ROWS = MAZE.length;
     const COLS = MAZE[0].length;
+
     const TILE = Math.floor(Math.min(cv.width/COLS, cv.height/ROWS));
     const OFFX = Math.floor((cv.width - COLS*TILE)/2);
     const OFFY = Math.floor((cv.height - ROWS*TILE)/2);
@@ -682,10 +746,17 @@
     const st = {
       running:false,
       ghostsOn:true,
+      t:0,
+      sec:0,
+      timer:null,
+      score:0,
+      totalWords:0,
+      eatenWords:0,
       words:[],
       pac:{x:1,y:1,dir:"right"},
       ghost:{x:COLS-2,y:ROWS-2,dir:"left"},
-      t:0
+      lastGhostMs:0,
+      ghostEveryMs: 520
     };
 
     function isWall(x,y){
@@ -710,7 +781,31 @@
       return -Math.PI/2;
     }
 
-    function pickSentence(){
+    function resetHud(){
+      UI.score.textContent = st.score;
+      UI.time.textContent = fmtTime(st.sec);
+      UI.words.textContent = `${st.eatenWords}/${st.totalWords}`;
+      const pct = st.totalWords ? Math.round((st.eatenWords/st.totalWords)*100) : 0;
+      UI.prog.style.width = `${pct}%`;
+      UI.progLabel.textContent = `${pct}%`;
+    }
+
+    function startTimer(){
+      stopTimer();
+      st.sec = 0;
+      UI.time.textContent = fmtTime(st.sec);
+      st.timer = setInterval(()=>{
+        if(!st.running) return;
+        st.sec++;
+        UI.time.textContent = fmtTime(st.sec);
+      },1000);
+    }
+    function stopTimer(){
+      if(st.timer) clearInterval(st.timer);
+      st.timer = null;
+    }
+
+    function buildWords(){
       const s = SENTENCES[Math.floor(Math.random()*SENTENCES.length)];
       const tokens = s.trim().split(/\s+/);
 
@@ -721,71 +816,155 @@
         }
       }
       shuffle(cells);
-      st.words = tokens.slice(0, Math.min(tokens.length, 12)).map((w,i)=>({
-        word:w, x:cells[i].x, y:cells[i].y, eaten:false
-      }));
-      setFB(fb, "START → Move Pac-Man and read the words!", "warn");
+      const count = Math.min(tokens.length, 12);
+
+      st.words = [];
+      for(let i=0;i<count;i++){
+        st.words.push({word: tokens[i], x: cells[i].x, y: cells[i].y, eaten:false});
+      }
+      st.totalWords = count;
+      st.eatenWords = 0;
     }
 
     function stepPac(dir){
       if(!st.running) return;
       const v = {up:[0,-1],down:[0,1],left:[-1,0],right:[1,0]}[dir];
       if(!v) return;
+
       st.pac.dir = dir;
       const nx = st.pac.x + v[0], ny = st.pac.y + v[1];
       if(isWall(nx,ny)) return;
+
       st.pac.x=nx; st.pac.y=ny;
 
-      // eat word
-      const w = st.words.find(x=>!x.eaten && x.x===st.pac.x && x.y===st.pac.y);
-      if(w){ w.eaten = true; setFB(fb, "✅ Nice! Keep going!", "ok"); }
+      const w = st.words.find(a=>!a.eaten && a.x===st.pac.x && a.y===st.pac.y);
+      if(w){
+        w.eaten = true;
+        st.eatenWords++;
+        st.score += 10;
+        setFB(UI.fb, "✅ Nice! Keep going!", "ok");
+        resetHud();
+
+        if(st.eatenWords >= st.totalWords){
+          st.running = false;
+          stopTimer();
+          setFB(UI.fb, "🏆 Round completed! Press NEXT.", "ok");
+        }
+      }
     }
 
     function ghostStep(){
       if(!st.running || !st.ghostsOn) return;
-      const dirs = [
-        {d:"up",dx:0,dy:-1},{d:"down",dx:0,dy:1},{d:"left",dx:-1,dy:0},{d:"right",dx:1,dy:0}
-      ].filter(m => !isWall(st.ghost.x+m.dx, st.ghost.y+m.dy));
-      if(dirs.length===0) return;
-      const pick = dirs[Math.floor(Math.random()*dirs.length)];
-      st.ghost.dir = pick.d;
-      st.ghost.x += pick.dx; st.ghost.y += pick.dy;
+
+      // Stable movement: keep direction unless blocked
+      const dirVec = {up:[0,-1],down:[0,1],left:[-1,0],right:[1,0]};
+      const options = ["up","down","left","right"].filter(d=>{
+        const [dx,dy]=dirVec[d];
+        return !isWall(st.ghost.x+dx, st.ghost.y+dy);
+      });
+      if(options.length===0) return;
+
+      const [cdx,cdy] = dirVec[st.ghost.dir] || [0,0];
+      const canContinue = !isWall(st.ghost.x+cdx, st.ghost.y+cdy);
+
+      let pick = st.ghost.dir;
+      if(!canContinue){
+        // choose option that reduces distance
+        let best = null;
+        for(const d of options){
+          const [dx,dy]=dirVec[d];
+          const nx = st.ghost.x+dx, ny=st.ghost.y+dy;
+          const dist = Math.abs(nx-st.pac.x)+Math.abs(ny-st.pac.y);
+          if(!best || dist < best.dist) best = {d,dist};
+        }
+        pick = best.d;
+        st.ghost.dir = pick;
+      }
+
+      const [dx,dy] = dirVec[pick];
+      st.ghost.x += dx; st.ghost.y += dy;
+
+      if(st.ghost.x===st.pac.x && st.ghost.y===st.pac.y){
+        st.running = false;
+        stopTimer();
+        setFB(UI.fb, "👻 Ghost caught you! Press START.", "bad");
+      }
     }
 
-    function draw(){
+    function drawGhostClassic(x,y,scale,color){
+      // Classic ghost silhouette
+      ctx.save();
+      ctx.translate(x,y);
+      ctx.scale(scale,scale);
+
+      ctx.fillStyle = color;
+      ctx.beginPath();
+      // head
+      ctx.arc(0, -6, 10, Math.PI, 0);
+      // body
+      ctx.lineTo(10, 10);
+      // scallops
+      ctx.quadraticCurveTo(6, 6, 2, 10);
+      ctx.quadraticCurveTo(0, 6, -2, 10);
+      ctx.quadraticCurveTo(-6, 6, -10, 10);
+      ctx.closePath();
+      ctx.fill();
+
+      // eyes
+      ctx.fillStyle = "#fff";
+      ctx.beginPath();
+      ctx.arc(-4, -6, 3.2, 0, Math.PI*2);
+      ctx.arc(4, -6, 3.2, 0, Math.PI*2);
+      ctx.fill();
+
+      // pupils
+      ctx.fillStyle = "#111827";
+      ctx.beginPath();
+      ctx.arc(-3, -6, 1.4, 0, Math.PI*2);
+      ctx.arc(5, -6, 1.4, 0, Math.PI*2);
+      ctx.fill();
+
+      ctx.restore();
+    }
+
+    function render(now){
+      // background
       ctx.fillStyle="#000";
       ctx.fillRect(0,0,cv.width,cv.height);
 
-      // maze blue
+      // maze
       for(let y=0;y<ROWS;y++){
         for(let x=0;x<COLS;x++){
           if(MAZE[y][x]!==1) continue;
           const px = OFFX + x*TILE;
           const py = OFFY + y*TILE;
-          ctx.fillStyle="rgba(29,78,216,.95)";
+
+          ctx.fillStyle="rgba(29,78,216,.96)";
           roundRect(px+2, py+2, TILE-4, TILE-4, 10);
           ctx.fill();
+
           ctx.fillStyle="#000";
           roundRect(px+7, py+7, TILE-14, TILE-14, 8);
           ctx.fill();
         }
       }
 
-      // words
+      // words tiles
       for(const w of st.words){
         if(w.eaten) continue;
         const px = OFFX + w.x*TILE;
         const py = OFFY + w.y*TILE;
+
         ctx.fillStyle="rgba(255,255,255,.10)";
-        ctx.strokeStyle="rgba(34,211,238,.30)";
+        ctx.strokeStyle="rgba(56,189,248,.30)";
         ctx.lineWidth=2;
         roundRect(px+5, py+5, TILE-10, TILE-10, 14);
         ctx.fill(); ctx.stroke();
 
         let fs = Math.max(28, Math.floor(TILE*0.52));
         while(fs>18){
-          ctx.font = `1000 ${fs}px system-ui,-apple-system,Segoe UI,Roboto,Arial`;
-          if(ctx.measureText(w.word).width <= (TILE - 16)) break;
+          ctx.font = `900 ${fs}px system-ui,-apple-system,Segoe UI,Roboto,Arial`;
+          if(ctx.measureText(w.word).width <= (TILE-16)) break;
           fs--;
         }
         ctx.fillStyle="rgba(238,246,255,.98)";
@@ -798,10 +977,7 @@
       if(st.ghostsOn){
         const gx = OFFX + st.ghost.x*TILE + TILE/2;
         const gy = OFFY + st.ghost.y*TILE + TILE/2;
-        ctx.fillStyle="#fb7185";
-        ctx.beginPath();
-        ctx.arc(gx,gy,TILE*0.28,0,Math.PI*2);
-        ctx.fill();
+        drawGhostClassic(gx, gy, TILE/26, "#fb7185"); // pink ghost is fine here (classic ghost shape), not a circle
       }
 
       // pacman
@@ -810,6 +986,7 @@
       const r = TILE*0.34;
       const base = dirAngle(st.pac.dir);
       const open = 0.20 + 0.20*Math.abs(Math.sin(st.t*7.0));
+
       ctx.fillStyle="#fbbf24";
       ctx.beginPath();
       ctx.moveTo(cx,cy);
@@ -818,16 +995,37 @@
       ctx.fill();
 
       st.t += 1/60;
-      requestAnimationFrame(draw);
+
+      // ghost step timer
+      if(st.running && st.ghostsOn){
+        if(now - st.lastGhostMs > st.ghostEveryMs){
+          st.lastGhostMs = now;
+          ghostStep();
+        }
+      }
+
+      requestAnimationFrame(render);
     }
 
-    $("pacStart").onclick = ()=> start(true);
-    $("pacNext").onclick = ()=> start(true);
-    $("pacGhosts").onclick = ()=>{
+    function start(reset){
+      st.running = true;
+      st.score = 0;
+      st.pac = {x:1,y:1,dir:"right"};
+      st.ghost = {x:COLS-2,y:ROWS-2,dir:"left"};
+      st.lastGhostMs = 0;
+      if(reset) buildWords();
+      setFB(UI.fb, "✅ GO! Eat words to score points.", "ok");
+      startTimer();
+      resetHud();
+    }
+
+    UI.start.addEventListener("click", ()=> start(true));
+    UI.next.addEventListener("click", ()=> start(true));
+    UI.ghosts.addEventListener("click", ()=>{
       st.ghostsOn = !st.ghostsOn;
-      $("pacGhosts").textContent = `GHOSTS: ${st.ghostsOn ? "ON":"OFF"}`;
-    };
-    $("pacBack").onclick = ()=> show("arcade");
+      UI.ghosts.textContent = `GHOSTS: ${st.ghostsOn ? "ON" : "OFF"}`;
+      setFB(UI.fb, st.ghostsOn ? "Ghosts ON." : "Ghosts OFF.", "warn");
+    });
 
     window.addEventListener("keydown",(e)=>{
       if(!screens.pac.classList.contains("active")) return;
@@ -839,33 +1037,32 @@
       stepPac(dir);
     }, {passive:false});
 
-    function start(reset){
-      st.running = true;
-      st.pac = {x:1,y:1,dir:"right"};
-      st.ghost = {x:COLS-2,y:ROWS-2,dir:"left"};
-      if(reset) pickSentence();
-      setFB(fb, "STARTED! Move and read!", "ok");
-    }
+    // init
+    buildWords();
+    resetHud();
+    requestAnimationFrame(render);
 
-    setInterval(()=>{ if(screens.pac.classList.contains("active") && st.running) ghostStep(); }, 520);
-
-    start(true);
-    requestAnimationFrame(draw);
     return { start };
   })();
 
-  // =============================
-  // INVADERS (fast, classic-ish)
-  // =============================
+  // ============================================================
+  // INVADERS (classic-ish, fast, with HUD)
+  // ============================================================
   const inv = (() => {
     const cv = $("invCv");
     const ctx = cv.getContext("2d");
     const W = cv.width, H = cv.height;
 
-    const fb = $("invFb");
-    const livesEl = $("invLives");
-    const mistEl = $("invMist");
-    const scoreEl = $("invScore");
+    const UI = {
+      fb: $("invFb"),
+      score: $("invScore"),
+      time: $("invTime"),
+      lives: $("invLives"),
+      prog: $("invProg"),
+      progLabel: $("invProgLabel"),
+      start: $("invStart"),
+      next: $("invNext")
+    };
 
     const GREEN = "rgba(74,222,128,.95)";
     const DIM_GREEN = "rgba(74,222,128,.55)";
@@ -873,18 +1070,21 @@
 
     const MAX_WORDS = 8;
     const SPAWN_MS = 820;
-    const BULLET_SPEED = 1100;
-    const SHIP_SPEED = 820;
+    const BULLET_SPEED = 1150;
+    const SHIP_SPEED = 860;
     const WORD_FALL_MIN = 120;
-    const WORD_FALL_MAX = 200;
+    const WORD_FALL_MAX = 210;
 
     const st = {
       running:false,
       target:"",
       correctSet:new Set(),
+      need:3,
+      got:0,
       lives:3,
-      mistakes:0,
       score:0,
+      sec:0,
+      timer:null,
       ship:{x:W/2},
       keys:{},
       words:[],
@@ -893,20 +1093,41 @@
       lastT:0
     };
 
-    function setHud(){
-      livesEl.textContent = st.lives;
-      mistEl.textContent = st.mistakes;
-      scoreEl.textContent = st.score;
+    function updateHud(){
+      UI.score.textContent = st.score;
+      UI.time.textContent = fmtTime(st.sec);
+      UI.lives.textContent = st.lives;
+      UI.progLabel.textContent = `${st.got}/${st.need}`;
+      const pct = Math.round((st.got/st.need)*100);
+      UI.prog.style.width = `${pct}%`;
+    }
+
+    function startTimer(){
+      stopTimer();
+      st.sec = 0;
+      UI.time.textContent = fmtTime(st.sec);
+      st.timer = setInterval(()=>{
+        if(!st.running) return;
+        st.sec++;
+        UI.time.textContent = fmtTime(st.sec);
+      },1000);
+    }
+    function stopTimer(){
+      if(st.timer) clearInterval(st.timer);
+      st.timer=null;
     }
 
     function pickQ(){
       const q = SYNONYMS[Math.floor(Math.random()*SYNONYMS.length)];
       st.target = q.target;
       st.correctSet = new Set(q.answers.map(x=>x.toLowerCase()));
+      st.need = 3;
+      st.got = 0;
       st.words = [];
       st.bullets = [];
       st.lastSpawn = 0;
-      setFB(fb, `TARGET: ${st.target.toUpperCase()} — shoot a synonym!`, "warn");
+      setFB(UI.fb, `TARGET: ${st.target.toUpperCase()} — shoot a synonym!`, "warn");
+      updateHud();
     }
 
     function spawn(now){
@@ -933,6 +1154,7 @@
         vy: WORD_FALL_MIN + Math.random()*(WORD_FALL_MAX - WORD_FALL_MIN),
         w:0,h:0,font:0
       });
+
       st.lastSpawn = now;
     }
 
@@ -942,12 +1164,12 @@
     }
 
     function measure(word, size){
-      ctx.font = `1000 ${size}px system-ui,-apple-system,Segoe UI,Roboto,Arial`;
+      ctx.font = `900 ${size}px system-ui,-apple-system,Segoe UI,Roboto,Arial`;
       return ctx.measureText(word).width;
     }
     function layoutWord(w){
-      let fs = 38;
-      while(fs > 22 && measure(w.text, fs) > 460) fs--;
+      let fs = 40;
+      while(fs > 22 && measure(w.text, fs) > 480) fs--;
       w.font = fs;
       w.w = measure(w.text, fs) + 40;
       w.h = fs + 18;
@@ -961,7 +1183,6 @@
       ctx.arcTo(x,y,x+w,y,r);
       ctx.closePath();
     }
-
     function drawShip(){
       const x = st.ship.x;
       const y = H - 125;
@@ -988,24 +1209,31 @@
       ctx.fillStyle = WHITE;
       ctx.textAlign="center";
       ctx.textBaseline="middle";
-      ctx.font = `1000 ${w.font}px system-ui,-apple-system,Segoe UI,Roboto,Arial`;
+      ctx.font = `900 ${w.font}px system-ui,-apple-system,Segoe UI,Roboto,Arial`;
       ctx.fillText(w.text, w.x, w.y+1);
     }
 
-    function hit(w){
+    function onHit(w){
       if(w.isCorrect){
         st.score += 10;
-        setFB(fb, "✅ Correct synonym!", "ok");
+        st.got += 1;
+        setFB(UI.fb, "✅ Correct synonym!", "ok");
+        updateHud();
+        if(st.got >= st.need){
+          st.running = false;
+          stopTimer();
+          setFB(UI.fb, "🏆 Round complete! Press NEXT.", "ok");
+        }
       } else {
-        st.mistakes++;
-        st.lives--;
-        setFB(fb, "❌ Wrong word!", "bad");
+        st.lives -= 1;
+        setFB(UI.fb, "❌ Wrong word!", "bad");
+        updateHud();
         if(st.lives <= 0){
           st.running = false;
-          setFB(fb, "💀 Game Over. Press START.", "bad");
+          stopTimer();
+          setFB(UI.fb, "💀 Game Over. Press START.", "bad");
         }
       }
-      setHud();
     }
 
     function update(dt, now){
@@ -1028,7 +1256,7 @@
           if(b.x>=left && b.x<=right && b.y>=top && b.y<=bottom){
             st.bullets.splice(bi,1);
             st.words.splice(wi,1);
-            hit(w);
+            onHit(w);
             break;
           }
         }
@@ -1038,7 +1266,7 @@
       st.words = st.words.filter(w => w.y < H + 140);
     }
 
-    function render(){
+    function render(now){
       ctx.fillStyle="#000";
       ctx.fillRect(0,0,W,H);
 
@@ -1050,10 +1278,10 @@
       }
 
       ctx.fillStyle = GREEN;
-      ctx.font = "1000 34px system-ui,-apple-system,Segoe UI,Roboto,Arial";
+      ctx.font = "900 34px system-ui,-apple-system,Segoe UI,Roboto,Arial";
       ctx.textAlign="left";
       ctx.textBaseline="top";
-      ctx.fillText(`TARGET: ${st.target.toUpperCase()} (shoot a synonym)`, 18, 14);
+      ctx.fillText(`TARGET: ${st.target.toUpperCase()}`, 18, 14);
 
       for(const b of st.bullets) drawBullet(b);
       for(const w of st.words) drawWordAlien(w);
@@ -1065,6 +1293,8 @@
       ctx.moveTo(0, H-95);
       ctx.lineTo(W, H-95);
       ctx.stroke();
+
+      requestAnimationFrame(loop);
     }
 
     function loop(now){
@@ -1074,28 +1304,30 @@
       if(screens.inv.classList.contains("active") && st.running){
         update(dt, now);
       }
-      render();
-      requestAnimationFrame(loop);
+
+      // Always render to keep it alive
+      ctx.fillStyle="#000";
+      ctx.fillRect(0,0,W,H);
+      render(now);
     }
 
     function start(resetAll){
       if(resetAll){
-        st.lives = 3;
-        st.mistakes = 0;
         st.score = 0;
-        setHud();
+        st.lives = 3;
         pickQ();
       }
       st.running = true;
-      setFB(fb, "STARTED! Shoot synonyms!", "ok");
+      setFB(UI.fb, "✅ GO! Shoot synonyms!", "ok");
+      updateHud();
+      startTimer();
+
       const t = performance.now();
       spawn(t); spawn(t+1); spawn(t+2);
-      setHud();
     }
 
-    $("invStart").onclick = ()=> start(true);
-    $("invNext").onclick = ()=> start(true);
-    $("invBack").onclick = ()=> show("arcade");
+    UI.start.addEventListener("click", ()=> start(true));
+    UI.next.addEventListener("click", ()=> start(true));
 
     window.addEventListener("keydown",(e)=>{
       if(!screens.inv.classList.contains("active")) return;
@@ -1109,31 +1341,36 @@
     });
 
     pickQ();
-    setHud();
+    updateHud();
     requestAnimationFrame(loop);
+
     return { start };
   })();
 
-  // =============================
-  // MEMORY MATCHING (flip cards)
-  // =============================
+  // ============================================================
+  // MEMORY MATCHING (score + timer + progress)
+  // ============================================================
   const memory = (() => {
     const board = $("memoryBoard");
     const fb = $("matchFb");
     const modeSel = $("matchMode");
     const pairsSel = $("matchPairs");
     const startBtn = $("matchStart");
-    const backBtn = $("matchBack");
-    const timeEl = $("matchTime");
-    const doneEl = $("matchDone");
-    const totalEl = $("matchTotal");
-    const movesEl = $("matchMoves");
+
+    const UI = {
+      score: $("matchScore"),
+      time: $("matchTime"),
+      moves: $("matchMoves"),
+      prog: $("matchProg"),
+      progLabel: $("matchProgLabel")
+    };
 
     const st = {
       running:false,
       sec:0,
       timer:null,
       moves:0,
+      score:0,
       done:0,
       total:0,
       lock:false,
@@ -1142,15 +1379,15 @@
       cards:[]
     };
 
-    function setTime(){
-      timeEl.textContent = `${pad2(Math.floor(st.sec/60))}:${pad2(st.sec%60)}`;
+    function updateHud(){
+      UI.score.textContent = st.score;
+      UI.time.textContent = fmtTime(st.sec);
+      UI.moves.textContent = st.moves;
+      const pct = st.total ? Math.round((st.done/st.total)*100) : 0;
+      UI.prog.style.width = `${pct}%`;
+      UI.progLabel.textContent = `${pct}%`;
     }
-    function hud(){
-      doneEl.textContent = st.done;
-      totalEl.textContent = st.total;
-      movesEl.textContent = st.moves;
-      setTime();
-    }
+
     function stopTimer(){
       if(st.timer) clearInterval(st.timer);
       st.timer = null;
@@ -1158,11 +1395,11 @@
     function startTimer(){
       stopTimer();
       st.sec = 0;
-      setTime();
+      UI.time.textContent = fmtTime(st.sec);
       st.timer = setInterval(()=>{
         if(!st.running) return;
         st.sec++;
-        setTime();
+        UI.time.textContent = fmtTime(st.sec);
       },1000);
     }
 
@@ -1186,6 +1423,7 @@
       st.total = base.length;
       st.done = 0;
       st.moves = 0;
+      st.score = 0;
       st.first = null;
       st.second = null;
       st.lock = false;
@@ -1199,7 +1437,7 @@
 
       st.cards = shuffle(deck);
       renderBoard();
-      hud();
+      updateHud();
       setFB(fb, "Flip 2 cards. Find all matches!", "warn");
     }
 
@@ -1246,7 +1484,7 @@
 
       st.second = cardEl;
       st.moves++;
-      hud();
+      updateHud();
 
       const a = st.first.dataset.pair;
       const b = st.second.dataset.pair;
@@ -1255,7 +1493,8 @@
         st.first.classList.add("matched","locked");
         st.second.classList.add("matched","locked");
         st.done++;
-        hud();
+        st.score += 20;  // reward
+        updateHud();
         setFB(fb, "✅ MATCH!", "ok");
         st.first = null;
         st.second = null;
@@ -1266,6 +1505,8 @@
           setFB(fb, "🏆 YOU WON! Press START again.", "ok");
         }
       } else {
+        st.score = Math.max(0, st.score - 5);
+        updateHud();
         setFB(fb, "❌ NOT A MATCH!", "bad");
         st.lock = true;
         setTimeout(()=>{
@@ -1279,19 +1520,15 @@
       }
     }
 
-    function start(){
+    function start(reset){
+      if(reset) buildDeck();
       st.running = true;
       startTimer();
-      buildDeck();
-      setFB(fb, "GO! Flip cards!", "ok");
+      setFB(fb, "✅ GO! Flip cards!", "ok");
+      updateHud();
     }
 
-    startBtn.addEventListener("click", ()=> start());
-    backBtn.addEventListener("click", ()=>{
-      st.running = false;
-      stopTimer();
-      show("arcade");
-    });
+    startBtn.addEventListener("click", ()=> start(true));
 
     modeSel.addEventListener("change", ()=>{
       st.running = false;
@@ -1299,6 +1536,7 @@
       buildDeck();
       setFB(fb, "Mode changed. Press START.", "warn");
     });
+
     pairsSel.addEventListener("change", ()=>{
       st.running = false;
       stopTimer();
@@ -1307,13 +1545,10 @@
     });
 
     buildDeck();
+    updateHud();
+
     return { start };
   })();
-
-  // Back buttons
-  $("pacBack").addEventListener("click", ()=> show("arcade"));
-  $("invBack").addEventListener("click", ()=> show("arcade"));
-  $("matchBack").addEventListener("click", ()=> show("arcade"));
 
 })();
 </script>
