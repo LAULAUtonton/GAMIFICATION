@@ -3,167 +3,121 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Vocabulary Station — Synchronize 2</title>
+<title>Vocabulary Station</title>
 
-<!-- Lucide Icon Library -->
+<!-- Lucide Icons -->
 <script src="https://unpkg.com/lucide@latest"></script>
 
 <style>
 body{
   margin:0;
-  font-family:system-ui, sans-serif;
-  background:#f5f7fb;
-}
-
-header{
-  background:white;
-  padding:16px;
-  border-bottom:2px solid #e4e7f2;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  flex-wrap:wrap;
+  font-family: system-ui, sans-serif;
+  background:#f4f6fb;
+  padding:20px;
 }
 
 h1{
-  margin:0;
-  font-size:20px;
+  margin:0 0 20px 0;
+  font-size:28px;
 }
 
 .controls{
+  margin-bottom:20px;
   display:flex;
   gap:10px;
   flex-wrap:wrap;
 }
 
-select, button{
+button, select{
   padding:8px 12px;
   border-radius:8px;
-  border:1px solid #d3d9ea;
+  border:1px solid #ccc;
   font-weight:600;
   cursor:pointer;
-  background:white;
-}
-
-button:hover{
-  background:#eef2ff;
-}
-
-main{
-  padding:20px;
 }
 
 .grid{
   display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+  grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
   gap:16px;
 }
 
 .card{
   background:white;
-  border-radius:16px;
+  border-radius:12px;
   padding:16px;
-  box-shadow:0 6px 18px rgba(0,0,0,.08);
+  box-shadow:0 4px 10px rgba(0,0,0,.08);
   display:flex;
   flex-direction:column;
-  gap:10px;
-  transition:.2s;
+  gap:8px;
+  transition:.2s ease;
 }
 
 .card:hover{
-  transform:translateY(-4px);
+  transform:translateY(-3px);
+  box-shadow:0 6px 14px rgba(0,0,0,.12);
 }
 
 .icon{
-  width:48px;
-  height:48px;
-  color:#4f46e5;
+  width:36px;
+  height:36px;
 }
 
 .icon svg{
-  width:48px;
-  height:48px;
-  stroke-width:2.5;
+  width:36px;
+  height:36px;
+  stroke:#3b82f6;
 }
 
 .word{
-  font-size:22px;
+  font-size:20px;
   font-weight:800;
 }
 
 .back{
-  font-size:18px;
+  font-size:16px;
   color:#555;
 }
 
 .meta{
   font-size:12px;
   color:#888;
+  margin-top:auto;
 }
 </style>
 </head>
 
 <body>
 
-<header>
-  <h1>Vocabulary Station — Synchronize 2</h1>
+<h1>Vocabulary Station</h1>
 
-  <div class="controls">
-    <select id="unitSelect"></select>
-    <select id="setSelect"></select>
-    <button id="shuffleBtn">Shuffle</button>
-  </div>
-</header>
+<div class="controls">
+  <select id="unitSelect">
+    <option value="all">All Units</option>
+  </select>
+  <button id="shuffleBtn">Shuffle</button>
+</div>
 
-<main>
-  <div class="grid" id="grid"></div>
-</main>
+<div class="grid" id="grid"></div>
 
 <script type="module">
+import { VOCAB_DB, getCards, shuffle, listUnits } from "./vocabulary.js";
 
-import { VOCAB_DB, listUnits, listSets, getCards, shuffle } from "./vocabulary.js";
-
-const unitSelect = document.getElementById("unitSelect");
-const setSelect = document.getElementById("setSelect");
 const grid = document.getElementById("grid");
+const unitSelect = document.getElementById("unitSelect");
 const shuffleBtn = document.getElementById("shuffleBtn");
 
 let cards = [];
 
+/* Populate unit dropdown */
 function initUnits(){
   const units = listUnits(VOCAB_DB);
-
   unitSelect.innerHTML =
-    `<option value="all">All units</option>` +
-    units.map(u =>
-      `<option value="${u.unit}">Unit ${u.unit}: ${u.title}</option>`
-    ).join("");
-
-  initSets("all");
+    `<option value="all">All Units</option>` +
+    units.map(u => `<option value="${u.unit}">Unit ${u.unit}</option>`).join("");
 }
 
-function initSets(unitVal){
-  const unitNum = unitVal === "all" ? null : Number(unitVal);
-  const sets = listSets(VOCAB_DB, unitNum);
-
-  setSelect.innerHTML =
-    `<option value="all">All sets</option>` +
-    sets.map(s =>
-      `<option value="${s.setId}">U${s.unit}: ${s.label}</option>`
-    ).join("");
-}
-
-function loadCards(){
-  const unitVal = unitSelect.value;
-  const setVal = setSelect.value;
-
-  const unitNum = unitVal === "all" ? null : Number(unitVal);
-  const setId = setVal === "all" ? null : setVal;
-
-  cards = getCards(VOCAB_DB, { unit: unitNum, setId });
-  render();
-}
-
+/* Render cards */
 function render(){
   grid.innerHTML = cards.map(card => `
     <div class="card">
@@ -176,24 +130,30 @@ function render(){
     </div>
   `).join("");
 
-  // IMPORTANT: render Lucide icons
   lucide.createIcons();
 }
 
-shuffleBtn.addEventListener("click", () => {
+/* Load cards */
+function load(){
+  const unitVal = unitSelect.value;
+  if(unitVal === "all"){
+    cards = getCards(VOCAB_DB);
+  } else {
+    cards = getCards(VOCAB_DB, { unit: Number(unitVal) });
+  }
+  render();
+}
+
+/* Events */
+unitSelect.addEventListener("change", load);
+shuffleBtn.addEventListener("click", ()=>{
   cards = shuffle(cards);
   render();
 });
 
-unitSelect.addEventListener("change", () => {
-  initSets(unitSelect.value);
-  loadCards();
-});
-
-setSelect.addEventListener("change", loadCards);
-
+/* Init */
 initUnits();
-loadCards();
+load();
 
 </script>
 
