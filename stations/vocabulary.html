@@ -1,611 +1,210 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Vocabulary Station — Synchronize 2</title>
-  <style>
-    :root{
-      --bg:#0b0b12;
-      --panel:rgba(18,18,26,.92);
-      --panel2:rgba(255,255,255,.06);
-      --stroke:rgba(255,255,255,.16);
-      --shadow:rgba(0,0,0,.28);
-      --text:#fff;
-      --muted:rgba(255,255,255,.78);
-      --muted2:rgba(255,255,255,.62);
-      --btn:rgba(255,255,255,.08);
-      --btn2:rgba(255,255,255,.12);
-      --danger:rgba(255,80,80,.95);
-      --ok:rgba(80,255,80,.95);
-      --radius:16px;
-    }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Vocabulary Station</title>
 
-    *{ box-sizing:border-box; }
-    body{
-      margin:0;
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      background: radial-gradient(1200px 900px at 20% 10%, rgba(80,170,255,.18), transparent 50%),
-                  radial-gradient(900px 700px at 80% 20%, rgba(255,80,200,.14), transparent 55%),
-                  radial-gradient(900px 700px at 65% 85%, rgba(0,255,200,.12), transparent 55%),
-                  var(--bg);
-      color:var(--text);
-      min-height:100vh;
-      display:flex;
-      flex-direction:column;
-    }
+<style>
+body{
+  margin:0;
+  font-family:system-ui;
+  background:#0b0b12;
+  color:white;
+}
+header{
+  padding:16px;
+  background:#111;
+  border-bottom:1px solid #333;
+}
+h1{ margin:0; }
 
-    header{
-      padding:14px 14px 10px;
-      border-bottom:1px solid rgba(255,255,255,.10);
-      background: rgba(10,10,16,.72);
-      backdrop-filter: blur(8px);
-      position: sticky;
-      top:0;
-      z-index:10;
-    }
+.controls{
+  margin-top:12px;
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+}
+button, select{
+  padding:8px 12px;
+  font-weight:900;
+  border-radius:10px;
+  border:2px solid #333;
+  background:#1b1b1b;
+  color:white;
+  cursor:pointer;
+}
+main{ padding:16px; }
 
-    .topRow{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:12px;
-      flex-wrap:wrap;
-    }
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:14px;
+}
 
-    .titleBlock{
-      display:flex;
-      align-items:baseline;
-      gap:10px;
-      flex-wrap:wrap;
-    }
+.card{
+  padding:16px;
+  background:#1a1a22;
+  border:3px solid #333;
+  border-radius:14px;
+  box-shadow:0 8px 0 rgba(0,0,0,.4);
+}
 
-    .title{
-      font-size:22px;
-      font-weight:900;
-      letter-spacing:.4px;
-      line-height:1;
-    }
-    .subtitle{
-      font-size:13px;
-      font-weight:700;
-      color:var(--muted);
-      opacity:.95;
-    }
+.pxsvg{
+  width:64px;
+  height:64px;
+}
 
-    .navBtns{
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-      align-items:center;
-    }
+.word{
+  font-size:28px;
+  font-weight:900;
+  margin-top:10px;
+}
+.back{
+  font-size:18px;
+  opacity:.8;
+}
 
-    button, select{
-      font: inherit;
-      color: var(--text);
-    }
-
-    .btn{
-      background: var(--btn);
-      border: 2px solid rgba(255,255,255,.14);
-      padding:10px 12px;
-      border-radius: 14px;
-      cursor:pointer;
-      font-weight:900;
-      letter-spacing:.2px;
-      box-shadow:0 8px 0 var(--shadow);
-      transition: transform .06s ease, background .15s ease;
-      user-select:none;
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-    }
-    .btn:hover{ background: var(--btn2); }
-    .btn:active{ transform: translateY(2px); box-shadow:0 6px 0 var(--shadow); }
-    .btnSmall{ padding:8px 10px; border-radius:12px; box-shadow:0 7px 0 var(--shadow); }
-
-    .pill{
-      background: rgba(255,255,255,.08);
-      border:1px solid rgba(255,255,255,.12);
-      padding:7px 10px;
-      border-radius:999px;
-      font-size:12px;
-      font-weight:900;
-      color:var(--muted);
-      display:inline-flex;
-      gap:8px;
-      align-items:center;
-      white-space:nowrap;
-    }
-
-    .controls{
-      margin-top:10px;
-      display:grid;
-      grid-template-columns: 1.3fr 1.7fr auto auto auto;
-      gap:10px;
-      align-items:stretch;
-    }
-
-    @media (max-width: 980px){
-      .controls{ grid-template-columns: 1fr 1fr; }
-    }
-    @media (max-width: 520px){
-      .controls{ grid-template-columns: 1fr; }
-    }
-
-    .select{
-      width:100%;
-      background: rgba(255,255,255,.06);
-      border: 2px solid rgba(255,255,255,.14);
-      border-radius: 14px;
-      padding:10px 12px;
-      font-weight:900;
-      box-shadow:0 8px 0 var(--shadow);
-      outline:none;
-    }
-
-    main{
-      padding:14px;
-      flex:1;
-    }
-
-    .grid{
-      display:grid;
-      grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
-      gap:14px;
-    }
-
-    .vcard{
-      border-radius: var(--radius);
-      padding:14px;
-      background: var(--panel);
-      border: 4px solid var(--stroke);
-      box-shadow: 0 10px 0 var(--shadow);
-      position:relative;
-      overflow:hidden;
-      text-align:left;
-      color:#fff;
-      min-height: 160px;
-    }
-
-    /* pixel pattern */
-    .vcard::before{
-      content:"";
-      position:absolute;
-      inset:-40px;
-      opacity:.16;
-      pointer-events:none;
-      background-size: 18px 18px;
-      background-image:
-        linear-gradient(to right, rgba(255,255,255,.22) 6px, transparent 6px),
-        linear-gradient(to bottom, rgba(255,255,255,.22) 6px, transparent 6px);
-    }
-
-    /* inner frame */
-    .vcard::after{
-      content:"";
-      position:absolute;
-      inset:0;
-      pointer-events:none;
-      box-shadow:
-        inset 0 0 0 4px rgba(0,0,0,.28),
-        inset 0 0 0 8px rgba(255,255,255,.06);
-      border-radius: var(--radius);
-      opacity:.9;
-    }
-
-    .vtop{
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      margin-bottom:10px;
-      position:relative;
-      z-index:2;
-    }
-
-    .vicon{
-      width: 72px;
-      height: 72px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-    }
-
-    .pxsvg{ width:72px; height:72px; }
-    .pxsvg path, .pxsvg rect, .pxsvg circle{
-      fill: currentColor;
-      stroke: currentColor;
-      stroke-width: 2;
-      stroke-linejoin: miter;
-      stroke-linecap: square;
-    }
-
-    .vsticker{
-      font-size: 34px;
-      line-height:1;
-      filter: drop-shadow(0 2px 0 rgba(0,0,0,.35));
-    }
-
-    .vword{
-      font-size: 34px;
-      font-weight: 950;
-      line-height: 1.05;
-      letter-spacing: .3px;
-      position:relative;
-      z-index:2;
-      margin: 2px 0 8px 0;
-      text-shadow: 0 2px 0 rgba(0,0,0,.35);
-    }
-
-    .vback{
-      font-size: 20px;
-      font-weight: 800;
-      opacity:.92;
-      position:relative;
-      z-index:2;
-      margin-top: 6px;
-    }
-
-    .vmeta{
-      margin-top: 10px;
-      font-size: 13px;
-      font-weight: 900;
-      opacity: .85;
-      position:relative;
-      z-index:2;
-      display:flex;
-      justify-content:space-between;
-      gap:10px;
-    }
-
-    .quizBtn{
-      width:100%;
-      cursor:pointer;
-    }
-
-    .hiddenAnswer{
-      opacity:.9;
-      font-size: 18px;
-      font-weight: 900;
-    }
-
-    .footerBar{
-      margin-top: 14px;
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-      align-items:center;
-      justify-content:space-between;
-    }
-
-    .pager{
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-      align-items:center;
-    }
-
-    .statusRow{
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-      align-items:center;
-      justify-content:flex-end;
-    }
-
-    /* Accent outlines + color */
-    .accent-mint   { outline: 4px solid rgba(0, 255, 200, .35); color: rgba(0,255,200,.95); }
-    .accent-yellow { outline: 4px solid rgba(255, 220, 0, .35); color: rgba(255,220,0,.95); }
-    .accent-blue   { outline: 4px solid rgba(80, 170, 255, .35); color: rgba(80,170,255,.95); }
-    .accent-pink   { outline: 4px solid rgba(255, 80, 200, .35); color: rgba(255,80,200,.95); }
-    .accent-purple { outline: 4px solid rgba(170, 80, 255, .35); color: rgba(170,80,255,.95); }
-    .accent-orange { outline: 4px solid rgba(255, 140, 60, .35); color: rgba(255,140,60,.95); }
-    .accent-green  { outline: 4px solid rgba(80, 255, 80, .35); color: rgba(80,255,80,.95); }
-    .accent-red    { outline: 4px solid rgba(255, 80, 80, .35); color: rgba(255,80,80,.95); }
-
-    /* Compact “toast” */
-    .toast{
-      position: fixed;
-      bottom: 14px;
-      left: 14px;
-      right: 14px;
-      max-width: 620px;
-      margin: 0 auto;
-      background: rgba(0,0,0,.55);
-      border: 1px solid rgba(255,255,255,.18);
-      padding: 10px 12px;
-      border-radius: 14px;
-      font-weight: 900;
-      color: var(--muted);
-      display:none;
-      backdrop-filter: blur(8px);
-      z-index: 20;
-    }
-    .toast.show{ display:block; }
-
-  </style>
+.meta{
+  margin-top:8px;
+  font-size:12px;
+  opacity:.7;
+}
+</style>
 </head>
 
 <body>
+
 <header>
-  <div class="topRow">
-    <div class="titleBlock">
-      <div class="title">Vocabulary Station</div>
-      <div class="subtitle">Synchronize 2 — Units 1–8</div>
-    </div>
-
-    <div class="navBtns">
-      <!-- Change href to your real arcade file -->
-      <a class="btn btnSmall" id="backBtn" href="./arcade.html" title="Back to Arcade">⬅ Back</a>
-      <span class="pill" id="modePill">Mode: Flashcards</span>
-      <span class="pill" id="countPill">Cards: 0</span>
-    </div>
-  </div>
-
+  <h1>Vocabulary Station</h1>
   <div class="controls">
-    <select class="select" id="unitSelect" aria-label="Select unit"></select>
-    <select class="select" id="setSelect" aria-label="Select set"></select>
-
-    <button class="btn" id="shuffleBtn" title="Shuffle cards">🔀 Shuffle</button>
-    <button class="btn" id="modeBtn" title="Switch mode">🎯 Mode</button>
-    <button class="btn" id="bossBtn" title="Database check">👾 Check</button>
+    <select id="unitSelect"></select>
+    <select id="setSelect"></select>
+    <button id="shuffleBtn">Shuffle</button>
+    <button id="modeBtn">Mode</button>
   </div>
 </header>
 
 <main>
-  <div class="grid" id="vocabGrid"></div>
-
-  <div class="footerBar">
-    <div class="pager">
-      <button class="btn btnSmall" id="prevBtn">⬅ Prev</button>
-      <span class="pill" id="pagePill">Page 1 / 1</span>
-      <button class="btn btnSmall" id="nextBtn">Next ➡</button>
-    </div>
-
-    <div class="statusRow">
-      <span class="pill" id="filterPill">All units · All sets</span>
-    </div>
-  </div>
+  <div class="grid" id="grid"></div>
 </main>
 
-<div class="toast" id="toast"></div>
-
 <script type="module">
-  // IMPORTANT PATHS:
-  // If vocabulary.js / vocab-icons.js are NOT in the same folder as this HTML,
-  // adjust the imports (e.g., "../js/vocabulary.js").
-  import { VOCAB_DB, listUnits, listSets, getCards, shuffle, flattenVocab } from "./vocabulary.js";
-  import { VOCAB_ICONS } from "./vocab-icons.js";
 
-  const unitSelect = document.getElementById("unitSelect");
-  const setSelect  = document.getElementById("setSelect");
-  const grid       = document.getElementById("vocabGrid");
+/* -------------------------------
+   IMPORTANT:
+   If your JS files are in /js/,
+   change "./vocabulary.js"
+   to "./js/vocabulary.js"
+---------------------------------*/
 
-  const shuffleBtn = document.getElementById("shuffleBtn");
-  const modeBtn    = document.getElementById("modeBtn");
-  const bossBtn    = document.getElementById("bossBtn");
+import { VOCAB_DB, listUnits, listSets, getCards, shuffle } from "./vocabulary.js";
+import { VOCAB_ICONS } from "./vocab-icons.js";
 
-  const prevBtn    = document.getElementById("prevBtn");
-  const nextBtn    = document.getElementById("nextBtn");
+const grid = document.getElementById("grid");
+const unitSelect = document.getElementById("unitSelect");
+const setSelect = document.getElementById("setSelect");
+const shuffleBtn = document.getElementById("shuffleBtn");
+const modeBtn = document.getElementById("modeBtn");
 
-  const modePill   = document.getElementById("modePill");
-  const countPill  = document.getElementById("countPill");
-  const pagePill   = document.getElementById("pagePill");
-  const filterPill = document.getElementById("filterPill");
+let mode = "flash";
+let cards = [];
 
-  const toastEl    = document.getElementById("toast");
+/* ---------- INIT SELECTS ---------- */
 
-  const PAGE_SIZE = 24;
+function initUnits(){
+  const units = listUnits(VOCAB_DB);
+  unitSelect.innerHTML =
+    `<option value="all">All units</option>` +
+    units.map(u => `<option value="${u.unit}">Unit ${u.unit}</option>`).join("");
+}
 
-  let mode = "flash";  // "flash" | "quiz"
-  let cards = [];
-  let page = 0;
+function initSets(unitVal){
+  const unitNum = unitVal === "all" ? null : Number(unitVal);
+  const sets = listSets(VOCAB_DB, unitNum);
 
-  function escapeHTML(s=""){
-    return String(s).replace(/[&<>"']/g, m => ({
-      "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"
-    }[m]));
-  }
+  setSelect.innerHTML =
+    `<option value="all">All sets</option>` +
+    sets.map(s => `<option value="${s.setId}">${s.label}</option>`).join("");
+}
 
-  function toast(msg){
-    toastEl.textContent = msg;
-    toastEl.classList.add("show");
-    clearTimeout(toast._t);
-    toast._t = setTimeout(()=>toastEl.classList.remove("show"), 1800);
-  }
+/* ---------- LOAD CARDS ---------- */
 
-  function initUnitSelect(){
-    const units = listUnits(VOCAB_DB);
-    unitSelect.innerHTML =
-      `<option value="all">All units</option>` +
-      units.map(u => `<option value="${u.unit}">Unit ${u.unit}: ${escapeHTML(u.title)}</option>`).join("");
-  }
+function loadCards(){
+  const unitVal = unitSelect.value;
+  const setVal = setSelect.value;
 
-  function initSetSelect(unitVal){
-    const unitNum = unitVal === "all" ? null : Number(unitVal);
-    const sets = listSets(VOCAB_DB, unitNum);
+  const unitNum = unitVal === "all" ? null : Number(unitVal);
+  const setId = setVal === "all" ? null : setVal;
 
-    setSelect.innerHTML =
-      `<option value="all">All sets</option>` +
-      sets.map(s => `<option value="${s.setId}">U${s.unit}: ${escapeHTML(s.label)}</option>`).join("");
-  }
+  cards = shuffle(getCards(VOCAB_DB, { unit: unitNum, setId }));
+  render();
+}
 
-  function updateFilterPill(){
-    const u = unitSelect.value;
-    const s = setSelect.value;
+/* ---------- RENDER ---------- */
 
-    const uLabel = (u === "all") ? "All units" : `Unit ${u}`;
-    const sLabel = (s === "all") ? "All sets" : s;
+function render(){
+  grid.innerHTML = cards.map(card => {
 
-    filterPill.textContent = `${uLabel} · ${sLabel}`;
-  }
-
-  function loadCards(){
-    const unitVal = unitSelect.value;
-    const setVal  = setSelect.value;
-
-    const unitNum = unitVal === "all" ? null : Number(unitVal);
-    const setId   = setVal  === "all" ? null : setVal;
-
-    cards = shuffle(getCards(VOCAB_DB, { unit: unitNum, setId }));
-    page = 0;
-
-    updateFilterPill();
-    countPill.textContent = `Cards: ${cards.length}`;
-    render();
-  }
-
-  function cardHTML(card){
     const iconKey = card.visual?.iconKey || "calendar";
-    const sticker = card.visual?.sticker || "";
-    const accent  = card.visual?.accent || "blue";
-
     const icon = VOCAB_ICONS[iconKey] || VOCAB_ICONS["calendar"] || "";
 
-    if (mode === "flash"){
+    if(mode === "flash"){
       return `
-        <div class="vcard accent-${accent}">
-          <div class="vtop">
-            <div class="vicon">${icon}</div>
-            <div class="vsticker">${escapeHTML(sticker)}</div>
-          </div>
-          <div class="vword">${escapeHTML(card.front)}</div>
-          ${card.back ? `<div class="vback">${escapeHTML(card.back)}</div>` : ``}
-          <div class="vmeta">
-            <span>U${card.unit}</span>
-            <span>${escapeHTML(card.setLabel)}</span>
-          </div>
+        <div class="card">
+          ${icon}
+          <div class="word">${card.front}</div>
+          ${card.back ? `<div class="back">${card.back}</div>` : ""}
+          <div class="meta">Unit ${card.unit}</div>
         </div>
       `;
     }
 
-    // QUIZ mode: click to reveal (no answer shown initially)
-    const hasBack = !!card.back;
     return `
-      <button class="vcard quizBtn accent-${accent}"
-        data-front="${escapeHTML(card.front)}"
-        data-back="${escapeHTML(card.back || "")}"
-        data-hasback="${hasBack ? "1" : "0"}"
-        aria-label="Quiz card: click to reveal">
-        <div class="vtop">
-          <div class="vicon">${icon}</div>
-          <div class="vsticker">?</div>
-        </div>
-        <div class="vword">CLICK TO REVEAL</div>
-        <div class="hiddenAnswer">(${hasBack ? "word + match" : "word"})</div>
-        <div class="vmeta">
-          <span>U${card.unit}</span>
-          <span>${escapeHTML(card.setLabel)}</span>
-        </div>
-      </button>
+      <div class="card quiz" data-front="${card.front}" data-back="${card.back}">
+        ${icon}
+        <div class="word">Click to reveal</div>
+      </div>
     `;
-  }
+  }).join("");
 
-  function wireQuizButtons(){
-    grid.querySelectorAll(".quizBtn").forEach(btn=>{
-      btn.addEventListener("click", ()=>{
-        const front = btn.getAttribute("data-front") || "";
-        const back  = btn.getAttribute("data-back") || "";
-        const hasBack = btn.getAttribute("data-hasback") === "1";
-
-        btn.innerHTML = `
-          <div class="vtop">
-            <div class="vicon"></div>
-            <div class="vsticker">✅</div>
-          </div>
-          <div class="vword">${front}</div>
-          ${hasBack ? `<div class="vback">${back}</div>` : ``}
-          <div class="vmeta"><span>Revealed</span><span>Click next card</span></div>
+  if(mode === "quiz"){
+    document.querySelectorAll(".quiz").forEach(el=>{
+      el.addEventListener("click", ()=>{
+        const f = el.getAttribute("data-front");
+        const b = el.getAttribute("data-back");
+        el.innerHTML = `
+          <div class="word">${f}</div>
+          ${b ? `<div class="back">${b}</div>` : ""}
         `;
       }, { once:true });
     });
   }
+}
 
-  function render(){
-    const totalPages = Math.max(1, Math.ceil(cards.length / PAGE_SIZE));
-    page = Math.min(page, totalPages - 1);
+/* ---------- EVENTS ---------- */
 
-    const start = page * PAGE_SIZE;
-    const batch = cards.slice(start, start + PAGE_SIZE);
+shuffleBtn.addEventListener("click", loadCards);
 
-    grid.innerHTML = batch.map(cardHTML).join("");
+modeBtn.addEventListener("click", ()=>{
+  mode = (mode === "flash") ? "quiz" : "flash";
+  modeBtn.textContent = `Mode: ${mode}`;
+  render();
+});
 
-    if (mode === "quiz") wireQuizButtons();
-
-    pagePill.textContent = `Page ${page + 1} / ${totalPages}`;
-    modePill.textContent = `Mode: ${mode === "flash" ? "Flashcards" : "Quiz"}`;
-
-    prevBtn.disabled = (page <= 0);
-    nextBtn.disabled = (page >= totalPages - 1);
-
-    // make disabled buttons look disabled
-    prevBtn.style.opacity = prevBtn.disabled ? ".45" : "1";
-    nextBtn.style.opacity = nextBtn.disabled ? ".45" : "1";
-  }
-
-  function toggleMode(){
-    mode = (mode === "flash") ? "quiz" : "flash";
-    toast(mode === "flash" ? "Flashcards mode" : "Quiz mode (click to reveal)");
-    render();
-  }
-
-  // “Boss Fight” DB check (quick proof)
-  function dbCheck(){
-    const all = flattenVocab(VOCAB_DB);
-    const missingFront = all.filter(c => !c.front || !String(c.front).trim()).length;
-    const missingVisual = all.filter(c => !c.visual || !c.visual.iconKey || !c.visual.accent).length;
-
-    // duplicates by set + front
-    const seen = new Set();
-    let dupes = 0;
-    for (const c of all){
-      const k = `${c.setId}||${String(c.front).trim().toLowerCase()}`;
-      if (seen.has(k)) dupes++;
-      else seen.add(k);
-    }
-
-    let score = 100;
-    score -= missingFront * 5;
-    score -= missingVisual * 2;
-    score -= dupes * 1;
-    score = Math.max(0, score);
-
-    const badge = score >= 95 ? "🏆 LEGEND" : score >= 85 ? "⭐ SOLID" : score >= 70 ? "⚠️ NEEDS FIXES" : "🧨 BROKEN";
-
-    toast(`${badge} · score ${score}/100 · cards ${all.length} · missing visuals ${missingVisual} · dupes ${dupes}`);
-    console.log("[DB CHECK]", { score, badge, total: all.length, missingFront, missingVisual, dupes });
-  }
-
-  // Events
-  shuffleBtn.addEventListener("click", ()=>{ loadCards(); toast("Shuffled!"); });
-  modeBtn.addEventListener("click", toggleMode);
-  bossBtn.addEventListener("click", dbCheck);
-
-  prevBtn.addEventListener("click", ()=>{ page = Math.max(0, page - 1); render(); });
-  nextBtn.addEventListener("click", ()=>{
-    const totalPages = Math.max(1, Math.ceil(cards.length / PAGE_SIZE));
-    page = Math.min(totalPages - 1, page + 1);
-    render();
-  });
-
-  unitSelect.addEventListener("change", ()=>{
-    initSetSelect(unitSelect.value);
-    loadCards();
-  });
-  setSelect.addEventListener("change", loadCards);
-
-  // Init
-  initUnitSelect();
-  initSetSelect("all");
+unitSelect.addEventListener("change", ()=>{
+  initSets(unitSelect.value);
   loadCards();
+});
 
-  // Keyboard shortcuts (optional but very helpful)
-  window.addEventListener("keydown", (e)=>{
-    if (e.key === "m" || e.key === "M") toggleMode();
-    if (e.key === "ArrowRight") nextBtn.click();
-    if (e.key === "ArrowLeft") prevBtn.click();
-    if (e.key === "s" || e.key === "S") shuffleBtn.click();
-  });
+setSelect.addEventListener("change", loadCards);
+
+/* ---------- START ---------- */
+
+initUnits();
+initSets("all");
+loadCards();
+
 </script>
 </body>
 </html>
