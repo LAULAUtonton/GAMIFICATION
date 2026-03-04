@@ -2,8 +2,8 @@
 <rect width="100" height="100" rx="20" fill="#FFD34D"/>
 
 <!-- excited eyes -->
-<circle cx="36" cy="42" r="7" fill="#222"/>
-<circle cx="65" cy="40" r="7" fill="#222"/>
+< oval cx="36" cy="42" r="7" fill="#222"/>
+<oval cx="65" cy="40" r="7" fill="#222"/>
 
 <!-- big excited smile -->
 <path d="M25 60 Q50 90 75 60" stroke="#222" stroke-width="6" fill="none"/>
