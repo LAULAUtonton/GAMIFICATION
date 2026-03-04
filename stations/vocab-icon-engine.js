@@ -1,11 +1,8 @@
 // stations/vocab-icon-engine.js
-console.log("vocab-icon-engine loaded: improved semantic mapping");
+
+console.log("vocab-icon-engine loaded: improved mapping");
 
 import { SEMANTIC_CATEGORIES, WORD_TO_CATEGORY, VARIANTS } from "./vocab-semantic-db.js";
-
-/* ------------------------------------------------
-DEBUG
------------------------------------------------- */
 
 const DEBUG_MISSING = false;
 
@@ -28,7 +25,7 @@ const SET_ACCENT = {
 };
 
 /* ------------------------------------------------
-CATEGORY FALLBACK ICONS
+FALLBACK ICONS PER SET
 ------------------------------------------------ */
 
 const SET_FALLBACK = {
@@ -46,43 +43,31 @@ const SET_FALLBACK = {
 };
 
 /* ------------------------------------------------
-EXACT WORD → ICON
-These prevent many words from sharing the same icon
+EXACT WORD → ICON MAPPING
 ------------------------------------------------ */
 
 const EXACT = {
 
-  /* -------------------------
-  VERBS
-  ------------------------- */
+  /* VERBS */
 
   agree: "handshake",
   disagree: "x-circle",
-
   appear: "sparkles",
   disappear: "wind",
-
   borrow: "hand-coins",
   lend: "hand-heart",
-
   buy: "shopping-cart",
   sell: "badge-dollar-sign",
-
   connect: "link",
   disconnect: "unlink",
-
   lose: "trending-down",
   win: "trophy",
-
   save: "piggy-bank",
   spend: "credit-card",
-
   send: "send",
   receive: "inbox",
 
-  /* -------------------------
-  FEELINGS
-  ------------------------- */
+  /* FEELINGS */
 
   happy: "smile",
   unhappy: "frown",
@@ -94,9 +79,7 @@ const EXACT = {
   worried: "alert-circle",
   relaxed: "coffee",
 
-  /* -------------------------
-  MATERIALS
-  ------------------------- */
+  /* MATERIALS */
 
   cardboard: "box",
   cotton: "flower",
@@ -108,9 +91,7 @@ const EXACT = {
   wood: "tree-pine",
   wool: "circle-dot",
 
-  /* -------------------------
-  OUTDOOR ACTIVITIES
-  ------------------------- */
+  /* OUTDOOR ACTIVITIES */
 
   cycling: "bike",
   jogging: "activity",
@@ -119,18 +100,14 @@ const EXACT = {
   "kite flying": "wind",
   "free running": "zap",
 
-  /* -------------------------
-  EVENTS
-  ------------------------- */
+  /* EVENTS */
 
   festival: "party-popper",
   market: "shopping-bag",
   concert: "music",
   "sports event": "trophy",
 
-  /* -------------------------
-  PERSONALITY
-  ------------------------- */
+  /* PERSONALITY */
 
   patient: "clock",
   lazy: "bed",
@@ -141,9 +118,7 @@ const EXACT = {
   mean: "angry",
   rude: "message-square-x",
 
-  /* -------------------------
-  SENSES
-  ------------------------- */
+  /* SENSES */
 
   sight: "eye",
   hearing: "ear",
@@ -151,9 +126,7 @@ const EXACT = {
   taste: "utensils",
   touch: "hand",
 
-  /* -------------------------
-  BODY
-  ------------------------- */
+  /* BODY */
 
   brain: "brain",
   heart: "heart",
@@ -164,9 +137,7 @@ const EXACT = {
   stretch: "move",
   train: "activity",
 
-  /* -------------------------
-  LEARNING
-  ------------------------- */
+  /* LEARNING */
 
   achieve: "trophy",
   achievement: "award",
@@ -177,9 +148,7 @@ const EXACT = {
   solve: "puzzle",
   solution: "lightbulb",
 
-  /* -------------------------
-  JOBS
-  ------------------------- */
+  /* JOBS */
 
   astronaut: "rocket",
   builder: "hammer",
@@ -196,13 +165,13 @@ CONTAINS RULES
 ------------------------------------------------ */
 
 const CONTAINS_RULES = [
-  { keys: ["work out", "working out", "workout"], icon: "dumbbell" },
+  { keys: ["working out", "work out", "workout"], icon: "dumbbell" },
   { keys: ["sports"], icon: "trophy" },
   { keys: ["market"], icon: "shopping-bag" }
 ];
 
 /* ------------------------------------------------
-UTILS
+UTILITIES
 ------------------------------------------------ */
 
 function cleanWord(word) {
@@ -247,10 +216,11 @@ function semanticLookup(cleaned) {
 }
 
 /* ------------------------------------------------
-PUBLIC API
+PUBLIC FUNCTIONS
 ------------------------------------------------ */
 
 export function getAccentColor(word = "", setId = "") {
+
   const cleaned = cleanWord(word);
   const semantic = semanticLookup(cleaned);
 
@@ -260,6 +230,10 @@ export function getAccentColor(word = "", setId = "") {
   return SET_ACCENT[sid] || "#2563eb";
 }
 
+/* ------------------------------------------------
+ICON RESOLUTION
+------------------------------------------------ */
+
 export function getIconName(word, pos = "", setId = "") {
 
   const cleaned = canonicalize(cleanWord(word));
@@ -268,16 +242,16 @@ export function getIconName(word, pos = "", setId = "") {
 
   if (!cleaned) return posFallback(p);
 
-  /* semantic DB */
-
-  const semantic = semanticLookup(cleaned);
-  if (semantic?.icon) return semantic.icon;
-
-  /* exact match */
+  /* EXACT match first */
 
   if (EXACT[cleaned]) {
     return EXACT[cleaned];
   }
+
+  /* semantic DB */
+
+  const semantic = semanticLookup(cleaned);
+  if (semantic?.icon) return semantic.icon;
 
   /* contains rules */
 
