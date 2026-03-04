@@ -248,7 +248,7 @@ export function getIconName(word) {
   // 3) category fallback
   const catIcon = matchRules(cleaned, CATEGORY_RULES);
   if (catIcon) return catIcon;
-
   // 4) safe fallback
-  return "circle";
+return "skull";
+
 }
