@@ -1,313 +1,213 @@
 // stations/vocab-icon-engine.js
-console.log("vocab-icon-engine loaded");
 
-import { SEMANTIC_CATEGORIES, WORD_TO_CATEGORY, VARIANTS } from "./vocab-semantic-db.js";
+console.log("Vocabulary Icon Engine loaded (SVG + Lucide hybrid)");
 
-const DEBUG_MISSING = false;
+/* ------------------------------------------------
+ICON BANKS
+------------------------------------------------ */
 
-/* ----------------------------------
-CATEGORY COLORS
----------------------------------- */
-
-const SET_ACCENT = {
-  u1_verbs_opposites: "#0ea5e9",
-  u1_feelings: "#f97316",
-  u2_materials: "#64748b",
-  u2_art: "#ec4899",
-  u3_outdoor_activities: "#3b82f6",
-  u3_outdoor_events: "#8b5cf6",
-  u4_personality: "#f59e0b",
-  u5_senses: "#06b6d4",
-  u6_body_fitness: "#ef4444",
-  u7_learning: "#22c55e",
-  u8_jobs: "#a855f7"
-};
-
-/* ----------------------------------
-SET FALLBACK ICONS
----------------------------------- */
-
-const SET_FALLBACK = {
-  u1_verbs_opposites: "arrow-left-right",
-  u1_feelings: "smile",
-  u2_materials: "box",
-  u2_art: "palette",
-  u3_outdoor_activities: "activity",
-  u3_outdoor_events: "ticket",
-  u4_personality: "users",
-  u5_senses: "eye",
-  u6_body_fitness: "heart",
-  u7_learning: "graduation-cap",
-  u8_jobs: "briefcase"
-};
-
-/* ----------------------------------
-EXACT WORD → ICON
----------------------------------- */
-
-const EXACT = {
-
-  /* VERBS */
-
-  agree: "handshake",
-  disagree: "x-circle",
-  appear: "sparkles",
-  disappear: "wind",
-  borrow: "hand-coins",
-  lend: "hand-heart",
-  buy: "shopping-cart",
-  sell: "badge-dollar-sign",
-  connect: "link",
-  disconnect: "unlink",
-  lose: "trending-down",
-  win: "trophy",
-  save: "piggy-bank",
-  spend: "credit-card",
-  send: "send",
-  receive: "inbox",
-
-  /* FEELINGS */
-
-  happy: "smile",
-  unhappy: "frown",
-  scared: "ghost",
-  surprised: "sparkles",
-  tired: "battery-low",
-  bored: "meh",
-  excited: "star",
-  worried: "alert-circle",
-  relaxed: "coffee",
-
-  /* MATERIALS */
-
-  cardboard: "box",
-  cotton: "flower",
-  glass: "wine",
-  leather: "boot",
-  metal: "hammer",
-  paper: "file-text",
-  plastic: "package",
-  wood: "tree-pine",
-  wool: "circle-dot",
-
-  /* ART AND ARTISTS */
-
-  dance: "music",
-  design: "pen-tool",
-  music: "music",
-  paint: "paintbrush",
-  photograph: "camera",
-  photographer: "camera",
-  sculpture: "cube",
-  designer: "pen-tool",
-  musician: "music",
-  painter: "paintbrush",
-
-  /* OUTDOOR ACTIVITIES */
-
-  cycling: "bike",
-  jogging: "activity",
-  rowing: "waves",
-  "working out": "dumbbell",
-  "kite flying": "wind",
-  "free running": "zap",
-
-  /* EVENTS */
-
-  festival: "party-popper",
-  market: "shopping-bag",
-  concert: "music",
-  "sports event": "trophy",
-
-  /* PERSONALITY */
-
-  patient: "clock",
-  lazy: "bed",
-  generous: "heart",
-  polite: "smile",
-  confident: "thumbs-up",
-  kind: "heart-handshake",
-  mean: "angry",
-  rude: "message-square-x",
-
-  /* SENSES */
-
-  sight: "eye",
-  hearing: "ear",
-  smell: "wind",
-  taste: "utensils",
-  touch: "hand",
-
-  /* BODY */
-
-  brain: "brain",
-  heart: "heart",
-  lungs: "activity",
-  muscles: "dumbbell",
-  bones: "bone",
-  injury: "bandage",
-  stretch: "move",
-  train: "activity",
-
-  /* LEARNING */
-
-  achieve: "trophy",
-  achievement: "award",
-  decide: "check-circle",
-  decision: "check",
-  learn: "book-open",
-  learning: "graduation-cap",
-  solve: "puzzle",
-  solution: "lightbulb",
-
-  /* JOBS */
-
-  astronaut: "rocket",
-  builder: "hammer",
-  dentist: "activity",
-  engineer: "wrench",
-  musician: "music",
-  teacher: "graduation-cap",
-  lawyer: "scale",
-  manager: "briefcase"
-};
-
-/* ----------------------------------
-CONTAINS RULES
----------------------------------- */
-
-const CONTAINS_RULES = [
-  { keys: ["working out", "workout"], icon: "dumbbell" },
-  { keys: ["sports"], icon: "trophy" },
-  { keys: ["market"], icon: "shopping-bag" }
+const EMOTIONS = [
+  "happy",
+  "unhappy",
+  "scared",
+  "surprised",
+  "tired",
+  "bored",
+  "excited",
+  "worried",
+  "relaxed",
+  "patient",
+  "lazy",
+  "generous",
+  "polite",
+  "kind",
+  "mean",
+  "rude"
 ];
 
-/* ----------------------------------
-UTILS
----------------------------------- */
+const JOBS = [
+  "teacher",
+  "librarian",
+  "architect",
+  "artist",
+  "banker",
+  "nurse",
+  "doctor",
+  "singer",
+  "mechanic",
+  "programmer",
+  "storekeeper",
+  "astronaut",
+  "pilot",
+  "postman",
+  "detective",
+  "chef",
+  "farmer",
+  "electrician",
+  "gardener",
+  "driver",
+  "vet",
+  "lawyer"
+];
+
+
+/* ------------------------------------------------
+UTILITY
+------------------------------------------------ */
 
 function cleanWord(word) {
   return String(word ?? "")
     .toLowerCase()
     .replace(/\(.*?\)/g, "")
-    .replace(/[^a-z ]/g, " ")
-    .replace(/\s+/g, " ")
+    .replace(/[^a-z ]/g, "")
     .trim();
 }
 
-function canonicalize(cleaned) {
-  if (!cleaned) return "";
-  return VARIANTS?.[cleaned] || cleaned;
-}
 
-function matchRules(cleaned, rules) {
-  for (const rule of rules) {
-    for (const k of rule.keys) {
-      if (cleaned.includes(k)) return rule.icon;
-    }
-  }
-  return null;
-}
-
-function posFallback(pos) {
-  if (pos === "adj") return "smile";
-  if (pos === "v") return "move";
-  if (pos === "n") return "box";
-  return "circle";
-}
-
-function semanticLookup(cleaned) {
-  const key = canonicalize(cleaned);
-  const catKey = WORD_TO_CATEGORY[key];
-
-  if (!catKey) return null;
-
-  const cat = SEMANTIC_CATEGORIES[catKey];
-
-  if (!cat) return null;
-
-  return {
-    category: catKey,
-    icon: cat.icon,
-    color: cat.color
-  };
-}
-
-/* ----------------------------------
-PUBLIC FUNCTIONS
----------------------------------- */
+/* ------------------------------------------------
+COLOR SYSTEM
+------------------------------------------------ */
 
 export function getAccentColor(word = "", setId = "") {
 
-  const cleaned = cleanWord(word);
-  const semantic = semanticLookup(cleaned);
+  const w = cleanWord(word);
 
-  if (semantic?.color) return semantic.color;
+  if (EMOTIONS.includes(w)) return "#f59e0b";
+  if (JOBS.includes(w)) return "#6366f1";
 
   const sid = String(setId || "");
-  return SET_ACCENT[sid] || "#2563eb";
+
+  if (sid.includes("verbs")) return "#0ea5e9";
+  if (sid.includes("materials")) return "#64748b";
+  if (sid.includes("fitness")) return "#ef4444";
+  if (sid.includes("learning")) return "#22c55e";
+
+  return "#2563eb";
 }
 
-/* ----------------------------------
-ICON RESOLUTION
----------------------------------- */
+
+/* ------------------------------------------------
+ICON ENGINE
+------------------------------------------------ */
 
 export function getIconName(word, pos = "", setId = "") {
 
-  const cleaned = canonicalize(cleanWord(word));
-  const p = String(pos || "").toLowerCase();
-  const sid = String(setId || "");
+  const cleaned = cleanWord(word);
 
-  if (!cleaned) return posFallback(p);
+  /* --------------------------------------------
+  EMOTION ICONS
+  -------------------------------------------- */
 
-  /* 1 EXACT */
-
-  if (EXACT[cleaned]) {
-    return EXACT[cleaned];
+  if (EMOTIONS.includes(cleaned)) {
+    return `icons/emotions/${cleaned}.svg`;
   }
 
-  /* 2 SEMANTIC */
 
-  const semantic = semanticLookup(cleaned);
-  if (semantic?.icon) return semantic.icon;
+  /* --------------------------------------------
+  JOB ICONS
+  -------------------------------------------- */
 
-  /* 3 CONTAINS */
-
-  const containsIcon = matchRules(cleaned, CONTAINS_RULES);
-  if (containsIcon) return containsIcon;
-
-  /* 4 SET FALLBACK */
-
-  if (sid && SET_FALLBACK[sid]) {
-
-    const fallbackIcon = SET_FALLBACK[sid];
-
-    if (DEBUG_MISSING) {
-      console.warn("[vocab-icon-engine] Using SET fallback:", {
-        word,
-        cleaned,
-        pos: p,
-        setId: sid,
-        icon: fallbackIcon
-      });
-    }
-
-    return fallbackIcon;
+  if (JOBS.includes(cleaned)) {
+    return `icons/jobs/${cleaned}.svg`;
   }
 
-  /* 5 POS FALLBACK */
 
-  const fallback = posFallback(p);
+  /* --------------------------------------------
+  VERB ICONS
+  -------------------------------------------- */
 
-  if (DEBUG_MISSING) {
-    console.warn("[vocab-icon-engine] Missing icon:", {
-      word,
-      cleaned,
-      pos: p,
-      setId: sid,
-      icon: fallback
-    });
+  const VERB_ICONS = {
+
+    agree: "handshake",
+    disagree: "x-circle",
+
+    appear: "sparkles",
+    disappear: "wind",
+
+    borrow: "hand-coins",
+    lend: "hand-coins",
+
+    buy: "shopping-cart",
+    sell: "badge-dollar-sign",
+
+    connect: "link",
+    disconnect: "unlink",
+
+    lose: "x",
+    win: "trophy",
+
+    save: "piggy-bank",
+    spend: "credit-card",
+
+    send: "send",
+    receive: "inbox"
+  };
+
+  if (VERB_ICONS[cleaned]) {
+    return VERB_ICONS[cleaned];
   }
 
-  return fallback;
+
+  /* --------------------------------------------
+  OUTDOOR ACTIVITIES
+  -------------------------------------------- */
+
+  if (cleaned.includes("jog")) return "person-running";
+  if (cleaned.includes("row")) return "ship";
+  if (cleaned.includes("kite")) return "wind";
+  if (cleaned.includes("run")) return "zap";
+
+
+  /* --------------------------------------------
+  EVENTS
+  -------------------------------------------- */
+
+  if (cleaned.includes("festival")) return "party-popper";
+  if (cleaned.includes("concert")) return "music";
+  if (cleaned.includes("market")) return "shopping-bag";
+
+
+  /* --------------------------------------------
+  MATERIALS
+  -------------------------------------------- */
+
+  if (cleaned === "wood") return "tree-pine";
+  if (cleaned === "glass") return "wine";
+  if (cleaned === "metal") return "cpu";
+  if (cleaned === "plastic") return "package";
+  if (cleaned === "paper") return "file-text";
+  if (cleaned === "cotton") return "flower";
+  if (cleaned === "leather") return "briefcase";
+  if (cleaned === "wool") return "circle";
+
+
+  /* --------------------------------------------
+  SENSES
+  -------------------------------------------- */
+
+  if (cleaned === "sight") return "eye";
+  if (cleaned === "hearing") return "ear";
+  if (cleaned === "smell") return "wind";
+  if (cleaned === "taste") return "coffee";
+  if (cleaned === "touch") return "hand";
+
+
+  /* --------------------------------------------
+  BODY / FITNESS
+  -------------------------------------------- */
+
+  if (cleaned === "heart") return "heart";
+  if (cleaned === "brain") return "brain";
+  if (cleaned === "lungs") return "activity";
+  if (cleaned === "muscles") return "dumbbell";
+  if (cleaned === "stretch") return "move";
+  if (cleaned === "train") return "dumbbell";
+  if (cleaned === "injury") return "bandage";
+
+
+  /* --------------------------------------------
+  DEFAULT
+  -------------------------------------------- */
+
+  return "circle";
 }
