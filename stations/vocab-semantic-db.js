@@ -1,8 +1,4 @@
-// vocab-semantic-db.js
-// Word/category semantic overrides for Vocabulary Station.
-
 export const SEMANTIC_CATEGORIES = {
-  // Feelings categories
   joy:         { icon: "smile",          color: "#22c55e" },
   sadness:     { icon: "frown",          color: "#60a5fa" },
   fear:        { icon: "alert-triangle", color: "#ef4444" },
@@ -13,13 +9,11 @@ export const SEMANTIC_CATEGORIES = {
   calm:        { icon: "leaf",           color: "#10b981" },
   anger:       { icon: "flame",          color: "#dc2626" },
 
-  // Art/creative examples
   design:      { icon: "pen-tool",       color: "#3b82f6" },
   creator:     { icon: "pencil",         color: "#06b6d4" }
 };
 
 export const WORD_TO_CATEGORY = {
-  // Feelings
   happy: "joy",
   excited: "energy_high",
   relaxed: "calm",
@@ -43,12 +37,10 @@ export const WORD_TO_CATEGORY = {
 
   angry: "anger",
 
-  // Art & artists examples
   design: "design",
   designer: "creator"
 };
 
-// Optional spelling/phrase variants -> canonical form
 export const VARIANTS = {
   "sports event": "sports event",
   "work out": "working out",
