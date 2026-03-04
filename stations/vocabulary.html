@@ -951,7 +951,7 @@ function filterByUnit(bank,val){
 // ═══════════════════════════════════════════════════════════════════════════
 (function(){
   var cv  = $("lucyCanvas");
-  var ctx = cv.getContext("2d");
+  var ctx = cv.getContext ? cv.getContext("2d") : null;
   var popup = $("lucyPopup");
   var nodes = [];   // {x,y,r,label,color,type,def,cat}
   var edges = [];   // {from,to}
@@ -1009,6 +1009,7 @@ function filterByUnit(bank,val){
   }
 
   function draw(){
+    if(!ctx) return;
     if(!cv.width) resize();
     ctx.clearRect(0,0,cv.width,cv.height);
 
