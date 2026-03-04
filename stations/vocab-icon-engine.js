@@ -1,9 +1,14 @@
 // stations/vocab-icon-engine.js
-console.log("vocab-icon-engine loaded: 2026-03-04 semantic-db v2");
+// Vocabulary Icon Engine — Stable Version
+// Priority: semantic → exact → contains → set fallback → POS fallback
 
 import { SEMANTIC_CATEGORIES, WORD_TO_CATEGORY, VARIANTS } from "./vocab-semantic-db.js";
 
-const DEBUG_MISSING = false;
+const DEBUG = false;
+
+/* ================================
+   SET COLOR ACCENTS
+================================ */
 
 const SET_ACCENT = {
   u1_verbs_opposites: "#0ea5e9",
@@ -19,6 +24,10 @@ const SET_ACCENT = {
   u8_jobs: "#a855f7"
 };
 
+/* ================================
+   SET FALLBACK ICONS
+================================ */
+
 const SET_FALLBACK = {
   u1_verbs_opposites: "arrow-left-right",
   u1_feelings: "smile",
@@ -33,9 +42,12 @@ const SET_FALLBACK = {
   u8_jobs: "briefcase"
 };
 
-// Keep EXACT for special one-off items that should not be grouped
+/* ================================
+   EXACT WORD ICONS
+================================ */
+
 const EXACT = {
-  // Verbs & opposites (from screenshot)
+
   agree: "handshake",
   disagree: "x-circle",
   appear: "sparkles",
@@ -52,11 +64,20 @@ const EXACT = {
   spend: "credit-card",
   send: "send",
   receive: "inbox"
+
 };
+
+/* ================================
+   CONTAINS RULES
+================================ */
 
 const CONTAINS_RULES = [
   { keys: ["working out", "work out", "workout"], icon: "dumbbell" }
 ];
+
+/* ================================
+   CLEAN WORD
+================================ */
 
 function cleanWord(word) {
   return String(word ?? "")
@@ -67,74 +88,130 @@ function cleanWord(word) {
     .trim();
 }
 
+/* ================================
+   VARIANT NORMALIZATION
+================================ */
+
 function canonicalize(cleaned) {
   if (!cleaned) return "";
-  return (VARIANTS && VARIANTS[cleaned]) ? VARIANTS[cleaned] : cleaned;
+  return VARIANTS && VARIANTS[cleaned]
+    ? VARIANTS[cleaned]
+    : cleaned;
 }
 
-function matchRules(cleaned, rules) {
-  for (const rule of rules) {
-    for (const k of rule.keys) {
-      if (cleaned.includes(k)) return rule.icon;
+/* ================================
+   CONTAINS MATCH
+================================ */
+
+function matchContains(cleaned) {
+  for (const rule of CONTAINS_RULES) {
+    for (const key of rule.keys) {
+      if (cleaned.includes(key)) return rule.icon;
     }
   }
   return null;
 }
 
+/* ================================
+   POS FALLBACK
+================================ */
+
 function posFallback(pos) {
+
   if (pos === "adj") return "smile";
   if (pos === "v") return "move";
   if (pos === "n") return "box";
+
   return "circle";
 }
 
+/* ================================
+   SEMANTIC LOOKUP
+================================ */
+
 function semanticLookup(cleaned) {
+
   const key = canonicalize(cleaned);
+
   const catKey = WORD_TO_CATEGORY[key];
+
   if (!catKey) return null;
-  const cat = SEMANTIC_CATEGORIES[catKey];
-  if (!cat) return null;
-  return { category: catKey, icon: cat.icon, color: cat.color };
+
+  const category = SEMANTIC_CATEGORIES[catKey];
+
+  if (!category) return null;
+
+  return {
+    category: catKey,
+    icon: category.icon,
+    color: category.color
+  };
+
 }
+
+/* ================================
+   PUBLIC — ACCENT COLOR
+================================ */
 
 export function getAccentColor(word = "", setId = "") {
-  const cleaned = cleanWord(word);
-  const semantic = semanticLookup(cleaned);
-  if (semantic?.color) return semantic.color;
 
-  const sid = String(setId || "");
-  return SET_ACCENT[sid] || "#2563eb";
+  const cleaned = cleanWord(word);
+
+  const semantic = semanticLookup(cleaned);
+
+  if (semantic && semantic.color) {
+    return semantic.color;
+  }
+
+  return SET_ACCENT[setId] || "#2563eb";
 }
 
-export function getIconName(word, pos = "", setId = "") {
+/* ================================
+   PUBLIC — ICON NAME
+================================ */
+
+export function getIconName(word = "", pos = "", setId = "") {
+
   const cleaned = canonicalize(cleanWord(word));
   const p = String(pos || "").toLowerCase();
-  const sid = String(setId || "");
 
   if (!cleaned) return posFallback(p);
 
-  // semantic DB first (precision)
-  const semantic = semanticLookup(cleaned);
-  if (semantic?.icon) return semantic.icon;
+  /* semantic database */
 
-  // then exact
-  if (Object.prototype.hasOwnProperty.call(EXACT, cleaned)) {
+  const semantic = semanticLookup(cleaned);
+
+  if (semantic && semantic.icon) {
+    return semantic.icon;
+  }
+
+  /* exact match */
+
+  if (EXACT[cleaned]) {
     return EXACT[cleaned];
   }
 
-  // then contains rules
-  const containsIcon = matchRules(cleaned, CONTAINS_RULES);
-  if (containsIcon) return containsIcon;
+  /* contains rules */
 
-  // then set fallback
-  if (sid && Object.prototype.hasOwnProperty.call(SET_FALLBACK, sid)) {
-    const fallbackIcon = SET_FALLBACK[sid];
-    if (DEBUG_MISSING) console.warn("[vocab-icon-engine] Using SET fallback:", { word, cleaned, pos: p, setId: sid, icon: fallbackIcon });
-    return fallbackIcon;
+  const containsIcon = matchContains(cleaned);
+
+  if (containsIcon) {
+    return containsIcon;
   }
 
-  // finally pos fallback
-  const fallback = posFallback(p);
-  if (DEBUG_MISSING) console.warn("[vocab-icon-engine] Missing icon (POS fallback):", { word, cleaned, pos: p, setId: sid, icon: fallback });
-  return fallback;
+  /* set fallback */
+
+  if (setId && SET_FALLBACK[setId]) {
+
+    if (DEBUG) {
+      console.warn("SET fallback used:", word, setId);
+    }
+
+    return SET_FALLBACK[setId];
+  }
+
+  /* POS fallback */
+
+  return posFallback(p);
+
 }
