@@ -241,9 +241,9 @@ export function getIconName(word) {
     return EXACT[cleaned];
   }
 
-  // 2) substring/synonym
-  const containsIcon = matchRules(cleaned, CONTAINS_RULES);
-  if (containsIcon) return containsIcon;
+   // 2) substring/synonym (TEMP OFF - avoids wrong matches)
+  // const containsIcon = matchRules(cleaned, CONTAINS_RULES);
+  // if (containsIcon) return containsIcon;
 
   // 3) category fallback
   const catIcon = matchRules(cleaned, CATEGORY_RULES);
