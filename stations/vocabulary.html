@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Vocabulary Station</title>
 
+<!-- Lucide Icons -->
 <script src="https://unpkg.com/lucide@latest"></script>
 
 <style>
@@ -43,6 +44,14 @@ button,select{ padding:8px 12px; border-radius:8px; border:1px solid #ccc; font-
 </main>
 
 <script type="module">
+/**
+ * IMPORTANT
+ * - The ?v=... is a cache-buster so your browser actually loads the latest JS files.
+ * - Keep these paths exactly as your file structure:
+ *     stations/vocabulary.html
+ *     stations/vocabulary.js
+ *     stations/vocab-icon-engine.js
+ */
 import { VOCAB_DB, getCards, shuffle, listUnits } from "./vocabulary.js?v=20260304";
 import { getAccentColor } from "./vocab-icon-engine.js?v=20260304";
 
@@ -60,32 +69,37 @@ function initUnits(){
 }
 
 function applyIconColors(){
+  // ensure generated SVGs inherit the parent "color"
   document.querySelectorAll(".icon svg").forEach(svg => {
     svg.setAttribute("stroke", "currentColor");
     svg.setAttribute("fill", "none");
   });
 }
 
-function render(){
-  // TEMP DEBUG (remove later):
-  console.log("accent sample", cards.slice(0,5).map(c => ({
-    front: c.front, setId: c.setId, accent: getAccentColor(c.front, c.setId), icon: c.icon
-  })));
+function escapeHtml(s){
+  return String(s ?? "")
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+}
 
+function render(){
   grid.innerHTML = cards.map(card => `
     <div class="card">
       <div class="icon" style="color:${getAccentColor(card.front, card.setId)}">
-        <i data-lucide="${card.icon}"></i>
+        <i data-lucide="${escapeHtml(card.icon)}"></i>
       </div>
 
       <div class="word">
-        <span class="front">${card.front}</span>
-        ${card.pos ? `<span class="pos">(${card.pos})</span>` : ``}
-        ${card.setLabel ? `<span class="cat">${card.setLabel}</span>` : ``}
+        <span class="front">${escapeHtml(card.front)}</span>
+        ${card.pos ? `<span class="pos">(${escapeHtml(card.pos)})</span>` : ``}
+        ${card.setLabel ? `<span class="cat">${escapeHtml(card.setLabel)}</span>` : ``}
       </div>
 
-      ${card.back ? `<div class="back">${card.back}</div>` : ``}
-      <div class="meta">Unit ${card.unit} · ${card.setLabel}</div>
+      ${card.back ? `<div class="back">${escapeHtml(card.back)}</div>` : ``}
+      <div class="meta">Unit ${escapeHtml(card.unit)} · ${escapeHtml(card.setLabel)}</div>
     </div>
   `).join("");
 
@@ -111,5 +125,6 @@ shuffleBtn.addEventListener("click", ()=>{
 initUnits();
 load();
 </script>
+
 </body>
 </html>
