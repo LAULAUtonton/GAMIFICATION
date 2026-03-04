@@ -5,115 +5,31 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Vocabulary Station</title>
 
-<!-- Lucide Icons -->
 <script src="https://unpkg.com/lucide@latest"></script>
 
 <style>
-body{
-  margin:0;
-  font-family: system-ui, sans-serif;
-  background:#f4f6fb;
-  padding:20px;
-}
+body{ margin:0; font-family:system-ui,sans-serif; background:#f4f6fb; padding:20px; }
+h1{ margin:0 0 20px 0; font-size:28px; }
+.controls{ margin-bottom:20px; display:flex; gap:10px; flex-wrap:wrap; }
+button,select{ padding:8px 12px; border-radius:8px; border:1px solid #ccc; font-weight:700; cursor:pointer; }
 
-h1{
-  margin:0 0 20px 0;
-  font-size:28px;
-}
+.grid{ display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:16px; }
+.card{ background:#fff; border-radius:14px; padding:16px; box-shadow:0 6px 18px rgba(0,0,0,.08); transition:transform .15s ease; }
+.card:hover{ transform:translateY(-2px); }
 
-.controls{
-  margin-bottom:20px;
-  display:flex;
-  gap:10px;
-  flex-wrap:wrap;
-}
+.icon{ margin-bottom:10px; line-height:0; }
+.icon svg{ width:36px; height:36px; stroke-width:2.25; stroke:currentColor; fill:none; }
 
-button, select{
-  padding:8px 12px;
-  border-radius:8px;
-  border:1px solid #ccc;
-  font-weight:700;
-  cursor:pointer;
-}
+.word{ font-size:22px; font-weight:900; margin-bottom:6px; display:flex; align-items:center; flex-wrap:wrap; gap:6px; }
+.pos{ font-size:12px; font-weight:900; color:#6b7280; background:#f3f4f6; border:1px solid #e5e7eb; padding:2px 8px; border-radius:999px; }
+.cat{ font-size:12px; font-weight:900; color:#111827; background:#e0f2fe; border:1px solid #bae6fd; padding:2px 8px; border-radius:999px; }
 
-.grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(240px,1fr));
-  gap:16px;
-}
-
-.card{
-  background:white;
-  border-radius:14px;
-  padding:16px;
-  box-shadow:0 6px 18px rgba(0,0,0,0.08);
-  transition:transform .15s ease;
-}
-
-.card:hover{
-  transform:translateY(-2px);
-}
-
-.icon{
-  margin-bottom:10px;
-  line-height:0;
-}
-
-.icon svg{
-  width:36px;
-  height:36px;
-  stroke-width:2.25;
-  stroke: currentColor; /* ensure stroke uses parent color */
-  fill: none;
-}
-
-.word{
-  font-size:22px;
-  font-weight:900;
-  margin-bottom:6px;
-  display:flex;
-  align-items:center;
-  flex-wrap:wrap;
-  gap:6px;
-}
-
-.pos{
-  font-size:12px;
-  font-weight:900;
-  color:#6b7280;
-  background:#f3f4f6;
-  border:1px solid #e5e7eb;
-  padding:2px 8px;
-  border-radius:999px;
-}
-
-.cat{
-  font-size:12px;
-  font-weight:900;
-  color:#111827;
-  background:#e0f2fe;
-  border:1px solid #bae6fd;
-  padding:2px 8px;
-  border-radius:999px;
-}
-
-.back{
-  font-size:16px;
-  color:#374151;
-  font-weight:800;
-  margin-bottom:6px;
-}
-
-.meta{
-  font-size:13px;
-  color:#6b7280;
-  margin-top:8px;
-}
+.back{ font-size:16px; color:#374151; font-weight:800; margin-bottom:6px; }
+.meta{ font-size:13px; color:#6b7280; margin-top:8px; }
 </style>
 </head>
 
 <body>
-
 <header>
   <h1>Vocabulary Station — Synchronize 2</h1>
   <div class="controls">
@@ -127,8 +43,8 @@ button, select{
 </main>
 
 <script type="module">
-import { VOCAB_DB, getCards, shuffle, listUnits } from "./vocabulary.js";
-import { getAccentColor } from "./vocab-icon-engine.js";
+import { VOCAB_DB, getCards, shuffle, listUnits } from "./vocabulary.js?v=20260304";
+import { getAccentColor } from "./vocab-icon-engine.js?v=20260304";
 
 const grid = document.getElementById("grid");
 const unitSelect = document.getElementById("unitSelect");
@@ -136,7 +52,6 @@ const shuffleBtn = document.getElementById("shuffleBtn");
 
 let cards = [];
 
-/* Populate unit dropdown */
 function initUnits(){
   const units = listUnits(VOCAB_DB);
   unitSelect.innerHTML =
@@ -144,7 +59,6 @@ function initUnits(){
     units.map(u => `<option value="${u.unit}">Unit ${u.unit}</option>`).join("");
 }
 
-/* Ensure created SVGs respect parent color */
 function applyIconColors(){
   document.querySelectorAll(".icon svg").forEach(svg => {
     svg.setAttribute("stroke", "currentColor");
@@ -152,11 +66,15 @@ function applyIconColors(){
   });
 }
 
-/* Render cards */
 function render(){
+  // TEMP DEBUG (remove later):
+  console.log("accent sample", cards.slice(0,5).map(c => ({
+    front: c.front, setId: c.setId, accent: getAccentColor(c.front, c.setId), icon: c.icon
+  })));
+
   grid.innerHTML = cards.map(card => `
     <div class="card">
-      <div class="icon" style="color:${getAccentColor(card.setId)}">
+      <div class="icon" style="color:${getAccentColor(card.front, card.setId)}">
         <i data-lucide="${card.icon}"></i>
       </div>
 
@@ -167,7 +85,6 @@ function render(){
       </div>
 
       ${card.back ? `<div class="back">${card.back}</div>` : ``}
-
       <div class="meta">Unit ${card.unit} · ${card.setLabel}</div>
     </div>
   `).join("");
@@ -176,28 +93,23 @@ function render(){
   applyIconColors();
 }
 
-/* Load cards */
 function load(){
   const unitVal = unitSelect.value;
-  if(unitVal === "all"){
-    cards = getCards(VOCAB_DB);
-  } else {
-    cards = getCards(VOCAB_DB, { unit: Number(unitVal) });
-  }
+  cards = (unitVal === "all")
+    ? getCards(VOCAB_DB)
+    : getCards(VOCAB_DB, { unit: Number(unitVal) });
+
   render();
 }
 
-/* Events */
 unitSelect.addEventListener("change", load);
 shuffleBtn.addEventListener("click", ()=>{
   cards = shuffle(cards);
   render();
 });
 
-/* Init */
 initUnits();
 load();
 </script>
-
 </body>
 </html>
