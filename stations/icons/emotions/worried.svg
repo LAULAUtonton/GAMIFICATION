@@ -1,3 +1,14 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="341" height="341" viewBox="0 0 341 341">
-<image href="worried.png" width="341" height="341"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+<rect width="100" height="100" rx="20" fill="#FFD34D"/>
+
+<!-- worried eyebrows -->
+<path d="M25 35 Q35 30 45 35" stroke="#222" stroke-width="4" fill="none"/>
+<path d="M55 35 Q65 30 75 35" stroke="#222" stroke-width="4" fill="none"/>
+
+<!-- eyes -->
+<circle cx="35" cy="45" r="5" fill="#222"/>
+<circle cx="65" cy="45" r="5" fill="#222"/>
+
+<!-- worried mouth -->
+<path d="M30 70 Q50 60 70 70" stroke="#222" stroke-width="6" fill="none"/>
 </svg>
