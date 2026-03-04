@@ -1,9 +1,14 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+
 <rect width="100" height="100" rx="20" fill="#FFD34D"/>
 
-<!-- excited eyes -->
-<<oval cx="35" cy="40" r="7" fill="#222"/>
-<circle cx="65" cy="40" r="7" fill="#222"/>
+<!-- left star eye -->
+<polygon points="35,30 38,38 46,38 40,43 43,50 35,45 27,50 30,43 24,38 32,38"
+fill="#222"/>
+
+<!-- right star eye -->
+<polygon points="65,30 68,38 76,38 70,43 73,50 65,45 57,50 60,43 54,38 62,38"
+fill="#222"/>
 
 <!-- big excited smile -->
 <path d="M25 60 Q50 90 75 60" stroke="#222" stroke-width="6" fill="none"/>
