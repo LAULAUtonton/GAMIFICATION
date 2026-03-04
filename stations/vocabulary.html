@@ -87,7 +87,52 @@ button, select{
 </style>
 </head>
 
-<body>
+// ═══════════════════════════════════════════════════════════════════════════
+// FILL IN THE BLANKS
+// ═══════════════════════════════════════════════════════════════════════════
+var fillSt={queue:[],idx:0,score:0,answered:false};
+function startFill(){
+  var pool=filterByUnit(FILL_BANK,$("fillUnitSel").value);
+  if(!pool.length) pool=FILL_BANK.slice();
+  fillSt.queue=shuffle(pool).slice(0,10);fillSt.idx=0;fillSt.score=0;fillSt.answered=false;
+  $("fillScore").textContent="0";renderFillQ();
+}
+function renderFillQ(){
+  var total=fillSt.queue.length,q=fillSt.queue[fillSt.idx];fillSt.answered=false;
+  $("fillNum").textContent=(fillSt.idx+1)+"/"+total;
+  var pct=Math.round(fillSt.idx/total*100);
+  $("fillProgPct").textContent=pct+"%";$("fillProgFill").style.width=pct+"%";
+  var pre=q.pre?q.pre+" ":"",post=q.post?" "+q.post:"";
+  $("clozeSentence").innerHTML=pre+'<span class="clozeBlank" id="clozeBlank">________</span>'+post;
+  var opts=$("wordOptions");opts.innerHTML="";
+  shuffle(q.opts).forEach(function(opt){
+    var btn=document.createElement("button");btn.className="optBtn";btn.textContent=opt;
+    (function(o){ btn.addEventListener("click",function(){ onFillAnswer(o,q.blank,btn); }); })(opt);
+    opts.appendChild(btn);
+  });
+  setFB("fillFb","Choose the missing word.","warn");
+}
+function onFillAnswer(chosen,correct,btn){
+  if(fillSt.answered) return;fillSt.answered=true;
+  var isOk=(chosen===correct);
+  var bl=$("clozeBlank");bl.textContent=correct;bl.classList.add(isOk?"ok":"bad");
+  document.querySelectorAll(".optBtn").forEach(function(b){
+    b.disabled=true;if(b.textContent===correct) b.classList.add("correct");
+  });
+  if(!isOk) btn.classList.add("wrong");
+  if(isOk){ fillSt.score++;$("fillScore").textContent=fillSt.score;setFB("fillFb","\u2705 Correct!","ok"); }
+  else setFB("fillFb","\u274C The answer was: "+correct,"bad");
+  setTimeout(function(){
+    fillSt.idx++;
+    if(fillSt.idx>=fillSt.queue.length){
+      var t=fillSt.queue.length;
+      $("fillProgFill").style.width="100%";$("fillProgPct").textContent="100%";
+      $("fillNum").textContent=t+"/"+t;
+      setFB("fillFb","\u{1F3C6} Round complete! Score: "+fillSt.score+"/"+t+". Press New Round to play again.","ok");
+      $("clozeSentence").innerHTML="";$("wordOptions").innerHTML="";
+    } else renderFillQ();
+  },1400);
+}
 
 <h1>Vocabulary Station</h1>
 
@@ -155,7 +200,7 @@ shuffleBtn.addEventListener("click", ()=>{
 initUnits();
 load();
 
+}());
 </script>
-
 </body>
 </html>
