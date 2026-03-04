@@ -12,8 +12,9 @@
 // - Safe phrase matching (only long keys, avoids substring accidents)
 // - Consistent category fallback using setId (so every set has a relevant icon)
 // - POS-aware final fallback (so adjectives/verbs/nouns look different)
+// - DEBUG: log when we fall back to SET_FALLBACK or POS fallback
 
-const DEBUG_MISSING = true; // set true to log missing words
+const DEBUG_MISSING = true; // set true to log fallback usage
 
 /* ===============================
    0) SET CATEGORY FALLBACKS
@@ -50,7 +51,6 @@ const SET_FALLBACK = {
 
 /* ===============================
    1) EXACT: precise per-word icons
-   Add/adjust these as needed.
 =================================*/
 const EXACT = {
   // ---- Unit 1 verbs ----
@@ -151,7 +151,6 @@ const EXACT = {
   builder: "hammer",
   dentist: "stethoscope",
   engineer: "wrench",
-  musician: "music",
   teacher: "graduation-cap",
   lawyer: "scale",
   manager: "briefcase",
@@ -241,12 +240,29 @@ export function getIconName(word, pos = "", setId = "") {
 
   // 3) set/category fallback (ensures relevance even when unknown)
   if (sid && Object.prototype.hasOwnProperty.call(SET_FALLBACK, sid)) {
-    return SET_FALLBACK[sid];
+    const fallbackIcon = SET_FALLBACK[sid];
+    if (DEBUG_MISSING) {
+      console.warn("[vocab-icon-engine] Using SET fallback:", {
+        word,
+        cleaned,
+        pos: p,
+        setId: sid,
+        icon: fallbackIcon
+      });
+    }
+    return fallbackIcon;
   }
 
   // 4) final POS-aware fallback
+  const fallback = posFallback(p);
   if (DEBUG_MISSING) {
-    console.warn("[vocab-icon-engine] Missing icon:", { word, cleaned, pos: p, setId: sid });
+    console.warn("[vocab-icon-engine] Missing icon (POS fallback):", {
+      word,
+      cleaned,
+      pos: p,
+      setId: sid,
+      icon: fallback
+    });
   }
-  return posFallback(p);
+  return fallback;
 }
