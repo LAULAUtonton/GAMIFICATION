@@ -1,16 +1,24 @@
 // vocab-icon-engine.js
-// Lucide-based semantic icon engine (bulk mapping + safer fallbacks)
+// POS-aware Lucide icon engine for Vocabulary Station
 //
-// Goal:
-// - Always return a valid Lucide icon name string
-// - Prefer exact word matches, then substring/synonym matches, then category fallbacks
+// Usage:
+//   import { getIconName } from "./vocab-icon-engine.js";
+//   const icon = getIconName(wordOrPhrase, pos); // pos: "n" | "v" | "adj" | ""
 //
-// Used by: stations/vocabulary.js -> getIconName(word)
+// Design goals:
+// - Prefer EXACT matches for precision (best for vocabulary learning)
+// - Allow safe phrase/synonym matching (CONTAINS_RULES) without “substring accidents”
+// - Provide consistent POS-based fallbacks so you don’t get random circles
+// - Optional debug mode to print missing words in console (helps bulk-fill mappings)
 
+const DEBUG_MISSING = false; // set true to log missing mappings
+
+/* ===============================
+   1) EXACT: highest precision
+   (add your vocabulary here)
+=================================*/
 const EXACT = {
-  /* =========================
-     UNIT 1 �� Verbs/opposites
-  ========================= */
+  // ===== Unit 1 verbs/opposites =====
   agree: "handshake",
   disagree: "x-circle",
   appear: "sparkles",
@@ -28,80 +36,41 @@ const EXACT = {
   send: "send",
   receive: "inbox",
 
-  /* =========================
-     UNIT 1 — Feelings
-  ========================= */
+  // ===== Feelings / adjectives =====
   happy: "smile",
   unhappy: "frown",
+  worried: "badge-alert",
+  bored: "minus-circle",
   scared: "alert-triangle",
   surprised: "zap",
   tired: "battery-low",
-  bored: "minus-circle",
   excited: "star",
-  worried: "alert-circle",
   relaxed: "coffee",
 
-  /* =========================
-     UNIT 2 — Materials
-  ========================= */
-  cardboard: "package",
-  cotton: "shirt",
-  glass: "glass-water",
-  leather: "briefcase",
-  metal: "anvil",
-  paper: "file-text",
-  plastic: "shopping-bag",
-  wood: "tree-pine",
-  wool: "scarf",
-
-  /* =========================
-     UNIT 2 — Art and artists
-  ========================= */
-  dance: "music",
-  design: "pencil-ruler",
-  music: "music",
-  paint: "paintbrush",
-  photograph: "camera",
-  sculpture: "cube",
-  designer: "pencil-ruler",
-  musician: "music",
-  painter: "paintbrush",
-  photographer: "camera",
-
-  /* =========================
-     UNIT 3 — Outdoor activities
-  ========================= */
-  cycling: "bike",
-  jogging: "person-running",
-  rowing: "waves",
-  "working out": "dumbbell",
-  "kite flying": "wind",
-  "free running": "person-running",
-
-  /* =========================
-     UNIT 4 — Personality adjectives
-  ========================= */
-  patient: "hourglass",
-  lazy: "bed",
-  generous: "hand-heart",
-  polite: "hand",
-  confident: "badge-check",
-  kind: "heart",
-  mean: "thumbs-down",
-  rude: "message-square-x",
-
-  /* =========================
-     UNIT 5 — Senses
-  ========================= */
-  sight: "eye",
+  // ===== Senses / actions =====
   smell: "wind",
   taste: "utensils",
   touch: "hand",
   hearing: "ear",
+  sight: "eye",
 
-  /* =========================
-     UNIT 6 — Body and fitness
-  ========================= */
+  // ===== Jobs / people =====
+  teacher: "graduation-cap",
+  engineer: "wrench",
+  lawyer: "scale",
+  manager: "briefcase",
+  dentist: "stethoscope",
+  hairdresser: "scissors",
+  police: "shield",
+  detective: "search",
+  cook: "chef-hat",
+  astronaut: "rocket",
+  builder: "hammer",
+
+  // performer (you asked for a “person” performer icon)
+  performer: "person-standing",
+
+  // ===== Body / fitness =====
   brain: "brain",
   heart: "heart",
   lungs: "wind",
@@ -111,33 +80,7 @@ const EXACT = {
   stretch: "move",
   train: "dumbbell",
 
-  /* =========================
-     UNIT 7 — Learning
-  ========================= */
-  achieve: "trophy",
-  achievement: "award",
-  decide: "check-circle",
-  decision: "check-circle",
-  learn: "book-open",
-  learning: "book-open",
-  solve: "puzzle",
-  solution: "lightbulb",
-
-  /* =========================
-     UNIT 8 — Jobs
-  ========================= */
-  astronaut: "rocket",
-  builder: "hammer",
-  dentist: "stethoscope",
-  engineer: "wrench",
-  musician: "music",
-  teacher: "graduation-cap",
-  lawyer: "scale",
-  manager: "briefcase",
-
-  /* =========================
-     GENERAL (shared)
-  ========================= */
+  // ===== Common objects =====
   book: "book",
   school: "school",
   computer: "monitor",
@@ -147,69 +90,55 @@ const EXACT = {
   car: "car",
   tree: "tree-pine",
   sun: "sun",
+  hospital: "hospital",
+  music: "music",
   game: "gamepad-2",
-  sport: "trophy",
-  hospital: "hospital"
+  sport: "trophy"
 };
 
-/**
- * CONTAINS rules
- * - catches variants, plurals, longer phrases
- * - evaluated in order (first match wins)
- */
+/* ===============================
+   2) CONTAINS_RULES: safe phrase
+   matching (avoid short substrings!)
+=================================*/
 const CONTAINS_RULES = [
-  // jobs
-  { keys: ["teacher"], icon: "graduation-cap" },
-  { keys: ["engineer"], icon: "wrench" },
-  { keys: ["lawyer"], icon: "scale" },
-  { keys: ["manager"], icon: "briefcase" },
-  { keys: ["dentist"], icon: "stethoscope" },
+  // phrases first
+  { keys: ["working out", "work out", "workout"], icon: "dumbbell" },
+  { keys: ["kite flying"], icon: "wind" },
+  { keys: ["free running"], icon: "person-running" },
 
-  // arts
-  { keys: ["photo", "camera", "photograph"], icon: "camera" },
+  // safe longer keys
+  { keys: ["photograph", "photographer", "photo"], icon: "camera" },
   { keys: ["paint", "painter"], icon: "paintbrush" },
-  { keys: ["design"], icon: "pencil-ruler" },
-  { keys: ["sculpt"], icon: "cube" },
-  { keys: ["music", "musician"], icon: "music" },
-  { keys: ["dance"], icon: "music" },
+  { keys: ["sculpture", "sculptor", "sculpt"], icon: "cube" },
+  { keys: ["designer", "design"], icon: "pencil-ruler" },
 
-  // activities
-  { keys: ["run", "running", "jog"], icon: "person-running" },
-  { keys: ["cycle", "bike"], icon: "bike" },
-  { keys: ["row"], icon: "waves" },
-  { keys: ["work out", "workout", "train"], icon: "dumbbell" },
-  { keys: ["kite"], icon: "wind" },
-
-  // materials
-  { keys: ["cardboard", "box", "package"], icon: "package" },
-  { keys: ["cotton", "wool"], icon: "shirt" },
-  { keys: ["glass"], icon: "glass-water" },
-  { keys: ["metal"], icon: "anvil" },
-  { keys: ["paper"], icon: "file-text" },
-  { keys: ["plastic"], icon: "shopping-bag" },
-  { keys: ["wood"], icon: "tree-pine" },
-  { keys: ["leather"], icon: "briefcase" },
-
-  // senses/body
-  { keys: ["see", "sight", "look"], icon: "eye" },
-  { keys: ["hear", "hearing", "listen"], icon: "ear" },
-  { keys: ["touch"], icon: "hand" },
-  { keys: ["taste"], icon: "utensils" },
-  { keys: ["smell"], icon: "wind" },
-  { keys: ["heart"], icon: "heart" },
-  { keys: ["brain"], icon: "brain" }
+  // activities (safe-ish)
+  { keys: ["cycling"], icon: "bike" },
+  { keys: ["jogging"], icon: "person-running" },
+  { keys: ["rowing"], icon: "waves" }
 ];
 
-/**
- * CATEGORY fallbacks
- * If a word is unknown, at least try a broad semantic bucket.
- */
+/* ===============================
+   3) CATEGORY_RULES: consistent
+   fallback by meaning hints
+=================================*/
 const CATEGORY_RULES = [
-  { keys: ["happy", "sad", "tired", "bored", "worried", "scared", "excited"], icon: "smile" },
-  { keys: ["money", "buy", "sell", "spend", "save", "borrow", "lend"], icon: "credit-card" },
-  { keys: ["school", "learn", "study", "book"], icon: "book-open" },
-  { keys: ["sport", "exercise", "train", "fitness"], icon: "dumbbell" },
-  { keys: ["art", "paint", "design", "music", "photo"], icon: "palette" },
+  // emotion adjectives
+  { keys: ["happy", "unhappy", "worried", "bored", "scared", "tired", "excited", "relaxed"], icon: "smile" },
+
+  // money verbs
+  { keys: ["buy", "sell", "borrow", "lend", "save", "spend"], icon: "credit-card" },
+
+  // learning/school
+  { keys: ["school", "learn", "learning", "study", "book"], icon: "book-open" },
+
+  // sport/fitness
+  { keys: ["sport", "exercise", "training", "train", "fitness"], icon: "dumbbell" },
+
+  // art
+  { keys: ["art", "paint", "design", "music", "dance", "photo"], icon: "palette" },
+
+  // tech
   { keys: ["computer", "laptop", "phone", "online"], icon: "monitor" }
 ];
 
@@ -231,24 +160,36 @@ function matchRules(cleaned, rules) {
   return null;
 }
 
-export function getIconName(word) {
+function posFallback(pos) {
+  // POS-consistent fallbacks (better than "circle" for learning)
+  if (pos === "adj") return "smile";
+  if (pos === "v") return "move";
+  if (pos === "n") return "box";
+  return "circle";
+}
+
+export function getIconName(word, pos = "") {
   const cleaned = cleanWord(word);
+  const p = String(pos || "").toLowerCase();
 
-  if (!cleaned) return "circle";
+  if (!cleaned) return posFallback(p);
 
-  // 1) exact
+  // 1) exact match
   if (Object.prototype.hasOwnProperty.call(EXACT, cleaned)) {
     return EXACT[cleaned];
   }
 
-   // 2) substring/synonym (TEMP OFF - avoids wrong matches)
-  // const containsIcon = matchRules(cleaned, CONTAINS_RULES);
-  // if (containsIcon) return containsIcon;
+  // 2) safe phrase/synonym match
+  const containsIcon = matchRules(cleaned, CONTAINS_RULES);
+  if (containsIcon) return containsIcon;
 
-  // 3) category fallback
+  // 3) category fallback by meaning hints
   const catIcon = matchRules(cleaned, CATEGORY_RULES);
   if (catIcon) return catIcon;
-  // 4) safe fallback
-return "skull";
 
+  // 4) POS-aware fallback + optional debug
+  if (DEBUG_MISSING) {
+    console.warn("[vocab-icon-engine] Missing icon for:", { word, cleaned, pos: p });
+  }
+  return posFallback(p);
 }
