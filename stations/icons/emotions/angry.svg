@@ -5,4 +5,4 @@
 <circle cx="35" cy="45" r="4" fill="#333"/>
 <circle cx="65" cy="45" r="4" fill="#333"/>
 <path d="M30 70 Q50 55 70 70" stroke="#333" stroke-width="6" fill="none"/>
-<svg>
+</svg>
