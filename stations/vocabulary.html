@@ -9,49 +9,137 @@
 <script src="https://unpkg.com/lucide@latest"></script>
 
 <style>
-body{ margin:0; font-family:system-ui,sans-serif; background:#f4f6fb; padding:20px; }
-h1{ margin:0 0 20px 0; font-size:28px; }
-.controls{ margin-bottom:20px; display:flex; gap:10px; flex-wrap:wrap; }
-button,select{ padding:8px 12px; border-radius:8px; border:1px solid #ccc; font-weight:700; cursor:pointer; }
 
-.grid{ display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:16px; }
-.card{ background:#fff; border-radius:14px; padding:16px; box-shadow:0 6px 18px rgba(0,0,0,.08); transition:transform .15s ease; }
-.card:hover{ transform:translateY(-2px); }
+body{
+  margin:0;
+  font-family:system-ui,sans-serif;
+  background:#f4f6fb;
+  padding:20px;
+}
 
-.icon{ margin-bottom:10px; line-height:0; }
-.icon svg{ width:36px; height:36px; stroke-width:2.25; stroke:currentColor; fill:none; }
+h1{
+  margin:0 0 20px 0;
+  font-size:28px;
+}
 
-.word{ font-size:22px; font-weight:900; margin-bottom:6px; display:flex; align-items:center; flex-wrap:wrap; gap:6px; }
-.pos{ font-size:12px; font-weight:900; color:#6b7280; background:#f3f4f6; border:1px solid #e5e7eb; padding:2px 8px; border-radius:999px; }
-.cat{ font-size:12px; font-weight:900; color:#111827; background:#e0f2fe; border:1px solid #bae6fd; padding:2px 8px; border-radius:999px; }
+.controls{
+  margin-bottom:20px;
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+}
 
-.back{ font-size:16px; color:#374151; font-weight:800; margin-bottom:6px; }
-.meta{ font-size:13px; color:#6b7280; margin-top:8px; }
+button,select{
+  padding:8px 12px;
+  border-radius:8px;
+  border:1px solid #ccc;
+  font-weight:700;
+  cursor:pointer;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(240px,1fr));
+  gap:16px;
+}
+
+.card{
+  background:#fff;
+  border-radius:14px;
+  padding:16px;
+  box-shadow:0 6px 18px rgba(0,0,0,.08);
+  transition:transform .15s ease;
+}
+
+.card:hover{
+  transform:translateY(-2px);
+}
+
+.icon{
+  margin-bottom:10px;
+  line-height:0;
+}
+
+/* Lucide icons */
+.icon svg{
+  width:36px;
+  height:36px;
+  stroke-width:2.25;
+  stroke:currentColor;
+  fill:none;
+}
+
+/* Custom SVG icons */
+.icon-img{
+  width:36px;
+  height:36px;
+  object-fit:contain;
+}
+
+.word{
+  font-size:22px;
+  font-weight:900;
+  margin-bottom:6px;
+  display:flex;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:6px;
+}
+
+.pos{
+  font-size:12px;
+  font-weight:900;
+  color:#6b7280;
+  background:#f3f4f6;
+  border:1px solid #e5e7eb;
+  padding:2px 8px;
+  border-radius:999px;
+}
+
+.cat{
+  font-size:12px;
+  font-weight:900;
+  color:#111827;
+  background:#e0f2fe;
+  border:1px solid #bae6fd;
+  padding:2px 8px;
+  border-radius:999px;
+}
+
+.back{
+  font-size:16px;
+  color:#374151;
+  font-weight:800;
+  margin-bottom:6px;
+}
+
+.meta{
+  font-size:13px;
+  color:#6b7280;
+  margin-top:8px;
+}
+
 </style>
 </head>
 
 <body>
+
 <header>
-  <h1>Vocabulary Station — Synchronize 2</h1>
-  <div class="controls">
-    <select id="unitSelect"></select>
-    <button id="shuffleBtn">Shuffle</button>
-  </div>
+<h1>Vocabulary Station — Synchronize 2</h1>
+
+<div class="controls">
+<select id="unitSelect"></select>
+<button id="shuffleBtn">Shuffle</button>
+</div>
+
 </header>
 
 <main>
-  <div class="grid" id="grid"></div>
+<div class="grid" id="grid"></div>
 </main>
 
 <script type="module">
-/**
- * IMPORTANT
- * - The ?v=... is a cache-buster so your browser actually loads the latest JS files.
- * - Keep these paths exactly as your file structure:
- *     stations/vocabulary.html
- *     stations/vocabulary.js
- *     stations/vocab-icon-engine.js
- */
+
 import { VOCAB_DB, getCards, shuffle, listUnits } from "./vocabulary.js?v=20260304";
 import { getAccentColor } from "./vocab-icon-engine.js?v=20260304";
 
@@ -63,17 +151,21 @@ let cards = [];
 
 function initUnits(){
   const units = listUnits(VOCAB_DB);
+
   unitSelect.innerHTML =
     `<option value="all">All Units</option>` +
-    units.map(u => `<option value="${u.unit}">Unit ${u.unit}</option>`).join("");
+    units.map(u =>
+      `<option value="${u.unit}">Unit ${u.unit}</option>`
+    ).join("");
 }
 
 function applyIconColors(){
-  // ensure generated SVGs inherit the parent "color"
-  document.querySelectorAll(".icon svg").forEach(svg => {
-    svg.setAttribute("stroke", "currentColor");
-    svg.setAttribute("fill", "none");
+
+  document.querySelectorAll(".icon svg").forEach(svg=>{
+    svg.setAttribute("stroke","currentColor");
+    svg.setAttribute("fill","none");
   });
+
 }
 
 function escapeHtml(s){
@@ -86,44 +178,73 @@ function escapeHtml(s){
 }
 
 function render(){
+
   grid.innerHTML = cards.map(card => `
-    <div class="card">
-      <div class="icon" style="color:${getAccentColor(card.front, card.setId)}">
-        <i data-lucide="${escapeHtml(card.icon)}"></i>
-      </div>
 
-      <div class="word">
-        <span class="front">${escapeHtml(card.front)}</span>
-        ${card.pos ? `<span class="pos">(${escapeHtml(card.pos)})</span>` : ``}
-        ${card.setLabel ? `<span class="cat">${escapeHtml(card.setLabel)}</span>` : ``}
-      </div>
+  <div class="card">
 
-      ${card.back ? `<div class="back">${escapeHtml(card.back)}</div>` : ``}
-      <div class="meta">Unit ${escapeHtml(card.unit)} · ${escapeHtml(card.setLabel)}</div>
+    <div class="icon" style="color:${getAccentColor(card.front,card.setId)}">
+
+      ${
+        card.icon.endsWith(".svg")
+        ? `<img src="${card.icon}" class="icon-img">`
+        : `<i data-lucide="${escapeHtml(card.icon)}"></i>`
+      }
+
     </div>
+
+    <div class="word">
+
+      <span class="front">${escapeHtml(card.front)}</span>
+
+      ${card.pos
+        ? `<span class="pos">(${escapeHtml(card.pos)})</span>`
+        : ``}
+
+      ${card.setLabel
+        ? `<span class="cat">${escapeHtml(card.setLabel)}</span>`
+        : ``}
+
+    </div>
+
+    ${card.back
+      ? `<div class="back">${escapeHtml(card.back)}</div>`
+      : ``}
+
+    <div class="meta">
+      Unit ${escapeHtml(card.unit)} · ${escapeHtml(card.setLabel)}
+    </div>
+
+  </div>
+
   `).join("");
 
   lucide.createIcons();
   applyIconColors();
+
 }
 
 function load(){
+
   const unitVal = unitSelect.value;
+
   cards = (unitVal === "all")
     ? getCards(VOCAB_DB)
-    : getCards(VOCAB_DB, { unit: Number(unitVal) });
+    : getCards(VOCAB_DB,{unit:Number(unitVal)});
 
   render();
 }
 
-unitSelect.addEventListener("change", load);
-shuffleBtn.addEventListener("click", ()=>{
+unitSelect.addEventListener("change",load);
+
+shuffleBtn.addEventListener("click",()=>{
   cards = shuffle(cards);
   render();
 });
 
 initUnits();
 load();
+
 </script>
 
 </body>
