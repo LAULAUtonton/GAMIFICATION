@@ -1,518 +1,244 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>THE PIT – Writing Station</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800&display=swap" rel="stylesheet">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Vocabulary Station</title>
 
 <style>
+:root{
+  --bg:#121226;
+  --card1:#1f1f35;
+  --card2:#2a2a48;
+}
+
 body{
   margin:0;
-  font-family:'Orbitron',sans-serif;
-  background:radial-gradient(circle,#fed7aa 0%,#f97316 60%,#7c2d12 100%);
-  color:#111827;
-}
-
-.container{
-  width:90%;
-  max-width:1000px;
-  margin:40px auto;
-  background:white;
-  padding:40px;
-  border-radius:25px;
-  box-shadow:0 25px 50px rgba(0,0,0,0.6);
-}
-
-.title{
-  text-align:center;
-  font-size:30px;
-  color:#9a3412;
-  margin-bottom:10px;
-}
-
-.topBar{
-  display:flex;
-  justify-content:space-between;
-  flex-wrap:wrap;
-  gap:10px;
-  margin-bottom:20px;
-}
-
-.badge{
-  padding:8px 14px;
-  border-radius:999px;
-  background:#ffedd5;
-  border:2px solid #f97316;
-  font-size:13px;
-  font-weight:800;
-}
-
-.button{
-  padding:10px 16px;
-  border-radius:12px;
-  border:none;
-  cursor:pointer;
-  font-weight:900;
-  transition:.2s;
-}
-
-.orangeBtn{
-  background:#f97316;
+  font-family:system-ui;
+  background:
+    radial-gradient(circle at 20% 20%, #2a2a5a 0%, transparent 40%),
+    radial-gradient(circle at 80% 30%, #3a1f5c 0%, transparent 40%),
+    radial-gradient(circle at 50% 80%, #004c4c 0%, transparent 40%),
+    var(--bg);
   color:white;
 }
-.orangeBtn:hover{ background:#ea580c; }
 
-.whiteBtn{
-  background:white;
-  border:2px solid #f97316;
-  color:#9a3412;
-}
-.whiteBtn:hover{ background:#ffedd5; }
-
-textarea{
-  width:100%;
-  min-height:150px;
-  padding:14px;
-  border-radius:15px;
-  border:2px solid #f97316;
-  font-family:Arial;
-  font-size:15px;
-  margin-top:10px;
-}
-
-.feedback{
-  margin-top:15px;
-  padding:15px;
-  border-radius:15px;
-  background:#fff7ed;
-  border:2px solid #fb923c;
-  font-size:14px;
-}
-
-.hidden{ display:none; }
-
-.modeBox{
-  margin-bottom:25px;
+header{
   padding:18px;
-  border-radius:18px;
-  border:2px solid #fb923c;
-  background:#fff7ed;
+  background:#151530;
+  border-bottom:2px solid rgba(255,255,255,.08);
 }
 
-.wordCount{
-  margin-top:8px;
-  font-size:13px;
-  font-weight:800;
-  color:#9a3412;
-}
-
-.promptCard{
-  background:#fff7ed;
-  border:2px solid #fdba74;
-  border-radius:14px;
-  padding:14px;
-  margin-bottom:10px;
-}
-
-.promptTitle{
-  margin:0 0 8px 0;
-  color:#9a3412;
-  font-size:16px;
-}
-
-.promptMeta{
+h1{
   margin:0;
-  font-size:12px;
-  color:#c2410c;
-  font-weight:700;
+  font-size:24px;
+  font-weight:900;
 }
 
-.promptHint{
+.controls{
+  margin-top:14px;
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+}
+
+button, select{
+  padding:10px 14px;
+  font-weight:900;
+  border-radius:12px;
+  border:2px solid rgba(255,255,255,.15);
+  background:#1c1c38;
+  color:white;
+  cursor:pointer;
+  transition:all .15s ease;
+}
+
+button:hover{
+  background:#25255a;
+}
+
+main{
+  padding:20px;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:18px;
+}
+
+/* ---------- CARD ---------- */
+
+.card{
+  padding:18px;
+  background:linear-gradient(145deg,var(--card1),var(--card2));
+  border-radius:16px;
+  border:3px solid rgba(255,255,255,.1);
+  box-shadow:0 10px 0 rgba(0,0,0,.5);
+  transition:transform .15s ease;
+}
+
+.card:hover{
+  transform:translateY(-4px);
+}
+
+.pxsvg{
+  width:64px;
+  height:64px;
+  color:white;   /* IMPORTANT FIX */
+}
+
+.word{
+  font-size:34px;
+  font-weight:900;
+  margin-top:12px;
+  text-shadow:0 3px 0 rgba(0,0,0,.6);
+}
+
+.back{
+  font-size:20px;
+  margin-top:6px;
+  opacity:.85;
+}
+
+.meta{
   margin-top:10px;
-  padding:10px;
-  border-radius:10px;
-  background:#ffffff;
-  border:1px dashed #fdba74;
   font-size:13px;
+  opacity:.7;
 }
 
-.checklist{
-  margin-top:10px;
-  background:#ffffff;
-  border:1px solid #fed7aa;
-  border-radius:10px;
-  padding:10px;
-}
+/* ---------- ACCENTS ---------- */
 
-.checkItem{
-  font-size:13px;
-  margin:4px 0;
-  color:#9a3412;
-}
+.accent-mint   { background:linear-gradient(145deg,#003f3a,#005f55); }
+.accent-yellow { background:linear-gradient(145deg,#5a4a00,#7a6300); }
+.accent-blue   { background:linear-gradient(145deg,#003a5a,#005a8a); }
+.accent-pink   { background:linear-gradient(145deg,#5a003f,#8a005f); }
+.accent-purple { background:linear-gradient(145deg,#3a005a,#5a008a); }
+.accent-orange { background:linear-gradient(145deg,#5a2a00,#8a3f00); }
+.accent-green  { background:linear-gradient(145deg,#004f2a,#007a3f); }
+.accent-red    { background:linear-gradient(145deg,#5a0000,#8a0000); }
+
 </style>
 </head>
 
 <body>
 
-<div class="container" id="app">
+<header>
+  <h1>Vocabulary Station — Synchronize 2</h1>
+  <div class="controls">
+    <select id="unitSelect"></select>
+    <select id="setSelect"></select>
+    <button id="shuffleBtn">Shuffle</button>
+    <button id="modeBtn">Mode</button>
+  </div>
+</header>
 
-<div class="title">WRITING STATION</div>
+<main>
+  <div class="grid" id="grid"></div>
+</main>
 
-<!-- LOGIN -->
-<div id="loginBox">
-  <p><strong>Enter your name to begin:</strong></p>
-  <input type="text" id="studentNameInput" placeholder="Your name">
-  <button class="button orangeBtn" onclick="startLogin()">START</button>
-</div>
+<script type="module">
 
-<!-- MAIN CONTENT -->
-<div id="mainContent" class="hidden">
+import { VOCAB_DB, listUnits, listSets, getCards, shuffle } from "./vocabulary.js";
+import { VOCAB_ICONS } from "./vocabulary-icons.js";
 
-<div class="topBar">
-  <div class="badge" id="studentBadge"></div>
-  <div class="badge" id="timer">00:00</div>
-  <div class="badge" id="modeBadge">Mode: Quick Fix</div>
-  <div class="badge" id="taskBadge">Task: 1/3</div>
-</div>
+const grid = document.getElementById("grid");
+const unitSelect = document.getElementById("unitSelect");
+const setSelect = document.getElementById("setSelect");
+const shuffleBtn = document.getElementById("shuffleBtn");
+const modeBtn = document.getElementById("modeBtn");
 
-<div class="topBar">
-  <button class="button whiteBtn" onclick="goMainMenu()">Main Menu</button>
-  <button class="button whiteBtn" onclick="pauseTimer()">Pause</button>
-  <button class="button whiteBtn" onclick="exitStation()">Exit</button>
-  <button class="button orangeBtn" onclick="saveProgress()">Save</button>
-</div>
+let mode = "flash";
+let cards = [];
 
-<!-- MODE SELECT -->
-<div class="modeBox">
-  <button class="button orangeBtn" onclick="setMode('quick')">Quick Fix</button>
-  <button class="button orangeBtn" onclick="setMode('transform')">Transform</button>
-  <button class="button orangeBtn" onclick="setMode('paragraph')">Build Paragraph</button>
-  <button class="button orangeBtn" onclick="setMode('boss')">Boss Level</button>
-</div>
-
-<!-- WRITING AREA -->
-<div id="writingArea">
-
-  <div id="promptBox" class="promptCard"></div>
-  <div id="taskChecklist" class="checklist"></div>
-
-  <textarea id="writingInput" placeholder="Start writing here..."></textarea>
-  <div class="wordCount" id="wordCounter">Words: 0</div>
-
-  <button class="button whiteBtn" onclick="nextTask()">Next Task</button>
-  <button class="button orangeBtn" onclick="submitWriting()">Submit</button>
-
-  <div id="feedbackBox" class="feedback hidden"></div>
-
-</div>
-
-</div>
-</div>
-
-<script>
-
-/* ================= LOGIN ================= */
-
-let studentName = localStorage.getItem("pitStudent");
-
-function startLogin(){
-  const name = document.getElementById("studentNameInput").value.trim();
-  if(!name) return alert("Enter your name.");
-  localStorage.setItem("pitStudent", name);
-  studentName = name;
-  activateApp();
+function initUnits(){
+  const units = listUnits(VOCAB_DB);
+  unitSelect.innerHTML =
+    `<option value="all">All units</option>` +
+    units.map(u => `<option value="${u.unit}">Unit ${u.unit}</option>`).join("");
 }
 
-function activateApp(){
-  document.getElementById("loginBox").classList.add("hidden");
-  document.getElementById("mainContent").classList.remove("hidden");
-  document.getElementById("studentBadge").innerText = "Student: " + studentName;
-  loadPrompt();
-  startTimer();
+function initSets(unitVal){
+  const unitNum = unitVal === "all" ? null : Number(unitVal);
+  const sets = listSets(VOCAB_DB, unitNum);
+
+  setSelect.innerHTML =
+    `<option value="all">All sets</option>` +
+    sets.map(s => `<option value="${s.setId}">${s.label}</option>`).join("");
 }
 
-/* ================= TIMER ================= */
+function loadCards(){
+  const unitVal = unitSelect.value;
+  const setVal = setSelect.value;
 
-let seconds = 0;
-let interval = null;
+  const unitNum = unitVal === "all" ? null : Number(unitVal);
+  const setId = setVal === "all" ? null : setVal;
 
-function startTimer(){
-  interval = setInterval(()=>{
-    seconds++;
-    updateTimer();
-  },1000);
+  cards = shuffle(getCards(VOCAB_DB, { unit: unitNum, setId }));
+  render();
 }
 
-function pauseTimer(){
-  clearInterval(interval);
+function render(){
+  grid.innerHTML = cards.map(card => {
+
+    const iconKey = card.visual?.iconKey || "calendar";
+    const accent  = card.visual?.accent || "blue";
+    const icon = VOCAB_ICONS[iconKey] || VOCAB_ICONS["calendar"] || "";
+
+    if(mode === "flash"){
+      return `
+        <div class="card accent-${accent}">
+          ${icon}
+          <div class="word">${card.front}</div>
+          ${card.back ? `<div class="back">${card.back}</div>` : ""}
+          <div class="meta">Unit ${card.unit}</div>
+        </div>
+      `;
+    }
+
+    return `
+      <div class="card accent-${accent} quiz"
+        data-front="${card.front}"
+        data-back="${card.back}">
+        ${icon}
+        <div class="word">Click to reveal</div>
+      </div>
+    `;
+  }).join("");
+
+  if(mode === "quiz"){
+    document.querySelectorAll(".quiz").forEach(el=>{
+      el.addEventListener("click", ()=>{
+        const f = el.getAttribute("data-front");
+        const b = el.getAttribute("data-back");
+        el.innerHTML = `
+          <div class="word">${f}</div>
+          ${b ? `<div class="back">${b}</div>` : ""}
+        `;
+      }, { once:true });
+    });
+  }
 }
 
-function updateTimer(){
-  let m = String(Math.floor(seconds/60)).padStart(2,"0");
-  let s = String(seconds%60).padStart(2,"0");
-  document.getElementById("timer").innerText = m + ":" + s;
-}
+shuffleBtn.addEventListener("click", loadCards);
 
-/* ================= WORD COUNT ================= */
-
-const input = document.getElementById("writingInput");
-
-input.addEventListener("input", ()=>{
-  const words = input.value.trim().split(/\s+/).filter(w=>w.length>0);
-  document.getElementById("wordCounter").innerText = "Words: " + words.length;
+modeBtn.addEventListener("click", ()=>{
+  mode = (mode === "flash") ? "quiz" : "flash";
+  modeBtn.textContent = `Mode: ${mode}`;
+  render();
 });
 
-/* ================= MODES ================= */
+unitSelect.addEventListener("change", ()=>{
+  initSets(unitSelect.value);
+  loadCards();
+});
 
-let currentMode = "quick";
-let taskIndex = 0;
+setSelect.addEventListener("change", loadCards);
 
-const modeConfig = {
-  quick: {
-    label: "Quick Fix",
-    tasks: [
-      {
-        title: "Fix grammar and agreement",
-        prompt: "Correct the sentence:",
-        source: "We was very nervous and there was many machines.",
-        minWords: 5,
-        mustHave: ["we were", "there were"],
-        checklist: ["Correct both grammar mistakes", "Write one complete corrected sentence"]
-      },
-      {
-        title: "Fix tense and punctuation",
-        prompt: "Correct the sentence:",
-        source: "Yesterday i go to school but i forget my notebook",
-        minWords: 5,
-        mustHave: ["went", "forgot"],
-        checklist: ["Use past simple", "Add capital letter and final punctuation"]
-      },
-      {
-        title: "Fix third person present simple",
-        prompt: "Correct the sentence:",
-        source: "My sister study english every night and watch videos.",
-        minWords: 5,
-        mustHave: ["studies", "watches"],
-        checklist: ["Fix verb form for 'she'", "Keep the original meaning"]
-      }
-    ]
-  },
-  transform: {
-    label: "Transform",
-    tasks: [
-      {
-        title: "Join ideas with although",
-        prompt: "Rewrite these two sentences as one:",
-        source: "We were scared. We continued walking.",
-        minWords: 7,
-        mustHave: ["although"],
-        checklist: ["Write one sentence only", "Use 'although' correctly"]
-      },
-      {
-        title: "Use because",
-        prompt: "Rewrite as one clear sentence:",
-        source: "She was tired. She finished the project.",
-        minWords: 7,
-        mustHave: ["because"],
-        checklist: ["Connect both ideas", "Use a logical reason"]
-      },
-      {
-        title: "Use relative clause",
-        prompt: "Combine naturally:",
-        source: "I met a student. The student won the science fair.",
-        minWords: 7,
-        mustHave: ["who"],
-        checklist: ["Write one fluent sentence", "Use the relative pronoun 'who'"]
-      }
-    ]
-  },
-  paragraph: {
-    label: "Build Paragraph",
-    tasks: [
-      {
-        title: "Describe a place",
-        prompt: "Write an 80-word paragraph:",
-        source: "Describe a mysterious place you visited. Include where it is, what you saw, and how you felt.",
-        minWords: 70,
-        minSentences: 3,
-        mustHave: [],
-        checklist: ["Include location, details, and feelings", "Write at least 70 words"]
-      },
-      {
-        title: "Daily routine paragraph",
-        prompt: "Write an 80-word paragraph:",
-        source: "Describe your school morning routine. Use sequence words (first, then, after that, finally).",
-        minWords: 70,
-        minSentences: 3,
-        mustHave: ["first", "then", "finally"],
-        checklist: ["Use sequence words", "Organize ideas in order"]
-      },
-      {
-        title: "Technology opinion paragraph",
-        prompt: "Write an 80-word paragraph:",
-        source: "Explain one benefit and one problem of using mobile phones at school.",
-        minWords: 70,
-        minSentences: 3,
-        mustHave: [],
-        checklist: ["State one benefit and one problem", "Give a short personal opinion"]
-      }
-    ]
-  },
-  boss: {
-    label: "Boss Level",
-    tasks: [
-      {
-        title: "Future of school",
-        prompt: "Write 100 words:",
-        source: "How will technology change schools in the next 10 years? Include at least two predictions with will.",
-        minWords: 95,
-        minSentences: 4,
-        mustHave: ["will"],
-        checklist: ["Write 2+ predictions", "Support your ideas with examples"]
-      },
-      {
-        title: "Health campaign text",
-        prompt: "Write 100 words:",
-        source: "Create a short campaign text to encourage healthy habits among teens.",
-        minWords: 95,
-        minSentences: 4,
-        mustHave: ["should"],
-        checklist: ["Include advice for teens", "Use persuasive language"]
-      }
-    ]
-  }
-};
-
-function setMode(mode){
-  currentMode = mode;
-  taskIndex = 0;
-  document.getElementById("modeBadge").innerText = "Mode: " + modeConfig[mode].label;
-  loadPrompt();
-}
-
-function nextTask(){
-  const tasks = modeConfig[currentMode].tasks;
-  taskIndex = (taskIndex + 1) % tasks.length;
-  loadPrompt();
-}
-
-function loadPrompt(){
-  const promptBox = document.getElementById("promptBox");
-  const mode = modeConfig[currentMode];
-  const task = mode.tasks[taskIndex];
-
-  if(!task){
-    promptBox.innerHTML = `<h3 class="promptTitle">No task loaded</h3><p>Please select a mode again.</p>`;
-    document.getElementById("taskChecklist").innerHTML = `<strong>Task Checklist</strong><div class="checkItem">• Choose a mode to continue.</div>`;
-    document.getElementById("taskBadge").innerText = "Task: -";
-    return;
-  }
-
-  promptBox.innerHTML = `
-    <h3 class="promptTitle">Current Task: ${task.title}</h3>
-    <p class="promptMeta">${mode.label} • Task ${taskIndex + 1}/${mode.tasks.length}</p>
-    <p><strong>${task.prompt}</strong><br>${task.source}</p>
-    <div class="promptHint">Goal: write at least <strong>${task.minWords}</strong> words, then revise based on feedback.</div>
-  `;
-
-  const checklist = (task.checklist || []).map(item=>`<div class="checkItem">• ${item}</div>`).join("");
-  document.getElementById("taskBadge").innerText = `Task: ${taskIndex + 1}/${mode.tasks.length}`;
-  document.getElementById("taskChecklist").innerHTML = `<strong>Task Checklist</strong>${checklist}`;
-
-  input.value="";
-  document.getElementById("wordCounter").innerText = "Words: 0";
-  document.getElementById("feedbackBox").classList.add("hidden");
-}
-
-/* ================= GRAMMAR CHECK ================= */
-
-function grammarCheck(text){
-  const mustFix = [];
-  const coaching = [];
-  const task = modeConfig[currentMode].tasks[taskIndex];
-  const words = text.split(/\s+/).filter(Boolean);
-  const sentences = text.split(/[.?!]+/).map(x=>x.trim()).filter(Boolean);
-  const lowerText = text.toLowerCase();
-
-  if(!text.match(/[A-Z]/)) coaching.push("Start sentences with capital letters.");
-  if(!text.match(/[.?!]$/)) coaching.push("End your text with punctuation.");
-  if(text.includes("there was many")) coaching.push("Use 'there were' with plural nouns.");
-  if(text.includes("we was")) coaching.push("Use 'we were'.");
-
-  if(words.length < task.minWords){
-    mustFix.push(`Your answer is too short for this task. Aim for at least ${task.minWords} words.`);
-  }
-
-  if(task.minSentences && sentences.length < task.minSentences){
-    mustFix.push(`Write at least ${task.minSentences} full sentences for this task.`);
-  }
-
-  (task.mustHave || []).forEach(keyword=>{
-    if(!lowerText.includes(keyword)){
-      coaching.push(`Consider using "${keyword}" to fully complete this task.`);
-    }
-  });
-
-  return { mustFix, coaching };
-}
-
-/* ================= SUBMIT ================= */
-
-function submitWriting(){
-  const text = input.value.trim();
-  if(!text) return alert("Write something first.");
-
-  const review = grammarCheck(text);
-  const box = document.getElementById("feedbackBox");
-
-  if(review.mustFix.length===0){
-    const coachingText = review.coaching.length
-      ? `<br><br><strong>Next improvement:</strong><br>${review.coaching.join("<br>")}`
-      : "";
-    box.innerHTML = "✅ Great effort! You completed the writing task." + coachingText;
-  } else {
-    box.innerHTML = "<strong>Please revise before finishing:</strong><br>" + review.mustFix.join("<br>") +
-      (review.coaching.length ? "<br><br><strong>Coaching tips:</strong><br>" + review.coaching.join("<br>") : "");
-  }
-
-  box.classList.remove("hidden");
-}
-
-/* ================= SAVE ================= */
-
-function saveProgress(){
-  const data = {
-    student: studentName,
-    mode: currentMode,
-    text: input.value,
-    time: seconds
-  };
-
-  localStorage.setItem("writingProgress", JSON.stringify(data));
-  alert("Progress saved.");
-}
-
-/* ================= NAVIGATION ================= */
-
-function goMainMenu(){
-  window.location.href = "../index.html";
-}
-
-function exitStation(){
-  pauseTimer();
-  window.location.href = "../index.html";
-}
-
-/* INIT */
-if(studentName){
-  activateApp();
-} else {
-  loadPrompt();
-}
+initUnits();
+initSets("all");
+loadCards();
 
 </script>
-
 </body>
 </html>

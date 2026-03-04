@@ -3,326 +3,402 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>THE PIT – Reading Mode</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800&display=swap" rel="stylesheet">
+<title>THE PIT — Reading Station</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
 
 <style>
+
+:root{
+--bg1:#052e16;
+--bg2:#166534;
+--bg3:#bbf7d0;
+
+--panel:#ffffff;
+--accent:#22c55e;
+--accent2:#4ade80;
+
+--easy:#2563eb;
+--hard:#dc2626;
+
+--btn1:#2563eb;
+--btn2:#16a34a;
+--btn3:#ea580c;
+--btn4:#9333ea;
+
+--shadow:0 25px 60px rgba(0,0,0,.6);
+}
+
 body{
-  margin:0;
-  font-family:'Orbitron',sans-serif;
-  background:radial-gradient(circle,#bbf7d0 0%,#16a34a 60%,#052e16 100%);
-  color:#111827;
+margin:0;
+font-family:'Orbitron',sans-serif;
+background:radial-gradient(circle,var(--bg3),var(--bg2),var(--bg1));
+color:#111;
 }
 
-.readingContainer{
-  width:90%;
-  max-width:950px;
-  margin:40px auto;
-  background:white;
-  padding:40px;
-  border-radius:25px;
-  box-shadow:0 25px 50px rgba(0,0,0,0.6);
+.app{
+width:95%;
+max-width:1300px;
+margin:20px auto;
+background:var(--panel);
+border-radius:20px;
+box-shadow:var(--shadow);
+display:grid;
+grid-template-columns: 1fr 340px;
+gap:20px;
+padding:20px;
 }
 
-.readingTitle{
-  text-align:center;
-  font-size:30px;
-  color:#14532d;
-  margin-bottom:14px;
-  letter-spacing:2px;
-}
-
-.subTitle{
-  text-align:center;
-  margin-bottom:18px;
-  font-size:14px;
-  color:#166534;
-}
+/* LEFT */
 
 .textBox{
-  background:#f0fdf4;
-  padding:22px;
-  border-radius:18px;
-  line-height:1.7;
-  margin-bottom:18px;
-  border:2px solid #22c55e;
-  max-height:350px;
-  overflow-y:auto;
+font-size:18px;
+line-height:1.7;
+background:#f0fdf4;
+padding:24px;
+border-radius:16px;
+border:3px solid var(--accent);
+height:520px;
+overflow:auto;
 }
 
-.textBox p{
-  margin-bottom:14px;
+/* RIGHT CONSOLE */
+
+.console{
+background:#ecfdf5;
+border-radius:16px;
+padding:16px;
+border:3px solid var(--accent);
+display:flex;
+flex-direction:column;
+gap:12px;
 }
 
-.topRow{
-  display:flex;
-  gap:12px;
-  justify-content:space-between;
-  flex-wrap:wrap;
-  margin-bottom:14px;
+/* STATS */
+
+.stat{
+font-weight:900;
+font-size:16px;
 }
 
-.pill{
-  padding:8px 12px;
-  border-radius:999px;
-  background:#dcfce7;
-  border:1px solid #22c55e;
-  font-weight:800;
-  font-size:13px;
+/* BUTTONS */
+
+button{
+font-family:inherit;
+font-weight:900;
+border:none;
+padding:12px;
+border-radius:12px;
+cursor:pointer;
+color:white;
 }
 
-.startBtn, .switchBtn{
-  padding:12px 18px;
-  border-radius:14px;
-  font-weight:900;
-  cursor:pointer;
-  transition:.2s;
+.easyBtn{background:var(--easy);}
+.hardBtn{background:var(--hard);}
+.startBtn{background:var(--btn2);}
+.pauseBtn{background:var(--btn3);}
+.resetBtn{background:var(--btn4);}
+.menuBtn{background:#111;}
+
+button:hover{filter:brightness(1.15);}
+
+/* QUESTION */
+
+.question{
+margin-top:10px;
+font-size:18px;
+font-weight:900;
 }
 
-.startBtn{
-  border:none;
-  background:#22c55e;
-  color:white;
+.option{
+display:block;
+width:100%;
+margin-top:10px;
+padding:14px;
+background:white;
+border:2px solid var(--accent);
+border-radius:10px;
+cursor:pointer;
+font-weight:800;
+text-align:left;
 }
 
-.switchBtn{
-  border:2px solid #22c55e;
-  background:white;
-  color:#14532d;
+.option.correct{
+background:#22c55e;
+color:white;
 }
 
-.streakText{
-  text-align:center;
-  font-weight:900;
-  margin:16px 0 10px 0;
-  font-size:18px;
+.option.wrong{
+background:#dc2626;
+color:white;
 }
 
-.streakContainer{
-  width:100%;
-  height:22px;
-  background:#e5e7eb;
-  border-radius:15px;
-  overflow:hidden;
-  margin-bottom:18px;
+.progressBar{
+height:20px;
+background:#ddd;
+border-radius:10px;
+overflow:hidden;
 }
 
-.streakFill{
-  height:100%;
-  width:0%;
-  background:linear-gradient(90deg,#22c55e,#4ade80);
-  transition:.3s;
+.progressFill{
+height:100%;
+background:linear-gradient(90deg,#22c55e,#4ade80);
+width:0%;
 }
 
-.questionCard{
-  background:#f0fdf4;
-  padding:22px;
-  border-radius:18px;
-  border:2px solid #22c55e;
-  margin-bottom:18px;
-}
-
-.questionText{
-  font-size:18px;
-  margin-bottom:12px;
-  font-weight:900;
-}
-
-.optionBtn{
-  display:block;
-  width:100%;
-  margin:10px 0;
-  padding:12px 14px;
-  border-radius:14px;
-  background:white;
-  border:2px solid #22c55e;
-  cursor:pointer;
-  font-weight:800;
-  text-align:left;
-}
-
-.optionBtn.correct{ background:#22c55e; color:white; border:none; }
-.optionBtn.wrong{ background:#ef4444; color:white; border:none; }
-
-.errorBox{
-  background:#fff1f2;
-  border:2px solid #ef4444;
-  padding:18px;
-  border-radius:16px;
-  font-weight:900;
-}
 </style>
 </head>
 
 <body>
 
-<div class="readingContainer" id="wrap">
+<div class="app">
 
-  <div class="readingTitle">READING STREAK MODE</div>
-  <div class="subTitle">Goal: 20 correct answers in a row</div>
+<div>
 
-  <div class="topRow">
-    <div class="pill" id="textTitlePill">TEXT: —</div>
-    <div style="display:flex;gap:10px;flex-wrap:wrap;">
-      <button class="switchBtn" id="menuBtn">MAIN MENU</button>
-      <button class="switchBtn" id="switchTextBtn">NEW TEXT</button>
-      <button class="startBtn" id="startBtn">START</button>
-    </div>
-  </div>
+<div class="textBox" id="textBox">
+Select level and press START
+</div>
 
-  <div class="textBox" id="textBox">Loading text…</div>
+<div class="question" id="question"></div>
 
-  <div id="gameArea" style="display:none;">
-    <div class="streakText">STREAK: <span id="streakCount">0</span> / 20</div>
-    <div class="streakContainer">
-      <div class="streakFill" id="streakFill"></div>
-    </div>
-    <div id="questionArea"></div>
-  </div>
+<div id="options"></div>
 
 </div>
 
-<script src="./reading-bank.js"></script>
+<div class="console">
+
+<div class="stat">Level:</div>
+
+<button class="easyBtn" onclick="setLevel('easy')">EASY</button>
+<button class="hardBtn" onclick="setLevel('hard')">HARD</button>
+
+<button class="startBtn" onclick="startGame()">START</button>
+
+<button class="pauseBtn" onclick="pauseGame()">PAUSE</button>
+
+<button class="resetBtn" onclick="resetGame()">RESET</button>
+
+<button class="menuBtn" onclick="location.href='../index.html'">
+MAIN MENU
+</button>
+
+<hr>
+
+<div class="stat">Score: <span id="score">0</span></div>
+
+<div class="stat">Streak: <span id="streak">0</span> / 25</div>
+
+<div class="progressBar">
+<div class="progressFill" id="progressFill"></div>
+</div>
+
+<div class="stat">Timer: <span id="timer">00:00</span></div>
+
+</div>
+
+</div>
+
+<script src="reading-bank.js"></script>
 
 <script>
 
-/* SAFETY CHECK */
-if(typeof TEXT_BANK==="undefined" || typeof READING_BANK==="undefined"){
-  document.getElementById("wrap").innerHTML =
-  `<div class="errorBox">ERROR: reading-bank.js not loaded correctly.</div>`;
-  throw new Error("Bank missing");
+let level="easy";
+let currentText=null;
+let questionPool=[];
+let streak=0;
+let score=0;
+let timer=0;
+let timerInterval=null;
+let running=false;
+
+/* LEVEL */
+
+function setLevel(l){
+level=l;
 }
 
-/* DOM */
-const textBox = document.getElementById("textBox");
-const textTitlePill = document.getElementById("textTitlePill");
-const startBtn = document.getElementById("startBtn");
-const switchTextBtn = document.getElementById("switchTextBtn");
-const menuBtn = document.getElementById("menuBtn");
-const gameArea = document.getElementById("gameArea");
-const questionArea = document.getElementById("questionArea");
-const streakCountEl = document.getElementById("streakCount");
-const streakFillEl = document.getElementById("streakFill");
+/* START */
 
-/* STATE */
-let currentText=null;
-let streak=0;
-let correctCounter=0;
-let isRunning=false;
+function startGame(){
 
-/* DISPLAY TEXT */
-function displayText(text){
-  textBox.innerHTML="";
-  const parts=(text.content||"").trim().split("\n\n");
-  parts.forEach((p,i)=>{
-    const para=document.createElement("p");
-    para.innerHTML="<strong>P"+(i+1)+":</strong> "+p;
-    textBox.appendChild(para);
-  });
+running=true;
+
+pickText();
+
+buildPool();
+
+showText();
+
+nextQuestion();
+
+startTimer();
+}
+
+/* TIMER */
+
+function startTimer(){
+
+clearInterval(timerInterval);
+
+timer=0;
+
+timerInterval=setInterval(()=>{
+
+if(!running) return;
+
+timer++;
+
+let m=Math.floor(timer/60);
+let s=timer%60;
+
+document.getElementById("timer").textContent=
+String(m).padStart(2,"0")+":"+
+String(s).padStart(2,"0");
+
+},1000);
 }
 
 /* PICK TEXT */
-function pickRandomText(){
-  currentText=TEXT_BANK[Math.floor(Math.random()*TEXT_BANK.length)];
-  textTitlePill.textContent="TEXT: "+currentText.title;
-  displayText(currentText);
+
+function pickText(){
+
+const filtered=TEXT_BANK.filter(t=>t.level===level);
+
+currentText=filtered[Math.floor(Math.random()*filtered.length)];
 }
 
-/* STREAK */
-function updateStreak(){
-  streakCountEl.textContent=streak;
-  streakFillEl.style.width=(streak/20*100)+"%";
-  if(streak===20){
-    alert("READING MASTER UNLOCKED!");
-    streak=0;
-    correctCounter=0;
-  }
+/* SHOW TEXT */
+
+function showText(){
+
+document.getElementById("textBox").innerHTML=
+"<b>"+currentText.title+"</b><br><br>"+currentText.content;
 }
 
-/* GET QUESTION */
-function getQuestion(){
-  const pool=READING_BANK.filter(q=>q.textId===currentText.id);
-  if(pool.length===0){
-    return {
-      question:"No questions available for this text.",
-      options:["Continue"],
-      answer:"Continue"
-    };
-  }
-  return pool[Math.floor(Math.random()*pool.length)];
+/* BUILD QUESTION POOL */
+
+function buildPool(){
+
+questionPool=READING_BANK
+.filter(q=>q.textId===currentText.id);
+
+shuffle(questionPool);
 }
 
-/* RENDER */
-function renderQuestion(){
-  if(!isRunning) return;
+/* NEXT QUESTION */
 
-  const q=getQuestion();
-  questionArea.innerHTML="";
+function nextQuestion(){
 
-  const card=document.createElement("div");
-  card.className="questionCard";
+if(questionPool.length===0){
 
-  const qt=document.createElement("div");
-  qt.className="questionText";
-  qt.textContent=q.question;
-  card.appendChild(qt);
-
-  q.options.sort(()=>Math.random()-0.5).forEach(opt=>{
-    const btn=document.createElement("button");
-    btn.className="optionBtn";
-    btn.textContent=opt;
-
-    btn.onclick=()=>{
-      card.querySelectorAll("button").forEach(b=>b.disabled=true);
-
-      if(opt===q.answer){
-        btn.classList.add("correct");
-        streak++;
-        correctCounter++;
-      } else {
-        btn.classList.add("wrong");
-        streak=0;
-      }
-
-      updateStreak();
-
-      if(correctCounter%4===0){
-        pickRandomText();
-      }
-
-      setTimeout(renderQuestion,700);
-    };
-
-    card.appendChild(btn);
-  });
-
-  questionArea.appendChild(card);
+pickText();
+buildPool();
+showText();
 }
 
-/* EVENTS */
-switchTextBtn.onclick=()=>{
-  pickRandomText();
-};
+const q=questionPool.pop();
 
-startBtn.onclick=()=>{
-  startBtn.style.display="none";
-  gameArea.style.display="block";
-  isRunning=true;
-  streak=0;
-  correctCounter=0;
-  updateStreak();
-  renderQuestion();
-};
+document.getElementById("question").textContent=q.question;
 
-/* 🔥 MAIN MENU FIX */
-menuBtn.onclick=()=>{
-  window.location.href="../index.html"; 
-};
+const optionsDiv=document.getElementById("options");
 
-/* INIT */
-pickRandomText();
+optionsDiv.innerHTML="";
+
+q.options.forEach(opt=>{
+
+const btn=document.createElement("div");
+
+btn.className="option";
+
+btn.textContent=opt;
+
+btn.onclick=()=>answer(btn,opt,q.answer);
+
+optionsDiv.appendChild(btn);
+
+});
+}
+
+/* ANSWER */
+
+function answer(btn,opt,correct){
+
+document.querySelectorAll(".option").forEach(b=>b.onclick=null);
+
+if(opt===correct){
+
+btn.classList.add("correct");
+
+streak++;
+score+=10;
+
+}else{
+
+btn.classList.add("wrong");
+
+streak=0;
+}
+
+updateStats();
+
+setTimeout(nextQuestion,600);
+}
+
+/* UPDATE */
+
+function updateStats(){
+
+document.getElementById("score").textContent=score;
+
+document.getElementById("streak").textContent=streak;
+
+document.getElementById("progressFill").style.width=
+(streak/25*100)+"%";
+
+if(streak===25){
+
+alert("Reading Master!");
+streak=0;
+}
+}
+
+/* PAUSE */
+
+function pauseGame(){
+running=!running;
+}
+
+/* RESET */
+
+function resetGame(){
+
+running=false;
+
+streak=0;
+score=0;
+
+updateStats();
+
+clearInterval(timerInterval);
+
+document.getElementById("timer").textContent="00:00";
+}
+
+/* SHUFFLE */
+
+function shuffle(a){
+
+for(let i=a.length-1;i>0;i--){
+
+const j=Math.floor(Math.random()*(i+1));
+
+[a[i],a[j]]=[a[j],a[i]];
+}
+
+}
 
 </script>
+
 </body>
 </html>
