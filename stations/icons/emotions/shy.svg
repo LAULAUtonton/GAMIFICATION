@@ -1,3 +1,7 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="341" height="341" viewBox="0 0 341 341">
-<image href="shy.png" width="341" height="341"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+<rect width="100" height="100" rx="20" fill="#e5c7b8"/>
+<path d="M30 40 Q40 30 50 40" stroke="#333" stroke-width="6" fill="none"/>
+<path d="M50 40 Q60 30 70 40" stroke="#333" stroke-width="6" fill="none"/>
+<circle cx="35" cy="60" r="5" fill="#ff6b81"/>
+<circle cx="65" cy="60" r="5" fill="#ff6b81"/>
 </svg>
