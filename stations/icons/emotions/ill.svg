@@ -1,3 +1,21 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="341" height="341" viewBox="0 0 341 341">
-<image href="ill.png" width="341" height="341"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+
+<!-- face -->
+<circle cx="50" cy="50" r="35" fill="#ffd966" stroke="#333" stroke-width="3"/>
+
+<!-- tired eyes -->
+<line x1="35" y1="45" x2="42" y2="45" stroke="#333" stroke-width="3"/>
+<line x1="58" y1="45" x2="65" y2="45" stroke="#333" stroke-width="3"/>
+
+<!-- sad mouth -->
+<path d="M40 65 Q50 55 60 65" stroke="#333" stroke-width="3" fill="none"/>
+
+<!-- thermometer -->
+<rect x="48" y="60" width="22" height="4" fill="#ddd" stroke="#333" stroke-width="2"/>
+<circle cx="72" cy="62" r="4" fill="red" stroke="#333" stroke-width="2"/>
+
+<!-- sweat drops -->
+<ellipse cx="42" cy="30" rx="3" ry="5" fill="#66c2ff"/>
+<ellipse cx="58" cy="28" rx="3" ry="5" fill="#66c2ff"/>
+
 </svg>
