@@ -1,26 +1,72 @@
 // stations/vocab-semantic-db.js
-// Semantic categories: consistent meaning -> icon + color
+// Semantic vocabulary categories for icon precision
 
 export const SEMANTIC_CATEGORIES = {
-  // Feelings
-  joy:         { icon: "smile",          color: "#22c55e" },
-  sadness:     { icon: "frown",          color: "#64748b" },
-  fear:        { icon: "alert-triangle", color: "#ef4444" },
-  anxiety:     { icon: "badge-alert",    color: "#f97316" },
-  surprise:    { icon: "sparkles",       color: "#a855f7" },
-  energy_low:  { icon: "battery-low",    color: "#0ea5e9" },
-  energy_high: { icon: "star",           color: "#f59e0b" },
-  calm:        { icon: "coffee",         color: "#10b981" },
 
-  // Verbs & opposites (optional grouping example)
-  exchange:    { icon: "arrow-left-right", color: "#0ea5e9" }
+  /* POSITIVE EMOTIONS */
+
+  joy: {
+    icon: "smile",
+    color: "#22c55e"
+  },
+
+  excitement: {
+    icon: "sparkles",
+    color: "#f59e0b"
+  },
+
+  calm: {
+    icon: "coffee",
+    color: "#10b981"
+  },
+
+  /* NEGATIVE EMOTIONS */
+
+  sadness: {
+    icon: "frown",
+    color: "#64748b"
+  },
+
+  fear: {
+    icon: "ghost",
+    color: "#ef4444"
+  },
+
+  anxiety: {
+    icon: "alert-circle",
+    color: "#f97316"
+  },
+
+  /* ENERGY STATES */
+
+  tired: {
+    icon: "battery-low",
+    color: "#0ea5e9"
+  },
+
+  bored: {
+    icon: "meh",
+    color: "#94a3b8"
+  },
+
+  /* ACTION GROUP */
+
+  exchange: {
+    icon: "arrow-left-right",
+    color: "#0ea5e9"
+  }
+
 };
 
-// Word -> category (add words here for precision)
+
+/* WORD → CATEGORY */
+
 export const WORD_TO_CATEGORY = {
-  // Feelings (from your screenshot)
+
+  /* feelings */
+
   happy: "joy",
-  excited: "energy_high",
+  excited: "excitement",
   relaxed: "calm",
 
   unhappy: "sadness",
@@ -29,13 +75,17 @@ export const WORD_TO_CATEGORY = {
 
   worried: "anxiety",
 
-  surprised: "surprise",
+  surprised: "excitement",
 
-  tired: "energy_low",
-  bored: "energy_low"
+  tired: "tired",
+
+  bored: "bored"
+
 };
 
-// Normalize variants (optional)
+
+/* WORD VARIANTS */
+
 export const VARIANTS = {
-  // example: "sports event": "sports event"
+
 };
