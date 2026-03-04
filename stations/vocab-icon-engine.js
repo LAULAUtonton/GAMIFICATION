@@ -13,7 +13,7 @@
 // - Consistent category fallback using setId (so every set has a relevant icon)
 // - POS-aware final fallback (so adjectives/verbs/nouns look different)
 
-const DEBUG_MISSING = false; // set true to log missing words
+const DEBUG_MISSING = true; // set true to log missing words
 
 /* ===============================
    0) SET CATEGORY FALLBACKS
