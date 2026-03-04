@@ -7,14 +7,54 @@
 //   pos   = "n" | "v" | "adj" | ""     (part of speech)
 //   setId = string like "u5_senses"
 //
-// Goals:
+// Features implemented:
 // - High precision via EXACT mappings (best for vocabulary learning)
 // - Safe phrase matching (only long keys, avoids substring accidents)
-// - Consistent category fallback using setId (so every set has a relevant icon)
-// - POS-aware final fallback (so adjectives/verbs/nouns look different)
-// - DEBUG: log when we fall back to SET_FALLBACK or POS fallback
+// - Consistent set/category fallback using setId
+// - POS-aware final fallback (adj/v/n render differently)
+// - Debug logs when fallback happens
+// - Color support: export getAccentColor(setId) so vocabulary.html can color icons per category
 
-const DEBUG_MISSING = true; // set true to log fallback usage
+const DEBUG_MISSING = false; // set true to log fallback usage
+
+/* ===============================
+   SET ACCENT COLORS (for icons)
+   Use in vocabulary.html:
+     style="color:${getAccentColor(card.setId)}"
+=================================*/
+const SET_ACCENT = {
+  // UNIT 1
+  u1_verbs_opposites: "#0ea5e9", // sky
+  u1_feelings: "#f97316",       // orange
+
+  // UNIT 2
+  u2_materials: "#64748b",      // slate
+  u2_art: "#ec4899",            // pink
+
+  // UNIT 3
+  u3_outdoor_activities: "#3b82f6", // blue
+  u3_outdoor_events: "#8b5cf6",     // purple
+
+  // UNIT 4
+  u4_personality: "#f59e0b",    // amber
+
+  // UNIT 5
+  u5_senses: "#06b6d4",         // cyan
+
+  // UNIT 6
+  u6_body_fitness: "#ef4444",   // red
+
+  // UNIT 7
+  u7_learning: "#22c55e",       // green
+
+  // UNIT 8
+  u8_jobs: "#a855f7"            // violet
+};
+
+export function getAccentColor(setId = "") {
+  const sid = String(setId || "");
+  return SET_ACCENT[sid] || "#2563eb";
+}
 
 /* ===============================
    0) SET CATEGORY FALLBACKS
@@ -51,6 +91,7 @@ const SET_FALLBACK = {
 
 /* ===============================
    1) EXACT: precise per-word icons
+   Add/adjust these as needed.
 =================================*/
 const EXACT = {
   // ---- Unit 1 verbs ----
@@ -112,6 +153,13 @@ const EXACT = {
   "working out": "dumbbell",
   "kite flying": "wind",
   "free running": "person-running",
+
+  // ---- Unit 3 outdoor events (precise) ----
+  // Note: if party-popper/store don't exist in your Lucide build, switch to sparkles/shopping-bag.
+  festival: "party-popper",
+  market: "store",
+  "sports event": "trophy",
+  concert: "music",
 
   // ---- Unit 4 personality adjectives ----
   patient: "hourglass",
