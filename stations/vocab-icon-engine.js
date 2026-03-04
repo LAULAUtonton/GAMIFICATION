@@ -1,10 +1,7 @@
-// vocab-icon-engine.js (NO-IMPORT SAFE VERSION)
-// Full, standalone icon+color engine (no imports).
-// Exports:
-// - getAccentColor(word, setId)
-// - getIconName(word, pos, setId)
+// stations/vocab-icon-engine.js
+console.log("vocab-icon-engine loaded: 2026-03-04 semantic-db v2");
 
-console.log("vocab-icon-engine loaded: 2026-03-04 safe-no-import v1");
+import { SEMANTIC_CATEGORIES, WORD_TO_CATEGORY, VARIANTS } from "./vocab-semantic-db.js";
 
 const DEBUG_MISSING = false;
 
@@ -36,55 +33,29 @@ const SET_FALLBACK = {
   u8_jobs: "briefcase"
 };
 
-// Per-word colors (multi-color icons inside a set)
-const WORD_ACCENT = {
-  // Feelings
-  happy: "#22c55e",
-  unhappy: "#64748b",
-  scared: "#ef4444",
-  worried: "#f97316",
-  surprised: "#a855f7",
-  tired: "#0ea5e9",
-  bored: "#94a3b8",
-  excited: "#f59e0b",
-  relaxed: "#10b981",
-
-  // Art
-  design: "#3b82f6",
-  designer: "#06b6d4"
-};
-
-// Per-word icons (precision). Add more words here for higher accuracy.
+// Keep EXACT for special one-off items that should not be grouped
 const EXACT = {
-  // Feelings
-  happy: "smile",
-  unhappy: "frown",
-  scared: "alert-triangle",
-  worried: "badge-alert",
-  surprised: "sparkles",
-  tired: "battery-low",
-  bored: "circle-minus",
-  excited: "star",
-  relaxed: "coffee",
-
-  // Art (different icons so “design” != “designer”)
-  design: "pen-tool",
-  designer: "pencil",
-
-  // Outdoor events
-  festival: "sparkles",
-  market: "shopping-bag",
-  "sports event": "trophy",
-  concert: "music"
+  // Verbs & opposites (from screenshot)
+  agree: "handshake",
+  disagree: "x-circle",
+  appear: "sparkles",
+  disappear: "wind",
+  borrow: "hand-coins",
+  lend: "hand-coins",
+  buy: "shopping-cart",
+  sell: "badge-dollar-sign",
+  connect: "link",
+  disconnect: "unlink",
+  lose: "x",
+  win: "trophy",
+  save: "piggy-bank",
+  spend: "credit-card",
+  send: "send",
+  receive: "inbox"
 };
 
 const CONTAINS_RULES = [
-  { keys: ["working out", "work out", "workout"], icon: "dumbbell" },
-  { keys: ["free running"], icon: "person-running" },
-  { keys: ["kite flying"], icon: "wind" },
-  { keys: ["photographer", "photograph"], icon: "camera" },
-  { keys: ["painter", "painting"], icon: "paintbrush" },
-  { keys: ["sculpture", "sculptor"], icon: "cube" }
+  { keys: ["working out", "work out", "workout"], icon: "dumbbell" }
 ];
 
 function cleanWord(word) {
@@ -94,6 +65,11 @@ function cleanWord(word) {
     .replace(/[^a-z ]/g, " ")
     .replace(/\s+/g, " ")
     .trim();
+}
+
+function canonicalize(cleaned) {
+  if (!cleaned) return "";
+  return (VARIANTS && VARIANTS[cleaned]) ? VARIANTS[cleaned] : cleaned;
 }
 
 function matchRules(cleaned, rules) {
@@ -112,36 +88,53 @@ function posFallback(pos) {
   return "circle";
 }
 
+function semanticLookup(cleaned) {
+  const key = canonicalize(cleaned);
+  const catKey = WORD_TO_CATEGORY[key];
+  if (!catKey) return null;
+  const cat = SEMANTIC_CATEGORIES[catKey];
+  if (!cat) return null;
+  return { category: catKey, icon: cat.icon, color: cat.color };
+}
+
 export function getAccentColor(word = "", setId = "") {
   const cleaned = cleanWord(word);
-  if (cleaned && Object.prototype.hasOwnProperty.call(WORD_ACCENT, cleaned)) {
-    return WORD_ACCENT[cleaned];
-  }
+  const semantic = semanticLookup(cleaned);
+  if (semantic?.color) return semantic.color;
+
   const sid = String(setId || "");
   return SET_ACCENT[sid] || "#2563eb";
 }
 
 export function getIconName(word, pos = "", setId = "") {
-  const cleaned = cleanWord(word);
+  const cleaned = canonicalize(cleanWord(word));
   const p = String(pos || "").toLowerCase();
   const sid = String(setId || "");
 
   if (!cleaned) return posFallback(p);
 
+  // semantic DB first (precision)
+  const semantic = semanticLookup(cleaned);
+  if (semantic?.icon) return semantic.icon;
+
+  // then exact
   if (Object.prototype.hasOwnProperty.call(EXACT, cleaned)) {
     return EXACT[cleaned];
   }
 
+  // then contains rules
   const containsIcon = matchRules(cleaned, CONTAINS_RULES);
   if (containsIcon) return containsIcon;
 
+  // then set fallback
   if (sid && Object.prototype.hasOwnProperty.call(SET_FALLBACK, sid)) {
     const fallbackIcon = SET_FALLBACK[sid];
-    if (DEBUG_MISSING) {
-      console.warn("[vocab-icon-engine] Using SET fallback:", { word, cleaned, pos: p, setId: sid, icon: fallbackIcon });
-    }
+    if (DEBUG_MISSING) console.warn("[vocab-icon-engine] Using SET fallback:", { word, cleaned, pos: p, setId: sid, icon: fallbackIcon });
     return fallbackIcon;
   }
 
-  return posFallback(p);
+  // finally pos fallback
+  const fallback = posFallback(p);
+  if (DEBUG_MISSING) console.warn("[vocab-icon-engine] Missing icon (POS fallback):", { word, cleaned, pos: p, setId: sid, icon: fallback });
+  return fallback;
 }
