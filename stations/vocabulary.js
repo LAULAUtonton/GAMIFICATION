@@ -73,15 +73,23 @@ export const VOCAB_DB = {
     /* UNIT 3 */
     {
       unit: 3,
-      title: "Outdoor life",
+      title: "Outdoor leisure",
       sets: [
         {
-          setId: "u3_activities",
-          label: "Outdoor activities",
+          setId: "u3_outdoor_activities",
+          label: "Outdoor leisure activities",
           type: "words",
           items: [
-            "cycling","jogging","rowing","working out",
-            "kite flying","free running"
+            "cycling","jogging","rowing",
+            "working out","kite flying","free running"
+          ]
+        },
+        {
+          setId: "u3_outdoor_events",
+          label: "Outdoor events",
+          type: "words",
+          items: [
+            "festival","market","sports event","concert"
           ]
         }
       ]
@@ -90,7 +98,7 @@ export const VOCAB_DB = {
     /* UNIT 4 */
     {
       unit: 4,
-      title: "Helping others",
+      title: "People and personality",
       sets: [
         {
           setId: "u4_personality",
@@ -107,14 +115,14 @@ export const VOCAB_DB = {
     /* UNIT 5 */
     {
       unit: 5,
-      title: "Games and senses",
+      title: "The senses",
       sets: [
         {
           setId: "u5_senses",
           label: "Senses",
           type: "words",
           items: [
-            "sight","smell","taste","touch","hearing"
+            "sight","hearing","smell","taste","touch"
           ]
         }
       ]
@@ -123,10 +131,10 @@ export const VOCAB_DB = {
     /* UNIT 6 */
     {
       unit: 6,
-      title: "Health",
+      title: "Body and fitness",
       sets: [
         {
-          setId: "u6_body",
+          setId: "u6_body_fitness",
           label: "Body and fitness",
           type: "words",
           items: [
@@ -144,7 +152,7 @@ export const VOCAB_DB = {
       sets: [
         {
           setId: "u7_learning",
-          label: "Learning words",
+          label: "Learning",
           type: "pairs",
           items: [
             { a: "achieve", b: "achievement" },
@@ -159,7 +167,7 @@ export const VOCAB_DB = {
     /* UNIT 8 */
     {
       unit: 8,
-      title: "Jobs and future",
+      title: "Work and school",
       sets: [
         {
           setId: "u8_jobs",
@@ -175,6 +183,20 @@ export const VOCAB_DB = {
 
   ]
 };
+
+/* ===============================
+   POS GUESSER
+=================================*/
+
+function guessPOS(setId) {
+  const id = String(setId || "").toLowerCase();
+
+  if (id.includes("verbs")) return "v"; // verb sets
+  if (id.includes("feel") || id.includes("personality")) return "adj"; // adjective sets
+
+  // default: nouns
+  return "n";
+}
 
 /* ===============================
    FLATTEN FUNCTION
@@ -196,12 +218,15 @@ export function flattenVocab(db = VOCAB_DB) {
             type: "pair",
             front: pair.a,
             back: pair.b,
-            icon: getIconName(pair.a)
+            pos: "v",
+            icon: getIconName(pair.a, "v", set.setId)
           });
         }
       }
 
       if (set.type === "words") {
+        const pos = guessPOS(set.setId);
+
         for (const word of set.items) {
           out.push({
             unit: unit.unit,
@@ -211,7 +236,8 @@ export function flattenVocab(db = VOCAB_DB) {
             type: "word",
             front: word,
             back: "",
-            icon: getIconName(word)
+            pos,
+            icon: getIconName(word, pos, set.setId)
           });
         }
       }
