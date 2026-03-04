@@ -1,14 +1,13 @@
 // stations/vocab-icon-engine.js
-
-console.log("vocab-icon-engine loaded: improved mapping");
+console.log("vocab-icon-engine loaded");
 
 import { SEMANTIC_CATEGORIES, WORD_TO_CATEGORY, VARIANTS } from "./vocab-semantic-db.js";
 
 const DEBUG_MISSING = false;
 
-/* ------------------------------------------------
+/* ----------------------------------
 CATEGORY COLORS
------------------------------------------------- */
+---------------------------------- */
 
 const SET_ACCENT = {
   u1_verbs_opposites: "#0ea5e9",
@@ -24,9 +23,9 @@ const SET_ACCENT = {
   u8_jobs: "#a855f7"
 };
 
-/* ------------------------------------------------
-FALLBACK ICONS PER SET
------------------------------------------------- */
+/* ----------------------------------
+SET FALLBACK ICONS
+---------------------------------- */
 
 const SET_FALLBACK = {
   u1_verbs_opposites: "arrow-left-right",
@@ -42,9 +41,9 @@ const SET_FALLBACK = {
   u8_jobs: "briefcase"
 };
 
-/* ------------------------------------------------
-EXACT WORD → ICON MAPPING
------------------------------------------------- */
+/* ----------------------------------
+EXACT WORD → ICON
+---------------------------------- */
 
 const EXACT = {
 
@@ -90,6 +89,19 @@ const EXACT = {
   plastic: "package",
   wood: "tree-pine",
   wool: "circle-dot",
+
+  /* ART AND ARTISTS */
+
+  dance: "music",
+  design: "pen-tool",
+  music: "music",
+  paint: "paintbrush",
+  photograph: "camera",
+  photographer: "camera",
+  sculpture: "cube",
+  designer: "pen-tool",
+  musician: "music",
+  painter: "paintbrush",
 
   /* OUTDOOR ACTIVITIES */
 
@@ -160,19 +172,19 @@ const EXACT = {
   manager: "briefcase"
 };
 
-/* ------------------------------------------------
+/* ----------------------------------
 CONTAINS RULES
------------------------------------------------- */
+---------------------------------- */
 
 const CONTAINS_RULES = [
-  { keys: ["working out", "work out", "workout"], icon: "dumbbell" },
+  { keys: ["working out", "workout"], icon: "dumbbell" },
   { keys: ["sports"], icon: "trophy" },
   { keys: ["market"], icon: "shopping-bag" }
 ];
 
-/* ------------------------------------------------
-UTILITIES
------------------------------------------------- */
+/* ----------------------------------
+UTILS
+---------------------------------- */
 
 function cleanWord(word) {
   return String(word ?? "")
@@ -207,17 +219,23 @@ function posFallback(pos) {
 function semanticLookup(cleaned) {
   const key = canonicalize(cleaned);
   const catKey = WORD_TO_CATEGORY[key];
+
   if (!catKey) return null;
 
   const cat = SEMANTIC_CATEGORIES[catKey];
+
   if (!cat) return null;
 
-  return { category: catKey, icon: cat.icon, color: cat.color };
+  return {
+    category: catKey,
+    icon: cat.icon,
+    color: cat.color
+  };
 }
 
-/* ------------------------------------------------
+/* ----------------------------------
 PUBLIC FUNCTIONS
------------------------------------------------- */
+---------------------------------- */
 
 export function getAccentColor(word = "", setId = "") {
 
@@ -230,9 +248,9 @@ export function getAccentColor(word = "", setId = "") {
   return SET_ACCENT[sid] || "#2563eb";
 }
 
-/* ------------------------------------------------
+/* ----------------------------------
 ICON RESOLUTION
------------------------------------------------- */
+---------------------------------- */
 
 export function getIconName(word, pos = "", setId = "") {
 
@@ -242,38 +260,52 @@ export function getIconName(word, pos = "", setId = "") {
 
   if (!cleaned) return posFallback(p);
 
-  /* EXACT match first */
+  /* 1 EXACT */
 
   if (EXACT[cleaned]) {
     return EXACT[cleaned];
   }
 
-  /* semantic DB */
+  /* 2 SEMANTIC */
 
   const semantic = semanticLookup(cleaned);
   if (semantic?.icon) return semantic.icon;
 
-  /* contains rules */
+  /* 3 CONTAINS */
 
   const containsIcon = matchRules(cleaned, CONTAINS_RULES);
   if (containsIcon) return containsIcon;
 
-  /* set fallback */
+  /* 4 SET FALLBACK */
 
   if (sid && SET_FALLBACK[sid]) {
-    return SET_FALLBACK[sid];
+
+    const fallbackIcon = SET_FALLBACK[sid];
+
+    if (DEBUG_MISSING) {
+      console.warn("[vocab-icon-engine] Using SET fallback:", {
+        word,
+        cleaned,
+        pos: p,
+        setId: sid,
+        icon: fallbackIcon
+      });
+    }
+
+    return fallbackIcon;
   }
 
-  /* POS fallback */
+  /* 5 POS FALLBACK */
 
   const fallback = posFallback(p);
 
   if (DEBUG_MISSING) {
-    console.warn("[vocab-icon-engine] missing icon", {
+    console.warn("[vocab-icon-engine] Missing icon:", {
       word,
       cleaned,
       pos: p,
-      setId: sid
+      setId: sid,
+      icon: fallback
     });
   }
 
