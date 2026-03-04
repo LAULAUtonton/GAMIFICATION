@@ -1,55 +1,6 @@
 // stations/vocab-icon-engine.js
 
-console.log("Vocabulary Icon Engine loaded (SVG + Lucide hybrid)");
-
-/* ------------------------------------------------
-ICON BANKS
------------------------------------------------- */
-
-const EMOTIONS = [
-  "happy",
-  "unhappy",
-  "scared",
-  "surprised",
-  "tired",
-  "bored",
-  "excited",
-  "worried",
-  "relaxed",
-  "patient",
-  "lazy",
-  "generous",
-  "polite",
-  "kind",
-  "mean",
-  "rude"
-];
-
-const JOBS = [
-  "teacher",
-  "librarian",
-  "architect",
-  "artist",
-  "banker",
-  "nurse",
-  "doctor",
-  "singer",
-  "mechanic",
-  "programmer",
-  "storekeeper",
-  "astronaut",
-  "pilot",
-  "postman",
-  "detective",
-  "chef",
-  "farmer",
-  "electrician",
-  "gardener",
-  "driver",
-  "vet",
-  "lawyer"
-];
-
+console.log("Vocabulary Icon Engine loaded (SVG + Lucide hybrid, with aliases)");
 
 /* ------------------------------------------------
 UTILITY
@@ -63,19 +14,51 @@ function cleanWord(word) {
     .trim();
 }
 
+/* ------------------------------------------------
+ALIAS MAPS (VOCAB WORD -> SVG FILENAME)
+These fix mismatches between your vocabulary words
+and the actual filenames in the icon packs.
+------------------------------------------------ */
+
+// Your emotion pack uses filenames like anxious.svg, calm.svg, astonished.svg...
+const EMOTION_ALIASES = {
+  happy: "happy",                 // you said this one works already
+  unhappy: "crying",              // closest in your list
+  scared: "anxious",              // closest
+  worried: "anxious",             // closest
+  surprised: "astonished",        // exact meaning
+  excited: "excited",             // exact
+  relaxed: "calm",                // exact meaning
+  tired: "sleepy",                // IF you have sleepy.svg; if not, see note below
+  bored: "annoyed"                // closest in your list (or "confused" if better)
+};
+
+// Jobs pack: you must match vocabulary words to existing filenames.
+// (You can edit these once you confirm the exact file list inside stations/icons/jobs)
+const JOB_ALIASES = {
+  teacher: "teacher",
+  lawyer: "lawyer",
+  astronaut: "astronauts",        // your pack said "astronauts.svg"
+  musician: "singer",             // or "disc jockey" if you rename (see note)
+  engineer: "programmer",         // closest technical profession in your pack
+  manager: "banker",              // closest office/business icon
+  builder: "lumberjack",          // OR "wall painter" if you prefer (spaces issue)
+  dentist: "doctor"               // closest medical icon
+};
 
 /* ------------------------------------------------
 COLOR SYSTEM
 ------------------------------------------------ */
 
 export function getAccentColor(word = "", setId = "") {
-
   const w = cleanWord(word);
+  const sid = String(setId || "").toLowerCase();
 
-  if (EMOTIONS.includes(w)) return "#f59e0b";
-  if (JOBS.includes(w)) return "#6366f1";
+  // emotion color
+  if (EMOTION_ALIASES[w]) return "#f59e0b";
 
-  const sid = String(setId || "");
+  // job color
+  if (JOB_ALIASES[w]) return "#6366f1";
 
   if (sid.includes("verbs")) return "#0ea5e9";
   if (sid.includes("materials")) return "#64748b";
@@ -85,91 +68,54 @@ export function getAccentColor(word = "", setId = "") {
   return "#2563eb";
 }
 
-
 /* ------------------------------------------------
 ICON ENGINE
 ------------------------------------------------ */
 
 export function getIconName(word, pos = "", setId = "") {
-
   const cleaned = cleanWord(word);
 
-  /* --------------------------------------------
-  EMOTION ICONS
-  -------------------------------------------- */
-
-  if (EMOTIONS.includes(cleaned)) {
-    return `icons/emotions/${cleaned}.svg`;
+  // --- EMOTIONS (SVG) ---
+  if (EMOTION_ALIASES[cleaned]) {
+    return `./icons/emotions/${EMOTION_ALIASES[cleaned]}.svg`;
   }
 
-
-  /* --------------------------------------------
-  JOB ICONS
-  -------------------------------------------- */
-
-  if (JOBS.includes(cleaned)) {
-    return `icons/jobs/${cleaned}.svg`;
+  // --- JOBS (SVG) ---
+  if (JOB_ALIASES[cleaned]) {
+    // IMPORTANT: if your jobs filenames include spaces (e.g. "customer service.svg"),
+    // this still works, but it’s safer to rename files to remove spaces.
+    return `./icons/jobs/${JOB_ALIASES[cleaned]}.svg`;
   }
 
-
-  /* --------------------------------------------
-  VERB ICONS
-  -------------------------------------------- */
-
+  // --- VERBS (Lucide) ---
   const VERB_ICONS = {
-
     agree: "handshake",
     disagree: "x-circle",
-
     appear: "sparkles",
     disappear: "wind",
-
     borrow: "hand-coins",
     lend: "hand-coins",
-
     buy: "shopping-cart",
     sell: "badge-dollar-sign",
-
     connect: "link",
     disconnect: "unlink",
-
     lose: "x",
     win: "trophy",
-
     save: "piggy-bank",
     spend: "credit-card",
-
     send: "send",
     receive: "inbox"
   };
 
-  if (VERB_ICONS[cleaned]) {
-    return VERB_ICONS[cleaned];
-  }
+  if (VERB_ICONS[cleaned]) return VERB_ICONS[cleaned];
 
-
-  /* --------------------------------------------
-  OUTDOOR ACTIVITIES
-  -------------------------------------------- */
-
+  // --- SIMPLE FALLBACKS (Lucide) ---
   if (cleaned.includes("jog")) return "person-running";
   if (cleaned.includes("row")) return "ship";
   if (cleaned.includes("kite")) return "wind";
-  if (cleaned.includes("run")) return "zap";
-
-
-  /* --------------------------------------------
-  EVENTS
-  -------------------------------------------- */
-
   if (cleaned.includes("festival")) return "party-popper";
   if (cleaned.includes("concert")) return "music";
   if (cleaned.includes("market")) return "shopping-bag";
-
-
-  /* --------------------------------------------
-  MATERIALS
-  -------------------------------------------- */
 
   if (cleaned === "wood") return "tree-pine";
   if (cleaned === "glass") return "wine";
@@ -180,21 +126,11 @@ export function getIconName(word, pos = "", setId = "") {
   if (cleaned === "leather") return "briefcase";
   if (cleaned === "wool") return "circle";
 
-
-  /* --------------------------------------------
-  SENSES
-  -------------------------------------------- */
-
   if (cleaned === "sight") return "eye";
   if (cleaned === "hearing") return "ear";
   if (cleaned === "smell") return "wind";
   if (cleaned === "taste") return "coffee";
   if (cleaned === "touch") return "hand";
-
-
-  /* --------------------------------------------
-  BODY / FITNESS
-  -------------------------------------------- */
 
   if (cleaned === "heart") return "heart";
   if (cleaned === "brain") return "brain";
@@ -203,11 +139,6 @@ export function getIconName(word, pos = "", setId = "") {
   if (cleaned === "stretch") return "move";
   if (cleaned === "train") return "dumbbell";
   if (cleaned === "injury") return "bandage";
-
-
-  /* --------------------------------------------
-  DEFAULT
-  -------------------------------------------- */
 
   return "circle";
 }
