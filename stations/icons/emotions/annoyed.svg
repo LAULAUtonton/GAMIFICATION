@@ -1,3 +1,8 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="341" height="341" viewBox="0 0 341 341">
-<image href="annoyed.png" width="341" height="341"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+<rect width="100" height="100" rx="20" fill="#f6c644"/>
+<line x1="30" y1="35" x2="40" y2="40" stroke="#222" stroke-width="5"/>
+<line x1="70" y1="35" x2="60" y2="40" stroke="#222" stroke-width="5"/>
+<circle cx="35" cy="45" r="5" fill="#222"/>
+<circle cx="65" cy="45" r="5" fill="#222"/>
+<line x1="35" y1="70" x2="65" y2="70" stroke="#222" stroke-width="6"/>
 </svg>
