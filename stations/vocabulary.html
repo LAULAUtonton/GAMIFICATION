@@ -32,21 +32,21 @@ button, select{
   padding:8px 12px;
   border-radius:8px;
   border:1px solid #ccc;
-  font-weight:600;
+  font-weight:700;
   cursor:pointer;
 }
 
 .grid{
   display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
+  grid-template-columns:repeat(auto-fill,minmax(240px,1fr));
   gap:16px;
 }
 
 .card{
   background:white;
-  border-radius:12px;
+  border-radius:14px;
   padding:16px;
-  box-shadow:0 4px 12px rgba(0,0,0,0.08);
+  box-shadow:0 6px 18px rgba(0,0,0,0.08);
   transition:transform .15s ease;
 }
 
@@ -55,14 +55,19 @@ button, select{
 }
 
 .icon{
-  font-size:34px;
-  color:#2563eb;
   margin-bottom:10px;
+  line-height:0;
+}
+
+.icon svg{
+  width:36px;
+  height:36px;
+  stroke-width:2.25;
 }
 
 .word{
   font-size:22px;
-  font-weight:800;
+  font-weight:900;
   margin-bottom:6px;
   display:flex;
   align-items:center;
@@ -80,11 +85,21 @@ button, select{
   border-radius:999px;
 }
 
+.cat{
+  font-size:12px;
+  font-weight:900;
+  color:#111827;
+  background:#e0f2fe;
+  border:1px solid #bae6fd;
+  padding:2px 8px;
+  border-radius:999px;
+}
+
 .back{
   font-size:16px;
   color:#374151;
-  font-weight:700;
-  margin-bottom:8px;
+  font-weight:800;
+  margin-bottom:6px;
 }
 
 .meta{
@@ -111,6 +126,7 @@ button, select{
 
 <script type="module">
 import { VOCAB_DB, getCards, shuffle, listUnits } from "./vocabulary.js";
+import { getAccentColor } from "./vocab-icon-engine.js";
 
 const grid = document.getElementById("grid");
 const unitSelect = document.getElementById("unitSelect");
@@ -130,13 +146,14 @@ function initUnits(){
 function render(){
   grid.innerHTML = cards.map(card => `
     <div class="card">
-      <div class="icon">
+      <div class="icon" style="color:${getAccentColor(card.setId)}">
         <i data-lucide="${card.icon}"></i>
       </div>
 
       <div class="word">
         <span class="front">${card.front}</span>
         ${card.pos ? `<span class="pos">(${card.pos})</span>` : ``}
+        ${card.setLabel ? `<span class="cat">${card.setLabel}</span>` : ``}
       </div>
 
       ${card.back ? `<div class="back">${card.back}</div>` : ``}
