@@ -9,30 +9,32 @@ const ICON_PATHS = {
 };
 
 
-// limpia nombres para que coincidan con svg
-function normalize(name){
-
-  return name
+// limpia el nombre del vocabulario
+function normalize(word) {
+  return word
     .toLowerCase()
     .trim()
-    .replace(/\s+/g,"-")
-    .replace(/[^\w-]/g,"");
-
+    .replace(/\s+/g, "-")
+    .replace(/[^\w-]/g, "");
 }
 
 
-// devuelve la ruta del icono
-export function getIconPath(category,name){
+// devuelve solo el nombre del icono
+export function getIconName(word) {
+  return normalize(word);
+}
+
+
+// devuelve la ruta completa del icono
+export function getIconPath(category, word) {
 
   const folder = ICON_PATHS[category];
 
-  if(!folder){
-    console.warn("Unknown category:",category);
+  if (!folder) {
+    console.warn("Unknown category:", category);
     return "icons/missing.svg";
   }
 
-  const file = normalize(name) + ".svg";
-
-  return folder + file;
+  return folder + normalize(word) + ".svg";
 
 }
