@@ -1,0 +1,11 @@
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+<rect width="100" height="100" rx="20" fill="#f6c644"/>
+<circle cx="35" cy="40" r="5" fill="#333"/>
+<circle cx="65" cy="40" r="5" fill="#333"/>
+<path d="M35 65 Q50 80 65 65" stroke="#333" stroke-width="4" fill="none"/>
+<!-- gift -->
+<rect x="70" y="72" width="18" height="14" fill="#ff4d4d" stroke="#333" stroke-width="2"/>
+<line x1="79" y1="72" x2="79" y2="86" stroke="#ffffff" stroke-width="3"/>
+<line x1="70" y1="79" x2="88" y2="79" stroke="#ffffff" stroke-width="3"/>
+</svg>
