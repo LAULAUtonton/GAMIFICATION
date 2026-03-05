@@ -17,7 +17,7 @@ const CATEGORY_COLORS = {
 };
 
 
-// normaliza nombres de archivos
+// limpiar nombre
 function normalize(word) {
   return word
     .toLowerCase()
@@ -27,33 +27,25 @@ function normalize(word) {
 }
 
 
-// devuelve nombre de icono
+// nombre del icono
 export function getIconName(word) {
   return normalize(word);
 }
 
 
-// devuelve ruta completa del icono
+// ruta SVG
 export function getIconPath(category, word) {
 
   const folder = ICON_PATHS[category];
 
-  if (!folder) {
-    console.warn("Unknown category:", category);
-    return "icons/missing.svg";
-  }
+  if (!folder) return null;
 
   return folder + normalize(word) + ".svg";
+
 }
 
 
-// devuelve color de categoría
+// color categoría
 export function getAccentColor(category) {
-
-  if (CATEGORY_COLORS[category]) {
-    return CATEGORY_COLORS[category];
-  }
-
-  return "#999";
-
+  return CATEGORY_COLORS[category] || "#999";
 }
