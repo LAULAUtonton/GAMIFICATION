@@ -17,29 +17,29 @@ const CATEGORY_COLORS = {
 };
 
 
-// normalizar nombres
-function normalize(word){
+// normaliza nombres de archivos
+function normalize(word) {
   return word
     .toLowerCase()
     .trim()
-    .replace(/\s+/g,"-")
-    .replace(/[^\w-]/g,"");
+    .replace(/\s+/g, "-")
+    .replace(/[^\w-]/g, "");
 }
 
 
 // devuelve nombre de icono
-export function getIconName(word){
+export function getIconName(word) {
   return normalize(word);
 }
 
 
-// devuelve ruta completa
-export function getIconPath(category,word){
+// devuelve ruta completa del icono
+export function getIconPath(category, word) {
 
   const folder = ICON_PATHS[category];
 
-  if(!folder){
-    console.warn("Unknown category:",category);
+  if (!folder) {
+    console.warn("Unknown category:", category);
     return "icons/missing.svg";
   }
 
@@ -47,10 +47,10 @@ export function getIconPath(category,word){
 }
 
 
-// ESTA FUNCION FALTABA
-export function getAccentColor(category){
+// devuelve color de categoría
+export function getAccentColor(category) {
 
-  if(CATEGORY_COLORS[category]){
+  if (CATEGORY_COLORS[category]) {
     return CATEGORY_COLORS[category];
   }
 
