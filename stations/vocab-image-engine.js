@@ -1,12 +1,4 @@
-// vocab-image-engine.js
-
 import { getIconPath } from "./vocab-icon-engine.js";
-
-
-/*
-Create icon element
-Used by vocabulary page and games
-*/
 
 export function createIcon(category, word) {
 
@@ -20,7 +12,6 @@ export function createIcon(category, word) {
 
   img.loading = "lazy";
 
-  // fallback if icon missing
   img.onerror = () => {
     img.src = "icons/missing.svg";
   };
@@ -28,11 +19,6 @@ export function createIcon(category, word) {
   return img;
 }
 
-
-
-/*
-Insert icon into container
-*/
 
 export function insertIcon(container, category, word) {
 
@@ -43,11 +29,6 @@ export function insertIcon(container, category, word) {
 }
 
 
-
-/*
-Replace an existing element with icon
-*/
-
 export function replaceWithIcon(element, category, word) {
 
   const icon = createIcon(category, word);
@@ -57,21 +38,13 @@ export function replaceWithIcon(element, category, word) {
 }
 
 
-
-/*
-Create icon card (icon + label)
-Used for vocabulary grid
-*/
-
 export function createIconCard(wordObj) {
 
   const card = document.createElement("div");
 
   card.className = "vocab-card";
 
-
   const icon = createIcon(wordObj.category, wordObj.word);
-
 
   const label = document.createElement("div");
 
@@ -79,11 +52,8 @@ export function createIconCard(wordObj) {
 
   label.textContent = wordObj.word;
 
-
   card.appendChild(icon);
-
   card.appendChild(label);
 
   return card;
-
 }
