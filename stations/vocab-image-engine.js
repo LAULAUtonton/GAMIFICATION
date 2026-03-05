@@ -1,87 +1,89 @@
-// vocab-icons-engine.js
-// Lucide-based semantic icon engine
+// vocab-image-engine.js
 
-const ICONS = {
+import { getIconPath } from "./vocab-icon-engine.js";
 
-  /* VERBS */
-  agree: "handshake",
-  disagree: "x-circle",
-  appear: "sparkles",
-  disappear: "wind",
-  borrow: "banknote",
-  lend: "banknote",
-  buy: "shopping-bag",
-  sell: "banknote",
-  connect: "link",
-  disconnect: "unlink",
-  lose: "x",
-  win: "trophy",
-  save: "save",
-  spend: "credit-card",
-  send: "send",
-  receive: "inbox",
 
-  /* FEELINGS */
-  happy: "smile",
-  unhappy: "frown",
-  scared: "alert-triangle",
-  surprised: "zap",
-  tired: "battery-low",
-  bored: "minus-circle",
-  excited: "star",
-  worried: "alert-circle",
-  relaxed: "coffee",
+/*
+Create icon element
+Used by vocabulary page and games
+*/
 
-  /* JOBS */
-  dentist: "activity",
-  hairdresser: "scissors",
-  engineer: "wrench",
-  musician: "music",
-  police: "shield",
-  lawyer: "scale",
-  cook: "chef-hat",
-  astronaut: "rocket",
-  builder: "hammer",
-  manager: "briefcase",
-  detective: "search",
-  teacher: "graduation-cap",
+export function createIcon(category, word) {
 
-  /* GENERAL */
-  book: "book",
-  school: "school",
-  computer: "monitor",
-  laptop: "laptop",
-  phone: "smartphone",
-  bike: "bike",
-  car: "car",
-  tree: "tree-pine",
-  sun: "sun",
-  heart: "heart",
-  game: "gamepad-2",
-  sport: "trophy",
-  music: "music",
-  hospital: "hospital",
-  brain: "brain"
-};
+  const img = document.createElement("img");
 
-function cleanWord(word) {
-  return String(word)
-    .toLowerCase()
-    .replace(/\(.*?\)/g, "")
-    .replace(/[^a-z ]/g, "")
-    .trim();
+  img.className = "vocab-icon";
+
+  img.src = getIconPath(category, word);
+
+  img.alt = word;
+
+  img.loading = "lazy";
+
+  // fallback if icon missing
+  img.onerror = () => {
+    img.src = "icons/missing.svg";
+  };
+
+  return img;
 }
 
-export function getIconName(word) {
-  const cleaned = cleanWord(word);
 
-  if (ICONS[cleaned]) return ICONS[cleaned];
 
-  for (const key in ICONS) {
-    if (cleaned.includes(key)) {
-      return ICONS[key];
-    }
-  }
+/*
+Insert icon into container
+*/
 
-  return "circle"; // safe fallback
+export function insertIcon(container, category, word) {
+
+  const icon = createIcon(category, word);
+
+  container.appendChild(icon);
+
+}
+
+
+
+/*
+Replace an existing element with icon
+*/
+
+export function replaceWithIcon(element, category, word) {
+
+  const icon = createIcon(category, word);
+
+  element.replaceWith(icon);
+
+}
+
+
+
+/*
+Create icon card (icon + label)
+Used for vocabulary grid
+*/
+
+export function createIconCard(wordObj) {
+
+  const card = document.createElement("div");
+
+  card.className = "vocab-card";
+
+
+  const icon = createIcon(wordObj.category, wordObj.word);
+
+
+  const label = document.createElement("div");
+
+  label.className = "vocab-label";
+
+  label.textContent = wordObj.word;
+
+
+  card.appendChild(icon);
+
+  card.appendChild(label);
+
+  return card;
+
 }
