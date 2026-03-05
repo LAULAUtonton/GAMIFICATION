@@ -9,7 +9,7 @@ const ICON_PATHS = {
 };
 
 
-// limpia el nombre del vocabulario
+// limpiar nombres
 function normalize(word) {
   return word
     .toLowerCase()
@@ -19,13 +19,13 @@ function normalize(word) {
 }
 
 
-// devuelve solo el nombre del icono
+// ESTA FUNCION FALTABA
 export function getIconName(word) {
   return normalize(word);
 }
 
 
-// devuelve la ruta completa del icono
+// ruta completa del icono
 export function getIconPath(category, word) {
 
   const folder = ICON_PATHS[category];
@@ -36,5 +36,4 @@ export function getIconPath(category, word) {
   }
 
   return folder + normalize(word) + ".svg";
-
 }
