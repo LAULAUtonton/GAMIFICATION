@@ -258,7 +258,18 @@ export function getCards(db = VOCAB_DB, { unit = null } = {}) {
   }
   return cards;
 }
+function categoryFromSetId(setId) {
+  const id = String(setId || "").toLowerCase();
 
+  if (id.includes("job")) return "jobs";
+  if (id.includes("material")) return "materials";
+  if (id.includes("personality")) return "personality";
+
+  // your DB uses "feelings" but your icon folder is "emotions"
+  if (id.includes("feel") || id.includes("emotion")) return "emotions";
+
+  return "activities";
+}
 export function listUnits(db = VOCAB_DB) {
   return db.units.map(u => ({
     unit: u.unit,
