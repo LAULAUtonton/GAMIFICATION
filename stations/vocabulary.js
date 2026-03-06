@@ -1,8 +1,7 @@
 // vocabulary.js
 // Synchronize 2 — Units 1–8
 // Clean, safe, ES-module version
-
-import { getIconName } from "./vocab-icon-engine.js";
+import { getIconName, getIconPath } from "./vocab-icon-engine.js";
 
 /* ===============================
    DATABASE
