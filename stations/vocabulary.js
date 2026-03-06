@@ -198,6 +198,23 @@ function guessPOS(setId) {
 }
 
 /* ===============================
+   ICON CATEGORY (for icons folder)
+=================================*/
+
+function categoryFromSetId(setId) {
+  const id = String(setId || "").toLowerCase();
+
+  if (id.includes("job")) return "jobs";
+  if (id.includes("material")) return "materials";
+  if (id.includes("personality")) return "personality";
+
+  // your DB uses "feelings" but your icon folder is "emotions"
+  if (id.includes("feel") || id.includes("emotion")) return "emotions";
+
+  return "activities";
+}
+
+/* ===============================
    FLATTEN FUNCTION
 =================================*/
 
@@ -208,6 +225,8 @@ export function flattenVocab(db = VOCAB_DB) {
     for (const set of unit.sets) {
 
       if (set.type === "pairs") {
+        const category = categoryFromSetId(set.setId);
+
         for (const pair of set.items) {
           out.push({
             unit: unit.unit,
@@ -218,12 +237,15 @@ export function flattenVocab(db = VOCAB_DB) {
             front: pair.a,
             back: pair.b,
             pos: "v",
-            icon: getIconName(pair.a, "v", set.setId)
+
+            // CHANGED: now icon is a real ".svg" path (so vocabulary.html uses <img>)
+            icon: getIconPath(category, pair.a) || getIconName(pair.a)
           });
         }
       }
 
       if (set.type === "words") {
+        const category = categoryFromSetId(set.setId);
         const pos = guessPOS(set.setId);
 
         for (const word of set.items) {
@@ -236,7 +258,9 @@ export function flattenVocab(db = VOCAB_DB) {
             front: word,
             back: "",
             pos,
-            icon: getIconName(word, pos, set.setId)
+
+            // CHANGED: now icon is a real ".svg" path (so vocabulary.html uses <img>)
+            icon: getIconPath(category, word) || getIconName(word)
           });
         }
       }
@@ -258,18 +282,7 @@ export function getCards(db = VOCAB_DB, { unit = null } = {}) {
   }
   return cards;
 }
-function categoryFromSetId(setId) {
-  const id = String(setId || "").toLowerCase();
 
-  if (id.includes("job")) return "jobs";
-  if (id.includes("material")) return "materials";
-  if (id.includes("personality")) return "personality";
-
-  // your DB uses "feelings" but your icon folder is "emotions"
-  if (id.includes("feel") || id.includes("emotion")) return "emotions";
-
-  return "activities";
-}
 export function listUnits(db = VOCAB_DB) {
   return db.units.map(u => ({
     unit: u.unit,
