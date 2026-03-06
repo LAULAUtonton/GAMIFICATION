@@ -1,24 +1,43 @@
-'use strict';
+// vocab-icon-engine.js
 
-const iconsBasePath = 'stations/icons/';
+// Icons are stored under: stations/icons/<category>/<word>.svg
+const ICON_BASE = "stations/icons/";
 
-export const getIconPath = (category, word) => {
-    // logic to construct the SVG path using category and word
+const ICON_PATHS = {
+  jobs: ICON_BASE + "jobs/",
+  materials: ICON_BASE + "materials/",
+  personality: ICON_BASE + "personality/",
+  emotions: ICON_BASE + "emotions/",
+  activities: ICON_BASE + "activities/"
 };
 
-export const getIconName = (word) => {
-    // logic to return name based on word
+const CATEGORY_COLORS = {
+  jobs: "#4CAF50",
+  materials: "#8D6E63",
+  personality: "#FF9800",
+  emotions: "#E91E63",
+  activities: "#2196F3"
 };
 
-export const categoryFromSetId = (setId) => {
-    const categoryMapping = {
-        '1': 'jobs',
-        '2': 'materials',
-        '3': 'personality',
-        '4': 'emotions',
-        '5': 'activities'
-    };
-    return categoryMapping[setId] || 'unknown';
-};
+// normalize filename from word
+function normalize(word) {
+  return String(word ?? "")
+    .toLowerCase()
+    .trim()
+    .replace(/\s+/g, "-")
+    .replace(/[^\w-]/g, "");
+}
 
-// rest of the existing logic here...
+export function getIconName(word) {
+  return normalize(word);
+}
+
+export function getIconPath(category, word) {
+  const folder = ICON_PATHS[category];
+  if (!folder) return null;
+  return folder + normalize(word) + ".svg";
+}
+
+export function getAccentColor(category) {
+  return CATEGORY_COLORS[category] || "#999";
+}
