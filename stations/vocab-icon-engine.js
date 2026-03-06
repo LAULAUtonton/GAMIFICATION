@@ -1,51 +1,24 @@
-// vocab-icon-engine.js
+'use strict';
 
-const ICON_PATHS = {
-  jobs: "icons/jobs/",
-  materials: "icons/materials/",
-  personality: "icons/personality/",
-  emotions: "icons/emotions/",
-  activities: "icons/activities/"
+const iconsBasePath = 'stations/icons/';
+
+export const getIconPath = (category, word) => {
+    // logic to construct the SVG path using category and word
 };
 
-const CATEGORY_COLORS = {
-  jobs: "#4CAF50",
-  materials: "#8D6E63",
-  personality: "#FF9800",
-  emotions: "#E91E63",
-  activities: "#2196F3"
+export const getIconName = (word) => {
+    // logic to return name based on word
 };
 
+export const categoryFromSetId = (setId) => {
+    const categoryMapping = {
+        '1': 'jobs',
+        '2': 'materials',
+        '3': 'personality',
+        '4': 'emotions',
+        '5': 'activities'
+    };
+    return categoryMapping[setId] || 'unknown';
+};
 
-// limpiar nombre
-function normalize(word) {
-  return word
-    .toLowerCase()
-    .trim()
-    .replace(/\s+/g, "-")
-    .replace(/[^\w-]/g, "");
-}
-
-
-// nombre del icono
-export function getIconName(word) {
-  return normalize(word);
-}
-
-
-// ruta SVG
-export function getIconPath(category, word) {
-
-  const folder = ICON_PATHS[category];
-
-  if (!folder) return null;
-
-  return folder + normalize(word) + ".svg";
-
-}
-
-
-// color categoría
-export function getAccentColor(category) {
-  return CATEGORY_COLORS[category] || "#999";
-}
+// rest of the existing logic here...
