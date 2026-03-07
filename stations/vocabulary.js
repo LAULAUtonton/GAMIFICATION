@@ -3,6 +3,7 @@
 // Clean, safe, ES-module version
 
 import { getIconName } from "./vocab-icon-engine.js";
+import { getVisualForCard } from "./vocab-visuals.js";
 
 /* ===============================
    DATABASE
@@ -196,7 +197,8 @@ export function flattenVocab(db = VOCAB_DB) {
             type: "pair",
             front: pair.a,
             back: pair.b,
-            icon: getIconName(pair.a)
+            icon: getIconName(pair.a),
+            visual: getVisualForCard(set.setId, pair.a)
           });
         }
       }
@@ -211,7 +213,8 @@ export function flattenVocab(db = VOCAB_DB) {
             type: "word",
             front: word,
             back: "",
-            icon: getIconName(word)
+            icon: getIconName(word),
+            visual: getVisualForCard(set.setId, word)
           });
         }
       }
@@ -226,10 +229,13 @@ export function flattenVocab(db = VOCAB_DB) {
    HELPERS
 =================================*/
 
-export function getCards(db = VOCAB_DB, { unit = null } = {}) {
+export function getCards(db = VOCAB_DB, { unit = null, setId = null } = {}) {
   let cards = flattenVocab(db);
   if (unit !== null) {
     cards = cards.filter(c => c.unit === unit);
+  }
+  if (setId !== null) {
+    cards = cards.filter(c => c.setId === setId);
   }
   return cards;
 }
@@ -239,6 +245,21 @@ export function listUnits(db = VOCAB_DB) {
     unit: u.unit,
     title: u.title
   }));
+}
+
+export function listSets(db = VOCAB_DB, unitNum = null) {
+  const seen = new Set();
+  const result = [];
+  for (const unit of db.units) {
+    if (unitNum !== null && unit.unit !== unitNum) continue;
+    for (const set of unit.sets) {
+      if (!seen.has(set.setId)) {
+        seen.add(set.setId);
+        result.push({ setId: set.setId, label: set.label, unit: unit.unit });
+      }
+    }
+  }
+  return result;
 }
 
 export function shuffle(array) {
