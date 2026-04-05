@@ -58,6 +58,7 @@ button,select{
 .icon{
   margin-bottom:10px;
   line-height:0;
+  font-size:36px;
 }
 
 /* Lucide icons */
@@ -183,11 +184,11 @@ function render(){
 
   <div class="card">
 
-    <div class="icon" style="color:${getAccentColor(card.front,card.setId)}">
+    <div class="icon" style="color:${getAccentColor(card.front, card.setId)}">
 
       ${
         card.icon.endsWith(".svg")
-        ? `<img src="${card.icon}" class="icon-img">`
+        ? `<img src="${card.icon}" class="icon-img" alt="${escapeHtml(card.front)}">`
         : `<i data-lucide="${escapeHtml(card.icon)}"></i>`
       }
 
