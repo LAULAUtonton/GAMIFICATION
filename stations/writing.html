@@ -1,49 +1,58 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Vocabulary Station</title>
-
-  <!-- Lucide icons (creates global `lucide`) -->
-  <script src="https://unpkg.com/lucide@latest"></script>
-
-  <style>
-    body{ margin:0; font-family:system-ui,sans-serif; background:#f4f6fb; padding:20px; }
-    h1{ margin:0 0 20px 0; font-size:28px; }
-    .controls{ margin-bottom:20px; display:flex; gap:10px; flex-wrap:wrap; }
-    button,select{ padding:8px 12px; border-radius:8px; border:1px solid #ccc; font-weight:700; cursor:pointer; }
-
-    .grid{ display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:16px; }
-    .card{ background:#fff; border-radius:14px; padding:16px; box-shadow:0 6px 18px rgba(0,0,0,.08); transition:transform .15s ease; }
-    .card:hover{ transform:translateY(-2px); }
-
-    .icon{ margin-bottom:10px; line-height:0; }
-    .icon svg{ width:36px; height:36px; stroke-width:2.25; stroke:currentColor; fill:none; }
-
-    .word{ font-size:22px; font-weight:900; margin-bottom:6px; display:flex; align-items:center; flex-wrap:wrap; gap:6px; }
-    .pos{ font-size:12px; font-weight:900; color:#6b7280; background:#f3f4f6; border:1px solid #e5e7eb; padding:2px 8px; border-radius:999px; }
-    .cat{ font-size:12px; font-weight:900; color:#111827; background:#e0f2fe; border:1px solid #bae6fd; padding:2px 8px; border-radius:999px; }
-
-    .back{ font-size:16px; color:#374151; font-weight:800; margin-bottom:6px; }
-    .meta{ font-size:13px; color:#6b7280; margin-top:8px; }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Writing Station</title>
 </head>
-
 <body>
-  <header>
-    <h1>Vocabulary Station — Synchronize 2</h1>
-    <div class="controls">
-      <select id="unitSelect"></select>
-      <button id="shuffleBtn">Shuffle</button>
-    </div>
-  </header>
-
-  <main>
-    <div class="grid" id="grid"></div>
-  </main>
-
-  <!-- IMPORTANT: external module file to avoid CSP blocking inline scripts on GitHub Pages -->
-  <script type="module" src="./vocabulary-page.js"></script>
+    <header>
+        <h1>Writing Station</h1>
+    </header>
+    <section>
+        <h2>Student Login</h2>
+        <form id="login-form">
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required>
+            <button type="submit">Login</button>
+        </form>
+    </section>
+    <section>
+        <h2>Timer</h2>
+        <div id="timer">00:00</div>
+        <button id="start-timer">Start</button>
+        <button id="stop-timer">Stop</button>
+    </section>
+    <section>
+        <h2>Writing Modes</h2>
+        <ul>
+            <li><button id="quick-fix">Quick Fix</button></li>
+            <li><button id="transform">Transform</button></li>
+            <li><button id="build-paragraph">Build Paragraph</button></li>
+            <li><button id="boss-level">Boss Level</button></li>
+        </ul>
+    </section>
+    <section>
+        <h2>Word Counter</h2>
+        <div id="word-count">Words: 0</div>
+    </section>
+    <section>
+        <h2>Task Checklist</h2>
+        <ul id="task-checklist">
+            <li><input type="checkbox" id="task1"> Task 1</li>
+            <li><input type="checkbox" id="task2"> Task 2</li>
+            <li><input type="checkbox" id="task3"> Task 3</li>
+        </ul>
+    </section>
+    <section>
+        <h2>Grammar Checking</h2>
+        <button id="check-grammar">Check Grammar</button>
+        <div id="grammar-feedback"></div>
+    </section>
+    <section>
+        <h2>Progress Saving Functionality</h2>
+        <button id="save-progress">Save Progress</button>
+    </section>
+    <script src="/path/to/your/javascript.js"></script>
 </body>
 </html>
