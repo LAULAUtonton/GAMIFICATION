@@ -407,4 +407,102 @@ function loadPrompt(){
 
   promptBox.innerHTML = `
     <h3 class="promptTitle">${task.title}</h3>
-    <p class="promptMeta">${mode.label} • Task ${taskIndex + 1}`*
+    <p class="promptMeta">${mode.label} • Task ${taskIndex + 1}/${mode.tasks.length}</p>
+    <p><strong>${task.prompt}</strong><br>${task.source}</p>
+    <div class="promptHint">Goal: write at least <strong>${task.minWords}</strong> words, then revise based on feedback.</div>
+  `;
+
+  const checklist = (task.checklist || []).map(item=>`<div class="checkItem">• ${item}</div>`).join("");
+  document.getElementById("taskChecklist").innerHTML = `<strong>Task Checklist</strong>${checklist}`;
+
+  input.value="";
+  document.getElementById("wordCounter").innerText = "Words: 0";
+  document.getElementById("feedbackBox").classList.add("hidden");
+}
+
+/* ================= GRAMMAR CHECK ================= */
+
+function grammarCheck(text){
+  const mustFix = [];
+  const coaching = [];
+  const task = modeConfig[currentMode].tasks[taskIndex];
+  const words = text.split(/\s+/).filter(Boolean);
+  const sentences = text.split(/[.?!]+/).map(x=>x.trim()).filter(Boolean);
+  const lowerText = text.toLowerCase();
+
+  if(!text.match(/[A-Z]/)) coaching.push("Start sentences with capital letters.");
+  if(!text.match(/[.?!]$/)) coaching.push("End your text with punctuation.");
+  if(text.includes("there was many")) coaching.push("Use 'there were' with plural nouns.");
+  if(text.includes("we was")) coaching.push("Use 'we were'.");
+
+  if(words.length < task.minWords){
+    mustFix.push(`Your answer is too short for this task. Aim for at least ${task.minWords} words.`);
+  }
+
+  if(task.minSentences && sentences.length < task.minSentences){
+    mustFix.push(`Write at least ${task.minSentences} full sentences for this task.`);
+  }
+
+  (task.mustHave || []).forEach(keyword=>{
+    if(!lowerText.includes(keyword)){
+      coaching.push(`Consider using "${keyword}" to fully complete this task.`);
+    }
+  });
+
+  return { mustFix, coaching };
+}
+
+/* ================= SUBMIT ================= */
+
+function submitWriting(){
+  const text = input.value.trim();
+  if(!text) return alert("Write something first.");
+
+  const review = grammarCheck(text);
+  const box = document.getElementById("feedbackBox");
+
+  if(review.mustFix.length===0){
+    const coachingText = review.coaching.length
+      ? `<br><br><strong>Next improvement:</strong><br>${review.coaching.join("<br>")}`
+      : "";
+    box.innerHTML = "✅ Great effort! You completed the writing task." + coachingText;
+  } else {
+    box.innerHTML = "<strong>Please revise before finishing:</strong><br>" + review.mustFix.join("<br>") +
+      (review.coaching.length ? "<br><br><strong>Coaching tips:</strong><br>" + review.coaching.join("<br>") : "");
+  }
+
+  box.classList.remove("hidden");
+}
+
+/* ================= SAVE ================= */
+
+function saveProgress(){
+  const data = {
+    student: studentName,
+    mode: currentMode,
+    text: input.value,
+    time: seconds
+  };
+
+  localStorage.setItem("writingProgress", JSON.stringify(data));
+  alert("Progress saved.");
+}
+
+/* ================= NAVIGATION ================= */
+
+function goMainMenu(){
+  window.location.href = "../index.html";
+}
+
+function exitStation(){
+  pauseTimer();
+  window.location.href = "../index.html";
+}
+
+/* INIT */
+loadPrompt();
+
+</script>
+
+</body>
+</html>
