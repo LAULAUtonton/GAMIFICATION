@@ -8,6 +8,10 @@
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800&display=swap" rel="stylesheet">
 
 <style>
+*{
+  box-sizing:border-box;
+}
+
 body{
   margin:0;
   font-family:'Orbitron',sans-serif;
@@ -56,6 +60,7 @@ body{
   cursor:pointer;
   font-weight:900;
   transition:.2s;
+  font-family:'Orbitron',sans-serif;
 }
 
 .orangeBtn{
@@ -71,15 +76,26 @@ body{
 }
 .whiteBtn:hover{ background:#ffedd5; }
 
+input[type="text"]{
+  width:100%;
+  max-width:320px;
+  padding:12px 14px;
+  border-radius:12px;
+  border:2px solid #f97316;
+  font-family:Arial,sans-serif;
+  font-size:15px;
+}
+
 textarea{
   width:100%;
   min-height:150px;
   padding:14px;
   border-radius:15px;
   border:2px solid #f97316;
-  font-family:Arial;
+  font-family:Arial,sans-serif;
   font-size:15px;
   margin-top:10px;
+  resize:vertical;
 }
 
 .feedback{
@@ -89,6 +105,7 @@ textarea{
   background:#fff7ed;
   border:2px solid #fb923c;
   font-size:14px;
+  line-height:1.5;
 }
 
 .hidden{ display:none; }
@@ -158,111 +175,124 @@ textarea{
 
 <div class="container" id="app">
 
-<div class="title">WRITING STATION</div>
+  <div class="title">WRITING STATION</div>
 
-<!-- LOGIN -->
-<div id="loginBox">
-  <p><strong>Enter your name to begin:</strong></p>
-  <input type="text" id="studentNameInput" placeholder="Your name">
-  <button class="button orangeBtn" onclick="startLogin()">START</button>
-</div>
+  <!-- LOGIN -->
+  <div id="loginBox">
+    <p><strong>Enter your name to begin:</strong></p>
+    <input type="text" id="studentNameInput" placeholder="Your name">
+    <button class="button orangeBtn" onclick="startLogin()">START</button>
+  </div>
 
-<!-- MAIN CONTENT -->
-<div id="mainContent" class="hidden">
+  <!-- MAIN CONTENT -->
+  <div id="mainContent" class="hidden">
 
-<div class="topBar">
-  <div class="badge" id="studentBadge"></div>
-  <div class="badge" id="timer">00:00</div>
-  <div class="badge" id="modeBadge">Mode: Quick Fix</div>
-  <div class="badge" id="taskBadge">Task: 1/3</div>
-</div>
+    <div class="topBar">
+      <div class="badge" id="studentBadge"></div>
+      <div class="badge" id="timer">00:00</div>
+      <div class="badge" id="modeBadge">Mode: Quick Fix</div>
+      <div class="badge" id="taskBadge">Task: 1/3</div>
+    </div>
 
-<div class="topBar">
-  <button class="button whiteBtn" onclick="goMainMenu()">Main Menu</button>
-  <button class="button whiteBtn" onclick="pauseTimer()">Pause</button>
-  <button class="button whiteBtn" onclick="exitStation()">Exit</button>
-  <button class="button orangeBtn" onclick="saveProgress()">Save</button>
-</div>
+    <div class="topBar">
+      <button class="button whiteBtn" onclick="goMainMenu()">Main Menu</button>
+      <button class="button whiteBtn" onclick="toggleTimer()"><span id="pauseBtnLabel">Pause</span></button>
+      <button class="button whiteBtn" onclick="exitStation()">Exit</button>
+      <button class="button orangeBtn" onclick="saveProgress()">Save</button>
+    </div>
 
-<!-- MODE SELECT -->
-<div class="modeBox">
-  <button class="button orangeBtn" onclick="setMode('quick')">Quick Fix</button>
-  <button class="button orangeBtn" onclick="setMode('transform')">Transform</button>
-  <button class="button orangeBtn" onclick="setMode('paragraph')">Build Paragraph</button>
-  <button class="button orangeBtn" onclick="setMode('boss')">Boss Level</button>
-</div>
+    <!-- MODE SELECT -->
+    <div class="modeBox">
+      <button class="button orangeBtn" onclick="setMode('quick')">Quick Fix</button>
+      <button class="button orangeBtn" onclick="setMode('transform')">Transform</button>
+      <button class="button orangeBtn" onclick="setMode('paragraph')">Build Paragraph</button>
+      <button class="button orangeBtn" onclick="setMode('boss')">Boss Level</button>
+    </div>
 
-<!-- WRITING AREA -->
-<div id="writingArea">
+    <!-- WRITING AREA -->
+    <div id="writingArea">
+      <div id="promptBox" class="promptCard"></div>
+      <div id="taskChecklist" class="checklist"></div>
 
-  <div id="promptBox" class="promptCard"></div>
-  <div id="taskChecklist" class="checklist"></div>
+      <textarea id="writingInput" placeholder="Start writing here..."></textarea>
+      <div class="wordCount" id="wordCounter">Words: 0</div>
 
-  <textarea id="writingInput" placeholder="Start writing here..."></textarea>
-  <div class="wordCount" id="wordCounter">Words: 0</div>
+      <button class="button whiteBtn" onclick="nextTask()">Next Task</button>
+      <button class="button orangeBtn" onclick="submitWriting()">Submit</button>
 
-  <button class="button whiteBtn" onclick="nextTask()">Next Task</button>
-  <button class="button orangeBtn" onclick="submitWriting()">Submit</button>
+      <div id="feedbackBox" class="feedback hidden"></div>
+    </div>
 
-  <div id="feedbackBox" class="feedback hidden"></div>
-
-</div>
-
-</div>
+  </div>
 </div>
 
 <script>
-
 /* ================= LOGIN ================= */
 
 let studentName = localStorage.getItem("pitStudent");
 
-function startLogin(){
-  const name = document.getElementById("studentNameInput").value.trim();
-  if(!name) return alert("Enter your name.");
-  localStorage.setItem("pitStudent", name);
-  studentName = name;
-  activateApp();
-}
+/* ================= DOM ================= */
 
-function activateApp(){
-  document.getElementById("loginBox").classList.add("hidden");
-  document.getElementById("mainContent").classList.remove("hidden");
-  document.getElementById("studentBadge").innerText = "Student: " + studentName;
-  loadPrompt();
-  startTimer();
-}
+const loginBox = document.getElementById("loginBox");
+const mainContent = document.getElementById("mainContent");
+const studentBadge = document.getElementById("studentBadge");
+const timerEl = document.getElementById("timer");
+const modeBadge = document.getElementById("modeBadge");
+const taskBadge = document.getElementById("taskBadge");
+const promptBox = document.getElementById("promptBox");
+const taskChecklist = document.getElementById("taskChecklist");
+const input = document.getElementById("writingInput");
+const wordCounter = document.getElementById("wordCounter");
+const feedbackBox = document.getElementById("feedbackBox");
+const pauseBtnLabel = document.getElementById("pauseBtnLabel");
 
 /* ================= TIMER ================= */
 
 let seconds = 0;
 let interval = null;
+let isPaused = false;
 
 function startTimer(){
+  if(interval !== null) return;
   interval = setInterval(()=>{
     seconds++;
     updateTimer();
   },1000);
+  isPaused = false;
+  pauseBtnLabel.innerText = "Pause";
 }
 
 function pauseTimer(){
   clearInterval(interval);
+  interval = null;
+  isPaused = true;
+  pauseBtnLabel.innerText = "Resume";
+}
+
+function toggleTimer(){
+  if(interval === null){
+    startTimer();
+  } else {
+    pauseTimer();
+  }
 }
 
 function updateTimer(){
   let m = String(Math.floor(seconds/60)).padStart(2,"0");
   let s = String(seconds%60).padStart(2,"0");
-  document.getElementById("timer").innerText = m + ":" + s;
+  timerEl.innerText = m + ":" + s;
 }
 
 /* ================= WORD COUNT ================= */
 
-const input = document.getElementById("writingInput");
-
 input.addEventListener("input", ()=>{
-  const words = input.value.trim().split(/\s+/).filter(w=>w.length>0);
-  document.getElementById("wordCounter").innerText = "Words: " + words.length;
+  const words = getWordCount(input.value);
+  wordCounter.innerText = "Words: " + words;
 });
+
+function getWordCount(text){
+  return text.trim().split(/\s+/).filter(Boolean).length;
+}
 
 /* ================= MODES ================= */
 
@@ -388,7 +418,7 @@ const modeConfig = {
 function setMode(mode){
   currentMode = mode;
   taskIndex = 0;
-  document.getElementById("modeBadge").innerText = "Mode: " + modeConfig[mode].label;
+  modeBadge.innerText = "Mode: " + modeConfig[mode].label;
   loadPrompt();
 }
 
@@ -399,14 +429,13 @@ function nextTask(){
 }
 
 function loadPrompt(){
-  const promptBox = document.getElementById("promptBox");
   const mode = modeConfig[currentMode];
   const task = mode.tasks[taskIndex];
 
   if(!task){
     promptBox.innerHTML = `<h3 class="promptTitle">No task loaded</h3><p>Please select a mode again.</p>`;
-    document.getElementById("taskChecklist").innerHTML = `<strong>Task Checklist</strong><div class="checkItem">• Choose a mode to continue.</div>`;
-    document.getElementById("taskBadge").innerText = "Task: -";
+    taskChecklist.innerHTML = `<strong>Task Checklist</strong><div class="checkItem">• Choose a mode to continue.</div>`;
+    taskBadge.innerText = "Task: -";
     return;
   }
 
@@ -417,13 +446,14 @@ function loadPrompt(){
     <div class="promptHint">Goal: write at least <strong>${task.minWords}</strong> words, then revise based on feedback.</div>
   `;
 
-  const checklist = (task.checklist || []).map(item=>`<div class="checkItem">• ${item}</div>`).join("");
-  document.getElementById("taskBadge").innerText = `Task: ${taskIndex + 1}/${mode.tasks.length}`;
-  document.getElementById("taskChecklist").innerHTML = `<strong>Task Checklist</strong>${checklist}`;
+  const checklist = (task.checklist || []).map(item => `<div class="checkItem">• ${item}</div>`).join("");
+  taskBadge.innerText = `Task: ${taskIndex + 1}/${mode.tasks.length}`;
+  taskChecklist.innerHTML = `<strong>Task Checklist</strong>${checklist}`;
 
-  input.value="";
-  document.getElementById("wordCounter").innerText = "Words: 0";
-  document.getElementById("feedbackBox").classList.add("hidden");
+  input.value = "";
+  wordCounter.innerText = "Words: 0";
+  feedbackBox.classList.add("hidden");
+  feedbackBox.innerHTML = "";
 }
 
 /* ================= GRAMMAR CHECK ================= */
@@ -432,14 +462,25 @@ function grammarCheck(text){
   const mustFix = [];
   const coaching = [];
   const task = modeConfig[currentMode].tasks[taskIndex];
-  const words = text.split(/\s+/).filter(Boolean);
+  const words = text.trim().split(/\s+/).filter(Boolean);
   const sentences = text.split(/[.?!]+/).map(x=>x.trim()).filter(Boolean);
   const lowerText = text.toLowerCase();
 
-  if(!text.match(/[A-Z]/)) coaching.push("Start sentences with capital letters.");
-  if(!text.match(/[.?!]$/)) coaching.push("End your text with punctuation.");
-  if(text.includes("there was many")) coaching.push("Use 'there were' with plural nouns.");
-  if(text.includes("we was")) coaching.push("Use 'we were'.");
+  if(text.length > 0 && text[0] !== text[0].toUpperCase()){
+    coaching.push("Start your text with a capital letter.");
+  }
+
+  if(!/[.?!]$/.test(text)){
+    coaching.push("End your text with punctuation.");
+  }
+
+  if(lowerText.includes("there was many")){
+    coaching.push("Use 'there were' with plural nouns.");
+  }
+
+  if(lowerText.includes("we was")){
+    coaching.push("Use 'we were'.");
+  }
 
   if(words.length < task.minWords){
     mustFix.push(`Your answer is too short for this task. Aim for at least ${task.minWords} words.`);
@@ -450,7 +491,7 @@ function grammarCheck(text){
   }
 
   (task.mustHave || []).forEach(keyword=>{
-    if(!lowerText.includes(keyword)){
+    if(!lowerText.includes(keyword.toLowerCase())){
       coaching.push(`Consider using "${keyword}" to fully complete this task.`);
     }
   });
@@ -465,19 +506,22 @@ function submitWriting(){
   if(!text) return alert("Write something first.");
 
   const review = grammarCheck(text);
-  const box = document.getElementById("feedbackBox");
 
-  if(review.mustFix.length===0){
+  if(review.mustFix.length === 0){
     const coachingText = review.coaching.length
       ? `<br><br><strong>Next improvement:</strong><br>${review.coaching.join("<br>")}`
       : "";
-    box.innerHTML = "✅ Great effort! You completed the writing task." + coachingText;
+    feedbackBox.innerHTML = "✅ Great effort! You completed the writing task." + coachingText;
   } else {
-    box.innerHTML = "<strong>Please revise before finishing:</strong><br>" + review.mustFix.join("<br>") +
-      (review.coaching.length ? "<br><br><strong>Coaching tips:</strong><br>" + review.coaching.join("<br>") : "");
+    feedbackBox.innerHTML =
+      "<strong>Please revise before finishing:</strong><br>" +
+      review.mustFix.join("<br>") +
+      (review.coaching.length
+        ? "<br><br><strong>Coaching tips:</strong><br>" + review.coaching.join("<br>")
+        : "");
   }
 
-  box.classList.remove("hidden");
+  feedbackBox.classList.remove("hidden");
 }
 
 /* ================= SAVE ================= */
@@ -486,8 +530,10 @@ function saveProgress(){
   const data = {
     student: studentName,
     mode: currentMode,
+    taskIndex: taskIndex,
     text: input.value,
-    time: seconds
+    time: seconds,
+    words: getWordCount(input.value)
   };
 
   localStorage.setItem("writingProgress", JSON.stringify(data));
@@ -505,13 +551,30 @@ function exitStation(){
   window.location.href = "../index.html";
 }
 
-/* INIT */
-if(studentName){
+/* ================= APP INIT ================= */
+
+function startLogin(){
+  const name = document.getElementById("studentNameInput").value.trim();
+  if(!name){
+    alert("Enter your name.");
+    return;
+  }
+  localStorage.setItem("pitStudent", name);
+  studentName = name;
   activateApp();
-} else {
-  loadPrompt();
 }
 
+function activateApp(){
+  loginBox.classList.add("hidden");
+  mainContent.classList.remove("hidden");
+  studentBadge.innerText = "Student: " + studentName;
+  loadPrompt();
+  startTimer();
+}
+
+if(studentName){
+  activateApp();
+}
 </script>
 
 </body>
